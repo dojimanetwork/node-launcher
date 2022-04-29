@@ -1,0 +1,20 @@
+global:
+  namespaceName: frontend-apps
+  gatewayName: frontend-apps
+  enableGateway: true
+
+namespace:
+  name: frontend-apps
+
+gateway:
+  name: frontend-apps
+  enableChart: true
+  namespace: frontend-apps
+
+internal-docs:
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
+    tag: 2022-04-29_v0.0.1
+  env:
+    ENV: dev
+

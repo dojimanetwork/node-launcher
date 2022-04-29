@@ -1,0 +1,5 @@
+name: default-gateway
+
+enableChart: true
+
+namespace: default
