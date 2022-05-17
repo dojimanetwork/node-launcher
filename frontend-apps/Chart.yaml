@@ -33,7 +33,7 @@ dependencies:
 
   - name: internal-docs
     repository: "file://../dependency_charts/internal-docs"
-    version: 0.0.1
+    version: 0.0.2
 
   
   
