@@ -4,6 +4,6 @@ kind: Namespace
 metadata:
   name: {{ .Values.name }}
   labels:
-    istio-injection: disabled
+    istio-injection: enabled
 
 {{- end -}}
