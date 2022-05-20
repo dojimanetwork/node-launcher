@@ -1,6 +1,6 @@
 internal-docs:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
-    tag: 2022-05-17_v0.0.1
+    tag: 2022-05-20_v0.0.1
   env:
     ENV: prod
