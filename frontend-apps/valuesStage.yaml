@@ -1,0 +1,14 @@
+dojima-wallet:
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-wallet
+    tag: 2022-06-06_v0.0.1
+  env:
+    ENV: stage
+
+
+internal-docs:
+   image:
+     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
+     tag: 2022-05-25_v0.0.1
+   env:
+     ENV: stage
