@@ -1,15 +1,15 @@
 global:
-   namespaceName: frontend-apps
-   gatewayName: frontend-apps
-   enableGateway: true
+  namespaceName: frontend-apps
+  gatewayName: frontend-apps
+  enableGateway: true
 
- namespace:
-   name: frontend-apps
+namespace:
+  name: frontend-apps
 
- gateway:
-   name: frontend-apps
-   enableChart: true
-   namespace: frontend-apps
+gateway:
+  name: frontend-apps
+  enableChart: true
+  namespace: frontend-apps
 
 dojima-wallet:
   image:
@@ -19,8 +19,8 @@ dojima-wallet:
     ENV: dev
 
 internal-docs:
-   image:
-     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
-     tag: 2022-05-25_v0.0.1
-   env:
-     ENV: dev
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
+    tag: 2022-05-25_v0.0.1
+  env:
+    ENV: dev

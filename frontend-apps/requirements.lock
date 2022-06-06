@@ -1,0 +1,15 @@
+dependencies:
+- name: namespace
+  repository: file://../dependency_charts/namespace
+  version: 0.1.0
+- name: gateway
+  repository: file://../dependency_charts/gateway
+  version: 0.1.0
+- name: dojima-wallet
+  repository: file://../dependency_charts/dojima-wallet
+  version: 0.0.1
+- name: internal-docs
+  repository: file://../dependency_charts/internal-docs
+  version: 0.0.2
+digest: sha256:9ffb94e4e1c3458ba50f86537f20e8f825f01146d86dc0b3e1718ef9fe61952a
+generated: "2022-06-06T18:11:36.739541208+05:30"

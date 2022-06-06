@@ -7,8 +7,8 @@ dojima-wallet:
 
 
 internal-docs:
-   image:
-     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
-     tag: 2022-05-25_v0.0.1
-   env:
-     ENV: stage
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
+    tag: 2022-05-25_v0.0.1
+  env:
+    ENV: stage
