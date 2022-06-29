@@ -6,9 +6,9 @@ dojima-wallet:
     ENV: prod
 
 
-landing-page-v2:
+dojima-landing-page:
   image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/landing-page-v2
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
     tag: 2022-06-29_v0.0.1
   env:
     ENV: prod    

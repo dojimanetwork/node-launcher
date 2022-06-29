@@ -1,13 +1,13 @@
-name: landing-page-v2
+name: dojima-landing-page
 
 replicaCount: 1
 serverPort: 80
 prometheusPort: 7071
-uriPrefix: /landing-page-v2
-servicePortName: landing-page-v2-fe-port
+uriPrefix: /dojima-landing-page
+servicePortName: dojima-landing-page-fe-port
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/landing-page-v2
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
   tag: 2022-06-06_v0.0.1
 
 strategy:
