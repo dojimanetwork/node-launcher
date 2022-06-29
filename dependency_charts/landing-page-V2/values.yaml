@@ -1,9 +1,9 @@
-name: landing-page-Vv
+name: landing-page-v2
 
 replicaCount: 1
 serverPort: 80
 prometheusPort: 7071
-uriPrefix: /
+uriPrefix: /landing-page-v2
 servicePortName: landing-page-v2-fe-port
 
 image:
