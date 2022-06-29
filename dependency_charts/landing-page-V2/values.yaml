@@ -1,13 +1,13 @@
-name: landing-page-V2
+name: landing-page-Vv
 
 replicaCount: 1
 serverPort: 80
 prometheusPort: 7071
 uriPrefix: /
-servicePortName: landing-page-V2-fe-port
+servicePortName: landing-page-v2-fe-port
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/landing-page-V2
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/landing-page-v2
   tag: 2022-06-06_v0.0.1
 
 strategy:

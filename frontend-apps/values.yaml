@@ -18,9 +18,9 @@ dojima-wallet:
   env:
     ENV: dev
 
-landing-page-V2:
+landing-page-v2:
   image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/landing-page-V2
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/landing-page-v2
     tag: 2022-06-29_v0.0.1
   env:
     ENV: dev

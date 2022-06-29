@@ -35,8 +35,8 @@ dependencies:
     repository: "file://../dependency_charts/dojima-wallet"
     version: 0.0.1
 
-  - name: landing-page-V2
-    repository: "file://../dependency_charts/landing-page-V2"
+  - name: landing-page-v2
+    repository: "file://../dependency_charts/landing-page-v2"
     version: 0.0.1  
 
   - name: internal-docs
