@@ -1,7 +1,7 @@
 dojima-wallet:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/core/dojima-wallet
-    tag: 2022-07-13_v0.0.1
+    tag: 2022-07-13_v0.0.2
   env:
     ENV: stage
 

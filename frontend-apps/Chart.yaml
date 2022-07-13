@@ -33,7 +33,7 @@ dependencies:
 
   - name: dojima-wallet
     repository: "file://../dependency_charts/dojima-wallet"
-    version: 0.0.1
+    version: 0.0.2
 
   - name: dojima-landing-page
     repository: "file://../dependency_charts/dojima-landing-page"
