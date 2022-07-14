@@ -36,7 +36,7 @@ dependencies:
     version: 0.0.5
 
   - name: dojima-landing-page
-    repository: "file://../dependency_charts/dojima-landing-page"
+    repository: "file://../dependency_charts/landing-page-v2"
     version: 0.0.1  
 
   - name: internal-docs
