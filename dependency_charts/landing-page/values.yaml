@@ -1,4 +1,4 @@
-name: dojima-landing-page
+name: landing-page
 
 replicaCount: 1
 serverPort: 80
