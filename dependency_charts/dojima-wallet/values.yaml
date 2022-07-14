@@ -1,4 +1,4 @@
-name: dojima-wallet
+name: core/dojima-wallet
 
 replicaCount: 1
 serverPort: 80
