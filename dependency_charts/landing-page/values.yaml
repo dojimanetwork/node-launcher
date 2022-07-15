@@ -3,7 +3,7 @@ name: landing-page
 replicaCount: 1
 serverPort: 80
 prometheusPort: 7071
-uriPrefix: /dojima-landing-page
+uriPrefix: /landing-page
 servicePortName: dojima-landing-page-fe-port
 
 image:
