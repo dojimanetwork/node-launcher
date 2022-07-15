@@ -4,7 +4,7 @@ replicaCount: 1
 serverPort: 80
 prometheusPort: 7071
 uriPrefix: /landing-page
-servicePortName: dojima-landing-page-fe-port
+servicePortName: landing-page-fe-port
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
