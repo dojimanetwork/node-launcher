@@ -8,7 +8,7 @@ servicePortName: landing-page-fe-port
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
-  tag: 2022-07-27_v0.0.5
+  tag: 2022-07-29_v0.0.6
 
 strategy:
   enable: false
