@@ -37,7 +37,7 @@ dependencies:
 
   - name: landing-page
     repository: "file://../dependency_charts/landing-page"
-    version: 0.0.9
+    version: 0.0.10
 
   - name: internal-docs
     repository: "file://../dependency_charts/internal-docs"
