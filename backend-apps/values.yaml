@@ -1,0 +1,19 @@
+global:
+  namespaceName: backend-apps
+  gatewayName: backend-apps
+  enableGateway: true
+
+namespace:
+  name: backend-apps
+
+gateway:
+  name: backend-apps
+  enableChart: true
+  namespace: backend-apps
+
+dojima-wallet:
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-faas
+    tag: 2022-08-06_v0.0.1
+  env:
+    ENV: dev

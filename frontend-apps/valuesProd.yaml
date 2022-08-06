@@ -12,11 +12,3 @@ landing-page:
     tag: 2022-08-02_v0.0.16
   env:
     ENV: prod    
-
-
-internal-docs:
-  image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
-    tag: 2022-06-16_v0.0.1
-  env:
-    ENV: prod
