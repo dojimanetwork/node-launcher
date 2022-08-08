@@ -1,0 +1,180 @@
+# Default values for narada.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+net: mocknet
+
+ethSuggestedFeeVersion:
+  mainnet: 1
+  stagenet: 2
+  testnet: 1
+  mocknet: 1
+
+signer:
+  name: hermesnode
+  password: password
+  mnemonicSecret: ""
+  passwordSecret: ""
+
+# use in multi nodes envs
+peer:
+
+debug: false
+
+hermesApi: hermesnode:1317
+chainID:
+#  testnet: thorchain-testnet-v2
+#  mainnet: thorchain-mainnet-v1
+#  stagenet: thorchain-stagenet-v2
+  mocknet: hermes_mocknet
+
+hermesDaemon:
+#  mainnet: thornode:27147
+#  testnet: thornode:26657
+#  stagenet: thornode:27147
+  mocknet: hermesnode:26657
+
+binanceDaemon:
+  enabled: true
+  mainnet: http://binance-daemon:27147
+  testnet: http://binance-daemon:26657
+  stagenet: http://binance-daemon:27147
+  mocknet: http://binance-daemon:26657
+
+bitcoinDaemon:
+#  enabled: true
+#  mainnet: bitcoin-daemon:8332
+#  testnet: bitcoin-daemon:18332
+#  mocknet: bitcoin-daemon:18443
+#  stagenet: bitcoin-daemon:8332
+
+litecoinDaemon:
+#  enabled: true
+#  mainnet: litecoin-daemon:9332
+#  testnet: litecoin-daemon:19332
+#  mocknet: litecoin-daemon:19443
+#  stagenet: litecoin-daemon:9332
+
+bitcoinCashDaemon:
+#  enabled: true
+#  mainnet: bitcoin-cash-daemon:8332
+#  testnet: bitcoin-cash-daemon:18332
+#  mocknet: bitcoin-cash-daemon:18443
+#  stagenet: bitcoin-cash-daemon:8332
+
+dogecoinDaemon:
+#  enabled: true
+#  mainnet: dogecoin-daemon:22555
+#  testnet: dogecoin-daemon:44555
+#  mocknet: dogecoin-daemon:18443
+#  stagenet: dogecoin-daemon:22555
+
+ethereumDaemon:
+#  enabled: true
+#  mainnet: http://ethereum-daemon:8545
+#  testnet: http://ethereum-daemon:8545
+#  mocknet: http://ethereum-daemon:8545
+#  stagenet: http://ethereum-daemon:8545
+
+terraDaemon:
+#  enabled: false
+#  mainnet: http://terra-daemon:26657
+#  stagenet: http://terra-daemon:26657
+
+gaiaDaemon:
+#  enabled: true
+#  mainnet:
+#    rpc: http://gaia-daemon:26657
+#    grpc: gaia-daemon:9090
+#    grpcTLS: false
+#  stagenet:
+#    rpc: http://gaia-daemon:26657
+#    grpc: gaia-daemon:9090
+#    grpcTLS: false
+#  testnet: {}
+#
+avaxDaemon:
+#  enabled: false
+#  mainnet: http://avalanche-daemon:9650/ext/bc/C/rpc
+#  stagenet: http://avalanche-daemon:9650/ext/bc/C/rpc
+
+replicaCount: 1
+
+strategyType: Recreate
+
+image:
+  repository:
+  pullPolicy: IfNotPresent
+  tag: mocknet
+  hash: "" # Not used for mocknet/testnet
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+persistence:
+  enabled: true
+  size:
+    testnet: 10Gi
+    mainnet: 50Gi
+    stagenet: 10Gi
+    mocknet: 10Gi
+  accessMode: ReadWriteOnce
+  # existingClaim: your-pvc
+  # storageClass: "-"
+  # hostPath: /host-path
+
+service:
+  type: ClusterIP
+  port:
+    p2p: 5040
+    http: 6040
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+priorityClassName: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# service:
+#   type: ClusterIP
+#   port: 80
+
+resources:
+  requests:
+    cpu: 2
+    memory: 2Gi
+  limits:
+    cpu: 2
+    memory: 4Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+global:
+  gateway:
+    enabled: false
+  images:
+    alpineK8s:
+      tag:
+      hash:
+    busybox:
+      tag:
+      hash:
