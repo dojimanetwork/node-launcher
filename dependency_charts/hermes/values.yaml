@@ -1,0 +1,105 @@
+# Default values for hermes node
+
+net: mocknet
+type: genesis
+
+autoupdate:
+  enable: false
+  nodes:
+
+signer:
+  name: hermesnode
+  password: password
+  mnemonicSecret: ""
+  passwordSecret: ""
+
+peer:
+seeds:
+peerApi:
+ethRouterContract:
+  mocknet: ""
+
+statesync:
+  enabled: false
+  seed: false
+  trustHeight: 0
+  trustHash: ""
+  rpcServers:
+  peer: ""
+
+enableApi: true
+
+debug: true
+
+chainID:
+  mocknet: hermes_mocknet
+
+haltHeight:
+
+replicaCount: 1
+
+strategyType: Recreate
+
+image:
+  repository:
+  tag: mocknet
+  hash:
+  pullPolicy:
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIp
+  port:
+    api: 1317
+    mocknet:
+      p2p: 26656
+      rpc: 26657
+
+persistence:
+  enabled: true
+  size:
+    mocknet: 300Gi
+  accessMode: ReadWriteOnce
+
+serviceAccount:
+  create: true
+  name:
+
+priorityClassName: ""
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources:
+  requests:
+    cpu: 4
+    memory: 4Gi
+  limits:
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+global:
+  tag:
+  net:
+  peer:
+  passwordSecret:
+  mnemonicSecret:
+  gateway:
+    enabled: false
+    name: ""
+  images:
+    alpineK8s:
+      tag:
+      hash:
+    busybox:
+      tag:
+      hash:
+

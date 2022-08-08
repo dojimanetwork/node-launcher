@@ -1,0 +1,245 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hermesnode.fullname" . }}
+  labels:
+    {{- include "hermesnode.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.strategyType }}
+  selector:
+    matchLabels:
+      {{- include "hermesnode.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "hermesnode.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "hermesnode.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
+
+      initContainers:
+        - name: init-external-ip
+          image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
+        {{- if .Values.global.gateway.enabled }}
+          command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "hermesnode.fullname" . }}-external-ip']
+        {{- else }}
+          command: ['/scripts/external-ip.sh', 'false', '{{ include "hermesnode.fullname" . }}', '{{ include "hermesnode.fullname" . }}-external-ip']
+        {{- end }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+
+      {{- if .Values.haltHeight }}
+        - name: halt-height
+          image: {{ include "hermesnode.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['sh', '-c', '[ ! -e /root/.hermes/data/priv_validator_state.json ] || [ $(cat /root/.hermes/data/priv_validator_state.json | jq -r .height) -lt {{ .Values.haltHeight }} ] || sleep infinity']
+          volumeMounts:
+            - name: data
+              mountPath: /root/
+      {{- end }}
+
+      {{- if default .Values.peer .Values.global.peer }}
+        - name: init-peer
+          image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+          command: ['sh', '-c', 'until nc -zv {{ default .Values.peer .Values.global.peer }}:{{ include "hermesnode.rpc" . }}; do echo waiting for peer hermesnode; sleep 2; done']
+      {{- end }}
+
+      {{- if .Values.peerApi }}
+        - name: init-peer-api
+          image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+          command: ['sh', '-c', "until nc -zv {{ .Values.peerApi }}:1317; do echo waiting for peer hermesnode; sleep 2; done"]
+      {{- end }}
+
+        - name: init-hermesnode
+          image: {{ include "hermesnode.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /kube-scripts/init.sh
+        {{- if eq .Values.type "genesis" }}
+            -  /scripts/genesis.sh
+        {{- else }}
+            -  /scripts/validator.sh
+        {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /root/
+            - name: scripts
+              mountPath: /kube-scripts/
+            - name: configs
+              mountPath: /kube-configs/
+          env:
+            - name: EXTERNAL_IP
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "hermesnode.fullname" . }}-external-ip
+                  key: externalIP
+            - name: PEER
+              value: {{ default .Values.peer .Values.global.peer }}
+            - name: CHAIN_ID
+              value: {{ include "hermesnode.chainID" . }}
+            - name: VALIDATOR
+            {{- if eq .Values.type "fullnode" }}
+              value: "false"
+            {{- else }}
+              value: "true"
+            {{- end }}
+            - name: SEEDS
+              value: {{ .Values.seeds }}
+            - name: PEER_API
+              value: {{ .Values.peerApi }}
+            - name: CONTRACT
+              value: {{ include "hermesnode.ethRouterContract" . }}
+            - name: BINANCE
+              value: {{ default .Values.binanceDaemon .Values.global.binanceDaemon }}
+            - name: SEED
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NET
+              value: {{ include "hermesnode.net" . }}
+            - name: SIGNER_NAME
+              value: {{ .Values.signer.name }}
+            - name: SIGNER_PASSWD
+            {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                  key: password
+            {{- else}}
+              value: {{ .Values.signer.password }}
+            {{- end }}
+          {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+            - name: SIGNER_SEED_PHRASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+                  key: mnemonic
+          {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "hermesnode.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/kube-scripts/entrypoint.sh"]
+          volumeMounts:
+            - name: data
+              mountPath: /root/
+            - name: scripts
+              mountPath: /kube-scripts/
+          env:
+            - name: EXTERNAL_IP
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "hermesnode.fullname" . }}-external-ip
+                  key: externalIP
+            - name: VALIDATOR
+              {{- if eq .Values.type "fullnode" }}
+              value: "false"
+              {{- else }}
+              value: "true"
+              {{- end }}
+            - name: PEER
+              value: {{ default .Values.peer .Values.global.peer }}
+            - name: SEEDS
+              value: {{ .Values.seeds }}
+            - name: PEER_API
+              value: {{ .Values.peerApi }}
+            - name: CONTRACT
+              value: {{ include "hermesnode.ethRouterContract" . }}
+            - name: DEBUG
+              value: "{{ .Values.debug }}"
+            - name: HARDFORK_BLOCK_HEIGHT
+              value: "{{ .Values.haltHeight }}"
+            - name: THORNODE_API_ENABLE
+              value: "{{ .Values.enableApi }}"
+            - name: NET
+              value: {{ include "hermesnode.net" . }}
+            - name: SIGNER_NAME
+              value: {{ .Values.signer.name }}
+            - name: SIGNER_PASSWD
+              {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                  key: password
+              {{- else}}
+              value: {{ .Values.signer.password }}
+              {{- end }}
+            - name: CHAIN_ID
+              value: {{ include "hermesnode.chainID" . }}
+          ports:
+            - name: api
+              containerPort: {{ .Values.service.port.api }}
+              protocol: TCP
+            - name: p2p
+              containerPort: {{ include "hermesnode.p2p" . }}
+              protocol: TCP
+            - name: rpc
+              containerPort: {{ include "hermesnode.rpc" . }}
+              protocol: TCP
+            - name: prometheus
+              containerPort: 26660
+              protocol: TCP
+          livenessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /status
+              port: rpc
+          startupProbe:
+            failureThreshold: 30
+            timeoutSeconds: 10
+            httpGet:
+              path: /status
+              port: rpc
+          readinessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /status
+              port: rpc
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "hermesnode.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+          hostPath:
+            path: {{ .Values.persistence.hostPath }}
+            type: DirectoryOrCreate
+      {{- else }}
+          emptyDir: {}
+      {{- end }}
+        - name: scripts
+          configMap:
+            name: {{ include "hermesnode.fullname" . }}-scripts
+            defaultMode: 0777
+        - name: configs
+          configMap:
+            name: {{ include "hermesnode.fullname" . }}-configs
+            defaultMode: 0666
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
