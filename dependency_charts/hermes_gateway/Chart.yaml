@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: gateway
 description: HermesNode gateway
 type: application
