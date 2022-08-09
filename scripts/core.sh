@@ -128,7 +128,8 @@ get_node_info_short() {
 get_node_service() {
   [ "$SERVICE" != "" ] && return
   echo "=> Select hermesnode service"
-  menu hermesnode hermesnode narada midgard gateway binance-daemon dogecoin-daemon gaia-daemon avalanche-daemon ethereum-daemon bitcoin-daemon litecoin-daemon bitcoin-cash-daemon midgard-timescaledb
+  menu hermesnode hermesnode narada midgard gateway
+#  binance-daemon dogecoin-daemon gaia-daemon avalanche-daemon ethereum-daemon bitcoin-daemon litecoin-daemon bitcoin-cash-daemon midgard-timescaledb
   SERVICE=$MENU_SELECTED
   echo
 }
@@ -172,7 +173,7 @@ make_snapshot() {
   fi
 
   echo
-  echo "=> Snapshotting service $boldgreen$service$reset of a THORNode named $boldgreen$NAME$reset"
+  echo "=> Snapshotting service $boldgreen$service$reset of a HermesNode named $boldgreen$NAME$reset"
   if [ -z "$TC_NO_CONFIRM" ]; then
     echo -n "$boldyellow:: Are you sure? Confirm [y/n]: $reset" && read -r ans && [ "${ans:-N}" != y ] && return
   fi
@@ -324,12 +325,12 @@ display_password() {
 
 display_status() {
   local ready
-  ready=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=thornode -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}')
+  ready=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=hermesnode -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}')
   if [ "$ready" = "True" ]; then
     if kubectl exec -it -n "$NAME" deploy/hermesnode -c hermesnode -- /scripts/node-status.sh | tee /dev/tty | grep -E "^STATUS\s+Active" >/dev/null; then
       if [ -z "$TC_NO_BACKUP" ]; then
         echo -e "\n=> Detected ${red}active$reset validator hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-        make_backup bifrost
+        make_backup narada
       fi
     fi
   else
@@ -343,7 +344,7 @@ deploy_genesis() {
   [ "$NET" = "mainnet" ] && args="--set global.passwordSecret=hermesnode-password"
   [ "$NET" = "stagenet" ] && args="--set global.passwordSecret=hermesnode-password"
   # shellcheck disable=SC2086
-  helm diff upgrade -C 3 --install "$NAME" ./thornode-stack -n "$NAME" \
+  helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
     $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
@@ -351,7 +352,7 @@ deploy_genesis() {
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   # shellcheck disable=SC2086
-  helm upgrade --install "$NAME" ./thornode-stack -n "$NAME" \
+  helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
@@ -367,7 +368,7 @@ deploy_validator() {
   [ "$NET" = "mainnet" ] && args="--set global.passwordSecret=hermesnode-password"
   [ "$NET" = "stagenet" ] && args="--set global.passwordSecret=hermesnode-password"
   # shellcheck disable=SC2086
-  helm diff upgrade -C 3 --install "$NAME" ./thornode-stack -n "$NAME" \
+  helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
     $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
@@ -376,7 +377,7 @@ deploy_validator() {
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   # shellcheck disable=SC2086
-  helm upgrade --install "$NAME" ./thornode-stack -n "$NAME" \
+  helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
@@ -392,11 +393,11 @@ deploy_validator() {
 
 deploy_fullnode() {
   # shellcheck disable=SC2086
-  helm diff upgrade -C 3 --install "$NAME" ./thornode-stack -n "$NAME" \
+  helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
     $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
-    --set thornode.seeds="$SEED" \
+    --set hermesnode.seeds="$SEED" \
     --set midgard.enabled=true,narada.enabled=false,binance-daemon.enabled=false \
     --set bitcoin-daemon.enabled=false,bitcoin-cash-daemon.enabled=false \
     --set litecoin-daemon.enabled=false,ethereum-daemon.enabled=false \
@@ -406,7 +407,7 @@ deploy_fullnode() {
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   # shellcheck disable=SC2086
-  helm upgrade --install "$NAME" ./thornode-stack -n "$NAME" \
+  helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \

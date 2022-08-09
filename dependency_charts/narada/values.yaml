@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: mocknet
+net: testnet
 
 ethSuggestedFeeVersion:
   mainnet: 1
@@ -19,27 +19,27 @@ signer:
 # use in multi nodes envs
 peer:
 
-debug: false
+debug: true
 
 hermesApi: hermesnode:1317
 chainID:
-#  testnet: thorchain-testnet-v2
+  testnet: hermes-testnet-v2
 #  mainnet: thorchain-mainnet-v1
 #  stagenet: thorchain-stagenet-v2
-  mocknet: hermes_mocknet
+#  mocknet: hermes_mocknet
 
 hermesDaemon:
 #  mainnet: thornode:27147
-#  testnet: thornode:26657
+  testnet: hermesnode:26657
 #  stagenet: thornode:27147
-  mocknet: hermesnode:26657
+#  mocknet: hermesnode:26657
 
 binanceDaemon:
   enabled: true
-  mainnet: http://binance-daemon:27147
+#  mainnet: http://binance-daemon:27147
   testnet: http://binance-daemon:26657
-  stagenet: http://binance-daemon:27147
-  mocknet: http://binance-daemon:26657
+#  stagenet: http://binance-daemon:27147
+#  mocknet: http://binance-daemon:26657
 
 bitcoinDaemon:
 #  enabled: true
@@ -105,7 +105,7 @@ strategyType: Recreate
 image:
   repository:
   pullPolicy: IfNotPresent
-  tag: mocknet
+  tag: testnet
   hash: "" # Not used for mocknet/testnet
 
 imagePullSecrets: []
@@ -116,9 +116,9 @@ persistence:
   enabled: true
   size:
     testnet: 10Gi
-    mainnet: 50Gi
-    stagenet: 10Gi
-    mocknet: 10Gi
+#    mainnet: 50Gi
+#    stagenet: 10Gi
+#    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
   # storageClass: "-"
@@ -173,8 +173,8 @@ global:
     enabled: false
   images:
     alpineK8s:
-      tag:
-      hash:
+      tag: 1.18.2
+      hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
     busybox:
-      tag:
-      hash:
+      tag: latest
+      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a

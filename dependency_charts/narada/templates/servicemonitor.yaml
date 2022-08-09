@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-{{ include "narada.name" . }}
   namespace: prometheus-system
   labels:
-    {{- include "narada.labels" . | nindent 4 }}
+{{- include "narada.labels" . | nindent 4 }}
     release: prometheus
 spec:
   selector:

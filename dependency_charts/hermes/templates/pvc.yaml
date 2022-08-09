@@ -16,7 +16,7 @@ spec:
       {{- else if eq (include "hermesnode.net" .) "stagenet" }}
       storage: {{ .Values.persistence.size.stagenet | quote }}
       {{- else }}
-      storage: {{ .Values.persistence.size.mocknet | quote }}
+      storage: {{ .Values.persistence.size.testnet | quote }}
       {{- end }}
 {{- if .Values.persistence.storageClass }}
 {{- if (eq "-" .Values.persistence.storageClass) }}

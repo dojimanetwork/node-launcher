@@ -26,7 +26,7 @@ kind: Role
 metadata:
   name: {{ include "hermesnode.fullname" . }}-autoupdate
   labels:
-{{ include "thornode.labels" . | nindent 4 }}
+{{ include "hermesnode.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - "apps"
@@ -41,7 +41,7 @@ kind: CronJob
 metadata:
   name: {{ include "hermesnode.fullname" . }}-autoupdate
   labels:
-{{- include "thornode.labels" . | nindent 4 }}
+{{- include "hermesnode.labels" . | nindent 4 }}
 spec:
   schedule: "0 * * * *"
   successfulJobsHistoryLimit: 6

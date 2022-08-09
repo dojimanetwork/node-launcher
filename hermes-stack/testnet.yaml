@@ -11,7 +11,7 @@ narada:
 
 midgard:
   blockstore:
-    enabled: true
+    enabled: false
     remote: https://storage.googleapis.com/public-snapshots-ninerealms/midgard-blockstore/testnet/v2/
     size: 10Gi
 

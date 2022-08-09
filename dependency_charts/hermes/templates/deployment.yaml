@@ -39,7 +39,6 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-
       {{- if .Values.haltHeight }}
         - name: halt-height
           image: {{ include "hermesnode.image" . }}
@@ -49,7 +48,6 @@ spec:
             - name: data
               mountPath: /root/
       {{- end }}
-
       {{- if default .Values.peer .Values.global.peer }}
         - name: init-peer
           image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}

@@ -2,14 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: mocknet
+net: testnet
 
 validator: true
-midgard: false
+midgard: true
 rpc:
   enabled: true
   limited: true
-api: false
+api: true
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
 # traffic if not provided.
@@ -40,7 +40,7 @@ service:
     stagenet:
       p2p: 27146
       rpc: 27147
-    mocknet:
+    testnet:
       p2p: 26656
       rpc: 26657
 
@@ -96,5 +96,5 @@ affinity: {}
 global:
   images:
     alpineK8s:
-      tag:
-      hash:
+      tag: 1.18.2
+      hash: sha256:768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b

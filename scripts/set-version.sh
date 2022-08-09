@@ -6,9 +6,9 @@ source ./scripts/core.sh
 
 get_node_info_short
 
-echo "=> Setting THORNode version"
+echo "=> Setting HermesNode version"
 kubectl exec -it -n "$NAME" -c hermesnode deploy/hermesnode -- /kube-scripts/retry.sh /kube-scripts/set-version.sh
 sleep 5
-echo THORNode version updated
+echo HermesNode version updated
 
 display_status

@@ -86,7 +86,7 @@ app.kubernetes.io/type: {{ .Values.type }}
 {{ /*Image */}}
 {{- define "hermesnode.image" -}}
 {{/* A hash is not needed for mocknet/testnet, or in the case that a node is not a validator w/ key material and autoupdate is enabled. */}}
-{{- if or (eq (include "hermesnode.net" .) "mocknet") (and .Values.autoupdate.enable (eq .Values.type "fullnode")) -}}
+{{- if or (eq (include "hermesnode.net" .) "testnet") (and .Values.autoupdate.enable (eq .Values.type "fullnode")) -}}
 {{- .Values.image.repository -}}: {{ include "hermesnode.tag"}}
 {{- else -}}
 {{- .Values.image.repository -}}:{{ include "hermesnode.tag" .}}
@@ -95,28 +95,28 @@ app.kubernetes.io/type: {{ .Values.type }}
 
 {{ /* RPC port */}}
 {{- define "hermesnode.rpc" -}}
-{{- if eq (include "hermesnode.net" .) "mocknet" -}}
-    {{ .Values.service.port.mocknet.rpc}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.rpc}}
 {{- end -}}
 {{- end -}}
 
 {{/* P2P port */}}
 {{- define "hermesnode.p2p" -}}
-{{- if eq (include "hermesnode.net" .) "mocknet" -}}
-    {{ .Values.service.port.mocknet.p2p }}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.p2p }}
 {{- end -}}
 {{- end -}}
 
 {{/* eth Router contract */}}
 {{- define "hermesnode.ethRouterContract" -}}
-{{- if eq (include "hermesnode.net" .) "mocknet" }}
-    {{ .Values.ethRouterContract.mocknet }}
+{{- if eq (include "hermesnode.net" .) "testnet" }}
+    {{ .Values.ethRouterContract.testnet }}
 {{- end -}}
 {{- end -}}
 
 {{ /* chain id */}}
 {{- define "hermesnode.chainID" -}}
-{{- if eq (include "hermesnode.net" .) "mocknet" }}
-    {{ .Values.chainID.mocknet }}
+{{- if eq (include "hermesnode.net" .) "testnet" }}
+    {{ .Values.chainID.testnet }}
 {{- end -}}
 {{- end -}}

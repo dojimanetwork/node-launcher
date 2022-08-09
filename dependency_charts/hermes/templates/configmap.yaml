@@ -54,7 +54,7 @@ data:
   ban.sh: |
     #!/bin/sh
 
-    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermes tx hermes ban "$1" --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$THORNODE_SERVICE_PORT_RPC"
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermes tx hermes ban "$1" --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:26657"
 
   init.sh: |
     #!/bin/sh
@@ -166,17 +166,17 @@ data:
       exit 0
     fi
 
-    # retrieve thornode version
+    # retrieve hermesnode version
     HERMESNODE_IMAGE=$(kubectl get deploy hermesnode -o jsonpath="{.spec.template.spec.containers[0].image}")
     HERMESNODE_INIT_IMAGE=$(kubectl get deploy hermesnode -o jsonpath="{.spec.template.spec.initContainers[?(@.name==\"init-hermesnode\")].image}")
 
     # sanity checks
     if [ -z "$HERMESNODE_IMAGE" ] || [ -z "$HERMESNODE_INIT_IMAGE" ]; then
-      echo "unable to retrieve thornode image versions"
+      echo "unable to retrieve hermesnode image versions"
       exit 1
     fi
     if [[ "$HERMESNODE_IMAGE" != "$HERMESNODE_INIT_IMAGE" ]]; then
-      echo "hermesnode image and thornode init image are different versions"
+      echo "hermesnode image and hermesnode init image are different versions"
       echo "hermesnode image: $HERMESNODE_IMAGE"
       echo "hermesnode init image: $HERMESNODE_INIT_IMAGE"
       exit 1
@@ -185,7 +185,7 @@ data:
     # abort if we are already up to date
     HERMESNODE_VERSION=$(echo $HERMESNODE_IMAGE | awk -F- '{print $3}')
     if [[ "$HERMESNODE_VERSION" == "$NET_VERSION" ]]; then
-      echo "current thornode version $HERMESNODE_VERSION is up to date"
+      echo "current hermesnode version $HERMESNODE_VERSION is up to date"
       exit 0
     fi
 

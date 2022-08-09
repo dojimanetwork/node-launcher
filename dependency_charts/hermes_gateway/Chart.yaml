@@ -1,5 +1,5 @@
 apiVersion: v2
-name: gateway
+name: hermes-gateway
 description: HermesNode gateway
 type: application
 version: 0.1.0

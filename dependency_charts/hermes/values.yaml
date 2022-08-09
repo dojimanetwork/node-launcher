@@ -1,6 +1,6 @@
 # Default values for hermes node
 
-net: mocknet
+net: testnet
 type: genesis
 
 autoupdate:
@@ -10,14 +10,14 @@ autoupdate:
 signer:
   name: hermesnode
   password: password
-  mnemonicSecret: ""
-  passwordSecret: ""
+  mnemonicSecret: "password"
+  passwordSecret: "password"
 
 peer:
 seeds:
 peerApi:
 ethRouterContract:
-  mocknet: ""
+  testnet: "0xefA28233838f46a80AaaC8c309077a9ba70D123A"
 
 statesync:
   enabled: false
@@ -32,7 +32,7 @@ enableApi: true
 debug: true
 
 chainID:
-  mocknet: hermes_mocknet
+  testnet: hermes-testnet
 
 haltHeight:
 
@@ -42,9 +42,9 @@ strategyType: Recreate
 
 image:
   repository:
-  tag: mocknet
+  tag: testnet
   hash:
-  pullPolicy:
+  pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
@@ -54,14 +54,14 @@ service:
   type: ClusterIp
   port:
     api: 1317
-    mocknet:
+    testnet:
       p2p: 26656
       rpc: 26657
 
 persistence:
   enabled: true
   size:
-    mocknet: 300Gi
+    testnet: 300Gi
   accessMode: ReadWriteOnce
 
 serviceAccount:
@@ -97,9 +97,10 @@ global:
     name: ""
   images:
     alpineK8s:
-      tag:
-      hash:
+      tag: 1.18.2
+      hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
     busybox:
-      tag:
-      hash:
+      tag: latest
+      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
+
 

@@ -78,7 +78,7 @@ Tag
 Image
 */}}
 {{- define "narada.image" -}}
-{{- if or (eq (include "narada.net" .) "mocknet") (eq (include "narada.net" .) "testnet") -}}
+{{- if or (eq (include "narada.net" .) "testnet") -}}
 {{- .Values.image.repository -}}:{{ include "narada.tag" . }}
 {{- else -}}
 {{- .Values.image.repository -}}:{{ include "narada.tag" . }}@sha256:{{ coalesce .Values.global.hash .Values.image.hash }}
@@ -94,7 +94,7 @@ Hermes daemon
 {{- else if eq (include "narada.net" .) "stagenet" -}}
     {{ .Values.hermesDaemon.stagenet }}
 {{- else -}}
-    {{ .Values.hermesDaemon.mocknet }}
+    {{ .Values.hermesDaemon.testnet }}
 {{- end -}}
 {{- end -}}
 
@@ -222,7 +222,7 @@ chainID
 {{- else if eq (include "narada.net" .) "stagenet" -}}
     {{ .Values.chainID.stagenet }}
 {{- else -}}
-    {{ .Values.chainID.mocknet }}
+    {{ .Values.chainID.testnet }}
 {{- end -}}
 {{- end -}}
 

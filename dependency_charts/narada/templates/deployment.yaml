@@ -50,7 +50,7 @@ spec:
           sysctl -w net.ipv4.tcp_keepalive_probes=3
         securityContext:
           privileged: true
-      - name: init-thorchain
+      - name: init-hermeschain
         image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       containers:
@@ -59,7 +59,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "narada.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/scripts/bifrost.sh"]
+          command: ["/scripts/narada.sh"]
           {{- if .Values.debug }}
           args: ["narada", "-c", "/etc/narada/config.json", "-l", "debug"]
           {{- else }}
@@ -79,7 +79,7 @@ spec:
             - name: EXTERNAL_IP
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "bifrost.fullname" . }}-external-ip
+                  name: {{ include "narada.fullname" . }}-external-ip
                   key: externalIP
             - name: NET
               value: {{ include "narada.net" . }}
@@ -116,7 +116,7 @@ spec:
             - name: GAIA_GRPC_HOST
               value: {{ include "narada.gaiaDaemonGRPC" . }}
             - name: GAIA_GRPC_TLS
-              value: "{{ include "bifrost.gaiaDaemonGRPCTLS" . }}"
+              value: "{{ include "narada.gaiaDaemonGRPCTLS" . }}"
             - name: GAIA_START_BLOCK_HEIGHT
               value: "{{ .Values.gaiaStartBlockHeight }}"
             - name: AVAX_HOST
@@ -148,7 +148,7 @@ spec:
             - name: ETH_START_BLOCK_HEIGHT
               value: "{{ .Values.ethereumStartBlockHeight }}"
             - name: ETH_SUGGESTED_FEE_VERSION
-              value: '{{ include "bifrost.ethSuggestedFeeVersion" . }}'
+              value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
             - name: PEER
               value: {{ default .Values.peer .Values.global.peer }}
             - name: SIGNER_NAME

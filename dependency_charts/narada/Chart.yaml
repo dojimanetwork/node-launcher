@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: narada
 description: HermesNode Narada component used to observe and sign external block chains.
 type: application
