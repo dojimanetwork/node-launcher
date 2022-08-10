@@ -1,0 +1,42 @@
+global:
+  tag: chaosnet-multichain-1.94.0
+  hash: 8b11d644ab2c04789998450bd37f1a524dd8603e10c7c8301cdccf8b8b1f002c
+
+hermesnode:
+  haltHeight:
+  statesync:
+    enabled: false
+    seed: false
+    trustHeight: "6500000"
+    trustHash: "707414EE483ECEC2727466FE6B7CB39CC116D3F7EECF1CBF44F16BB5D66483E5"
+    peer: "c3613862c2608b3e861406ad02146f41cf5124e6@statesync-seed.ninerealms.com:27146"
+
+midgard:
+  blockstore:
+    enabled: true
+    remote: https://storage.googleapis.com/public-snapshots-ninerealms/midgard-blockstore/mainnet/v2/
+    size: 20Gi
+
+binance-daemon:
+  enabled: true
+
+bitcoin-daemon:
+  enabled: true
+
+litecoin-daemon:
+  enabled: true
+
+bitcoin-cash-daemon:
+  enabled: true
+
+ethereum-daemon:
+  enabled: true
+
+dogecoin-daemon:
+  enabled: true
+
+gaia-daemon:
+  enabled: true
+
+avalanche-daemon:
+  enabled: false

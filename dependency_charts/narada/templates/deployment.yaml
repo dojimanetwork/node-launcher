@@ -1,0 +1,214 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "narada.fullname" . }}
+  labels:
+    {{- include "narada.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.strategyType }}
+  selector:
+    matchLabels:
+      {{- include "narada.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "narada.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "narada.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
+
+      initContainers:
+      - name: init-external-ip
+        image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
+        {{- if .Values.global.gateway.enabled }}
+        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
+        {{- else }}
+        command: ['/scripts/external-ip.sh', 'false', '{{ include "narada.fullname" . }}', '{{ include "narada.fullname" . }}-external-ip']
+        {{- end }}
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+      - name: init-keepalive
+        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+        command:
+        - /bin/sh
+        - -c
+        - |
+          sysctl -w net.ipv4.tcp_keepalive_time=120
+          sysctl -w net.ipv4.tcp_keepalive_intvl=60
+          sysctl -w net.ipv4.tcp_keepalive_probes=3
+        securityContext:
+          privileged: true
+      - name: init-hermeschain
+        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+        command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "narada.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/scripts/narada.sh"]
+          {{- if .Values.debug }}
+          args: ["narada", "-c", "/etc/narada/config.json", "-l", "debug"]
+          {{- else }}
+          args: ["narada", "-c", "/etc/narada/config.json"]
+          {{- end }}
+          volumeMounts:
+            - mountPath: /var/data/narada
+              name: data
+              subPath: data
+            - mountPath: /root/.hermes
+              name: data
+              subPath: hermesnode
+            - mountPath: /etc/narada
+              name: data
+              subPath: etc
+          env:
+            - name: EXTERNAL_IP
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "narada.fullname" . }}-external-ip
+                  key: externalIP
+            - name: NET
+              value: {{ include "narada.net" . }}
+            - name: CHAIN_API
+              value: {{ .Values.hermesApi }}
+            - name: CHAIN_RPC
+              value: {{ include "narada.hermesnodeDaemon" . }}
+            - name: BINANCE_HOST
+              value: {{ include "narada.binanceDaemon" . }}
+            - name: BINANCE_START_BLOCK_HEIGHT
+              value: "{{ .Values.binanceStartBlockHeight }}"
+            - name: BTC_HOST
+              value: {{ include "narada.bitcoinDaemon" . }}
+            - name: BTC_START_BLOCK_HEIGHT
+              value: "{{ .Values.bitcoinStartBlockHeight }}"
+            - name: LTC_HOST
+              value: {{ include "narada.litecoinDaemon" . }}
+            - name: LTC_START_BLOCK_HEIGHT
+              value: "{{ .Values.litecoinStartBlockHeight }}"
+            - name: BCH_HOST
+              value: {{ include "narada.bitcoinCashDaemon" . }}
+            - name: BCH_START_BLOCK_HEIGHT
+              value: "{{ .Values.bitcoinCashStartBlockHeight }}"
+            - name: DOGE_HOST
+              value: {{ include "narada.dogecoinDaemon" . }}
+            - name: DOGE_START_BLOCK_HEIGHT
+              value: "{{ .Values.dogecoinStartBlockHeight }}"
+            - name: TERRA_HOST
+              value: {{ include "narada.terraDaemon" . }}
+            - name: TERRA_START_BLOCK_HEIGHT
+              value: "{{ .Values.terraStartBlockHeight }}"
+            - name: GAIA_HOST
+              value: {{ include "narada.gaiaDaemon" . }}
+            - name: GAIA_GRPC_HOST
+              value: {{ include "narada.gaiaDaemonGRPC" . }}
+            - name: GAIA_GRPC_TLS
+              value: "{{ include "narada.gaiaDaemonGRPCTLS" . }}"
+            - name: GAIA_START_BLOCK_HEIGHT
+              value: "{{ .Values.gaiaStartBlockHeight }}"
+            - name: AVAX_HOST
+              value: {{ include "narada.avaxDaemon" . }}
+            - name: AVAX_START_BLOCK_HEIGHT
+              value: "{{ .Values.avaxStartBlockHeight }}"
+            {{- if not .Values.litecoinDaemon.enabled }}
+            - name: LTC_DISABLED
+              value: "true"
+            {{- end}}
+            {{- if not .Values.dogecoinDaemon.enabled }}
+            - name: DOGE_DISABLED
+              value: "true"
+            {{- end}}
+            {{- if not .Values.terraDaemon.enabled }}
+            - name: TERRA_DISABLED
+              value: "true"
+            {{- end}}
+            {{- if not .Values.gaiaDaemon.enabled }}
+            - name: GAIA_DISABLED
+              value: "true"
+            {{- end}}
+            {{- if not .Values.avaxDaemon.enabled }}
+            - name: AVAX_DISABLED
+              value: "true"
+            {{- end}}
+            - name: ETH_HOST
+              value: {{ include "narada.ethereumDaemon" . }}
+            - name: ETH_START_BLOCK_HEIGHT
+              value: "{{ .Values.ethereumStartBlockHeight }}"
+            - name: ETH_SUGGESTED_FEE_VERSION
+              value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
+            - name: PEER
+              value: {{ default .Values.peer .Values.global.peer }}
+            - name: SIGNER_NAME
+              value: {{ .Values.signer.name }}
+            - name: SIGNER_PASSWD
+              {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                  key: password
+              {{- else}}
+              value: {{ .Values.signer.password }}
+              {{- end }}
+            {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+            - name: SIGNER_SEED_PHRASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+                  key: mnemonic
+            {{- end }}
+            - name: CHAIN_ID
+              value: {{ include "narada.chainID" . }}
+          ports:
+            - name: p2p
+              containerPort: {{ .Values.service.port.p2p }}
+              protocol: TCP
+            - name: http
+              containerPort: {{ .Values.service.port.http }}
+              protocol: TCP
+            - name: prometheus
+              containerPort: 9000
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+      volumes:
+      - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "narada.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        hostPath:
+          path: {{ .Values.persistence.hostPath }}
+          type: DirectoryOrCreate
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: scripts
+        configMap:
+          name: {{ include "narada.fullname" . }}-scripts
+          defaultMode: 0777
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
