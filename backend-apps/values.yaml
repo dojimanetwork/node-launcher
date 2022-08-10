@@ -14,6 +14,6 @@ gateway:
 dojima-wallet:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-faas
-    tag: 2022-08-06_v0.0.1
+    tag: 2022-08-11_v0.0.1
   env:
     ENV: dev
