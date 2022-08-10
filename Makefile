@@ -31,7 +31,7 @@ update-dependencies:
 update-trust-state: ## Updates statesync trusted height/hash and Midgard blockstore hashes from Nine Realms
 	@./scripts/update-trust-state.sh
 
-mnemonic: ## Retrieve and display current mnemonic for backup from your THORNode
+mnemonic: ## Retrieve and display current mnemonic for backup from your hermesnode
 	@./scripts/mnemonic.sh
 
 password: ## Retrieve and display current password for backup from your THORNode
@@ -55,16 +55,16 @@ status: ## Display current status of your THORNode
 reset: ## Reset and resync a service from scratch on your THORNode. This command can take a while to sync back to 100%.
 	@./scripts/reset.sh
 
-hard-reset-thornode: ## Hard reset and resync thornode service from scratch on your THORNode, leaving no bak/* files.
-	@./scripts/hard-reset-thornode.sh
+hard-reset-hermesnode: ## Hard reset and resync hermesnode service from scratch on your THORNode, leaving no bak/* files.
+	@./scripts/hard-reset-hermesnode.sh
 
-backup: ## Backup specific files from either thornode of bifrost service of a THORNode.
+backup: ## Backup specific files from either hermesnode of bifrost service of a THORNode.
 	@./scripts/backup.sh
 
-full-backup: ## Create volume snapshots and backups for both thornode and bifrost services.
+full-backup: ## Create volume snapshots and backups for both hermesnode and bifrost services.
 	@./scripts/full-backup.sh
 
-restore-backup: ## Restore backup specific files from either thornode of bifrost service of a THORNode.
+restore-backup: ## Restore backup specific files from either hermesnode of bifrost service of a THORNode.
 	@./scripts/restore-backup.sh
 
 snapshot: ## Snapshot a volume for a specific THORNode service.
@@ -83,10 +83,10 @@ export-state: ## Export chain state
 	@./scripts/export-state.sh
 
 hard-fork: ## Hard fork chain
-	@HARDFORK_BLOCK_HEIGHT=4786559 NEW_GENESIS_TIME='2022-03-22T01:38:16.219785087Z' CHAIN_ID='thorchain-mainnet-v1' IMAGE='registry.gitlab.com/thorchain/thornode:chaosnet-multichain-0.81.4' ./scripts/hard-fork.sh
+	@HARDFORK_BLOCK_HEIGHT=4786559 NEW_GENESIS_TIME='2022-03-22T01:38:16.219785087Z' CHAIN_ID='thorchain-mainnet-v1' IMAGE='ghcr.io/dojimanetwork/hermes:chaosnet-multichain-0.81.4' ./scripts/hard-fork.sh
 
 hard-fork-testnet: ## hard fork testnet
-	@HARDFORK_BLOCK_HEIGHT=1821177 NEW_GENESIS_TIME='2022-03-14T19:32:38.219785087Z' CHAIN_ID='thorchain-testnet-v2' IMAGE='registry.gitlab.com/thorchain/thornode:testnet-0.81.2' ./scripts/hard-fork.sh
+	@HARDFORK_BLOCK_HEIGHT=1821177 NEW_GENESIS_TIME='2022-03-14T19:32:38.219785087Z' CHAIN_ID='thorchain-testnet-v2' IMAGE='ghcr.io/dojimanetwork/hermes:testnet-1.89.0' ./scripts/hard-fork.sh
 
 shell: ## Open a shell for a selected THORNode service
 	@./scripts/shell.sh

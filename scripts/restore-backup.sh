@@ -9,7 +9,7 @@ if ! node_exists; then
 fi
 
 echo "=> Select a THORNode service to restore a backup from"
-menu thornode thornode bifrost
+menu hermesnode hermesnode narada
 SERVICE=$MENU_SELECTED
 
 if ! kubectl -n "$NAME" get pvc "$SERVICE" >/dev/null 2>&1; then
@@ -25,7 +25,7 @@ if [ "$FILE" == "" ]; then
   exit 0
 fi
 
-if [ "$SERVICE" = "bifrost" ]; then
+if [ "$SERVICE" = "narada" ]; then
   SPEC="
   {
     \"apiVersion\": \"v1\",
@@ -40,8 +40,8 @@ if [ "$SERVICE" = "bifrost" ]; then
           \"name\": \"$SERVICE\",
           \"image\": \"busybox:1.33\",
           \"volumeMounts\": [
-            {\"mountPath\": \"/root/.thornode\", \"name\": \"data\", \"subPath\": \"thornode\"},
-            {\"mountPath\": \"/var/data/bifrost\", \"name\": \"data\", \"subPath\": \"data\"}
+            {\"mountPath\": \"/root/.hermesnode\", \"name\": \"data\", \"subPath\": \"hermesnode\"},
+            {\"mountPath\": \"/var/data/narada\", \"name\": \"data\", \"subPath\": \"data\"}
           ]
         }
       ],
@@ -82,9 +82,9 @@ if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$SERVICE" 2>&1 | grep 
   POD="pod/backup-$SERVICE"
 fi
 
-tar -C "$PWD/backups/$SERVICE" -cf - "$FILE" | kubectl exec -i -n "$NAME" "$POD" -c "$SERVICE" -- tar xf - -C /root/.thornode
+tar -C "$PWD/backups/$SERVICE" -cf - "$FILE" | kubectl exec -i -n "$NAME" "$POD" -c "$SERVICE" -- tar xf - -C /root/.hermesnode
 
-kubectl exec -it -n "$NAME" "$POD" -c "$SERVICE" -- sh -c "cd /root/.thornode && tar xf \"$FILE\""
+kubectl exec -it -n "$NAME" "$POD" -c "$SERVICE" -- sh -c "cd /root/.hermesnode && tar xf \"$FILE\""
 
 if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$SERVICE" 2>&1 | grep "No resources found") >/dev/null 2>&1; then
   kubectl delete pod --now=true -n "$NAME" "backup-$SERVICE"

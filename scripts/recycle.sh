@@ -26,19 +26,19 @@ kubectl -n "$NAME" delete deployment gateway
 kubectl -n "$NAME" delete service gateway
 kubectl -n "$NAME" delete configmap gateway-external-ip
 
-# delete thornode resources
-echo "=> Recycling THORNode - deleting thornode resources..."
-kubectl -n "$NAME" delete deployment thornode
-kubectl -n "$NAME" delete pvc thornode
-kubectl -n "$NAME" delete configmap thornode-external-ip
-kubectl -n "$NAME" delete secret thornode-password
-kubectl -n "$NAME" delete secret thornode-mnemonic
+# delete hermesnode resources
+echo "=> Recycling THORNode - deleting hermesnode resources..."
+kubectl -n "$NAME" delete deployment hermesnode
+kubectl -n "$NAME" delete pvc hermesnode
+kubectl -n "$NAME" delete configmap hermesnode-external-ip
+kubectl -n "$NAME" delete secret hermesnode-password
+kubectl -n "$NAME" delete secret hermesnode-mnemonic
 
-# delete bifrost resources
-echo "=> Recycling THORNode - deleting bifrost resources..."
-kubectl -n "$NAME" delete deployment bifrost
-kubectl -n "$NAME" delete pvc bifrost
-kubectl -n "$NAME" delete configmap bifrost-external-ip
+# delete narada resources
+echo "=> Recycling THORNode - deleting narada resources..."
+kubectl -n "$NAME" delete deployment narada
+kubectl -n "$NAME" delete pvc narada
+kubectl -n "$NAME" delete configmap narada-external-ip
 
 # recreate resources
 echo "=> Recycling THORNode - recreating deleted resources..."

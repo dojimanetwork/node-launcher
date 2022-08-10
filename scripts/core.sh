@@ -287,7 +287,7 @@ create_mnemonic() {
   local mnemonic
   if ! kubectl get -n "$NAME" secrets/hermesnode-mnemonic >/dev/null 2>&1; then
     echo "=> Generating hermesnode Mnemonic phrase"
-    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=registry.gitlab.com/thorchain/thornode --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=ghcr.io/dojimanetwork/hermes --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
     echo

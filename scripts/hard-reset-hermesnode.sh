@@ -4,7 +4,7 @@ source ./scripts/core.sh
 
 get_node_info_short
 echo "=> Select a THORNode service to reset"
-SERVICE=thornode
+SERVICE=hermesnode
 
 if node_exists; then
   echo

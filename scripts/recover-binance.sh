@@ -9,7 +9,7 @@ if ! node_exists; then
   die "No existing THORNode found, make sure this is the correct name"
 fi
 
-IMAGE="registry.gitlab.com/thorchain/devops/binance-node:0.9.0"
+IMAGE="ghcr.io/dojimanetwork/hermes/devops/binance-node:0.9.0"
 
 echo "stopping binance..."
 kubectl scale -n "$NAME" --replicas=0 deploy/binance-daemon --timeout=5m

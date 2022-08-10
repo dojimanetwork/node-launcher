@@ -29,9 +29,9 @@ chainID:
 #  mocknet: hermes_mocknet
 
 hermesDaemon:
-#  mainnet: thornode:27147
+#  mainnet: hermesnode:27147
   testnet: hermesnode:26657
-#  stagenet: thornode:27147
+#  stagenet: hermesnode:27147
 #  mocknet: hermesnode:26657
 
 binanceDaemon:

@@ -17,5 +17,5 @@ SNAPSHOT_HASH=$(curl -s "$THORNODE_RPC/block?height=$SNAPSHOT_HEIGHT" | jq -r ".
 echo "Snapshot height: $SNAPSHOT_HEIGHT"
 echo "Snapshot hash: $SNAPSHOT_HASH"
 
-sed -E -i "s/^(\s*trustHeight:) .*/\1 \"$SNAPSHOT_HEIGHT\"/" thornode-stack/chaosnet.yaml
-sed -E -i "s/^(\s*trustHash:) .*/\1 \"$SNAPSHOT_HASH\"/" thornode-stack/chaosnet.yaml
+sed -E -i "s/^(\s*trustHeight:) .*/\1 \"$SNAPSHOT_HEIGHT\"/" hermesnode-stack/chaosnet.yaml
+sed -E -i "s/^(\s*trustHash:) .*/\1 \"$SNAPSHOT_HASH\"/" hermesnode-stack/chaosnet.yaml

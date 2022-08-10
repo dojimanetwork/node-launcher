@@ -15,8 +15,8 @@ if ! node_exists; then
 fi
 
 HEIGHTS=$(
-  curl -s 'https://storage.googleapis.com/storage/v1/b/public-snapshots-ninerealms/o?delimiter=%2F&prefix=thornode/' |
-    jq -r '.prefixes | map(match("thornode/([0-9]+)/").captures[0].string) | map(tonumber) | sort | reverse | map(tostring) | join(" ")'
+  curl -s 'https://storage.googleapis.com/storage/v1/b/public-snapshots-ninerealms/o?delimiter=%2F&prefix=hermesnode/' |
+    jq -r '.prefixes | map(match("hermesnode/([0-9]+)/").captures[0].string) | map(tonumber) | sort | reverse | map(tostring) | join(" ")'
 )
 LATEST_HEIGHT=$(echo "$HEIGHTS" | awk '{print $1}')
 echo "=> Select block height to recover"
@@ -27,10 +27,10 @@ HEIGHT=$MENU_SELECTED
 echo "=> Recovering height Nine Realms snapshot at height $HEIGHT in THORNode in $boldgreen$NAME$reset"
 confirm
 
-# stop thornode
-echo "stopping thornode..."
-kubectl scale -n "$NAME" --replicas=0 deploy/thornode --timeout=5m
-kubectl wait --for=delete pods -l app.kubernetes.io/name=thornode -n "$NAME" --timeout=5m >/dev/null 2>&1 || true
+# stop hermesnode
+echo "stopping hermesnode..."
+kubectl scale -n "$NAME" --replicas=0 deploy/hermesnode --timeout=5m
+kubectl wait --for=delete pods -l app.kubernetes.io/name=hermesnode -n "$NAME" --timeout=5m >/dev/null 2>&1 || true
 
 # create recover pod
 echo "creating recover pod"
@@ -38,7 +38,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
-  name: recover-thornode
+  name: recover-hermesnode
   namespace: $NAME
 spec:
   containers:
@@ -54,33 +54,33 @@ spec:
   volumes:
   - name: data
     persistentVolumeClaim:
-      claimName: thornode
+      claimName: hermesnode
 EOF
 
 # reset node state
 echo "waiting for recover pod to be ready..."
-kubectl wait --for=condition=ready pods/recover-thornode -n "$NAME" --timeout=5m >/dev/null 2>&1
+kubectl wait --for=condition=ready pods/recover-hermesnode -n "$NAME" --timeout=5m >/dev/null 2>&1
 
 # note to user on resume
 echo "${boldyellow}If the snapshot fails to sync resume by re-running the make target.$reset"
 
 # unset gcloud account to access public bucket in GKE clusters with workload identity
-kubectl exec -n "$NAME" -it recover-thornode -- /bin/sh -c 'gcloud config set account none'
+kubectl exec -n "$NAME" -it recover-hermesnode -- /bin/sh -c 'gcloud config set account none'
 
 # recover nine realms snapshot
 echo "pulling nine realms snapshot..."
-kubectl exec -n "$NAME" -it recover-thornode -- gsutil -m rsync -r -d \
-  "gs://public-snapshots-ninerealms/thornode/$HEIGHT/" /root/.thornode/data/
+kubectl exec -n "$NAME" -it recover-hermesnode -- gsutil -m rsync -r -d \
+  "gs://public-snapshots-ninerealms/hermesnode/$HEIGHT/" /root/.hermesnode/data/
 
 echo "repeat sync pass in case of errors..."
-kubectl exec -n "$NAME" -it recover-thornode -- gsutil rsync -r -d \
-  "gs://public-snapshots-ninerealms/thornode/$HEIGHT/" /root/.thornode/data/
+kubectl exec -n "$NAME" -it recover-hermesnode -- gsutil rsync -r -d \
+  "gs://public-snapshots-ninerealms/hermesnode/$HEIGHT/" /root/.hermesnode/data/
 
-echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart thornode$reset"
+echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart hermesnode$reset"
 confirm
 
 echo "cleaning up recover pod"
-kubectl -n "$NAME" delete pod/recover-thornode
+kubectl -n "$NAME" delete pod/recover-hermesnode
 
-# start thornode
-kubectl scale -n "$NAME" --replicas=1 deploy/thornode --timeout=5m
+# start hermesnode
+kubectl scale -n "$NAME" --replicas=1 deploy/hermesnode --timeout=5m
