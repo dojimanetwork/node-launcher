@@ -1,7 +1,7 @@
 name: dojima-faas
 
 replicaCount: 1
-serverPort: 80
+serverPort: 3000
 prometheusPort: 7071
 uriPrefix: /dojima-faas
 servicePortName: dojima-faas-fe-port
