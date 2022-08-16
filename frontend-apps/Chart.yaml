@@ -43,8 +43,8 @@ dependencies:
     repository: "file://../dependency_charts/internal-docs"
     version: 0.0.2
 
-  - name: developer-docs
-    repository: "file://../dependency_charts/internal-docs"
-    version: 0.0.1
+  # - name: developer-docs
+  #   repository: "file://../dependency_charts/internal-docs"
+  #   version: 0.0.1
   
   
