@@ -16,12 +16,15 @@ global:
 
 gateway:
   fullnameOverride: hermes-gateway
+  enabled: true
 
 hermesnonde:
   fullnameOverride: hermesnode
+  enabled: true
 
 narada:
   fullnameOverride: narada
+  enabled: true
 
 midgard:
   enabled: false

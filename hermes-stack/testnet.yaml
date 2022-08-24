@@ -1,7 +1,16 @@
 global:
   tag: testnet-1.86.0
 
+gateway:
+  enabled: true
+
+hermesnode:
+  enabled: true
+
+
+
 narada:
+  enabled: true
   dogecoinDaemon:
     enabled: false
   litecoinDaemon:
