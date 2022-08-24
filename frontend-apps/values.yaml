@@ -21,7 +21,7 @@ dojima-wallet:
 landing-page:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
-    tag: 2022-08-02_v0.0.16
+    tag: 2022-08-16_v0.0.19
     ENV: dev
 
 internal-docs:
@@ -30,3 +30,10 @@ internal-docs:
     tag: 2022-06-16_v0.0.1
   env:
     ENV: dev
+
+developer-docs:
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
+    tag: 2022-08-13_v0.0.1
+  env:
+    ENV: dev    

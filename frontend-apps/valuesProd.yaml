@@ -11,4 +11,12 @@ landing-page:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
     tag: 2022-08-02_v0.0.16
   env:
-    ENV: prod    
+    ENV: prod   
+
+
+developer-docs:
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
+    tag: 2022-08-13_v0.0.1
+  env:
+    ENV: prod        

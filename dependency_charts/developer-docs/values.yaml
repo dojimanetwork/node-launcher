@@ -1,14 +1,14 @@
-name: dojima-faas
+name: developer-docs
 
 replicaCount: 1
-serverPort: 3000
+serverPort: 80
 prometheusPort: 7071
-uriPrefix: /dojima-faas
-servicePortName: dojima-faas-fe-port
+uriPrefix: /developer-docs
+servicePortName: developer-docs-fe-port
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-faas
-  tag: 2022-08-13_v0.0.2
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
+  tag: 2022-08-13_v0.0.1
 
 strategy:
   enable: false
