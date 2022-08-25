@@ -47,13 +47,13 @@ spec:
         volumeMounts:
           - name: data
             mountPath: /root/
-      {{- end -}}
+      {{- end }}
 
       {{- if default .Values.peer .Values.global.peer }}
       - name: init-peer
         image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
         command: ['sh', '-c', 'until nc -zv {{ default .Values.peer .Values.global.peer }}:{{ include "hermesnode.rpc" . }}; do echo waiting for peer hermesnode; sleep 2; done']
-      {{- end -}}
+      {{- end }}
 
       {{- if .Values.peerApi }}
       - name: init-peer-api
