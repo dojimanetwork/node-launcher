@@ -39,28 +39,6 @@ spec:
         volumeMounts:
           - name: scripts
             mountPath: /scripts
-        {{- if .Values.haltHeight }}
-      - name: halt-height
-        image: {{ include "hermesnode.image" . }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ['sh', '-c', '[ ! -e /root/.hermes/data/priv_validator_state.json ] || [ $(cat /root/.hermes/data/priv_validator_state.json | jq -r .height) -lt {{ .Values.haltHeight }} ] || sleep infinity']
-        volumeMounts:
-        - name: data
-          mountPath: /root/
-        {{- end }}
-
-        {{- if default .Values.peer .Values.global.peer }}
-      - name: init-peer
-        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
-        command: ['sh', '-c', 'until nc -zv {{ default .Values.peer .Values.global.peer }}:{{ include "hermesnode.rpc" . }}; do echo waiting for peer hermesnode; sleep 2; done']
-        {{- end }}
-
-        {{- if .Values.peerApi }}
-      - name: init-peer-api
-        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
-        command: ['sh', '-c', "until nc -zv {{ .Values.peerApi }}:1317; do echo waiting for peer hermesnode; sleep 2; done"]
-        {{- end }}
-
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
