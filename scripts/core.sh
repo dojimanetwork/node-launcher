@@ -361,7 +361,7 @@ deploy_genesis() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
-  kubectl -n "$NAME" rollout restart deploy gateway
+  kubectl -n "$NAME" rollout restart deploy hermes-gateway
 }
 
 deploy_validator() {
@@ -389,7 +389,7 @@ deploy_validator() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
-  kubectl -n "$NAME" rollout restart deploy gateway
+  kubectl -n "$NAME" rollout restart deploy hermes-gateway
 }
 
 deploy_fullnode() {
@@ -422,5 +422,5 @@ deploy_fullnode() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
-  kubectl -n "$NAME" rollout restart deploy gateway
+  kubectl -n "$NAME" rollout restart deploy hermes-gateway
 }
