@@ -39,7 +39,7 @@ spec:
         volumeMounts:
           - name: scripts
             mountPath: /scripts
-      {{- if .Values.haltHeight }}
+        {{- if .Values.haltHeight }}
       - name: halt-height
         image: {{ include "hermesnode.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -47,19 +47,19 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /root/
-      {{- end }}
+        {{- end }}
 
-      {{- if default .Values.peer .Values.global.peer }}
+        {{- if default .Values.peer .Values.global.peer }}
       - name: init-peer
         image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
         command: ['sh', '-c', 'until nc -zv {{ default .Values.peer .Values.global.peer }}:{{ include "hermesnode.rpc" . }}; do echo waiting for peer hermesnode; sleep 2; done']
-      {{- end }}
+        {{- end }}
 
-      {{- if .Values.peerApi }}
+        {{- if .Values.peerApi }}
       - name: init-peer-api
         image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
         command: ['sh', '-c', "until nc -zv {{ .Values.peerApi }}:1317; do echo waiting for peer hermesnode; sleep 2; done"]
-      {{- end }}
+        {{- end }}
 
       containers:
         - name: {{ .Chart.Name }}
