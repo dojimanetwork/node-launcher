@@ -155,7 +155,7 @@ spec:
         - name: data
           {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
           persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "thornode.fullname" . }}{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "hermesnode.fullname" . }}{{- end }}
           {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
           hostPath:
             path: {{ .Values.persistence.hostPath }}
@@ -165,11 +165,11 @@ spec:
           {{- end }}
         - name: scripts
           configMap:
-            name: {{ include "thornode.fullname" . }}-scripts
+            name: {{ include "hermesnode.fullname" . }}-scripts
             defaultMode: 0777
         - name: configs
           configMap:
-            name: {{ include "thornode.fullname" . }}-configs
+            name: {{ include "hermesnode.fullname" . }}-configs
             defaultMode: 0666
           {{- with .Values.nodeSelector }}
       nodeSelector:
