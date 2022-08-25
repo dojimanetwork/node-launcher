@@ -24,23 +24,23 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
-      {{- if .Values.priorityClassName -}}
+      {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
-      {{- end -}}
+      {{- end }}
 
       initContainers:
       - name: init-external-ip
         image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
-        {{- if .Values.global.gateway.enabled -}}
+        {{- if .Values.global.gateway.enabled }}
         command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "hermesnode.fullname" . }}-external-ip']
         {{- else }}
         command: ['/scripts/external-ip.sh', 'false', '{{ include "hermesnode.fullname" . }}', '{{ include "hermesnode.fullname" . }}-external-ip']
-        {{- end -}}
+        {{- end }}
         volumeMounts:
           - name: scripts
             mountPath: /scripts
 
-      {{- if .Values.haltHeight -}}
+      {{- if .Values.haltHeight }}
       - name: halt-height
         image: {{ include "hermesnode.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -50,17 +50,17 @@ spec:
             mountPath: /root/
       {{- end -}}
 
-      {{- if default .Values.peer .Values.global.peer -}}
+      {{- if default .Values.peer .Values.global.peer }}
       - name: init-peer
         image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
         command: ['sh', '-c', 'until nc -zv {{ default .Values.peer .Values.global.peer }}:{{ include "hermesnode.rpc" . }}; do echo waiting for peer hermesnode; sleep 2; done']
       {{- end -}}
 
-      {{- if .Values.peerApi -}}
+      {{- if .Values.peerApi }}
       - name: init-peer-api
         image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
         command: ['sh', '-c', "until nc -zv {{ .Values.peerApi }}:1317; do echo waiting for peer hermesnode; sleep 2; done"]
-      {{- end -}}
+      {{- end }}
 
       containers:
         - name: {{ .Chart.Name }}
