@@ -39,7 +39,6 @@ spec:
         volumeMounts:
           - name: scripts
             mountPath: /scripts
-
       {{- if .Values.haltHeight }}
       - name: halt-height
         image: {{ include "hermesnode.image" . }}
