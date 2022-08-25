@@ -58,7 +58,7 @@ Tag
 Common labels
 */}}
 {{- define "hermesnode.labels" -}}
-helm.sh/chart: {{ include "hermesnode.chart" }}
+helm.sh/chart: {{ include "hermesnode.chart" . }}
 {{ include "hermesnode.selectorLabels" . }}
 app.kubernetes.io/version: {{ include "hermesnode.tag" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
