@@ -32,7 +32,7 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{ /*
+{{/*
 Selector labels
 */}}
 {{- define "hermesnode.selectorLabels" -}}
@@ -40,23 +40,23 @@ app.kubernetes.io/name: {{ include "hermesnode.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{
-/* Net */
-}}
+{{/*
+Net
+*/}}
 {{- define "hermesnode.net" -}}
 {{- default .Values.net .Values.global.net -}}
 {{- end -}}
 
-{{
-/* Tag */
-}}
+{{/*
+Tag
+*/}}
 {{- define "hermesnode.tag" -}}
 {{- default .Values.global.tag .Values.image.tag .Chart.AppVersion -}}
 {{- end -}}
 
-{{
-/* Common labels */
-}}
+{{/*
+Common labels
+*/}}
 {{- define "hermesnode.labels" -}}
 helm.sh/chart: {{ include "hermesnode.chart" }}
 {{ include "hermesnode.selectorLabels" . }}
@@ -66,7 +66,9 @@ app.kubernetes.io/net: {{ include "hermesnode.net" . }}
 app.kubernetes.io/type: {{ .Values.type }}
 {{- end -}}
 
-{{ /* Create the name of the service account to use  */}}
+{{/*
+Create the name of the service account to use
+*/}}
 {{- define "hermesnode.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
     {{ default (include "hermesnode.fullname" .) .Values.serviceAccount.name }}
@@ -75,7 +77,9 @@ app.kubernetes.io/type: {{ .Values.type }}
 {{- end -}}
 {{- end -}}
 
-{{ /*Image */}}
+{{/*
+Image
+*/}}
 {{- define "hermesnode.image" -}}
 {{/* A hash is not needed for mocknet/testnet, or in the case that a node is not a validator w/ key material and autoupdate is enabled. */}}
 {{- if or (eq (include "hermesnode.net" .) "testnet") (and .Values.autoupdate.enable (eq .Values.type "fullnode")) -}}
@@ -85,28 +89,36 @@ app.kubernetes.io/type: {{ .Values.type }}
 {{- end -}}
 {{- end -}}
 
-{{ /* RPC port */}}
+{{/*
+RPC Port
+*/}}
 {{- define "hermesnode.rpc" -}}
 {{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.rpc}}
 {{- end -}}
 {{- end -}}
 
-{{/* P2P port */}}
+{{/*
+P2P Port
+*/}}
 {{- define "hermesnode.p2p" -}}
 {{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.p2p }}
 {{- end -}}
 {{- end -}}
 
-{{/* eth Router contract */}}
+{{/*
+ETH Router contract
+*/}}
 {{- define "hermesnode.ethRouterContract" -}}
 {{- if eq (include "hermesnode.net" .) "testnet" }}
     {{ .Values.ethRouterContract.testnet }}
 {{- end -}}
 {{- end -}}
 
-{{ /* chain id */}}
+{{/*
+chain id
+*/}}
 {{- define "hermesnode.chainID" -}}
 {{- if eq (include "hermesnode.net" .) "testnet" }}
     {{ .Values.chainID.testnet }}
