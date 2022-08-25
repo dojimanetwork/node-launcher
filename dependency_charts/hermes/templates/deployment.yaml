@@ -31,11 +31,11 @@ spec:
       initContainers:
       - name: init-external-ip
         image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
-      {{- if .Values.global.gateway.enabled }}
+        {{- if .Values.global.gateway.enabled }}
         command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "hermesnode.fullname" . }}-external-ip']
-      {{- else }}
+        {{- else }}
         command: ['/scripts/external-ip.sh', 'false', '{{ include "hermesnode.fullname" . }}', '{{ include "hermesnode.fullname" . }}-external-ip']
-      {{- end }}
+        {{- end }}
         volumeMounts:
         - name: scripts
           mountPath: /scripts
