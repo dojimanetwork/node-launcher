@@ -11,26 +11,23 @@ spec:
   selector:
     matchLabels:
       {{- include "hermesnode.selectorLabels" . | nindent 6 }}
-  template:
-    metadata:
+  template: 
+    metadata: 
       labels:
         {{- include "hermesnode.selectorLabels" . | nindent 8 }}
-    spec:
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-      serviceAccountName: {{ include "hermesnode.serviceAccountName" . }}
+    spec: 
+      {{- with .Values.imagePullSecrets }} 
+      imagePullSecrets: 
+	{{- toYaml . | nindent 8 }} 
+      {{- end }} 
+      serviceAccountName: {{ include "hermesnode.serviceAccountName" . }} 
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
-
-      {{- if .Values.priorityClassName }}
-      priorityClassName: {{ .Values.priorityClassName }}
-      {{- end }}
-
+        {{- toYaml .Values.podSecurityContext | nindent 8 }} 
+      {{- if .Values.priorityClassName }} 
+      priorityClassName: {{ .Values.priorityClassName }} {{- end }}
       initContainers:
       - name: init-external-ip
-        image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
         command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "hermesnode.fullname" . }}-external-ip']
         {{- else }}
@@ -38,125 +35,125 @@ spec:
         {{- end }}
         volumeMounts:
           - name: scripts
-            mountPath: /scripts
+            mountPath: /scripts           
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-                  {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "hermesnode.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - /scripts/{{ .Values.type }}.sh
-          volumeMounts:
-            - name: data
-              mountPath: /root/
-            - name: scripts
-              mountPath: /kube-scripts/
-          env:
-            - name: EXTERNAL_IP
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "hermesnode.fullname" . }}-external-ip
-                  key: externalIP
-            - name: VALIDATOR
-                    {{- if eq .Values.type "fullnode" }}
-              value: "false"
-                    {{- else }}
-              value: "true"
-                    {{- end }}
-            - name: PEER
-              value: {{ default .Values.peer .Values.global.peer }}
-            - name: SEEDS
-              value: {{ .Values.seeds }}
-            - name: PEER_API
-              value: {{ .Values.peerApi }}
-            - name: CONTRACT
-              value: {{ include "hermesnode.ethRouterContract" . }}
-            - name: DEBUG
-              value: "{{ .Values.debug }}"
-            - name: HARDFORK_BLOCK_HEIGHT
-              value: "{{ .Values.haltHeight }}"
-            - name: NET
-              value: {{ include "hermesnode.net" . }}
-            - name: SIGNER_NAME
-              value: {{ .Values.signer.name }}
-            - name: SIGNER_PASSWD
-                    {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-                  key: password
-                    {{- else}}
-              value: {{ .Values.signer.password }}
-                    {{- end }}
-            - name: CHAIN_ID
-              value: {{ include "hermesnode.chainID" . }}
-            - name: THOR_AUTO_STATE_SYNC_ENABLED
-              value: "{{ .Values.statesync.auto }}"
-            - name: THOR_COSMOS_STATE_SYNC_SNAPSHOT_INTERVAL
-              value: "{{ .Values.statesync.snapshotInterval }}"
-            - name: THOR_TENDERMINT_LOG_FORMAT
-              value: "json"
-          ports:
-            - name: api
-              containerPort: {{ .Values.service.port.api }}
+         - name: {{ .Chart.Name }}
+           securityContext:
+             {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "hermesnode.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+           - /scripts/{{ .Values.type }}.sh
+           volumeMounts:
+           - name: data
+             mountPath: /root/
+           - name: scripts
+             mountPath: /kube-scripts/
+           env:
+             - name: EXTERNAL_IP
+               valueFrom:
+                 configMapKeyRef:
+                   name: "{{ include "hermesnode.fullname" . }}-external-ip"
+                   key: externalIP
+             - name: VALIDATOR
+               {{- if eq .Values.type "fullnode" }}
+               value: "false"
+               {{- else }}
+               value: "true"
+               {{- end }}
+             - name: PEER
+               value: {{ default .Values.peer .Values.global.peer }}
+             - name: SEEDS
+               value: "{{ .Values.seeds }}"
+             - name: PEER_API
+               value: "{{ .Values.peerApi }}"
+             - name: CONTRACT
+               value: "{{ include "hermesnode.ethRouterContract" . }}"
+             - name: DEBUG
+               value: "{{ .Values.debug }}"
+             - name: HARDFORK_BLOCK_HEIGHT
+               value: "{{ .Values.haltHeight }}"
+             - name: NET
+               value: {{ include "hermesnode.net" . }}
+             - name: SIGNER_NAME
+               value: {{ .Values.signer.name }}
+             - name: SIGNER_PASSWD
+               {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+               valueFrom:
+                 secretKeyRef:
+                   name: "{{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}"
+                   key: password
+               {{- else}}
+               value: {{ .Values.signer.password }}
+               {{- end }}
+             - name: CHAIN_ID
+               value: "{{ include "hermesnode.chainID" . }}"
+             - name: THOR_AUTO_STATE_SYNC_ENABLED
+               value: "{{ .Values.statesync.auto }}"
+             - name: THOR_COSMOS_STATE_SYNC_SNAPSHOT_INTERVAL
+               value: "{{ .Values.statesync.snapshotInterval }}"
+             - name: THOR_TENDERMINT_LOG_FORMAT
+               value: "json"
+           ports: 
+            - name: api 
+              containerPort: {{ .Values.service.port.api }} 
+              protocol: TCP 
+            - name: p2p 
+              containerPort: {{ include "hermesnode.p2p" . }} 
               protocol: TCP
-            - name: p2p
-              containerPort: {{ include "hermesnode.p2p" . }}
-              protocol: TCP
-            - name: rpc
-              containerPort: {{ include "hermesnode.rpc" . }}
-              protocol: TCP
-            - name: prometheus
+            - name: rpc 
+              containerPort: {{ include "hermesnode.rpc" . }} 
+              protocol: TCP 
+            - name: prometheus 
               containerPort: 26660
               protocol: TCP
-          livenessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /status
-              port: rpc
-          startupProbe:
-            failureThreshold: 30
-            timeoutSeconds: 10
-            httpGet:
-              path: /status
-              port: rpc
-          readinessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /status
-              port: rpc
-          resources:
-                  {{- toYaml .Values.resources | nindent 12 }}
-      volumes:
-        - name: data
-          {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
-          persistentVolumeClaim:
+           livenessProbe: 
+             timeoutSeconds: 10 
+             httpGet: 
+               path: /status 
+               port: rpc 
+           startupProbe: 
+             failureThreshold: 30 
+             timeoutSeconds: 10 
+             httpGet:
+               path: /status 
+               port: rpc 
+           readinessProbe: 
+             timeoutSeconds: 10 
+             httpGet: 
+               path: /status 
+               port: rpc 
+           resources:
+             {{- toYaml .Values.resources | nindent 12 }}
+      volumes: 
+        - name: data 
+          {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }} 
+          persistentVolumeClaim: 
             claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "hermesnode.fullname" . }}{{- end }}
-          {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
-          hostPath:
-            path: {{ .Values.persistence.hostPath }}
+          {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }} 
+          hostPath: 
+            path: {{ .Values.persistence.hostPath }} 
             type: DirectoryOrCreate
-          {{- else }}
-          emptyDir: { }
-          {{- end }}
-        - name: scripts
-          configMap:
-            name: {{ include "hermesnode.fullname" . }}-scripts
+          {{- else }} 
+          emptyDir: { } 
+          {{- end }} 
+        - name: scripts 
+          configMap: 
+            name: "{{ include "hermesnode.fullname" . }}-scripts"
             defaultMode: 0777
-        - name: configs
-          configMap:
-            name: {{ include "hermesnode.fullname" . }}-configs
+        - name: configs 
+          configMap: 
+            name: "{{ include "hermesnode.fullname" . }}-configs"
             defaultMode: 0666
-          {{- with .Values.nodeSelector }}
-      nodeSelector:
-            {{- toYaml . | nindent 8 }}
-          {{- end }}
-        {{- with .Values.affinity }}
+      {{- with .Values.nodeSelector }} 
+      nodeSelector: 
+        {{- toYaml . | nindent 8 }} 
+      {{- end }} 
+      {{- with .Values.affinity }} 
       affinity:
-            {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- with .Values.tolerations }}
-      tolerations:
-            {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- toYaml . | nindent 8 }} 
+      {{- end }} 
+      {{- with .Values.tolerations }} 
+      tolerations: 
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
