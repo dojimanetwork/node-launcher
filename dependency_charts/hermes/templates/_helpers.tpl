@@ -1,22 +1,16 @@
-{{ /* vim: set filetype=mustache: */ }}
-{{
-/*
-    Expand the name of the chart
-*/
-}}
-
+{{/* vim: set filetype=mustache: */}}
+{{/*
+Expand the name of the chart.
+*/}}
 {{- define "hermesnode.name" -}}
 {{- default .Chart.Name "" | trunc 63 | trimSuffix "-" }}
 {{- end -}}
 
-{{
-    /*
-        Create a default fully qualified app name.
-        we truncate at 63 chars because some Kubernetes name fields are limited
-        to this ( by the DNS naming spec ). If release name contains chart name it will
-        be used as a full name.
-    */
-}}
+{{/*
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
 {{- define "hermesnode.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- "" | trunc 63 | trimSuffix "-" -}}
