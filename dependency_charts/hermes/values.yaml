@@ -34,7 +34,7 @@ debug: true
 chainID:
   testnet: hermes-testnet
 
-haltHeight:
+haltHeight: false
 
 replicaCount: 1
 
