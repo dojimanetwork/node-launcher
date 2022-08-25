@@ -45,8 +45,8 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: ['sh', '-c', '[ ! -e /root/.hermes/data/priv_validator_state.json ] || [ $(cat /root/.hermes/data/priv_validator_state.json | jq -r .height) -lt {{ .Values.haltHeight }} ] || sleep infinity']
         volumeMounts:
-          - name: data
-            mountPath: /root/
+        - name: data
+          mountPath: /root/
       {{- end }}
 
       {{- if default .Values.peer .Values.global.peer }}
