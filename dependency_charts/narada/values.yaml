@@ -42,42 +42,42 @@ binanceDaemon:
 #  mocknet: http://binance-daemon:26657
 
 bitcoinDaemon:
-#  enabled: true
+  enabled: true
 #  mainnet: bitcoin-daemon:8332
  testnet: bitcoin-daemon:18332
 #  mocknet: bitcoin-daemon:18443
 #  stagenet: bitcoin-daemon:8332
 
 litecoinDaemon:
-#  enabled: true
+  enabled: false
 #  mainnet: litecoin-daemon:9332
  testnet: litecoin-daemon:19332
 #  mocknet: litecoin-daemon:19443
 #  stagenet: litecoin-daemon:9332
 
 bitcoinCashDaemon:
-#  enabled: true
+  enabled: false
 #  mainnet: bitcoin-cash-daemon:8332
   testnet: bitcoin-cash-daemon:18332
 #  mocknet: bitcoin-cash-daemon:18443
 #  stagenet: bitcoin-cash-daemon:8332
 
 dogecoinDaemon:
-#  enabled: true
+  enabled: false
 #  mainnet: dogecoin-daemon:22555
   testnet: dogecoin-daemon:44555
 #  mocknet: dogecoin-daemon:18443
 #  stagenet: dogecoin-daemon:22555
 
 ethereumDaemon:
-#  enabled: true
+  enabled: true
 #  mainnet: http://ethereum-daemon:8545
   testnet: http://ethereum-daemon:8545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
 
 terraDaemon:
-#  enabled: false
+  enabled: false
 #  mainnet: http://terra-daemon:26657
 #  stagenet: http://terra-daemon:26657
 
@@ -94,7 +94,7 @@ gaiaDaemon:
   testnet: {}
 #
 avaxDaemon:
-#  enabled: false
+  enabled: false
 #  mainnet: http://avalanche-daemon:9650/ext/bc/C/rpc
 #  stagenet: http://avalanche-daemon:9650/ext/bc/C/rpc
 
