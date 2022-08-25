@@ -37,8 +37,8 @@ spec:
         command: ['/scripts/external-ip.sh', 'false', '{{ include "hermesnode.fullname" . }}', '{{ include "hermesnode.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
-        - name: scripts
-          mountPath: /scripts
+          - name: scripts
+            mountPath: /scripts
 
       {{- if .Values.haltHeight }}
       - name: halt-height
@@ -46,8 +46,8 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: ['sh', '-c', '[ ! -e /root/.hermes/data/priv_validator_state.json ] || [ $(cat /root/.hermes/data/priv_validator_state.json | jq -r .height) -lt {{ .Values.haltHeight }} ] || sleep infinity']
         volumeMounts:
-        - name: data
-          mountPath: /root/
+          - name: data
+            mountPath: /root/
       {{- end }}
 
       {{- if default .Values.peer .Values.global.peer }}
