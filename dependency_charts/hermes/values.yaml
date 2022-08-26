@@ -51,7 +51,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 service:
-  type: ClusterIp
+  type: "ClusterIP"
   port:
     api: 1317
     testnet:
