@@ -1,0 +1,16 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "hermesnode.fullname" . }}
+  labels:
+{{ include "hermesnode.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "hermesnode.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "hermesnode.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end -}}
