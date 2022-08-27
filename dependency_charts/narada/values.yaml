@@ -23,7 +23,7 @@ debug: true
 
 hermesApi: hermesnode:1317
 chainID:
-  testnet: hermes-testnet-v2
+  testnet: hermesnode-testnet
 #  mainnet: thorchain-mainnet-v1
 #  stagenet: thorchain-stagenet-v2
 #  mocknet: hermes_mocknet
@@ -103,10 +103,10 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository:
+  repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
   pullPolicy: IfNotPresent
-  tag: testnet
-  hash: "" # Not used for mocknet/testnet
+  tag: testnet-1.89.0
+  hash: "sha256:92d84bedcd92961c217f16c4f9a0137b4c114709d4de675f68b756469d1845ad" # Not used for mocknet/testnet
 
 imagePullSecrets: []
 nameOverride: ""

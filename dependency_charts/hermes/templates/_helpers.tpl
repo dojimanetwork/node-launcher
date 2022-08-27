@@ -111,7 +111,7 @@ P2P Port
 ETH Router contract
 */}}
 {{- define "hermesnode.ethRouterContract" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" }}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.ethRouterContract.testnet }}
 {{- end -}}
 {{- end -}}
@@ -120,7 +120,7 @@ ETH Router contract
 chain id
 */}}
 {{- define "hermesnode.chainID" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" }}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.chainID.testnet }}
 {{- end -}}
 {{- end -}}
