@@ -110,7 +110,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: "hermesnode-testnet"
+fullnameOverride: ""
 
 persistence:
   enabled: true

@@ -48,7 +48,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: "hermesnode-testnet"
+fullnameOverride: ""
 
 service:
   type: "ClusterIP"
