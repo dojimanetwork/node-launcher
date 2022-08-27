@@ -350,6 +350,8 @@ deploy_genesis() {
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
     --set hermesnode.type="genesis"
+  echo "args --- ${args}"
+  echo "extra args ${EXTRA_ARGS}"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   # shellcheck disable=SC2086
