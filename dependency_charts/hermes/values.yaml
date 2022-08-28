@@ -7,6 +7,10 @@ autoupdate:
   enable: false
   nodes:
 
+chain_home_folder: "~/.hermes"
+ar_key_path: "/Users/luffybhaagi/dojima/ar-contracts/wallet-1.json"
+ar_address: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
+
 signer:
   name: hermesnode
   password: password

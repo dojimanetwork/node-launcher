@@ -94,6 +94,10 @@ spec:
                value: "{{ .Values.statesync.snapshotInterval }}"
              - name: THOR_TENDERMINT_LOG_FORMAT
                value: "json"
+             - name: AR_KEY_PATH
+               value: ""
+             - name: AR_ADDRESS
+               value: ""
            ports: 
             - name: api 
               containerPort: {{ .Values.service.port.api }} 
