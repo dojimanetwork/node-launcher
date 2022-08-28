@@ -47,8 +47,8 @@ image:
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "hermesnode-hermes"
+fullnameOverride: "hermesnode-hermes"
 
 service:
   type: "ClusterIP"
@@ -88,13 +88,13 @@ affinity: {}
 
 global:
   tag:
-  net:
+  net: testnet
   peer:
   passwordSecret:
   mnemonicSecret:
   gateway:
     enabled: false
-    name: ""
+    name: "hermesnode-gateway"
   images:
     alpineK8s:
       tag: 1.18.2
