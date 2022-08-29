@@ -2,7 +2,7 @@ global:
   tag: testnet-1.89.0
   gateway:
     enabled: true
-    name: hermesnode-testnet-hermes-gateway
+    name: fhermesnode-gateway
   images:
     alpine:
       tag: latest
