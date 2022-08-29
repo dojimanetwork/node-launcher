@@ -50,11 +50,6 @@ spec:
            - name: scripts
              mountPath: /kube-scripts/
            env:
-             - name: EXTERNAL_IP
-               valueFrom:
-                 configMapKeyRef:
-                   name: "{{ include "hermesnode.fullname" . }}-external-ip"
-                   key: externalIP
              - name: VALIDATOR
                {{- if eq .Values.type "fullnode" }}
                value: "false"
