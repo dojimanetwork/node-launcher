@@ -35,7 +35,10 @@ spec:
         {{- end }}
         volumeMounts:
           - name: scripts
-            mountPath: /scripts           
+            mountPath: /scripts
+      - name: init-test
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: ["printenv"]
       containers:
          - name: {{ .Chart.Name }}
            securityContext:
