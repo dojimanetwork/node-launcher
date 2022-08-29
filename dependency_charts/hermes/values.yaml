@@ -97,7 +97,7 @@ global:
   passwordSecret:
   mnemonicSecret:
   gateway:
-    enabled: true
+    enabled: false
     name: "hermesnode-gateway"
   images:
     alpineK8s:
