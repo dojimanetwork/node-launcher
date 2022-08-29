@@ -135,15 +135,7 @@ spec:
             type: DirectoryOrCreate
           {{- else }} 
           emptyDir: { } 
-          {{- end }} 
-        - name: scripts 
-          configMap: 
-            name: "{{ include "hermesnode.fullname" . }}-scripts"
-            defaultMode: 0777
-        - name: configs 
-          configMap: 
-            name: "{{ include "hermesnode.fullname" . }}-configs"
-            defaultMode: 0666
+          {{- end }}
       {{- with .Values.nodeSelector }} 
       nodeSelector: 
         {{- toYaml . | nindent 8 }} 
