@@ -59,7 +59,9 @@ spec:
              - name: PEER
                value: {{ default .Values.peer .Values.global.peer }}
              - name: SEED
-               value: $(HOSTNAME)
+               valueFrom:
+                 fieldRef:
+                   fieldPath: spec.nodeName
              - name: SEEDS
                value: "{{ .Values.seeds }}"
              - name: PEER_API
