@@ -36,7 +36,7 @@ enableApi: true
 debug: true
 
 chainID:
-  testnet: hermes-testnet
+  testnet: "hermes-testnet"
 
 haltHeight: false
 
@@ -52,7 +52,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: "hermesnode-hermes"
-fullnameOverride: "hermesnode-hermes"
+fullnameOverride: "fhermesnode-hermes"
 
 service:
   type: "ClusterIP"
