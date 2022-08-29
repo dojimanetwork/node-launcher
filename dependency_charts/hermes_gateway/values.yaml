@@ -5,7 +5,7 @@
 net: testnet
 
 validator: true
-midgard: false
+midgard: true
 rpc:
   enabled: true
   limited: false
@@ -26,7 +26,7 @@ imagePullSecrets: []
 # used for gateway.name
 nameOverride: "hermesnode-gateway"
 # used for gateway.fullname
-fullnameOverride: "hermesnode-gateway"
+fullnameOverride: "fhermesnode-gateway"
 
 service:
   type: LoadBalancer
@@ -51,7 +51,7 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "hermes-serv-gateway"
+  name: "serv-node-gateway"
 
 ingress:
   enabled: false

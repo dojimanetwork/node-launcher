@@ -70,7 +70,7 @@ persistence:
 
 serviceAccount:
   create: true
-  name:
+  name: "serv-node-hermes"
 
 priorityClassName: ""
 
@@ -97,7 +97,7 @@ global:
   passwordSecret:
   mnemonicSecret:
   gateway:
-    enabled: false
+    enabled: true
     name: "hermesnode-gateway"
   images:
     alpineK8s:
