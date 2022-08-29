@@ -30,7 +30,7 @@ spec:
 
       initContainers:
       - name: init-external-ip
-        image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
         command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
         {{- else }}
@@ -40,7 +40,7 @@ spec:
         - name: scripts
           mountPath: /scripts
       - name: init-keepalive
-        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+        image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command:
         - /bin/sh
         - -c
@@ -51,7 +51,7 @@ spec:
         securityContext:
           privileged: true
       - name: init-hermeschain
-        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+        image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       containers:
         - name: {{ .Chart.Name }}

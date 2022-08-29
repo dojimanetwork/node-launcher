@@ -1,7 +1,7 @@
 global:
   tag: testnet-1.89.0
   gateway:
-    enabled: true
+    enabled: false
     name: fhermesnode-gateway
   images:
     alpine:

@@ -15,9 +15,9 @@ dependencies:
     repository: file://../dependency_charts/hermes
     version: 0.1.0
 
-#  - name: narada
-#    repository: file://../dependency_charts/narada
-#    version: 0.1.0
+  - name: narada
+    repository: file://../dependency_charts/narada
+    version: 0.1.0
 
 #  - name: midgard
 #    repository: file://../midgard

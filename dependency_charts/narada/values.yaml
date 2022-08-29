@@ -109,8 +109,8 @@ image:
   hash: "sha256:92d84bedcd92961c217f16c4f9a0137b4c114709d4de675f68b756469d1845ad" # Not used for mocknet/testnet
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "hermesnode-narada"
+fullnameOverride: "fhermesnode-narada"
 
 persistence:
   enabled: true
@@ -135,7 +135,7 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name:
+  name: "serv-node-narada"
 
 priorityClassName: ""
 
