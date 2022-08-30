@@ -84,7 +84,7 @@ spec:
              - name: SIGNER_SEED_PHRASE
                value: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
              - name: CHAIN_HOME_FOLDER
-               value: $(HOME)/.hermes
+               value: /root/.hermes
              - name: CHAIN_ID
                value: "{{ include "hermesnode.chainID" . }}"
              - name: THOR_AUTO_STATE_SYNC_ENABLED
