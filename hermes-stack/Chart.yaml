@@ -7,17 +7,17 @@ version: 0.1.0
 appVersion: 0.1.0
 
 dependencies:
-  - name: hermes-gateway
-    repository: file://../dependency_charts/hermes_gateway
-    version: 0.1.0
+#  - name: hermes-gateway
+#    repository: file://../dependency_charts/hermes_gateway
+#    version: 0.1.0
 
   - name: hermesnode
     repository: file://../dependency_charts/hermes
     version: 0.1.0
 
-  - name: narada
-    repository: file://../dependency_charts/narada
-    version: 0.1.0
+#  - name: narada
+#    repository: file://../dependency_charts/narada
+#    version: 0.1.0
 
 #  - name: midgard
 #    repository: file://../midgard

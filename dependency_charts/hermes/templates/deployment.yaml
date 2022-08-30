@@ -64,7 +64,7 @@ spec:
              - name: SEED
                valueFrom:
                  fieldRef:
-                   fieldPath: spec.nodeName
+                   fieldPath: metadata.name
              - name: SEEDS
                value: "{{ .Values.seeds }}"
              - name: PEER_API
