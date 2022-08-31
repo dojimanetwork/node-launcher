@@ -4,6 +4,7 @@ metadata:
   name: {{ include "hermesnode.fullname" . }}-scripts
 data:
   genesis.sh: |
+    #!/bin/sh
     echo "entered"
 
   retry.sh: |
