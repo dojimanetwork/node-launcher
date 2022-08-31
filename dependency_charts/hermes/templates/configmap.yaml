@@ -5,7 +5,8 @@ metadata:
 data:
   genesis.sh: |
     #!/bin/sh
-    echo "entered"
+
+    uname -m
 
   retry.sh: |
     #!/bin/sh
