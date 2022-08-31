@@ -46,8 +46,8 @@ strategyType: Recreate
 
 image:
   repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
-  tag: testnet-1.89.0_3
-  hash: sha256:865d2e42b648c075da4c0b1f57efca611b2f6bbbd990694c0073ffbb8a6b8b74
+  tag: testnet-1.89.0_4
+  hash: sha256:19357adb82b591210954b366967b9575e4d024916eb6bf686af44ddfa013175c
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
