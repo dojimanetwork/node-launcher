@@ -353,7 +353,7 @@ deploy_genesis() {
   echo "args --- ${args}"
   echo "extra args ${EXTRA_ARGS}"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
@@ -362,8 +362,8 @@ deploy_genesis() {
     --set hermesnode.type="genesis"
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
-  kubectl -n "$NAME" rollout restart fhermesnode-gateway
+#  confirm
+#  kubectl -n "$NAME" rollout restart fhermesnode-gateway
 }
 
 deploy_validator() {
