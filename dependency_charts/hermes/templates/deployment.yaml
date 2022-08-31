@@ -45,8 +45,6 @@ spec:
              {{- toYaml .Values.securityContext | nindent 12 }}
            image: "{{ include "hermesnode.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
-           command:
-             - /scripts/genesis.sh
            volumeMounts:
            - name: data
              mountPath: /root/
