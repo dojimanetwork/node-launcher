@@ -283,6 +283,6 @@ data:
 
       server {
         listen {{ include "gateway.p2p" . }};
-        proxy_pass hermesnode:{{ include "gateway.p2p" . }};
+        proxy_pass fhermesnode-hermes:{{ include "gateway.p2p" . }};
       }
     }
