@@ -363,7 +363,7 @@ deploy_genesis() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 #  confirm
-#  kubectl -n "$NAME" rollout restart fhermesnode-gateway
+  kubectl -n "$NAME" rollout restart fhermesnode-gateway
 }
 
 deploy_validator() {
