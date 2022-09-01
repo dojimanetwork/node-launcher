@@ -23,7 +23,7 @@ debug: true
 
 hermesApi: hermesnode:1317
 chainID:
-  testnet: hermes-testnet-v2
+  testnet: hermesnode-testnet
 #  mainnet: thorchain-mainnet-v1
 #  stagenet: thorchain-stagenet-v2
 #  mocknet: hermes_mocknet
@@ -42,42 +42,42 @@ binanceDaemon:
 #  mocknet: http://binance-daemon:26657
 
 bitcoinDaemon:
-#  enabled: true
+  enabled: true
 #  mainnet: bitcoin-daemon:8332
-#  testnet: bitcoin-daemon:18332
+  testnet: bitcoin-daemon:18332
 #  mocknet: bitcoin-daemon:18443
 #  stagenet: bitcoin-daemon:8332
 
 litecoinDaemon:
-#  enabled: true
+  enabled: false
 #  mainnet: litecoin-daemon:9332
-#  testnet: litecoin-daemon:19332
+  testnet: litecoin-daemon:19332
 #  mocknet: litecoin-daemon:19443
 #  stagenet: litecoin-daemon:9332
 
 bitcoinCashDaemon:
-#  enabled: true
+  enabled: false
 #  mainnet: bitcoin-cash-daemon:8332
-#  testnet: bitcoin-cash-daemon:18332
+  testnet: bitcoin-cash-daemon:18332
 #  mocknet: bitcoin-cash-daemon:18443
 #  stagenet: bitcoin-cash-daemon:8332
 
 dogecoinDaemon:
-#  enabled: true
+  enabled: false
 #  mainnet: dogecoin-daemon:22555
-#  testnet: dogecoin-daemon:44555
+  testnet: dogecoin-daemon:44555
 #  mocknet: dogecoin-daemon:18443
 #  stagenet: dogecoin-daemon:22555
 
 ethereumDaemon:
-#  enabled: true
+  enabled: true
 #  mainnet: http://ethereum-daemon:8545
-#  testnet: http://ethereum-daemon:8545
+  testnet: http://ethereum-daemon:8545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
 
 terraDaemon:
-#  enabled: false
+  enabled: false
 #  mainnet: http://terra-daemon:26657
 #  stagenet: http://terra-daemon:26657
 
@@ -91,10 +91,10 @@ gaiaDaemon:
 #    rpc: http://gaia-daemon:26657
 #    grpc: gaia-daemon:9090
 #    grpcTLS: false
-#  testnet: {}
+  testnet: {}
 #
 avaxDaemon:
-#  enabled: false
+  enabled: false
 #  mainnet: http://avalanche-daemon:9650/ext/bc/C/rpc
 #  stagenet: http://avalanche-daemon:9650/ext/bc/C/rpc
 
@@ -103,14 +103,14 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository:
+  repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
   pullPolicy: IfNotPresent
-  tag: testnet
-  hash: "" # Not used for mocknet/testnet
+  tag: testnet-1.89.0
+  hash: "sha256:92d84bedcd92961c217f16c4f9a0137b4c114709d4de675f68b756469d1845ad" # Not used for mocknet/testnet
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "hermesnode-narada"
+fullnameOverride: "fhermesnode-narada"
 
 persistence:
   enabled: true
@@ -135,7 +135,7 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name:
+  name: "serv-node-narada"
 
 priorityClassName: ""
 

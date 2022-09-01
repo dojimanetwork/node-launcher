@@ -4,12 +4,12 @@ metadata:
   name: {{ .Release.Name }}-{{ include "hermesnode.name" . }}
   namespace: prometheus-system
   labels:
-    {{- include "hermesnode.labels" . | nindent 4 }}
+{{- include "hermesnode.labels" . | nindent 4 }}
     release: prometheus
 spec:
   selector:
     matchLabels:
-      {{- include "hermesnode.selectorLabels" . | nindent 6 }}
+{{- include "hermesnode.selectorLabels" . | nindent 6 }}
   namespaceSelector:
     matchNames:
     - {{ .Release.Namespace }}

@@ -7,6 +7,10 @@ autoupdate:
   enable: false
   nodes:
 
+chain_home_folder: "~/.hermes"
+ar_key_path: "/Users/luffybhaagi/dojima/ar-contracts/wallet-1.json"
+ar_address: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
+
 signer:
   name: hermesnode
   password: password
@@ -32,26 +36,26 @@ enableApi: true
 debug: true
 
 chainID:
-  testnet: hermes-testnet
+  testnet: "hermes-testnet"
 
-haltHeight:
+haltHeight: false
 
 replicaCount: 1
 
 strategyType: Recreate
 
 image:
-  repository:
-  tag: testnet
-  hash:
+  repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
+  tag: testnet-1.89.0_7
+  hash: ha256:d6dd8ecdc93315b202ce927454b267bcd9b30c22f163390d3d52c33ef36d4c87
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "hermesnode-hermes"
+fullnameOverride: "fhermesnode-hermes"
 
 service:
-  type: ClusterIp
+  type: "ClusterIP"
   port:
     api: 1317
     testnet:
@@ -66,7 +70,7 @@ persistence:
 
 serviceAccount:
   create: true
-  name:
+  name: "serv-node-hermes"
 
 priorityClassName: ""
 
@@ -88,13 +92,13 @@ affinity: {}
 
 global:
   tag:
-  net:
+  net: testnet
   peer:
   passwordSecret:
   mnemonicSecret:
   gateway:
     enabled: false
-    name: ""
+    name: "hermesnode-gateway"
   images:
     alpineK8s:
       tag: 1.18.2

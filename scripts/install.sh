@@ -16,7 +16,7 @@ if node_exists; then
 fi
 
 echo -e "=> Deploying a $boldgreen$TYPE$reset HermesNode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-confirm
+#confirm
 
 if [ "$0" == "./scripts/update.sh" ] && snapshot_available; then
   make_snapshot "hermesnode"

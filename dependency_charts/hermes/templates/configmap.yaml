@@ -3,6 +3,11 @@ kind: ConfigMap
 metadata:
   name: {{ include "hermesnode.fullname" . }}-scripts
 data:
+  genesis.sh: |
+    #!/bin/sh
+
+    uname -m
+
   retry.sh: |
     #!/bin/sh
 
@@ -273,7 +278,7 @@ data:
     [statesync]
     {{- if .Values.statesync.enabled }}
     enable = true
-    trust_height = {{ .Values.statesync.trustHeight }}
+{{/*    trust_height = {{ .Values.statesync.trustHeight }}*/}}
     trust_hash = "{{ .Values.statesync.trustHash }}"
     rpc_servers = "{{ .Values.statesync.rpcServers }}"
     {{- else }}

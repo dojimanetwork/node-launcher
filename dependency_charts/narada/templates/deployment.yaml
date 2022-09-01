@@ -30,7 +30,7 @@ spec:
 
       initContainers:
       - name: init-external-ip
-        image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
         command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
         {{- else }}
@@ -40,7 +40,7 @@ spec:
         - name: scripts
           mountPath: /scripts
       - name: init-keepalive
-        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+        image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command:
         - /bin/sh
         - -c
@@ -51,7 +51,7 @@ spec:
         securityContext:
           privileged: true
       - name: init-hermeschain
-        image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+        image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       containers:
         - name: {{ .Chart.Name }}
@@ -95,34 +95,6 @@ spec:
               value: {{ include "narada.bitcoinDaemon" . }}
             - name: BTC_START_BLOCK_HEIGHT
               value: "{{ .Values.bitcoinStartBlockHeight }}"
-            - name: LTC_HOST
-              value: {{ include "narada.litecoinDaemon" . }}
-            - name: LTC_START_BLOCK_HEIGHT
-              value: "{{ .Values.litecoinStartBlockHeight }}"
-            - name: BCH_HOST
-              value: {{ include "narada.bitcoinCashDaemon" . }}
-            - name: BCH_START_BLOCK_HEIGHT
-              value: "{{ .Values.bitcoinCashStartBlockHeight }}"
-            - name: DOGE_HOST
-              value: {{ include "narada.dogecoinDaemon" . }}
-            - name: DOGE_START_BLOCK_HEIGHT
-              value: "{{ .Values.dogecoinStartBlockHeight }}"
-            - name: TERRA_HOST
-              value: {{ include "narada.terraDaemon" . }}
-            - name: TERRA_START_BLOCK_HEIGHT
-              value: "{{ .Values.terraStartBlockHeight }}"
-            - name: GAIA_HOST
-              value: {{ include "narada.gaiaDaemon" . }}
-            - name: GAIA_GRPC_HOST
-              value: {{ include "narada.gaiaDaemonGRPC" . }}
-            - name: GAIA_GRPC_TLS
-              value: "{{ include "narada.gaiaDaemonGRPCTLS" . }}"
-            - name: GAIA_START_BLOCK_HEIGHT
-              value: "{{ .Values.gaiaStartBlockHeight }}"
-            - name: AVAX_HOST
-              value: {{ include "narada.avaxDaemon" . }}
-            - name: AVAX_START_BLOCK_HEIGHT
-              value: "{{ .Values.avaxStartBlockHeight }}"
             {{- if not .Values.litecoinDaemon.enabled }}
             - name: LTC_DISABLED
               value: "true"
