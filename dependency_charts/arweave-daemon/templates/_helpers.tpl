@@ -121,6 +121,6 @@ P2P Port
 
 {{- define "arweave-daemon.api" -}}
 {{- if eq (include "arweave-daemon.net" .) "testnet" -}}
-    {{ .Values.service.port.testnet }}
+    {{ .Values.service.port.testnet.api }}
 {{- end -}}
 {{- end -}}
