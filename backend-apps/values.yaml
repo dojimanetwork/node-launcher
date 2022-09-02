@@ -14,6 +14,6 @@ gateway:
 dojima-faas:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-faas
-    tag: 2022-09-02_v0.0.7
+    tag: 2022-09-02_v0.0.8
   env:
     ENV: dev
