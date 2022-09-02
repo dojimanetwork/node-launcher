@@ -45,6 +45,6 @@ dependencies:
 
   - name: developer-docs
     repository: "file://../dependency_charts/developer-docs"
-    version: 0.0.6
+    version: 0.0.7
   
   
