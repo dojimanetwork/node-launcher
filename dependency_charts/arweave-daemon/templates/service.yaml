@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "arweave-daemon.fullname" . }}
+  labels:
+    {{- include "arweave-daemon.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: rpc
+      port: {{ include "arweave-daemon.rpc" . }}
+      targetPort: rpc
+      protocol: TCP
+    - name: p2p
+      port: {{ include "arweave-daemon.p2p" . }}
+      targetPort: p2p
+      protocol: TCP
+    - name: prometheus
+      port: 28660
+      targetPort: prometheus
+      protocol: TCP
+  selector:
+    {{- include "arweave-daemon.selectorLabels" . | nindent 4 }}

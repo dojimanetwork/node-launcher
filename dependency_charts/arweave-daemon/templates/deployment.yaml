@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "arweave-daemon.fullname" . }}
+  labels:
+    {{- include "arweave-daemon.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "arweave-daemon.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "arweave-daemon.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "arweave-daemon.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      initContainers:
+      - name: recover
+        image: {{ include "arweave-daemon.image" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "arweave-daemon.image" . }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: api
+              containerPort: {{ include "arweave-daemon.api" . }}
+              protocol: TCP
+          readinessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /
+              port: api
+          resources:
+          {{- if not (eq (include "arweave-daemon.net" . ) "mocknet") }}
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+      volumes:
+      - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "arweave-daemon.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        hostPath:
+          path: {{ .Values.persistence.hostPath }}
+          type: DirectoryOrCreate
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: scripts
+        configMap:
+          name: {{ include "arweave-daemon.fullname" . }}-scripts
+          defaultMode: 0777
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
