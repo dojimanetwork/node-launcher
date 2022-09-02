@@ -17,6 +17,6 @@ landing-page:
 developer-docs:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
-    tag: 2022-08-02_0.1.0
+    tag: 2022-08-02_0.1.1
   env:
     ENV: prod        
