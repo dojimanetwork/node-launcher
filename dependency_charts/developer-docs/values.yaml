@@ -4,7 +4,7 @@ replicaCount: 1
 serverPort: 80
 prometheusPort: 7071
 uriPrefix: /developer-docs
-servicePortName: carbon-fe-port
+servicePortName: developer-docs-fe-port
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
