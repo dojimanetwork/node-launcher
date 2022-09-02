@@ -25,7 +25,7 @@ dependencies:
 #    condition: midgard.enabled
 #
   - name: binance-daemon
-    repository: file://../binance-daemon
+    repository: file://../dependency_charts/binance-daemon
     version: 0.1.0
 #    condition: binance-daemon.enabled
 #
