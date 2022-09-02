@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-REGISTRY="ghcr.io/dojimanetwork/helm_charts"
+REGISTRY="576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci"
 
 docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
 
