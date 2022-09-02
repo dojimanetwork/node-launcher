@@ -4,7 +4,7 @@ set -euo pipefail
 
 REGISTRY="576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci"
 
-docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+#docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
 
 find narada-ci/images/ -name version -printf '%h\n' | xargs basename -a | while read -r image; do
   version=$(cat "narada-ci/images/$image/version")
