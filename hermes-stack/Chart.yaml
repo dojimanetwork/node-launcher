@@ -30,7 +30,7 @@ dependencies:
 #    condition: binance-daemon.enabled
 
   - name: arweave-daemon
-    repository: file://..dependency_charts/arweave-daemon
+    repository: file://../dependency_charts/arweave-daemon
     version: 0.1.0
 
 #
