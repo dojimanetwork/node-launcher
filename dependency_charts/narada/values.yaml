@@ -37,12 +37,12 @@ hermesDaemon:
 binanceDaemon:
   enabled: true
 #  mainnet: http://binance-daemon:27147
-  testnet: http://binance-daemon:26657
+  testnet: http://fnarada-binanced:26657
 #  stagenet: http://binance-daemon:27147
 #  mocknet: http://binance-daemon:26657
 
 bitcoinDaemon:
-  enabled: true
+  enabled: false
 #  mainnet: bitcoin-daemon:8332
   testnet: bitcoin-daemon:18332
 #  mocknet: bitcoin-daemon:18443
@@ -70,7 +70,7 @@ dogecoinDaemon:
 #  stagenet: dogecoin-daemon:22555
 
 ethereumDaemon:
-  enabled: true
+  enabled: false
 #  mainnet: http://ethereum-daemon:8545
   testnet: http://ethereum-daemon:8545
 #  mocknet: http://ethereum-daemon:8545

@@ -2,19 +2,19 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: mainnet
+net: testnet
 
 replicaCount: 1
 
 image:
-  name: registry.gitlab.com/thorchain/devops/node-launcher
-  tag: "binance-daemon-0.9.0-1"
-  hash: "a048a93519981611939c097d27dac61f2b2969df165db491971efc356822cc4f"
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci
+  tag: "binance-daemon-0.10.1"
+  hash: "c3902fc7008ec884c396404919838840a3e4b24b81ece5f0524450ebf0f6c2dd"
   mocknet: registry.gitlab.com/thorchain/bepswap/mock-binance # TODO: is this still used?
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "narada-binanced"
+fullnameOverride: "fnarada-binanced"
 
 recoverNineRealmsSnapshot: false
 
@@ -62,7 +62,7 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name:
+  name: "serv-narada-binance"
 
 podSecurityContext:
   fsGroup: 1000
