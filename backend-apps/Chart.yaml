@@ -33,5 +33,5 @@ dependencies:
 
   - name: dojima-faas
     repository: "file://../dependency_charts/dojima-faas"
-    version: 0.0.4
+    version: 0.0.7
   
