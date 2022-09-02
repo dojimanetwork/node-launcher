@@ -25,6 +25,6 @@ internal-docs:
 developer-docs:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
-    tag: 2022-09-01_v0.0.1
+    tag: 2022-09-02_v0.0.5
   env:
     ENV: stage    
