@@ -37,7 +37,7 @@ hermesDaemon:
 binanceDaemon:
   enabled: true
 #  mainnet: http://binance-daemon:27147
-  testnet: http://fnarada-binanced:26657
+  testnet: http://binance-daemon:26657
 #  stagenet: http://binance-daemon:27147
 #  mocknet: http://binance-daemon:26657
 
