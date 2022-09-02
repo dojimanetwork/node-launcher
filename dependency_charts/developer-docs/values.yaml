@@ -3,12 +3,12 @@ name: developer-docs
 replicaCount: 1
 serverPort: 80
 prometheusPort: 7071
-uriPrefix: /developer-docs
+uriPrefix: /developer
 servicePortName: developer-docs-fe-port
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
-  tag: 2022-09-02_v0.0.5
+  tag: 2022-08-02_0.1.0
 
 strategy:
   enable: false
