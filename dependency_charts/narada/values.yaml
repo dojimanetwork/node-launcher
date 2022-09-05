@@ -34,6 +34,10 @@ hermesDaemon:
 #  stagenet: hermesnode:27147
 #  mocknet: hermesnode:26657
 
+arweaveDaemon:
+  testnet: http://arweave-daemon:1984
+
+arweaveStartBlockHeight: 1
 binanceDaemon:
   enabled: true
 #  mainnet: http://binance-daemon:27147

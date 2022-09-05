@@ -95,6 +95,12 @@ spec:
               value: {{ include "narada.bitcoinDaemon" . }}
             - name: BTC_START_BLOCK_HEIGHT
               value: "{{ .Values.bitcoinStartBlockHeight }}"
+            - name: AR_HOST
+              value: {{ include "narada.arweaveDaemon" . }}
+            - name: AR_START_BLOCK_HEIGHT
+              value: "{{ .Values.arweaveStartBlockHeight }}"
+            - name: CHAIN_HOME_FOLDER
+              value: /root/.hermes
             {{- if not .Values.litecoinDaemon.enabled }}
             - name: LTC_DISABLED
               value: "true"
@@ -135,6 +141,8 @@ spec:
               value: "/scripts/testnet/arweave-testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
             - name: AR_ADDRESS
               value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
+            - name: DB_PATH
+              value: /var/data
           ports:
             - name: p2p
               containerPort: {{ .Values.service.port.p2p }}
