@@ -101,7 +101,7 @@ spec:
              - name: THOR_TENDERMINT_LOG_FORMAT
                value: "json"
              - name: AR_KEY_PATH
-               value: ""
+               value: "/scripts/testnet/arweave-testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
              - name: AR_ADDRESS
                value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
            ports: 

@@ -143,6 +143,10 @@ spec:
             {{- end }}
             - name: CHAIN_ID
               value: {{ include "narada.chainID" . }}
+            - name: AR_KEY_PATH
+              value: "/scripts/testnet/arweave-testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
+            - name: AR_ADDRESS
+              value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
           ports:
             - name: p2p
               containerPort: {{ .Values.service.port.p2p }}
