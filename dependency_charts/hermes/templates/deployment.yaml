@@ -67,7 +67,9 @@ spec:
                value: "true"
                {{- end }}
              - name: PEER
-               value: {{ default .Values.peer .Values.global.peer }}
+               valueFrom:
+                 fieldRef:
+                   fieldPath: metadata.name
              - name: SEED
                valueFrom:
                  fieldRef:

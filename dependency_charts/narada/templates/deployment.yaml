@@ -128,7 +128,13 @@ spec:
             - name: ETH_SUGGESTED_FEE_VERSION
               value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
             - name: PEER
-              value: {{ default .Values.peer .Values.global.peer }}
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SEED
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: SIGNER_NAME
               value: {{ .Values.signer.name }}
             - name: SIGNER_PASSWD
