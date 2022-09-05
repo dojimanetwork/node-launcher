@@ -126,21 +126,9 @@ spec:
             - name: SIGNER_NAME
               value: {{ .Values.signer.name }}
             - name: SIGNER_PASSWD
-              {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-                  key: password
-              {{- else}}
               value: {{ .Values.signer.password }}
-              {{- end }}
-            {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
             - name: SIGNER_SEED_PHRASE
-              valueFrom:
-                secretKeyRef:
-                  name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
-                  key: mnemonic
-            {{- end }}
+              value: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
             - name: CHAIN_ID
               value: {{ include "narada.chainID" . }}
             - name: AR_KEY_PATH
