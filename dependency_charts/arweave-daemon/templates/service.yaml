@@ -7,17 +7,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: rpc
-      port: {{ include "arweave-daemon.rpc" . }}
-      targetPort: rpc
-      protocol: TCP
-    - name: p2p
-      port: {{ include "arweave-daemon.p2p" . }}
-      targetPort: p2p
-      protocol: TCP
-    - name: prometheus
-      port: 28660
-      targetPort: prometheus
+    - name: api
+      port: {{ include "arweave-daemon.api" . }}
+      targetPort: api
       protocol: TCP
   selector:
     {{- include "arweave-daemon.selectorLabels" . | nindent 4 }}

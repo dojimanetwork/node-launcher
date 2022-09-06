@@ -55,5 +55,9 @@ spec:
       targetPort: p2p
       protocol: TCP
       name: p2p
+    - port: {{ include "gateway-arweave-daemon.api" .}}
+      targetPort: arweave-api
+      protocol: TCP
+      name: arweave-api
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

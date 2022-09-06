@@ -36,12 +36,6 @@ spec:
         volumeMounts:
           - name: scripts
             mountPath: /scripts
-      - name: init-test
-        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-        command: ["/scripts/genesis.sh"]
-        volumeMounts:
-          - name: scripts
-            mountPath: /scripts
       containers:
          - name: {{ .Chart.Name }}
            securityContext:

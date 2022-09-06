@@ -45,6 +45,9 @@ service:
     testnet:
       p2p: 26656
       rpc: 26657
+    arweave:
+      testnet:
+        api: 1984
 
 serviceAccount:
   # Specifies whether a service account should be created

@@ -48,7 +48,7 @@ data:
 
     kubectl create configmap "$CONFIGMAP" --from-literal=externalIP="$external_ip" --dry-run=client -o yaml | kubectl apply -f -
 
-  recover.sh: |
+  restart.sh: |
     #!/bin/bash
 
     FILE=/opt/bnbchaind/.probe_last_height

@@ -94,3 +94,10 @@ P2P Port
     {{ .Values.service.port.testnet.p2p }}
 {{- end -}}
 {{- end -}}
+
+
+{{- define "gateway-arweave-daemon.api" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.arweave.testnet.api }}
+{{- end -}}
+{{- end -}}
