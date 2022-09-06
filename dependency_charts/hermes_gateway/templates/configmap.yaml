@@ -274,7 +274,7 @@ data:
       server {
         listen {{ include "gateway-arweave-daemon.api" . }};
 
-        location ~* ^/(info|tx|price|wallet|block|peers|chunk) {
+        location ~* ^/(info|tx|price|wallet|block|peers|chunk|mint) {
           proxy_hide_header Access-Control-Allow-Origin;
           proxy_hide_header Access-Control-Allow-Methods;
           proxy_hide_header Access-Control-Allow-Headers;
