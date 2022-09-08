@@ -2,14 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: mocknet
+net: testnet
 
 replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci
   tag: "binance-daemon-0.10.1"
-  hash: "54f9782959762e15ca238d1618c5b0f8337bdddd3715c200dee546b13b0bfcc8"
+  hash: "596ebf8ba64108446476e1eace1db4b99114adb51c75f41fdad2b54597429599"
   mocknet: registry.gitlab.com/thorchain/bepswap/mock-binance # TODO: is this still used?
 
 imagePullSecrets: []
