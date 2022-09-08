@@ -43,7 +43,7 @@ spec:
            image: "{{ include "hermesnode.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if eq .Values.type "genesis" }}
-           command: ['/scripts/genesis.sh', "echo 'password'", "|" ,"hermes", "start", "--rpc.laddr", "tcp://0.0.0.0:26657"]
+           command: ['/scripts/genesis.sh' ,"hermes", "start", "--rpc.laddr", "tcp://0.0.0.0:26657"]
           {{- else }}
            command:
              - /scripts/{{ .Values.type }}.sh
