@@ -36,12 +36,6 @@ spec:
         volumeMounts:
           - name: scripts
             mountPath: /scripts
-      - name: init-test
-        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-        command: ["/scripts/genesis.sh"]
-        volumeMounts:
-          - name: scripts
-            mountPath: /scripts
       containers:
          - name: {{ .Chart.Name }}
            securityContext:
@@ -67,7 +61,9 @@ spec:
                value: "true"
                {{- end }}
              - name: PEER
-               value: {{ default .Values.peer .Values.global.peer }}
+               valueFrom:
+                 fieldRef:
+                   fieldPath: metadata.name
              - name: SEED
                valueFrom:
                  fieldRef:
@@ -101,7 +97,7 @@ spec:
              - name: THOR_TENDERMINT_LOG_FORMAT
                value: "json"
              - name: AR_KEY_PATH
-               value: ""
+               value: "/scripts/testnet/arweave-testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
              - name: AR_ADDRESS
                value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
            ports: 

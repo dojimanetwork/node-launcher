@@ -54,3 +54,6 @@ gaia-daemon:
 
 avalanche-daemon:
   fullnameOverride: avalanche-daemon
+
+arweave-daemon:
+  fullnameOverride: arweave-daemon

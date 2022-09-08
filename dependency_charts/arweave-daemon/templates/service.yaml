@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "arweave-daemon.fullname" . }}
+  labels:
+    {{- include "arweave-daemon.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: api
+      port: {{ include "arweave-daemon.api" . }}
+      targetPort: api
+      protocol: TCP
+  selector:
+    {{- include "arweave-daemon.selectorLabels" . | nindent 4 }}

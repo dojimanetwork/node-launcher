@@ -28,6 +28,11 @@ dependencies:
     repository: file://../dependency_charts/binance-daemon
     version: 0.1.0
 #    condition: binance-daemon.enabled
+
+  - name: arweave-daemon
+    repository: file://../dependency_charts/arweave-daemon
+    version: 0.1.0
+
 #
 #  - name: bitcoin-daemon
 #    repository: file://../bitcoin-daemon

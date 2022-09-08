@@ -112,6 +112,19 @@ Binance daemon
 {{- end -}}
 
 {{/*
+Arweave daemon
+*/}}
+{{- define "narada.arweaveDaemon" -}}
+{{- if eq (include "narada.net" .) "mainnet" -}}
+    {{ .Values.arweaveDaemon.mainnet }}
+{{- else if eq (include "narada.net" .) "stagenet" -}}
+    {{ .Values.arweaveDaemon.stagenet }}
+{{- else -}}
+    {{ default .Values.arweaveDaemon.testnet .Values.global.arweaveDaemon }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Bitcoin
 */}}
 {{- define "narada.bitcoinDaemon" -}}

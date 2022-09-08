@@ -60,6 +60,9 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+            - name: arweave-api
+              containerPort: {{ include "gateway-arweave-daemon.api" .}}
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /healthz

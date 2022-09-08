@@ -95,6 +95,12 @@ spec:
               value: {{ include "narada.bitcoinDaemon" . }}
             - name: BTC_START_BLOCK_HEIGHT
               value: "{{ .Values.bitcoinStartBlockHeight }}"
+            - name: AR_HOST
+              value: {{ include "narada.arweaveDaemon" . }}
+            - name: AR_START_BLOCK_HEIGHT
+              value: "{{ .Values.arweaveStartBlockHeight }}"
+            - name: CHAIN_HOME_FOLDER
+              value: /root/.hermes
             {{- if not .Values.litecoinDaemon.enabled }}
             - name: LTC_DISABLED
               value: "true"
@@ -122,27 +128,27 @@ spec:
             - name: ETH_SUGGESTED_FEE_VERSION
               value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
             - name: PEER
-              value: {{ default .Values.peer .Values.global.peer }}
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SEED
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: SIGNER_NAME
               value: {{ .Values.signer.name }}
             - name: SIGNER_PASSWD
-              {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-                  key: password
-              {{- else}}
               value: {{ .Values.signer.password }}
-              {{- end }}
-            {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
             - name: SIGNER_SEED_PHRASE
-              valueFrom:
-                secretKeyRef:
-                  name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
-                  key: mnemonic
-            {{- end }}
+              value: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
             - name: CHAIN_ID
               value: {{ include "narada.chainID" . }}
+            - name: AR_KEY_PATH
+              value: "/scripts/testnet/arweave-testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
+            - name: AR_ADDRESS
+              value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
+            - name: DB_PATH
+              value: /var/data
           ports:
             - name: p2p
               containerPort: {{ .Values.service.port.p2p }}

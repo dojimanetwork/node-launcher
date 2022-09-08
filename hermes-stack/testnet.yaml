@@ -1,5 +1,5 @@
 global:
-  tag: testnet-1.89.0_10
+  tag: testnet-1.89.0_12
   gateway:
     enabled: false
     name: fhermesnode-gateway
@@ -39,7 +39,7 @@ binance-daemon:
   enabled: true
 
 bitcoin-daemon:
-  enabled: true
+  enabled: false
 
 litecoin-daemon:
   enabled: false
@@ -48,7 +48,7 @@ bitcoin-cash-daemon:
   enabled: false
 
 ethereum-daemon:
-  enabled: true
+  enabled: false
 
 dogecoin-daemon:
   enabled: false
