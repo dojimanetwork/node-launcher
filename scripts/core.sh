@@ -326,9 +326,9 @@ display_password() {
 
 display_status() {
   local ready
-  ready=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=fhermesnode-hermes -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}')
+  ready=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=hermesnode -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}')
   if [ "$ready" = "True" ]; then
-    if kubectl exec -it -n "$NAME" deploy/hermesnode -c fhermesnode-hermes -- /scripts/node-status.sh | tee /dev/tty | grep -E "^STATUS\s+Active" >/dev/null; then
+    if kubectl exec -it -n "$NAME" deploy/fhermesnode-hermes -c hermesnode -- /scripts/node-status.sh | tee /dev/tty | grep -E "^STATUS\s+Active" >/dev/null; then
       if [ -z "$TC_NO_BACKUP" ]; then
         echo -e "\n=> Detected ${red}active$reset validator hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
         make_backup narada
