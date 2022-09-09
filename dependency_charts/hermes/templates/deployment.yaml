@@ -43,15 +43,7 @@ spec:
            image: "{{ include "hermesnode.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if eq .Values.type "genesis" }}
-           command:
-             - /scripts/genesis.sh
-             - '\&&\'
-             - 'echo'
-             - '{{ .Values.signer.password }}'
-             - '|'
-             - 'hermes'
-             - 'start'
-             - '--rpc.laddr tcp://0.0.0.0:26657'
+           command: ["/scripts/genesis.sh", "hermes", "start", "--rpc.laddr","tcp://0.0.0.0:26657"]
           {{- else }}
            command:
              - /scripts/{{ .Values.type }}.sh
@@ -108,6 +100,8 @@ spec:
                value: "/scripts/testnet/arweave-testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
              - name: AR_ADDRESS
                value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
+             - name: KEY_PASSPHRASE
+               value: {{ .Values.signer.password }}
            ports: 
             - name: api 
               containerPort: {{ .Values.service.port.api }} 
