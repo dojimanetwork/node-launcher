@@ -82,7 +82,7 @@ spec:
                value: {{ include "hermesnode.net" . }}
              - name: SIGNER_NAME
                value: {{ .Values.signer.name }}
-             - name: SIGNER_PASSWORD
+             - name: SIGNER_PASSWD
                value: password
              - name: SIGNER_SEED_PHRASE
                value: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
