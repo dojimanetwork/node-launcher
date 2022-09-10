@@ -23,7 +23,7 @@ signer:
 
 
 peer: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
-seeds: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
+seeds: "a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com"
 peerApi: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
 ethRouterContract:
   testnet: "0xefA28233838f46a80AaaC8c309077a9ba70D123A"
