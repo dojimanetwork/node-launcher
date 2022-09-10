@@ -42,12 +42,7 @@ spec:
              {{- toYaml .Values.securityContext | nindent 12 }}
            image: "{{ include "hermesnode.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if eq .Values.type "genesis" }}
-           command: ["/scripts/genesis.sh", "hermes", "start", "--rpc.laddr","tcp://0.0.0.0:26657"]
-          {{- else }}
-           command:
-             - /scripts/{{ .Values.type }}.sh
-          {{- end }}
+           command: ["/scripts/{{ .Values.type }}.sh", "hermes", "start", "--rpc.laddr", "tcp://0.0.0.0:26657"]
            volumeMounts:
            - name: data
              mountPath: /root/
@@ -61,13 +56,21 @@ spec:
                value: "true"
                {{- end }}
              - name: PEER
+               {{- if eq .Values.type "genesis" }}
                valueFrom:
                  fieldRef:
                    fieldPath: metadata.name
+               {{- else }}
+               value: {{ .Values.peer }}
+               {{- end }}
              - name: SEED
+               {{- if eq .Values.type "genesis" }}
                valueFrom:
                  fieldRef:
                    fieldPath: metadata.name
+               {{- else }}
+               value: {{ .Values.peer }}
+               {{- end }}
              - name: SEEDS
                value: "{{ .Values.seeds }}"
              - name: PEER_API
@@ -83,9 +86,9 @@ spec:
              - name: SIGNER_NAME
                value: {{ .Values.signer.name }}
              - name: SIGNER_PASSWD
-               value: password
+               value: {{ .Values.signer.password }}
              - name: SIGNER_SEED_PHRASE
-               value: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
+               value: {{ .Values.signer.signer_seed_phrase }}
              - name: CHAIN_HOME_FOLDER
                value: /root/.hermes
              - name: CHAIN_ID
