@@ -15,6 +15,11 @@ signer:
   password: password
   mnemonicSecret: ""
   passwordSecret: ""
+  #genesis phrase
+  signer_seed_phrase: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
+  # validator 1 phrase
+  # signer_seed_phrase: "pipe expire lecture state pilot latin stamp senior market much dilemma tooth airport oblige flower caught risk canoe radar gadget tag narrow inch trust"
+
 
 # use in multi nodes envs
 peer: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
@@ -23,7 +28,7 @@ debug: true
 
 hermesApi: fhermesnode-hermes:1317
 chainID:
-  testnet: hermesnode-testnet
+  testnet: hermes-testnet
 #  mainnet: thorchain-mainnet-v1
 #  stagenet: thorchain-stagenet-v2
 #  mocknet: hermes_mocknet
