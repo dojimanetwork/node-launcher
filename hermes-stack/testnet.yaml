@@ -1,5 +1,5 @@
 global:
-  tag: testnet-1.89.0_16
+  tag: testnet-1.89.0_17
   gateway:
     enabled: false
     name: fhermesnode-gateway
