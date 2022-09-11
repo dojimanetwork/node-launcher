@@ -22,7 +22,7 @@ signer:
 
 
 # use in multi nodes envs
-peer: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
+peer:
 
 debug: true
 

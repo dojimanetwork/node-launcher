@@ -22,9 +22,9 @@ signer:
   # signer_seed_phrase: "pipe expire lecture state pilot latin stamp senior market much dilemma tooth airport oblige flower caught risk canoe radar gadget tag narrow inch trust"
 
 
-peer: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
-seeds: "a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com"
-peerApi: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
+peer:
+seeds:
+peerApi:
 ethRouterContract:
   testnet: "0xefA28233838f46a80AaaC8c309077a9ba70D123A"
 
@@ -98,7 +98,7 @@ affinity: {}
 global:
   tag:
   net: testnet
-  peer: a0ff881e9d5024c8db6e9faa9415a103-cd0f8f54a7ef451a.elb.ap-south-1.amazonaws.com
+  peer:
   passwordSecret:
   mnemonicSecret:
   gateway:
