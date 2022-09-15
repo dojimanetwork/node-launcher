@@ -128,9 +128,7 @@ spec:
             - name: ETH_SUGGESTED_FEE_VERSION
               value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
             - name: PEER
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
+              value: {{ .Values.peer }}
             - name: SEED
               valueFrom:
                 fieldRef:
@@ -140,7 +138,7 @@ spec:
             - name: SIGNER_PASSWD
               value: {{ .Values.signer.password }}
             - name: SIGNER_SEED_PHRASE
-              value: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
+              value: {{ .Values.signer.signer_seed_phrase }}
             - name: CHAIN_ID
               value: {{ include "narada.chainID" . }}
             - name: AR_KEY_PATH

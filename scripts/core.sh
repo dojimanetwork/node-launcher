@@ -287,7 +287,7 @@ create_mnemonic() {
   local mnemonic
   if ! kubectl get -n "$NAME" secrets/hermesnode-mnemonic >/dev/null 2>&1; then
     echo "=> Generating hermesnode Mnemonic phrase"
-    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node:testnet-1.89.0_12 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node:testnet-1.89.0_18 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
 #     mnemonic="wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
@@ -328,7 +328,7 @@ display_status() {
   local ready
   ready=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=hermesnode -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}')
   if [ "$ready" = "True" ]; then
-    if kubectl exec -it -n "$NAME" deploy/hermesnode -c hermesnode -- /scripts/node-status.sh | tee /dev/tty | grep -E "^STATUS\s+Active" >/dev/null; then
+    if kubectl exec -it -n "$NAME" deploy/fhermesnode-hermes -c hermesnode -- /scripts/node-status.sh | tee /dev/tty | grep -E "^STATUS\s+Active" >/dev/null; then
       if [ -z "$TC_NO_BACKUP" ]; then
         echo -e "\n=> Detected ${red}active$reset validator hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
         make_backup narada
@@ -363,7 +363,7 @@ deploy_genesis() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 #  confirm
-  kubectl -n "$NAME" rollout restart fhermesnode-gateway
+  kubectl rollout restart -n "${NAME}" deployment fhermesnode-gateway
 }
 
 deploy_validator() {
@@ -391,7 +391,7 @@ deploy_validator() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
-  kubectl -n "$NAME" rollout restart deploy hermes-gateway
+  kubectl -n "$NAME" rollout restart deployment fhermesnode-gateway
 }
 
 deploy_fullnode() {
