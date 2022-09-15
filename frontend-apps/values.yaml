@@ -24,6 +24,12 @@ landing-page:
     tag: 2022-09-02_v0.0.2
     ENV: dev
 
+block-explorer:
+  image:
+    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-block-explorer
+    tag: 2022-09-15_v0.0.1
+    ENV: dev
+    
 internal-docs:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
