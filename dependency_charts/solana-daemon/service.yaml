@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "solana-daemon.fullname" . }}
+  labels:
+    {{- include "solana-daemon.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: api
+      port: {{ include "solana-daemon.api" . }}
+      targetPort: api
+      protocol: TCP
+  selector:
+    {{- include "solana-daemon.selectorLabels" . | nindent 4 }}
