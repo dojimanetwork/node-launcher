@@ -9,8 +9,8 @@ replicaCount: 1
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci
   tag: "solana-daemon-0.1.0"
-  hash: "c3902fc7008ec884c396404919838840a3e4b24b81ece5f0524450ebf0f6c2dd"
-  testnet: "textury/arlocal:latest"
+  hash: "sha256:2427431f29f674d4b672f2e55ba0fc9d08f40d133f58c863a63a8a83dbc1ed97"
+  testnet: "solanalabs/solana:stable"
 
 imagePullSecrets: []
 nameOverride: "narada-arweaved"

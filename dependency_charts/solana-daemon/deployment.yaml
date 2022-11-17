@@ -33,7 +33,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: scripts
-              mountPath: /scripts
+              mountPath: /scripts      
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
