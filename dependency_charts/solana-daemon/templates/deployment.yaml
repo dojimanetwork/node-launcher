@@ -57,7 +57,7 @@ spec:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
         persistentVolumeClaim:
-          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "arweave-daemon.fullname" . }}{{- end }}
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "solana-daemon.fullname" . }}{{- end }}
       {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
         hostPath:
           path: {{ .Values.persistence.hostPath }}
