@@ -13,8 +13,8 @@ image:
   testnet: "solanalabs/solana:stable"
 
 imagePullSecrets: []
-nameOverride: "narada-arweaved"
-fullnameOverride: "fnarada-arweaved"
+nameOverride: "solana-arweaved"
+fullnameOverride: "solana-arweaved"
 
 recoverNineRealmsSnapshot: false
 
@@ -63,7 +63,7 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "serv-narada-arweave"
+  name: "serv-solana-arweave"
 
 podSecurityContext:
   fsGroup: 1000
