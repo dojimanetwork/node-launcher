@@ -44,11 +44,6 @@ spec:
             - name: api
               containerPort: {{ include "solana-daemon.api" . }}
               protocol: TCP
-          readinessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /info
-              port: api
           resources:
           {{- if not (eq (include "solana-daemon.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
