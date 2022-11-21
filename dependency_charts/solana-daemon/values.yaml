@@ -13,8 +13,8 @@ image:
   testnet: "solanalabs/solana:stable"
 
 imagePullSecrets: []
-nameOverride: "solana-arweaved"
-fullnameOverride: "solana-arweaved"
+nameOverride: "solana-daemon"
+fullnameOverride: "solana-daemon"
 
 recoverNineRealmsSnapshot: false
 
