@@ -49,6 +49,6 @@ dependencies:
 
     - name: block-explorer
     repository: "file://../dependency_charts/developer-docs"
-    version: 0.0.1
+    version: 0.0.2
   
   
