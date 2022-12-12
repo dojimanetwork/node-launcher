@@ -8,7 +8,7 @@ servicePortName: block-explorer-fe-port
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-block-explorer
-  tag: 2022-12-10_v0.0.2
+  tag: 2022-12-12_v0.0.2
 
 strategy:
   enable: false
