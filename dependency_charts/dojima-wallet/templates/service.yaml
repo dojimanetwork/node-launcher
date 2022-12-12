@@ -1,1 +1,15 @@
-{{ template "library-chart.service" . }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "wallet-daemon.fullname" . }}
+  labels:
+    {{- include "wallet-daemon.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ include "wallet-daemon.http" . }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "wallet-daemon.selectorLabels" . | nindent 4 }}

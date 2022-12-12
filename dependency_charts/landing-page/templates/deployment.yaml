@@ -1,1 +1,78 @@
-{{ template "library-chart.deployment" . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "landing-page-daemon.fullname" . }}
+  labels:
+    {{- include "landing-page-daemon.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "landing-page-daemon.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "landing-page-daemon.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "landing-page-daemon.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-external-ip
+          image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+          {{- if .Values.global.gateway.enabled }}
+          command: [ '/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "landing-page-daemon.fullname" . }}-external-ip' ]
+          {{- else }}
+          command: [ '/scripts/external-ip.sh', 'false', '{{ include "landing-page-daemon.fullname" . }}', '{{ include "landing-page-daemon.fullname" . }}-external-ip' ]
+          {{- end }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "landing-page-daemon.image" . }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ include "landing-page-daemon.http" . }}
+              protocol: TCP
+          resources:
+          {{- if not (eq (include "landing-page-daemon.net" . ) "mocknet") }}
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+      volumes:
+      - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "landing-page-daemon.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        hostPath:
+          path: {{ .Values.persistence.hostPath }}
+          type: DirectoryOrCreate
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: scripts
+        configMap:
+          name: {{ include "landing-page-daemon.fullname" . }}-scripts
+          defaultMode: 0777
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

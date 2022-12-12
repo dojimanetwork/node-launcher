@@ -78,6 +78,37 @@ get_node_name() {
   echo
 }
 
+get_frontend_net() {
+    if [ "$FRONTEND_NET" != "" ]; then
+      if [ "$FRONTEND_NET" != "mainnet" ] && [ "$FRONTEND_NET" != "testnet" ] && [ "$FRONTEND_NET" != "stagenet" ]; then
+        die "Error NET variable=$FRONTEND_NET. FRONTEND_NET variable should be either 'mainnet', 'testnet', or 'stagenet'."
+      fi
+      return
+    fi
+    echo "=> Select net"
+    menu mainnet mainnet testnet stagenet
+    NET=$MENU_SELECTED
+    echo
+}
+
+get_frontend_namespace_name() {
+  [ "$FRONTEND_NAME" != "" ] && return
+  case $NET in
+    "mainnet")
+      FRONTEND_NAME=frontend-apps
+      ;;
+    "stagenet")
+      FRONTEND_NAME=frontend-apps-stagenet
+      ;;
+    "testnet")
+      FRONTEND_NAME=frontend-apps-testnet
+      ;;
+  esac
+  read -r -p "=> Enter frontend-apps name [$FRONTEND_NAME]: " name
+  FRONTEND_NAME=${name:-$FRONTEND_NAME}
+  echo
+}
+
 get_discord_channel() {
   [ "$DISCORD_CHANNEL" != "" ] && unset DISCORD_CHANNEL
   echo "=> Select hermesnode relay channel: "
@@ -120,6 +151,11 @@ get_node_info() {
   get_node_name
 }
 
+get_frontend_info() {
+  get_frontend_namespace_name
+  get_frontend_net
+}
+
 get_node_info_short() {
   [ "$NAME" = "" ] && get_node_net
   get_node_name
@@ -140,6 +176,14 @@ create_namespace() {
     kubectl create ns "$NAME"
     echo
   fi
+}
+
+create_frontend_namespace(){
+    if ! kubectl get ns "$FRONTEND_NAME" >/dev/null 2>&1; then
+      echo "=> Creating frontend-apps Namespace"
+      kubectl create ns "$FRONTEND_NAME"
+      echo
+    fi
 }
 
 node_exists() {
@@ -364,6 +408,24 @@ deploy_genesis() {
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 #  confirm
   kubectl rollout restart -n "${NAME}" deployment fhermesnode-gateway
+}
+
+deploy_frontend_testnet() {
+  local args
+  # shellcheck disable=SC2086
+  helm diff upgrade -C 3 --install "$FRONTEND_NAME" ./frontend-apps -n "$FRONTEND_NAME" \
+    $args $EXTRA_ARGS \
+    --set global.net="$FRONTEND_NET"
+  echo "extra args ${EXTRA_ARGS}"
+    echo -e "=> Changes for a  frontend-apps on $boldgreen$FRONTEND_NET$reset named $boldgreen$FRONTEND_NAME$reset"
+
+  #  confirm
+  # shellcheck disable=SC2086
+  helm upgrade --install "$FRONTEND_NAME" ./frontend-apps -n "$FRONTEND_NAME" \
+    --create-namespace $args $EXTRA_ARGS \
+    --set global.net="$FRONTEND_NET" \
+#  confirm
+  kubectl rollout restart -n "${FRONTEND_NAME}" deployment frontend-gateway
 }
 
 deploy_validator() {

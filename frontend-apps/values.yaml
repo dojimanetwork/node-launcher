@@ -1,45 +1,27 @@
 global:
-  namespaceName: frontend-apps
-  gatewayName: frontend-apps
-  enableGateway: true
+  net: testnet
+  gateway:
+    enabled: true
+    name: frontend-gateway
+  images:
+    alpine:
+      tag: latest
+      hash: 4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454
+    alpineK8s:
+      tag: 1.18.2
+      hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
+    busybox:
+      tag: latest
+      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
 
-namespace:
-  name: frontend-apps
-
-gateway:
-  name: frontend-apps
-  enableChart: true
-  namespace: frontend-apps
-
-dojima-wallet:
-  image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/core/dojima-wallet
-    tag: 2022-07-29_v0.0.7
-  env:
-    ENV: dev
+frontend-gateway:
+  fullnameOverride: frontend-gateway
+  enabled: true
 
 landing-page:
-  image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
-    tag: 2022-09-02_v0.0.2
-    ENV: dev
+  fullnameOverride: landing-page
+  enabled: true
 
-block-explorer:
-  image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-block-explorer
-    tag: 2022-12-12_v0.0.2
-    ENV: dev
-    
-internal-docs:
-  image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/internal-docs
-    tag: 2022-06-16_v0.0.1
-  env:
-    ENV: dev
-
-developer-docs:
-  image:
-    name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
-    tag: 2022-08-02_0.1.1
-  env:
-    ENV: dev    
+dojima-wallet:
+  fullnameOverride: dojima-wallet
+  enabled: true

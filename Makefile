@@ -28,6 +28,11 @@ update-dependencies:
 	@helm dependencies update ./hermes-stack
 	@echo
 
+update-frontend-deps:
+	@echo "=> Updating frontend helm chart deps"
+	@helm dependencies update ./frontend-apps
+	@echo
+
 update-trust-state: ## Updates statesync trusted height/hash and Midgard blockstore hashes from Nine Realms
 	@./scripts/update-trust-state.sh
 
@@ -42,6 +47,9 @@ pods: ## Get THORNode Kubernetes pods
 
 install: pull update-dependencies ## Deploy a THORNode
 	@./scripts/install.sh
+
+install-frontend: pull update-frontend-deps
+	@./scripts/frontend-install.sh
 
 recycle: pull update-dependencies ## Destroy and recreate a THORNode recycling existing daemons to avoid re-sync
 	@./scripts/recycle.sh

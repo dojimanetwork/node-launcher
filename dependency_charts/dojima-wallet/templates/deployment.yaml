@@ -1,1 +1,91 @@
-{{ template "library-chart.deployment" . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wallet-daemon.fullname" . }}
+  labels:
+    {{- include "wallet-daemon.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "wallet-daemon.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "wallet-daemon.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "wallet-daemon.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-external-ip
+          image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+          {{- if .Values.global.gateway.enabled }}
+          command: [ '/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "wallet-daemon.fullname" . }}-external-ip' ]
+          {{- else }}
+          command: [ '/scripts/external-ip.sh', 'false', '{{ include "wallet-daemon.fullname" . }}', '{{ include "wallet-daemon.fullname" . }}-external-ip' ]
+          {{- end }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "wallet-daemon.image" . }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REACT_APP_TITLE
+              value: {{ .Values.env.title }}
+            - name: REACT_APP_NETWORK_TYPE
+              value: {{ .Values.env.network_type }}
+            - name: REACT_APP_API_KEY
+              value: {{ .Values.env.api_key }}
+            - name: REACT_APP_API_KEY_STATS
+              value: {{ .Values.env.api_key_stats }}
+            - name: REACT_APP_ETHEREUM_API_KEY
+              value: {{ .Values.env.eth_api_key }}
+            - name: REACT_APP_DISABLE_ARWEAVE
+              value: "{{ .Values.env.disable_arweave }}"
+          ports:
+            - name: http
+              containerPort: {{ include "wallet-daemon.http" . }}
+              protocol: TCP
+          resources:
+          {{- if not (eq (include "wallet-daemon.net" . ) "mocknet") }}
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+      volumes:
+      - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "wallet-daemon.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        hostPath:
+          path: {{ .Values.persistence.hostPath }}
+          type: DirectoryOrCreate
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: scripts
+        configMap:
+          name: {{ include "wallet-daemon.fullname" . }}-scripts
+          defaultMode: 0777
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

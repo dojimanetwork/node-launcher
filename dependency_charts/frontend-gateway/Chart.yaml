@@ -1,6 +1,6 @@
 apiVersion: v2
-name: dojima-wallet
-description: Dojima wallet app deployment
+name: frontend-gateway
+description: Frontend apps gateway
 type: application
 version: 0.1.0
 
