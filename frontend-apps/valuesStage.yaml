@@ -17,7 +17,7 @@ landing-page:
 block-explorer:
   image:
     name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-block-explorer
-    tag: 2022-12-12_v0.0.2
+    tag: test_2022-12-13_v0.0.1
   env:
     ENV: stage        
 

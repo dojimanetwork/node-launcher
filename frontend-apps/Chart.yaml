@@ -37,3 +37,8 @@ dependencies:
     repository: file://../dependency_charts/dojima-wallet
     version: 0.1.0
     condition: dojima-wallet.enabled
+
+   - name: block-explorer
+    repository: file://../dependency_charts/block-explorer
+    version: 0.1.0
+    condition: block-explorer.enabled  

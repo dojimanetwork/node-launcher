@@ -25,3 +25,7 @@ landing-page:
 dojima-wallet:
   fullnameOverride: dojima-wallet
   enabled: true
+
+block-explorer:
+  fullnameOverride: block-explorer
+  enabled: true  
