@@ -37,7 +37,7 @@ Common labels
 {{- define "wallet-daemon.labels" -}}
 helm.sh/chart: {{ include "wallet-daemon.chart" . }}
 {{ include "wallet-daemon.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag }}
+app.kubernetes.io/version: {{ .Values.image.testnet }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 

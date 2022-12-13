@@ -37,7 +37,7 @@ Common labels
 {{- define "developer-docs-daemon.labels" -}}
 helm.sh/chart: {{ include "developer-docs-daemon.chart" . }}
 {{ include "developer-docs-daemon.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag }}
+app.kubernetes.io/version: {{ .Values.image.testnet }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
