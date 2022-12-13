@@ -37,7 +37,7 @@ Common labels
 {{- define "block-explorer-daemon.labels" -}}
 helm.sh/chart: {{ include "block-explorer-daemon.chart" . }}
 {{ include "block-explorer-daemon.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag }}
+app.kubernetes.io/version: {{ .Values.image.testnet }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
