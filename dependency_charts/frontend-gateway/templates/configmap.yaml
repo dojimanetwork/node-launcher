@@ -85,7 +85,7 @@ data:
 
       server {
         listen 80;
-        server_name www.dojima.network;
+        server_name {{ include "gateway-landing-page.domain" . }};
 
         location /healthz {
           access_log off;
@@ -157,7 +157,7 @@ data:
 
       server {
         listen {{ .Values.service.port.landing_page.http }};
-        server_name wallet.dojima.network;
+        server_name {{ include "gateway-dojima-wallet.domain" . }};
 
         location ~* ^/wallet/(get-started|import-seed-phrase-file) {
           proxy_hide_header Access-Control-Allow-Origin;
@@ -225,7 +225,7 @@ data:
 
       server {
         listen {{ .Values.service.port.landing_page.http }};
-        server_name block-explorer-test.dojima.network;
+        server_name {{ include "gateway-dojima-explorer.domain" . }};
 
         location ~* ^/dashboard {
           proxy_hide_header Access-Control-Allow-Origin;
@@ -295,7 +295,7 @@ data:
 
       server {
         listen {{ .Values.service.port.landing_page.http }};
-        server_name developer-docs-test.dojima.network;
+        server_name {{ include "gateway-developer-docs.domain" . }};
 
         location ~* ^/overview {
           proxy_hide_header Access-Control-Allow-Origin;

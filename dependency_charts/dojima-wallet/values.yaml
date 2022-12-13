@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/core/dojima-wallet
-  testnet: "migrate-to-kube-12-12-22"
-  testnet_hash: "be6be3ffceb5af46df44c991dae00a2e47e6a512c8455dde31f5687f1952cc0a"
+  testnet: "testnet-0.1.0-2022-12-13"
+  testnet_hash: "3d710a39b44c612f445d4b80071a21f423e712bc5da8ce6f2374e98f190b3338"
   mainnet: ""
   mainnet_hash: ""
 

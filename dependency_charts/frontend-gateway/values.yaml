@@ -22,6 +22,20 @@ nameOverride: "frontend-gateway"
 # used for gateway.fullname
 fullnameOverride: "f-frontend-gateway"
 
+domain:
+  landing_page:
+    testnet: www-test.dojima.network
+    mainnet: www.domain.network
+  dojima_wallet:
+    testnet: wallet-test.dojima.network
+    mainnet: wallet.dojima.network
+  block_explorer:
+    testnet: block-explorer-test.dojima.network
+    mainnet: block-explorer.dojima.network
+  developer_doc:
+    testnet: developer-docs-test.dojima.network
+    mainnet: developer-docs.dojima.network
+
 service:
   type: LoadBalancer
   port:

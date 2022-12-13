@@ -78,6 +78,28 @@ Landing page http Port
 {{- end -}}
 {{- end -}}
 
+{{/*
+Landing page domain name
+*/}}
+{{- define "gateway-landing-page.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.landing_page.testnet }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.landing_page.mainnet }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Dojima wallet page domain name
+*/}}
+{{- define "gateway-dojima-wallet.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.dojima_wallet.testnet }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.dojima_wallet.mainnet }}
+{{- end -}}
+{{- end -}}
+
 
 {{/*
 Dojima wallet http Port
@@ -98,6 +120,29 @@ Dojima explorer http Port
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Dojima explorer page domain name
+*/}}
+{{- define "gateway-dojima-explorer.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.block_explorer.testnet }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.block_explorer.mainnet }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Developer docs page domain name
+*/}}
+{{- define "gateway-developer-docs.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.developer_doc.testnet }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.developer_doc.mainnet }}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Developer docs http Port
