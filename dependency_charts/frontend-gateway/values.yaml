@@ -31,6 +31,8 @@ service:
       http: 81
     dojima_explorer:
       http: 82
+    developer_docs:
+      http: 83
 
 serviceAccount:
   # Specifies whether a service account should be created

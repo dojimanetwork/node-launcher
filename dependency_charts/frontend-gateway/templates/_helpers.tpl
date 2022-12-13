@@ -97,3 +97,13 @@ Dojima explorer http Port
     {{ .Values.service.port.dojima_explorer.http }}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+Developer docs http Port
+*/}}
+{{- define "gateway-developer-docs.http" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.developer_docs.http }}
+{{- end -}}
+{{- end -}}
