@@ -38,6 +38,11 @@ dependencies:
     version: 0.1.0
     condition: dojima-wallet.enabled
 
+  - name: developer-docs
+    repository: file://../dependency_charts/developer-docs
+    version: 0.1.0
+    condition: developer-docs.enabled
+
    - name: block-explorer
     repository: file://../dependency_charts/block-explorer
     version: 0.1.0

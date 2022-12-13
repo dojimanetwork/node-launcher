@@ -1,0 +1,16 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "developer-docs-daemon.fullname" . }}
+  labels:
+{{ include "developer-docs-daemon.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "developer-docs-daemon.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "developer-docs-daemon.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end -}}
