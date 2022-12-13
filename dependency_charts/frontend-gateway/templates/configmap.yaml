@@ -221,6 +221,8 @@ data:
           proxy_pass http://dojima-wallet:{{ .Values.service.port.dojima_wallet.http }};
         }
 
+      }
+
       server {
         listen {{ .Values.service.port.landing_page.http }};
         server_name block-explorer.dojima.network;
