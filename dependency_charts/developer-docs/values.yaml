@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-developer-docs
-  testnet: "test_2022-12-12_v0.0.1"
+  testnet: "docs-0.1.0-2022-12-13"
   mainnet: ""
-  testnet_hash: "51607d9ee0b181beb1b1c42ddede882f6683eddd8a79680e044bdc04afb99d68"
+  testnet_hash: "91a30e14f20907983d8a3f224ef069610970bf2a1750fcd541ea7284c6bbb260"
   mainnet_hash: ""
 
 imagePullSecrets: []

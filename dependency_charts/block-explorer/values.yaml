@@ -10,7 +10,7 @@ image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-block-explorer
   testnet: "test_2022-12-13_v0.0.1"
   mainnet: ""
-  testnet_hash: "08b0100399d5174b6d3e18f4e970b63ad8bcdd02bc1b12348c9e22d13d9180ee"
+  testnet_hash: "6a5b05820a691a36ebe3b13caf10bde46529febb46a0c885c97f6578b1557564"
   mainnet_hash: ""
 
 imagePullSecrets: []
