@@ -44,6 +44,6 @@ dependencies:
     condition: developer-docs.enabled
 
    - name: block-explorer
-    repository: file://../dependency_charts/block-explorer
-    version: 0.1.0
-    condition: block-explorer.enabled  
+     version: 0.1.0
+     repository: file://../dependency_charts/block-explorer
+     condition: block-explorer.enabled
