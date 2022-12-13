@@ -7,7 +7,7 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-developer-docs
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
   testnet: "docs-0.1.0-2022-12-13"
   mainnet: ""
   testnet_hash: "91a30e14f20907983d8a3f224ef069610970bf2a1750fcd541ea7284c6bbb260"
