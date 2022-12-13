@@ -45,6 +45,9 @@ spec:
             - name: dojima-wallet
               containerPort: {{ include "gateway-dojima-wallet.http" . }}
               protocol: TCP
+            - name: dojima-explorer
+              containerPort: {{ include "gateway-dojima-explorer.http" . }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

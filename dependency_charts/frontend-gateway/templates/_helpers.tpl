@@ -87,3 +87,13 @@ Dojima wallet http Port
     {{ .Values.service.port.dojima_wallet.http }}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+Dojima explorer http Port
+*/}}
+{{- define "gateway-dojima-explorer.http" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.dojima_explorer.http }}
+{{- end -}}
+{{- end -}}

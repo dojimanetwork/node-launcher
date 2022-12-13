@@ -27,5 +27,9 @@ spec:
       targetPort: dojima-wallet
       protocol: TCP
       name: dojima-wallet
+    - port: {{ include "gateway-dojima-explorer.http" . }}
+      targetPort: dojima-explorer
+      protocol: TCP
+      name: dojima-explorer
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

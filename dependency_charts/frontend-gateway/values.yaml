@@ -29,6 +29,8 @@ service:
       http: 80
     dojima_wallet:
       http: 81
+    dojima_explorer:
+      http: 82
 
 serviceAccount:
   # Specifies whether a service account should be created
