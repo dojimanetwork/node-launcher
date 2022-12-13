@@ -1,1 +1,15 @@
-{{ template "library-chart.service" . }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "developer-docs-daemon.fullname" . }}
+  labels:
+    {{- include "developer-docs-daemon.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ include "developer-docs-daemon.http" . }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "developer-docs-daemon.selectorLabels" . | nindent 4 }}

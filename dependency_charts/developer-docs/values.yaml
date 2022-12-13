@@ -1,30 +1,107 @@
-name: developer-docs
+# Default values for binance-daemon.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+net: testnet
 
 replicaCount: 1
-serverPort: 80
-prometheusPort: 7071
-uriPrefix: /developer
-servicePortName: developer-docs-fe-port
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
-  tag: 2022-08-02_0.1.1
+  testnet: "mocknet-0.1.0-2022-12-13"
+  mainnet: ""
+  testnet_hash: "4c8c73ca14e85db4896bee7128466f88ebe2f129ea1772114abb9a535db09ec1"
+  mainnet_hash: ""
 
-strategy:
-  enable: false
-  maxSurge: 2
-  maxUnavailable: 1
+imagePullSecrets: []
+nameOverride: "ldeveloper-docsd"
+fullnameOverride: "developer-docsd"
+
+recoverNineRealmsSnapshot: false
+
+service:
+  type: ClusterIP
+  port:
+    testnet:
+      http: 83
+    stagenet:
+      http: 83
+    mainnet:
+      http: 83
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts: []
+    # - host: midgard.example.com
+    #   paths:
+    #   - path: /
+    #     backend:
+    #       serviceName: gateway
+    #       servicePort: midgard
+  tls: []
+    # - secretName: midgard-tls
+    #   hosts:
+    #     - midgard.example.com
+
+persistence:
+  enabled: false
+  size:
+    testnet: 50Gi
+    stagenet: 500Gi
+    mainnet: 500Gi
+  accessMode: ReadWriteOnce
+  # storageClass: "-"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "serv-frontend-developer-docs"
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 resources:
-  enable: false
-  requestsMemory: 30Mi
-  requestsCpu: 10m
-  limitsMemory: 90Mi
-  limitsCpu: 50m
+  requests:
+    cpu: 1
+    memory: 2Gi
+  limits:
+#     cpu: 2
+    memory: 3Gi
 
-hpa:
-  enable: false
-  maxReplicas: 5
-  minReplicas: 3
-  hpaCpu: 370
-  hpaMemory: 240
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+global:
+  tag:
+  net: testnet
+  peer:
+  passwordSecret:
+  mnemonicSecret:
+  gateway:
+    enabled: false
+    name: "frontend-gateway"
+  images:
+    alpineK8s:
+      tag: 1.18.2
+      hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
+    busybox:
+      tag: latest
+      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
+

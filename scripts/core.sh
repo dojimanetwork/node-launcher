@@ -79,6 +79,9 @@ get_node_name() {
 }
 
 get_frontend_gateway() {
+  if [ "$FRONTEND_GATEWAY" != "" ]; then
+    return
+  fi
   read -r -p "=> Enter frontend gateway name [$FRONTEND_GATEWAY]: " name
   FRONTEND_GATEWAY=${name:-$FRONTEND_GATEWAY}
 }

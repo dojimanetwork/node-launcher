@@ -37,7 +37,7 @@ Common labels
 {{- define "landing-page-daemon.labels" -}}
 helm.sh/chart: {{ include "landing-page-daemon.chart" . }}
 {{ include "landing-page-daemon.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag }}
+app.kubernetes.io/version: {{ .Values.image.testnet }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
