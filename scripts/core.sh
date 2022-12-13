@@ -78,6 +78,11 @@ get_node_name() {
   echo
 }
 
+get_frontend_gateway() {
+  read -r -p "=> Enter frontend gateway name [$FRONTEND_GATEWAY]: " name
+  FRONTEND_GATEWAY=${name:-$FRONTEND_GATEWAY}
+}
+
 get_frontend_net() {
     if [ "$FRONTEND_NET" != "" ]; then
       if [ "$FRONTEND_NET" != "mainnet" ] && [ "$FRONTEND_NET" != "testnet" ] && [ "$FRONTEND_NET" != "stagenet" ]; then
@@ -154,6 +159,7 @@ get_node_info() {
 get_frontend_info() {
   get_frontend_namespace_name
   get_frontend_net
+  get_frontend_gateway
 }
 
 get_node_info_short() {
@@ -410,7 +416,7 @@ deploy_genesis() {
   kubectl rollout restart -n "${NAME}" deployment fhermesnode-gateway
 }
 
-deploy_frontend_testnet() {
+deploy_frontend() {
   local args
   # shellcheck disable=SC2086
   helm diff upgrade -C 3 --install "$FRONTEND_NAME" ./frontend-apps -n "$FRONTEND_NAME" \
@@ -425,7 +431,7 @@ deploy_frontend_testnet() {
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$FRONTEND_NET" \
 #  confirm
-  kubectl rollout restart -n "${FRONTEND_NAME}" deployment frontend-gateway
+  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
 }
 
 deploy_validator() {

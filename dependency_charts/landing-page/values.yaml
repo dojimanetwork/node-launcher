@@ -8,9 +8,10 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
-  tag: "2022-12-12_v0.0.3"
-  hash: "243c99d033b9430ec8bc27c3f136f17dac27b000e6e619f76ecd3aaaf9df28e0"
-  mocknet:
+  testnet: "2022-12-12_v0.0.3"
+  mainnet: ""
+  testnet_hash: "243c99d033b9430ec8bc27c3f136f17dac27b000e6e619f76ecd3aaaf9df28e0"
+  mainnet_hash: ""
 
 imagePullSecrets: []
 nameOverride: "landing-paged"

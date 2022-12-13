@@ -72,10 +72,10 @@ Net
 Image
 */}}
 {{- define "wallet-daemon.image" -}}
-{{- if eq (include "wallet-daemon.net" .) "mocknet" -}}
-    "{{ .Values.image.mocknet }}:latest"
+{{- if eq (include "wallet-daemon.net" .) "testnet" -}}
+    "{{ .Values.image.name }}:{{.Values.image.testnet}}@sha256:{{.Values.image.testnet_hash}}"
 {{- else -}}
-    "{{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}"
+    "{{ .Values.image.name }}:{{ .Values.image.mainnet }}@sha256:{{ .Values.image.mainnet_hash }}"
 {{- end -}}
 {{- end -}}
 

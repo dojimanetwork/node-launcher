@@ -12,7 +12,6 @@ create_frontend_namespace
 case $FRONTEND_NET in
   testnet)
     EXTRA_ARGS="-f ./frontend-apps/values.yaml"
-    deploy_frontend_testnet
     ;;
   stagenet)
     EXTRA_ARGS="-f ./frontend-apps/valuesStage.yaml"
@@ -22,3 +21,6 @@ case $FRONTEND_NET in
     EXTRA_ARGS="-f ./frontend-apps/valuesProd.yaml"
     ;;
 esac
+
+
+deploy_frontend
