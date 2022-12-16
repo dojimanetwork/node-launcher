@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5807c736-989b-4c14-811f-f20058cf334b" name="Changes" comment="dev: mod: dojima-faas version change">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency_charts/dojima-faas/Chart.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency_charts/dojima-faas/templates/deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency_charts/dojima-faas/templates/service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency_charts/dojima-faas/templates/virtualService.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency_charts/dojima-faas/values.yaml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +21,11 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -28,10 +38,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Git.Branch.Popup.ShowAllRemotes": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/udaybhanuprasad/dojima/helm_charts",
+    "last_opened_file_path": "/Users/udaybhanuprasad/dojima/helm_charts/dependency_charts/dojima-faas",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -40,6 +51,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dependency_charts/dojima-faas" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -50,7 +66,8 @@
       <updated>1660031359087</updated>
       <workItem from="1660031360554" duration="1000" />
       <workItem from="1660031380448" duration="5000" />
-      <workItem from="1662045210636" duration="4067000" />
+      <workItem from="1662045210636" duration="4743000" />
+      <workItem from="1671120501089" duration="1928000" />
     </task>
     <task id="LOCAL-00001" summary="dev: mod: dojima-faas version change">
       <created>1662045378834</created>
@@ -73,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662102471404</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="dev: mod: dojima-faas version change">
+      <created>1662112692285</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1662112692285</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
