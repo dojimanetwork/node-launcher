@@ -48,3 +48,369 @@ data:
     fi
 
     kubectl create configmap "$CONFIGMAP" --from-literal=externalIP="$external_ip" --dry-run=client -o yaml | kubectl apply -f -
+  core.sh: |
+    #!/bin/sh
+
+    create_hermes_user() {
+      SIGNER_NAME="$1"
+      SIGNER_PASSWD="$2"
+      SIGNER_SEED_PHRASE="$3"
+
+      echo "Checking if hermesnode dojima '$SIGNER_NAME' account exists"
+      # echo "$(hermesnode keys show "$SIGNER_NAME" --keyring-backend file)"
+      echo "$SIGNER_PASSWD" | hermesnode keys show "$SIGNER_NAME" --keyring-backend file &>/dev/null
+      # shellcheck disable=SC2181
+      if [ $? -ne 0 ]; then
+        echo "Creating hermesnode dojima '$SIGNER_NAME' account"
+        if [ -n "$SIGNER_SEED_PHRASE" ]; then
+          echo "en 4"
+          printf "%s\n%s\n%s\n" "$SIGNER_SEED_PHRASE" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode keys --keyring-backend file add "$SIGNER_NAME" --recover
+        else
+          echo "en 5"
+          sig_pw=$(printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD")
+          RESULT=$(echo "$sig_pw" | hermesnode keys --keyring-backend file add "$SIGNER_NAME" --output json 2>&1)
+          SIGNER_SEED_PHRASE=$(echo "$RESULT" | jq -r '.mnemonic')
+        fi
+      fi
+      NODE_PUB_KEY_ED25519=$(printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_SEED_PHRASE" | hermesnode ed25519)
+    }
+  narada.sh: |
+      #!/bin/sh
+      set -o pipefail
+      echo "entered"
+      DB_PATH="${DB_PATH:=/var/data}"
+      CHAIN_API="${CHAIN_API:=127.0.0.1:1317}"
+      CHAIN_RPC="${CHAIN_RPC:=127.0.0.1:26657}"
+      SIGNER_NAME="${SIGNER_NAME:=hermeschain}"
+      SIGNER_PASSWD="${SIGNER_PASSWD:=password}"
+      CHAIN_HOME_FOLDER="${CHAIN_HOME_FOLDER:=~/.hermesnode}"
+      START_BLOCK_HEIGHT="${START_BLOCK_HEIGHT:=0}"
+      CONTRACT="${CONTRACT:=0x1e87989b0792c236c383Aa498E52770015af66cf}"
+      PREPARAM=${PREPARAM:=""}
+      RPC_USER="${RPC_USER:=hermeschain}"
+      RPC_PASSWD="${RPC_PASSWD:=password}"
+      PPROF_ENABLED="${PPROF_ENABLED:=false}"
+      OBSERVER_PATH=$DB_PATH/narada/observer/
+      SIGNER_PATH=$DB_PATH/narada/signer/
+      HERMES_BLOCK_TIME="${HERMES_BLOCK_TIME:=5s}"
+      BLOCK_SCANNER_BACKOFF="${BLOCK_SCANNER_BACKOFF:=5s}"
+      CHAIN_ID="${CHAIN_ID:=hermeschain}"
+      CHAINS=""
+      COMMA=","
+
+      # Binance chain config
+      BINANCE_HOST="${BINANCE_HOST:=http://localhost:26660}"
+      BINANCE_START_BLOCK_HEIGHT="${BINANCE_START_BLOCK_HEIGHT:=0}"
+      INCLUDE_BINANCE_CHAIN="${INCLUDE_BINANCE_CHAIN:=false}"
+      BINANCE_CHAIN_CONFIG="
+      {
+        \"chain_id\": \"BNB\",
+        \"rpc_host\": \"$BINANCE_HOST\",
+        \"block_scanner\": {
+          \"rpc_host\": \"$BINANCE_HOST\",
+          \"enforce_block_height\": false,
+          \"block_scan_processors\": 1,
+          \"block_height_discover_back_off\": \"0.3s\",
+          \"block_retry_interval\": \"10s\",
+          \"chain_id\": \"BNB\",
+          \"http_request_timeout\": \"30s\",
+          \"http_request_read_timeout\": \"30s\",
+          \"http_request_write_timeout\": \"30s\",
+          \"max_http_request_retry\": 10,
+          \"start_block_height\": $BINANCE_START_BLOCK_HEIGHT,
+          \"db_path\": \"$OBSERVER_PATH\"
+        }
+      }"
+
+      if [ "$INCLUDE_BINANCE_CHAIN" = true ]; then
+        CHAINS="${CHAINS}${BINANCE_CHAIN_CONFIG},"
+      fi
+
+      # Bitcoin core chain config
+      BTC_HOST="${BTC_HOST:=http://localhost:18443}"
+      BTC_START_BLOCK_HEIGHT="${BTC_START_BLOCK_HEIGHT:=0}"
+      BTC_PARALLEL_MEMPOOL_SCAN="${BTC_PARALLEL_MEMPOOL_SCAN:=5}"
+      INCLUDE_BTC_CHAIN="${INCLUDE_BTC_CHAIN:=false}"
+      BTC_CHAIN_CONFIG="
+      {
+        \"chain_id\": \"BTC\",
+        \"rpc_host\": \"$BTC_HOST\",
+        \"username\": \"$RPC_USER\",
+        \"password\": \"$RPC_PASSWD\",
+        \"http_post_mode\": 1,
+        \"disable_tls\": 1,
+        \"parallel_mempool_scan\":$BTC_PARALLEL_MEMPOOL_SCAN,
+        \"block_scanner\": {
+          \"rpc_host\": \"$BTC_HOST\",
+          \"enforce_block_height\": false,
+          \"block_scan_processors\": 1,
+          \"block_height_discover_back_off\": \"$BLOCK_SCANNER_BACKOFF\",
+          \"block_retry_interval\": \"10s\",
+          \"chain_id\": \"BTC\",
+          \"http_request_timeout\": \"30s\",
+          \"http_request_read_timeout\": \"30s\",
+          \"http_request_write_timeout\": \"30s\",
+          \"max_http_request_retry\": 10,
+          \"start_block_height\": $BTC_START_BLOCK_HEIGHT,
+          \"db_path\": \"$OBSERVER_PATH\"
+        }
+      }"
+
+      if [ "$INCLUDE_BTC_CHAIN" = true ]; then
+        CHAINS="${CHAINS}${BTC_CHAIN_CONFIG},"
+      #  CHAINS+="$COMMA"
+      fi
+
+      # Ethereum chain config
+      ETH_HOST="${ETH_HOST:=http://localhost:8545}"
+      ETH_START_BLOCK_HEIGHT="${ETH_START_BLOCK_HEIGHT:=0}"
+      ETH_SUGGESTED_FEE_VERSION="${ETH_SUGGESTED_FEE_VERSION:=1}"
+      INCLUDE_ETH_CHAIN="${INCLUDE_ETH_CHAIN:=true}"
+      ETH_CHAIN_CONFIG="
+      {
+        \"chain_id\": \"ETH\",
+        \"rpc_host\": \"$ETH_HOST\",
+        \"username\": \"$RPC_USER\",
+        \"password\": \"$RPC_PASSWD\",
+        \"http_post_mode\": 1,
+        \"disable_tls\": 1,
+        \"contract\": \"$CONTRACT\",
+        \"block_scanner\": {
+          \"rpc_host\": \"$ETH_HOST\",
+          \"enforce_block_height\": false,
+          \"block_scan_processors\": 1,
+          \"block_height_discover_back_off\": \"$BLOCK_SCANNER_BACKOFF\",
+          \"block_retry_interval\": \"10s\",
+          \"chain_id\": \"ETH\",
+          \"http_request_timeout\": \"30s\",
+          \"http_request_read_timeout\": \"30s\",
+          \"http_request_write_timeout\": \"30s\",
+          \"max_http_request_retry\": 10,
+          \"start_block_height\": $ETH_START_BLOCK_HEIGHT,
+          \"db_path\": \"$OBSERVER_PATH\",
+          \"suggested_fee_version\": $ETH_SUGGESTED_FEE_VERSION
+        }
+      }"
+
+      if [ "$INCLUDE_ETH_CHAIN" = true ]; then
+        CHAINS="${CHAINS}${ETH_CHAIN_CONFIG},"
+      #  CHAINS+="$COMMA"
+      fi
+
+      # Arweave Chain config
+      AR_HOST="${AR_HOST:=http://localhost:1984}"
+      AR_START_BLOCK_HEIGHT="${AR_START_BLOCK_HEIGHT:=0}"
+      INCLUDE_AR_CHAIN="${INCLUDE_AR_CHAIN:=true}"
+      AR_CHAIN_CONFIG="
+      {
+        \"chain_id\": \"AR\",
+        \"rpc_host\": \"$AR_HOST\",
+        \"block_scanner\": {
+          \"rpc_host\": \"$AR_HOST\",
+          \"enforce_block_height\": false,
+          \"block_scan_processors\": 1,
+          \"block_height_discover_back_off\": \"0.3s\",
+          \"block_retry_interval\": \"10s\",
+          \"chain_id\": \"AR\",
+          \"http_request_timeout\": \"30s\",
+          \"http_request_read_timeout\": \"30s\",
+          \"http_request_write_timeout\": \"30s\",
+          \"max_http_request_retry\": 10,
+          \"start_block_height\": $AR_START_BLOCK_HEIGHT,
+          \"db_path\": \"$OBSERVER_PATH\"
+        }
+      }"
+
+      if [ "$INCLUDE_AR_CHAIN" = true ]; then
+        CHAINS="${CHAINS}${AR_CHAIN_CONFIG},"
+      #  CHAINS+="$COMMA"
+      fi
+
+      # Polkadot Chain config
+      DOT_HOST="${DOT_HOST:=ws://localhost:9944}"
+      DOT_START_BLOCK_HEIGHT="${DOT_START_BLOCK_HEIGHT:=0}"
+      INCLUDE_DOT_CHAIN="${INCLUDE_DOT_CHAIN:=true}"
+      DOT_CHAIN_CONFIG="
+      {
+        \"chain_id\": \"DOT\",
+        \"rpc_host\": \"$DOT_HOST\",
+        \"block_scanner\": {
+          \"rpc_host\": \"$DOT_HOST\",
+          \"enforce_block_height\": false,
+          \"block_scan_processors\": 1,
+          \"block_height_discover_back_off\": \"0.3s\",
+          \"block_retry_interval\": \"10s\",
+          \"chain_id\": \"DOT\",
+          \"http_request_timeout\": \"30s\",
+          \"http_request_read_timeout\": \"30s\",
+          \"http_request_write_timeout\": \"30s\",
+          \"max_http_request_retry\": 10,
+          \"start_block_height\": $DOT_START_BLOCK_HEIGHT,
+          \"db_path\": \"$OBSERVER_PATH\"
+        }
+      }"
+
+      if [ "$INCLUDE_DOT_CHAIN" = true ]; then
+        CHAINS="${CHAINS}${DOT_CHAIN_CONFIG},"
+      #  CHAINS+="$COMMA"
+      fi
+      # Solana chain config
+      SOL_HOST="${SOL_HOST:=http://127.0.0.1:8899}"
+      SOL_HOST_WS="${SOL_HOST_WS:=ws://127.0.0.1:8900/}"
+      SOL_START_BLOCK_HEIGHT="${SOL_START_BLOCK_HEIGHT:=0}"
+      SOL_SUGGESTED_FEE_VERSION="${SOL_SUGGESTED_FEE_VERSION:=1}"
+
+      INCLUDE_SOL_CHAIN="${INCLUDE_SOL_CHAIN:=false}"
+      SOL_CHAIN_CONFIG="
+      {
+        \"chain_id\": \"SOL\",
+        \"rpc_host\": \"$SOL_HOST\",
+        \"ws_client\": \"$SOL_HOST_WS\",
+        \"username\": \"$RPC_USER\",
+        \"password\": \"$RPC_PASSWD\",
+        \"http_post_mode\": 1,
+        \"disable_tls\": 1,
+        \"contract\": \"$CONTRACT\",
+        \"block_scanner\": {
+          \"rpc_host\": \"$SOL_HOST\",
+          \"enforce_block_height\": false,
+          \"block_scan_processors\": 1,
+          \"block_height_discover_back_off\": \"$BLOCK_SCANNER_BACKOFF\",
+          \"block_retry_interval\": \"10s\",
+          \"chain_id\": \"SOL\",
+          \"http_request_timeout\": \"30s\",
+          \"http_request_read_timeout\": \"30s\",
+          \"http_request_write_timeout\": \"30s\",
+          \"max_http_request_retry\": 10,
+          \"start_block_height\": $SOL_START_BLOCK_HEIGHT,
+          \"db_path\": \"$OBSERVER_PATH\",
+          \"suggested_fee_version\": $SOL_SUGGESTED_FEE_VERSION
+        }
+      }"
+
+      if [ "$INCLUDE_SOL_CHAIN" = true ]; then
+        CHAINS="${CHAINS}${SOL_CHAIN_CONFIG},"
+      #  CHAINS="$COMMA"
+      fi
+
+      # Gaia chain config
+      GAIA_HOST="${GAIA_HOST:=http://localhost:23357}"
+      GAIA_GRPC_HOST="${GAIA_GRPC_HOST:=localhost:9092}"
+      GAIA_GRPC_TLS="${GAIA_GRPC_TLS:=false}"
+      GAIA_START_BLOCK_HEIGHT="${GAIA_START_BLOCK_HEIGHT:=0}"
+      GAIA_DISABLED="${GAIA_DISABLED:=false}"
+      INCLUDE_GAIA_CHAIN="${INCLUDE_GAIA_CHAIN:=false}"
+      GAIA_CHAIN_CONFIG="
+      {
+        \"chain_id\": \"GAIA\",
+        \"rpc_host\": \"$GAIA_HOST\",
+        \"cosmos_grpc_host\": \"$GAIA_GRPC_HOST\",
+        \"cosmos_grpc_tls\": $GAIA_GRPC_TLS,
+        \"username\": \"$RPC_USER\",
+        \"password\": \"$RPC_PASSWD\",
+        \"http_post_mode\": 1,
+        \"disable_tls\": 1,
+        \"disabled\":$GAIA_DISABLED,
+        \"block_scanner\": {
+          \"rpc_host\": \"$GAIA_HOST\",
+          \"cosmos_grpc_host\": \"$GAIA_GRPC_HOST\",
+          \"cosmos_grpc_tls\": $GAIA_GRPC_TLS,
+          \"enforce_block_height\": false,
+          \"block_scan_processors\": 1,
+          \"block_height_discover_back_off\": \"$BLOCK_SCANNER_BACKOFF\",
+          \"block_retry_interval\": \"10s\",
+          \"chain_id\": \"GAIA\",
+          \"http_request_timeout\": \"30s\",
+          \"http_request_read_timeout\": \"30s\",
+          \"http_request_write_timeout\": \"30s\",
+          \"max_http_request_retry\": 10,
+          \"start_block_height\": $GAIA_START_BLOCK_HEIGHT,
+          \"db_path\": \"$OBSERVER_PATH\"
+        }
+      }"
+
+      if [ "$INCLUDE_GAIA_CHAIN" = true ]; then
+        CHAINS="${CHAINS}${GAIA_CHAIN_CONFIG},"
+      #  CHAINS+="$COMMA"
+      fi
+
+
+
+      . "$(dirname "$0")/core.sh"
+      #"$(dirname "$0")/wait-for-hermeschain-api.sh" $CHAIN_API
+
+      create_hermes_user "$SIGNER_NAME" "$SIGNER_PASSWD" "$SIGNER_SEED_PHRASE"
+
+      if [ -n "$PEER" ]; then
+        OLD_IFS=$IFS
+        IFS=","
+        SEED_LIST=""
+        for SEED in $PEER; do
+        # check if we have a hostname we extract the IP
+        if ! expr "$SEED" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
+          SEED=$(host "$SEED" | awk '{print $4}')
+        fi
+        SEED_ID=$(curl -m 10 -sL --fail "http://$SEED:6040/p2pid") || continue
+        SEED="/ip4/$SEED/tcp/5040/ipfs/$SEED_ID"
+        if [ -z "$SEED_LIST" ]; then
+        SEED_LIST="\"$SEED\""
+        else
+        SEED_LIST="$SEED_LIST,\"$SEED\""
+        fi
+        done
+        IFS=$OLD_IFS
+        PEER=$SEED_LIST
+      fi
+
+
+
+      mkdir -p $SIGNER_PATH $OBSERVER_PATH /etc/narada
+
+      # dynamically set external ip if mocknet and unset
+      if [ "$NET" = "mocknet" ] && [ -z "$EXTERNAL_IP" ]; then
+      EXTERNAL_IP=$(hostname)
+      fi
+
+      # trim last comma from chains
+      CHAINS=$(echo $CHAINS | sed 's/,$//')
+
+      # Generate narada config file
+      echo "{
+        \"hermeschain\": {
+          \"chain_id\": \"$CHAIN_ID\",
+          \"chain_host\": \"$CHAIN_API\",
+          \"chain_rpc\": \"$CHAIN_RPC\",
+          \"signer_name\": \"$SIGNER_NAME\"
+        },
+        \"metrics\": {
+          \"enabled\": true,
+          \"pprof_enabled\": $PPROF_ENABLED
+        },
+        \"chains\": [$CHAINS],
+        \"tss\": {
+          \"bootstrap_peers\": [$PEER],
+          \"rendezvous\": \"fortuna\",
+          \"external_ip\": \"$EXTERNAL_IP\",
+          \"p2p_port\": 5040,
+          \"info_address\": \":6040\"
+        },
+        \"signer\": {
+          \"signer_db_path\": \"$SIGNER_PATH\",
+          \"block_scanner\": {
+            \"rpc_host\": \"$CHAIN_RPC\",
+            \"start_block_height\": $START_BLOCK_HEIGHT,
+            \"enforce_block_height\": false,
+            \"block_scan_processors\": 1,
+            \"block_height_discover_back_off\": \"$HERMES_BLOCK_TIME\",
+            \"block_retry_interval\": \"10s\",
+            \"db_path\": \"$SIGNER_PATH\",
+            \"scheme\": \"http\"
+          }
+        }
+      }" >/etc/narada/config.json
+
+      echo "$PREPARAM" >/etc/narada/preparam.data
+
+
+      export SIGNER_PASSWD
+      exec "$@"

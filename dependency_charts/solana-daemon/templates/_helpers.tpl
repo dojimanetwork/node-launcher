@@ -106,21 +106,56 @@ RPC Port
 {{- end -}}
 {{- end -}}
 
+
 {{/*
-P2P Port
+WS Port
 */}}
-{{- define "solana-daemon.p2p" -}}
+{{- define "solana-daemon.ws" -}}
 {{- if eq (include "solana-daemon.net" .) "mainnet" -}}
-    {{ .Values.service.port.mainnet.p2p}}
+    {{ .Values.service.port.mainnet.ws}}
 {{- else if eq (include "solana-daemon.net" .) "stagenet" -}}
-    {{ .Values.service.port.stagenet.p2p}}
+    {{ .Values.service.port.stagenet.ws}}
 {{- else -}}
-    {{ .Values.service.port.testnet.p2p }}
+    {{ .Values.service.port.testnet.ws }}
 {{- end -}}
 {{- end -}}
 
-{{- define "solana-daemon.api" -}}
-{{- if eq (include "solana-daemon.net" .) "testnet" -}}
-    {{ .Values.service.port.testnet.api }}
+{{/*
+UDP Port
+*/}}
+{{- define "solana-daemon.udp" -}}
+{{- if eq (include "solana-daemon.net" .) "mainnet" -}}
+    {{ .Values.service.port.mainnet.udp}}
+{{- else if eq (include "solana-daemon.net" .) "stagenet" -}}
+    {{ .Values.service.port.stagenet.udp}}
+{{- else -}}
+    {{ .Values.service.port.testnet.udp }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+TPU Port
+*/}}
+{{- define "solana-daemon.tpu" -}}
+{{- if eq (include "solana-daemon.net" .) "mainnet" -}}
+    {{ .Values.service.port.mainnet.tpu}}
+{{- else if eq (include "solana-daemon.net" .) "stagenet" -}}
+    {{ .Values.service.port.stagenet.tpu}}
+{{- else -}}
+    {{ .Values.service.port.testnet.tpu }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Gossip Port
+*/}}
+{{- define "solana-daemon.gossip" -}}
+{{- if eq (include "solana-daemon.net" .) "mainnet" -}}
+    {{ .Values.service.port.mainnet.gossip}}
+{{- else if eq (include "solana-daemon.net" .) "stagenet" -}}
+    {{ .Values.service.port.stagenet.gossip}}
+{{- else -}}
+    {{ .Values.service.port.testnet.gossip }}
 {{- end -}}
 {{- end -}}

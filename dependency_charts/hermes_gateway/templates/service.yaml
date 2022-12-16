@@ -55,9 +55,55 @@ spec:
       targetPort: p2p
       protocol: TCP
       name: p2p
+    {{- if .Values.arweave }}
     - port: {{ include "gateway-arweave-daemon.api" .}}
       targetPort: arweave-api
       protocol: TCP
       name: arweave-api
+    {{- end }}
+    {{- if .Values.solana }}
+    - port: {{ include "gateway-solana-daemon.rpc" .}}
+      targetPort: solana-rpc
+      protocol: TCP
+      name: solana-rpc
+    - port: {{ include "gateway-solana-daemon.wss" .}}
+      targetPort: solana-wss
+      protocol: TCP
+      name: solana-wss
+    - port: {{ include "gateway-solana-daemon.gossip" .}}
+      targetPort: solana-gossip
+      protocol: TCP
+      name: solana-gossip
+    - port: {{ include "gateway-solana-daemon.tpu" .}}
+      targetPort: solana-tpu
+      protocol: TCP
+      name: solana-tpu
+    {{- end }}
+    {{- if .Values.polkadot }}
+    - port: {{ include "gateway-polkadot-daemon.http" .}}
+      targetPort: polkadot-http
+      protocol: TCP
+      name: polkadot-http
+    - port: {{ include "gateway-polkadot-daemon.wss" .}}
+      targetPort: polkadot-wss
+      protocol: TCP
+      name: polkadot-wss
+    {{- end }}
+    {{- if .Values.dojima_chain }}
+    - port: {{ include "gateway-dojima-chain.http" . }}
+      targetPort: dc-http
+      protocol: TCP
+      name: dc-http
+    - port: {{ include "gateway-dojima-chain.rpc" . }}
+      targetPort: dc-rpc
+      protocol: TCP
+      name: dc-rpc
+    {{- end }}
+    {{- if .Values.faucet }}
+    - port: {{ include "gateway-dojima-chain.faucet" . }}
+      targetPort: faucet
+      protocol: TCP
+      name: faucet
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

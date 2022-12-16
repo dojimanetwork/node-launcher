@@ -37,7 +37,7 @@ Common labels
 {{- define "wallet-daemon.labels" -}}
 helm.sh/chart: {{ include "wallet-daemon.chart" . }}
 {{ include "wallet-daemon.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.testnet }}
+app.kubernetes.io/version: {{ .Values.image.mainnet }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
@@ -84,6 +84,6 @@ Image
 HTTP Port
 */}}
 {{- define "wallet-daemon.http" -}}
-    {{ .Values.service.port.testnet.http }}
+    {{ .Values.service.port.mainnet.http }}
 {{- end -}}
 

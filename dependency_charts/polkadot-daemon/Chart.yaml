@@ -1,0 +1,7 @@
+apiVersion: v2
+name: polkadot-daemon
+description: Polkadot Node daemon component
+type: application
+version: 0.1.0
+
+appVersion: 0.1.0

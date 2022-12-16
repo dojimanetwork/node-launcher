@@ -108,6 +108,15 @@ P2P Port
 {{- end -}}
 
 {{/*
+GRPC Port
+*/}}
+{{- define "hermesnode.grpc" -}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.grpc }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 ETH Router contract
 */}}
 {{- define "hermesnode.ethRouterContract" -}}

@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: testnet
+net: mainnet
 
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
@@ -26,15 +26,19 @@ domain:
   landing_page:
     testnet: www-test.dojima.network
     mainnet: www.domain.network
+    enable: true
   dojima_wallet:
     testnet: wallet-test.dojima.network
     mainnet: wallet.dojima.network
+    enable: true
   block_explorer:
     testnet: block-explorer-test.dojima.network
     mainnet: block-explorer.dojima.network
+    enable: false
   developer_doc:
     testnet: developer-docs-test.dojima.network
     mainnet: developer-docs.dojima.network
+    enable: false
 
 service:
   type: LoadBalancer

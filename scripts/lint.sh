@@ -5,16 +5,16 @@ get_image_versions() {
   local CONF="$1"
   local NET="$1"
   (
-    pushd hermesnode-stack/
+    pushd thornode-stack/
     helm dependency build
     popd
   ) &>/dev/null
   if [ "$CONF" == "chaosnet" ]; then
     NET="mainnet"
   fi
-  helm template --values hermesnode-stack/"$CONF".yaml \
+  helm template --values thornode-stack/"$CONF".yaml \
     --set "global.net=$NET" \
-    --set "midgard.enabled=true" hermesnode-stack/ |
+    --set "midgard.enabled=true" thornode-stack/ |
     grep -E '^\s*image:\s*[^\s]+'
 }
 
@@ -54,9 +54,9 @@ find . -type f -name 'Chart.yaml' -printf '%h\n' |
     popd
   done
 
-# Check hermesnode-stack with the various net configs.
+# Check thornode-stack with the various net configs.
 for NET in stagenet chaosnet testnet; do
-  helm lint --values hermesnode-stack/"$NET".yaml hermesnode-stack/
+  helm lint --values thornode-stack/"$NET".yaml thornode-stack/
 done
 
 # TODO: enable yamllint - will be a major whitespace change across the charts.

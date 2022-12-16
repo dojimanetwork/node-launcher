@@ -2,16 +2,16 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: testnet
+net: mainnet
 
 replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
   testnet: "testnet-0.1.2-2022-12-13"
-  mainnet: ""
+  mainnet: "mainnet-0.1.2-2022-12-14"
   testnet_hash: "d13ded996e306b7ce5c8a3277625cbed030e120355d752568176d5374ab6b8d5"
-  mainnet_hash: ""
+  mainnet_hash: "d7dd52311feb172153cb3ff52dd1a9f668be09f411bd673d3cd6eada1fdafe5d"
 
 imagePullSecrets: []
 nameOverride: "landing-paged"

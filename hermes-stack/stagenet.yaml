@@ -13,20 +13,8 @@ binance-daemon:
 bitcoin-daemon:
   enabled: true
 
-litecoin-daemon:
-  enabled: true
-
-bitcoin-cash-daemon:
-  enabled: true
-
 ethereum-daemon:
   enabled: true
 
-dogecoin-daemon:
-  enabled: true
-
 gaia-daemon:
-  enabled: true
-
-avalanche-daemon:
   enabled: true

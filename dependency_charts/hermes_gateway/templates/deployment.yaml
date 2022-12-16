@@ -63,6 +63,36 @@ spec:
             - name: arweave-api
               containerPort: {{ include "gateway-arweave-daemon.api" .}}
               protocol: TCP
+            - name: solana-rpc
+              containerPort: {{ include "gateway-solana-daemon.rpc" .}}
+              protocol: TCP
+            - name: solana-wss
+              containerPort: {{ include "gateway-solana-daemon.wss" .}}
+              protocol: TCP
+            - name: solana-gossip
+              containerPort: {{ include "gateway-solana-daemon.gossip" .}}
+              protocol: TCP
+            - name: solana-tpu
+              containerPort: {{ include "gateway-solana-daemon.tpu" .}}
+              protocol: TCP
+            - name: solana-udp
+              containerPort: {{ include "gateway-solana-daemon.udp" .}}
+              protocol: UDP
+            - name: polkadot-wss
+              containerPort: {{ include "gateway-polkadot-daemon.wss" .}}
+              protocol: TCP
+            - name: polkadot-http
+              containerPort: {{ include "gateway-polkadot-daemon.http" .}}
+              protocol: TCP
+            - name: dc-http
+              containerPort: {{ include "gateway-dojima-chain.http" .}}
+              protocol: TCP
+            - name: dc-rpc
+              containerPort: {{ include "gateway-dojima-chain.rpc" .}}
+              protocol: TCP
+            - name: faucet
+              containerPort: {{ include "gateway-dojima-chain.faucet" .}}
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /healthz

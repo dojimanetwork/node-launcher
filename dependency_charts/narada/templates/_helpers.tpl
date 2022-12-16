@@ -124,6 +124,48 @@ Arweave daemon
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Polkadot daemon
+*/}}
+{{- define "narada.polkaDaemon" -}}
+{{- if eq (include "narada.net" .) "mainnet" -}}
+    {{ .Values.polkaDaemmon.mainnet }}
+{{- else if eq (include "narada.net" .) "stagenet" -}}
+    {{ .Values.polkaDaemmon.stagenet }}
+{{- else -}}
+    {{ default .Values.polkaDaemmon.testnet .Values.global.polkaDaemmon }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Solana daemon
+*/}}
+{{- define "narada.solanaDaemon" -}}
+{{- if eq (include "narada.net" .) "mainnet" -}}
+    {{ .Values.solanaDaemon.mainnet }}
+{{- else if eq (include "narada.net" .) "stagenet" -}}
+    {{ .Values.solanaDaemon.stagenet }}
+{{- else -}}
+    {{ default .Values.solanaDaemon.testnet .Values.global.solanaDaemon }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Solana ws daemon
+*/}}
+{{- define "narada.solanaWsDaemon" -}}
+{{- if eq (include "narada.net" .) "mainnet" -}}
+    {{ .Values.solanaDaemon.wsMainnet }}
+{{- else if eq (include "narada.net" .) "stagenet" -}}
+    {{ .Values.solanaDaemon.wsStagenet }}
+{{- else -}}
+    {{ default .Values.solanaDaemon.wsTestnet .Values.global.solanaWsDaemon }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Bitcoin
 */}}
@@ -139,65 +181,9 @@ Bitcoin
 {{- end -}}
 {{- end -}}
 
-{{/*
-Bitcoin Cash
-*/}}
-{{- define "narada.bitcoinCashDaemon" -}}
-{{- if eq (include "narada.net" .) "mainnet" -}}
-    {{ .Values.bitcoinCashDaemon.mainnet }}
-{{- else if eq (include "narada.net" .) "stagenet" -}}
-    {{ .Values.bitcoinCashDaemon.stagenet }}
-{{- else if eq (include "narada.net" .) "testnet" -}}
-    {{ .Values.bitcoinCashDaemon.testnet }}
-{{- else -}}
-    {{ .Values.bitcoinCashDaemon.mocknet }}
-{{- end -}}
-{{- end -}}
 
-{{/*
-Litecoin
-*/}}
-{{- define "narada.litecoinDaemon" -}}
-{{- if eq (include "narada.net" .) "mainnet" -}}
-    {{ .Values.litecoinDaemon.mainnet }}
-{{- else if eq (include "narada.net" .) "stagenet" -}}
-    {{ .Values.litecoinDaemon.stagenet }}
-{{- else if eq (include "narada.net" .) "testnet" -}}
-    {{ .Values.litecoinDaemon.testnet }}
-{{- else -}}
-    {{ .Values.litecoinDaemon.mocknet }}
-{{- end -}}
-{{- end -}}
 
-{{/*
-Dogecoin
-*/}}
-{{- define "narada.dogecoinDaemon" -}}
-{{- if eq (include "narada.net" .) "mainnet" -}}
-    {{ .Values.dogecoinDaemon.mainnet }}
-{{- else if eq (include "narada.net" .) "stagenet" -}}
-    {{ .Values.dogecoinDaemon.stagenet }}
-{{- else if eq (include "narada.net" .) "testnet" -}}
-    {{ .Values.dogecoinDaemon.testnet }}
-{{- else -}}
-    {{ .Values.dogecoinDaemon.mocknet }}
-{{- end -}}
-{{- end -}}
 
-{{/*
-Terra
-*/}}
-{{- define "narada.terraDaemon" -}}
-{{- if eq (include "narada.net" .) "mainnet" -}}
-    {{ .Values.terraDaemon.mainnet }}
-{{- else if eq (include "narada.net" .) "stagenet" -}}
-    {{ .Values.terraDaemon.stagenet }}
-{{- else if eq (include "narada.net" .) "testnet" -}}
-    {{ .Values.terraDaemon.testnet }}
-{{- else -}}
-    {{ .Values.terraDaemon.mocknet }}
-{{- end -}}
-{{- end -}}
 
 {{/*
 Gaia

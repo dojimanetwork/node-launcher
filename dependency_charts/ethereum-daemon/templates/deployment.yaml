@@ -1,0 +1,175 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ethereum-daemon.fullname" . }}
+  labels:
+    {{- include "ethereum-daemon.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "ethereum-daemon.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ethereum-daemon.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+
+      serviceAccountName: {{ include "ethereum-daemon.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      initContainers:
+      {{- if not (eq .Values.net "mocknet") }}
+        - name: init-beacon
+          image: alpine:{{ .Values.global.images.alpine.tag }}@sha256:{{ .Values.global.images.alpine.hash }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: scripts
+              mountPath: /scripts
+          command:
+            - /scripts/init-beacon.sh
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ .Values.image.eth.name }}:{{ include "daemon.tag" . }}@sha256:{{ .Values.image.eth.hash }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - geth
+            - --http
+            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug
+            - --http.addr=0.0.0.0
+            - --http.port=8545
+            - --http.corsdomain=*
+            - --http.vhosts=*
+          {{- if eq .Values.net "mocknet" }}
+            - --dev
+            - --dev.period=5
+            - --datadir=/data/{{ .Values.net }}
+          {{- else if eq .Values.net "testnet" }}
+            - --override.terminaltotaldifficulty=50000000000000000
+            - --{{ .Values.chain }}
+            - --syncmode=snap
+            - --cache=4096
+            - --eth.requiredblocks=10920274=0xfd652086d220d506ae5b7cb80fde97d2f3f7028d346cc7d9d384a83d3d638532
+            - --authrpc.vhosts=*
+            - --authrpc.addr=0.0.0.0
+            - --authrpc.port=8551
+            - --authrpc.jwtsecret=/data/jwt.hex
+            - --datadir=/data/{{.Values.chain}}
+          {{- else }} # mainnet / stagenet
+          command: [ "sh", "-c", 'geth --syncmode snap --cache 4096 --http --http.addr 0.0.0.0 --http.port 8545 --http.api "eth,net,engine,web3,miner,personal,txpool,debug" --http.corsdomain "*" --http.vhosts="*" --authrpc.vhosts="localhost" --authrpc.jwtsecret="/data/jwt.hex"' ]
+          {{- end }}
+          volumeMounts:
+            - name: entrypoint
+              mountPath: /entrypoint
+            - name: scripts
+              mountPath: /scripts
+            - name: data
+              mountPath: /data
+          env:
+            - name: NET
+              value: {{ .Values.net }}
+          ports:
+            - name: rpc
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- if eq .Values.net "testnet" }}
+          startupProbe:
+            failureThreshold: 600
+            periodSeconds: 10
+            timeoutSeconds: 10
+            exec:
+              command:
+                - /scripts/probe.sh
+          livenessProbe:
+            failureThreshold: 60
+            timeoutSeconds: 10
+            periodSeconds: 10
+            exec:
+              command:
+                - /scripts/probe.sh
+          readinessProbe:
+            timeoutSeconds: 10
+            exec:
+              command:
+                - test
+                {{- if eq (include "ethereum-daemon.net" .) "mocknet" }}
+                - $(geth --dev attach --exec net.listening) == "true"
+                {{- else if eq (include "ethereum-daemon.net" .) "testnet" }}
+                - $(geth --{{ .Values.chain }} attach --exec net.listening) == "true"
+                {{- else if eq (include "ethereum-daemon.net" .) "stagenet" }}
+                - $(geth attach --exec net.listening) == "true"
+                {{- else if eq (include "ethereum-daemon.net" .) "mainnet" }}
+                - $(geth attach --exec net.listening) == "true"
+                {{- end }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+        {{- if not (eq .Values.net "mocknet") }}
+        - name: {{ .Chart.Name }}-beacon
+          image: {{ .Values.image.prysm.name }}:{{ .Values.image.prysm.tag }}
+          command:
+            - /app/cmd/beacon-chain/beacon-chain
+            - --datadir=/data/beacon
+            - --execution-endpoint=http://localhost:8551
+            - --accept-terms-of-use
+            - --jwt-secret=/data/jwt.hex
+            - --grpc-gateway-host=0.0.0.0  # used by node status
+            - --suggested-fee-recipient={{ .Values.fee_recipient }}
+        {{- if eq .Values.net "testnet" }}
+            - --{{ .Values.chain }}
+            - --checkpoint-sync-url={{ .Values.sync_url }}
+            - --genesis-beacon-api-url={{ .Values.sync_url }}
+        {{- else }}
+            - --mainnet
+        {{- end }}
+          ports:
+            - name: beacon
+              containerPort: 3500
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+        {{- end }}
+      volumes:
+        - name: data
+        {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "ethereum-daemon.fullname" . }}{{- end }}
+        {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+          hostPath:
+            path: {{ .Values.persistence.hostPath }}
+            type: DirectoryOrCreate
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: entrypoint
+          emptyDir: {}
+        - name: scripts
+          configMap:
+            name: {{ include "ethereum-daemon.fullname" . }}-scripts
+            defaultMode: 0777
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

@@ -78,16 +78,39 @@ data:
       limit_conn_zone $server_name zone=rpc_conn:10m;
       limit_req_zone $binary_remote_addr zone=rpc_req:10m rate=1r/s;
 
-    server {
+      map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+      }
+
+      {{- if .Values.polkadot }}
+      upstream polkadot-websocket {
+        server polkadot-daemon:{{ .Values.service.port.polkadot.testnet.wss }};
+      }
+      {{- end }}
+
+      {{- if .Values.solana }}
+      upstream solana-websocket {
+        server solana-daemon:{{ .Values.service.port.solana.testnet.wss }};
+      }
+      {{- end }}
+
+      {{- if .Values.dojima_chain }}
+      upstream dojima-chain-websocket {
+        server dojima-chain:{{ include "gateway-dojima-chain.rpc" . }};
+      }
+      {{- end }}
+
+      server {
         listen 80;
-        server_name d11k.dojima.network;
+        server_name {{ include "gateway-hermes-api.domain" .}};
 
         location /healthz {
           access_log off;
           return 200 "healthy\n";
         }
 
-        location ~* ^/hermes/(constants|inbound_addresses|lastblock|mimir|network|node|pool|queue|vault|version) {
+        location ~* ^/hermeschain/(constants|inbound_addresses|lastblock|mimir|network|node|pool|queue|vault|version) {
           proxy_hide_header Access-Control-Allow-Origin;
           proxy_hide_header Access-Control-Allow-Methods;
           proxy_hide_header Access-Control-Allow-Headers;
@@ -150,7 +173,6 @@ data:
         }
       }
 
-
       server {
         listen 80;
         server_name _;
@@ -162,7 +184,9 @@ data:
 
       {{- if .Values.validator }}
       server {
-        listen {{ .Values.service.port.narada.api }};
+        listen 80;
+        server_name narada-test.h4s.dojima.network;
+
         location / {
           proxy_set_header Host $http_host;
           proxy_http_version 1.1;
@@ -219,77 +243,10 @@ data:
       }
       {{- end }}
 
-      {{- if .Values.api }}
-      server {
-        listen {{ .Values.service.port.api }};
-
-        location ~* ^/hermes/(constants|inbound_addresses|lastblock|mimir|network|node|pool|queue|vault|version) {
-          proxy_hide_header Access-Control-Allow-Origin;
-          proxy_hide_header Access-Control-Allow-Methods;
-          proxy_hide_header Access-Control-Allow-Headers;
-          proxy_hide_header Access-Control-Allow-Credentials;
-          add_header Access-Control-Allow-Origin '*' always;
-          add_header Access-Control-Allow-Credentials true always;
-          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-
-          if ($request_method = 'OPTIONS') {
-            add_header Access-Control-Allow-Origin '*' always;
-            add_header Access-Control-Allow-Credentials true always;
-            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-            add_header 'Access-Control-Max-Age' 1728000 always;
-            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
-            add_header 'Content-Length' 0 always;
-            return 204;
-          }
-
-          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
-          add_header X-Cache-Status $upstream_cache_status always;
-          proxy_cache hermesnode;
-          proxy_cache_lock on;
-          proxy_cache_lock_timeout 20s;
-          proxy_cache_lock_age 20s;
-          proxy_cache_valid any 5s;
-          proxy_set_header Host $http_host;
-          proxy_http_version 1.1;
-          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://fhermesnode-hermes:{{ .Values.service.port.api }};
-        }
-
-        location / {
-          proxy_hide_header Access-Control-Allow-Origin;
-          proxy_hide_header Access-Control-Allow-Methods;
-          proxy_hide_header Access-Control-Allow-Headers;
-          proxy_hide_header Access-Control-Allow-Credentials;
-          add_header Access-Control-Allow-Origin '*' always;
-          add_header Access-Control-Allow-Credentials true always;
-          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-
-          if ($request_method = 'OPTIONS') {
-            add_header Access-Control-Allow-Origin '*' always;
-            add_header Access-Control-Allow-Credentials true always;
-            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-            add_header 'Access-Control-Max-Age' 1728000 always;
-            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
-            add_header 'Content-Length' 0 always;
-            return 204;
-          }
-
-          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
-          proxy_set_header Host $http_host;
-          proxy_http_version 1.1;
-          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://fhermesnode-hermes:{{ .Values.service.port.api }};
-        }
-      }
-      {{- end }}
-
       {{- if .Values.rpc.enabled }}
       server {
-        listen {{ include "gateway.rpc" . }};
+        listen 80;
+        server_name {{ include "gateway-hermes-rpc.domain" .}};
 
         location /genesis {
           proxy_set_header Host $http_host;
@@ -345,10 +302,12 @@ data:
       }
       {{- end }}
 
+      {{- if .Values.arweave }}
       server {
-        listen {{ include "gateway-arweave-daemon.api" . }};
+        listen 80;
+        server_name {{ include "gateway-hermes-ar.domain" .}};
 
-        location ~* ^/(info|tx|price|wallet|block|peers|chunk|mint) {
+        location ~* ^/(info|tx|price|wallet|block|peers|chunk|mint|graphql|mine) {
           proxy_hide_header Access-Control-Allow-Origin;
           proxy_hide_header Access-Control-Allow-Methods;
           proxy_hide_header Access-Control-Allow-Headers;
@@ -377,6 +336,369 @@ data:
 
         }
       }
+      {{- end }}
+
+      {{- if .Values.solana }}
+      server {
+        listen {{ .Values.service.port.solana.testnet.rpc }};
+
+        server_name {{ include "gateway-hermes-sol-api.domain" .}};
+        location / {
+
+          if ($http_origin = '') {
+            set $http_origin "*";
+          }
+
+          proxy_hide_header Access-Control-Allow-Origin;
+          add_header Access-Control-Allow-Origin $http_origin;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST,PUT,HEAD,CONNECT' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With,X-Auth-Token,Content-Length,Access-Control-Allow-Headers,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,solana-client' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin $http_origin;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST,PUT,HEAD,CONNECT' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With,X-Auth-Token,Content-Length,Access-Control-Allow-Headers,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,solana-client' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_pass http://solana-daemon:{{ .Values.service.port.solana.testnet.rpc }};
+
+        }
+
+        location ~ \.so$ {
+
+          if ($http_origin = ''){
+            set $http_origin "*";
+          }
+
+          proxy_hide_header Access-Control-Allow-Origin;
+          add_header Access-Control-Allow-Origin $http_origin;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST,PUT,HEAD,CONNECT' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With,X-Auth-Token,Content-Length,Access-Control-Allow-Headers,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,solana-client' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin $http_origin;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST,PUT,HEAD,CONNECT' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With,X-Auth-Token,Content-Length,Access-Control-Allow-Headers,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,solana-client' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_pass http://solana-daemon:{{ .Values.service.port.solana.testnet.rpc }};
+
+        }
+      }
+
+      server {
+        listen {{.Values.service.port.solana.testnet.wss}};
+        server_name {{ include "gateway-hermes-sol-ws.domain" .}};
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_pass http://solana-websocket;
+
+        }
+      }
+
+      server {
+        listen {{.Values.service.port.solana.testnet.gossip}};
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_pass http://solana-daemon:{{.Values.service.port.solana.testnet.gossip}};
+        }
+      }
+
+
+      server {
+        listen {{.Values.service.port.solana.testnet.tpu}};
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_pass http://solana-daemon:{{.Values.service.port.solana.testnet.tpu}};
+        }
+      }
+      {{- end }}
+
+
+      {{- if .Values.polkadot }}
+      server {
+        listen 9944;
+        server_name {{ include "gateway-hermes-dot-ws.domain" .}};
+
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_pass http://polkadot-websocket;
+
+        }
+      }
+      server {
+        listen 80;
+        server_name {{ include "gateway-hermes-dot.domain" .}};
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_pass http://polkadot-daemon:{{ .Values.service.port.polkadot.testnet.http }};
+
+        }
+      }
+
+      {{- end }}
+
+
+      {{- if .Values.dojima_chain }}
+      server {
+        listen {{ include "gateway-dojima-chain.http" . }};
+        server_name {{ include "gateway-dc-api.domain" .}};
+
+        location /healthz {
+          access_log off;
+          return 200 "healthy\n";
+        }
+
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_pass http://dojima-chain:{{ include "gateway-dojima-chain.http" . }};
+        }
+      }
+
+
+      server {
+        listen {{ include "gateway-dojima-chain.rpc" . }};
+        server_name {{ include "gateway-dc-rpc.domain" . }};
+
+        location /healthz {
+          access_log off;
+          return 200 "healthy\n";
+        }
+
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+          add_header 'Access-Control-Max-Age' 1728000 always;
+          add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+          add_header 'Content-Length' 0 always;
+          return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_pass http://dojima-chain-websocket;
+
+        }
+      }
+      {{- end }}
+
+     {{- if .Values.faucet }}
+      server {
+        listen 80;
+        server_name {{ include "gateway-dc-faucet.domain" .}};
+
+        location ~* ^/(info|tx|price|wallet|block|peers|chunk|mint|graphql|mine) {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_pass http://bex-faucet:{{ include "gateway-dojima-chain.faucet" . }};
+
+        }
+      }
+      {{- end }}
 
     }
 

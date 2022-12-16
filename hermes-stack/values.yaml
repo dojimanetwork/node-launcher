@@ -14,7 +14,7 @@ global:
       tag: latest
       hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
 
-gateway:
+hermes-gateway:
   fullnameOverride: hermes-gateway
   enabled: true
 
@@ -26,34 +26,42 @@ narada:
   fullnameOverride: narada
   enabled: true
 
+dojima-chain:
+  fullnameOverride: dojima-chain
+  enabled: true
+
 midgard:
   enabled: false
   fullnameOverride: midgard
 
 binance-daemon:
   fullnameOverride: binance-daemon
+  enabled: false
 
 bitcoin-daemon:
   fullnameOverride: bitcoin-daemon
-
-litecoin-daemon:
-  fullnameOverride: litecoin-daemon
-
-bitcoin-cash-daemon:
-  fullnameOverride: bitcoin-cash-daemon
+  enabled: false
 
 ethereum-daemon:
   fullnameOverride: ethereum-daemon
-
-dogecoin-daemon:
-  fullnameOverride: dogecoin-daemon
+  enabled: true
 
 gaia-daemon:
   fullnameOverride: gaia-daemon
   enabled: false
 
-avalanche-daemon:
-  fullnameOverride: avalanche-daemon
-
 arweave-daemon:
   fullnameOverride: arweave-daemon
+  enabled: true
+
+polkadot-daemon:
+  fullnameOverride: polkadot-daemon
+  enabled: true
+
+solana-daemon:
+  fullnameOverride: solana-daemon
+  enabled: true
+
+bex-faucet:
+  fullnameOverride: bex-faucet
+  enabled: true

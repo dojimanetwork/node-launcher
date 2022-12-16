@@ -1,0 +1,16 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "dojima-chain.fullname" . }}
+  labels:
+{{ include "dojima-chain.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "dojima-chain.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "dojima-chain.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end -}}

@@ -37,7 +37,7 @@ Common labels
 {{- define "landing-page-daemon.labels" -}}
 helm.sh/chart: {{ include "landing-page-daemon.chart" . }}
 {{ include "landing-page-daemon.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.testnet }}
+app.kubernetes.io/version: {{ .Values.image.mainnet }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
@@ -84,6 +84,6 @@ Image
 HTTP Port
 */}}
 {{- define "landing-page-daemon.http" -}}
-    {{ .Values.service.port.testnet.http }}
+    {{ .Values.service.port.mainnet.http }}
 {{- end -}}
 

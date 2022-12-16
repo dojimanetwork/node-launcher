@@ -28,8 +28,8 @@ dojima-wallet:
 
 developer-docs:
   fullnameOverride: developer-docs
-  enabled: true
+  enabled: false
 
 block-explorer:
   fullnameOverride: block-explorer
-  enabled: true  
+  enabled: false

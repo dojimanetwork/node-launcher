@@ -40,10 +40,27 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "solana-daemon.image" . }}
           imagePullPolicy: IfNotPresent
+          command:
+            - solana-test-validator
           ports:
-            - name: api
-              containerPort: {{ include "solana-daemon.api" . }}
+            - name: rpc
+              containerPort: {{ include "solana-daemon.rpc" . }}
               protocol: TCP
+            - name: ws
+              containerPort: {{ include "solana-daemon.ws" . }}
+              protocol: TCP
+            - name: udp
+              containerPort: {{ include "solana-daemon.udp" . }}
+              protocol: UDP
+            - name: gossip
+              containerPort: {{ include "solana-daemon.gossip" . }}
+              protocol: TCP
+            - name: tpu
+              containerPort: {{ include "solana-daemon.tpu" . }}
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /scripts
+              name: scripts
           resources:
           {{- if not (eq (include "solana-daemon.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}

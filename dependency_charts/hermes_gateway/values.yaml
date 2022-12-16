@@ -10,12 +10,36 @@ rpc:
   enabled: true
   limited: false
 api: true
+arweave: true
+solana: true
+polkadot: true
+dojima_chain: true
+faucet: true
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
 # traffic if not provided.
 whitelistIPs: []
 
 replicaCount: 1
+
+domain:
+  h4s:
+    testnet:
+      api: api-test.h4s.dojima.network
+      rpc: rpc-test.h4s.dojima.network
+      ar: ar-test.h4s.dojima.network
+      dot: dot-test.h4s.dojima.network
+      dot_ws: dotws-test.h4s.dojima.network
+      sol: sol-test.h4s.dojima.network
+      sol_ws: solws-test.h4s.dojima.network
+  d11k:
+    testnet:
+      api: api-test.d11k.dojima.network
+      wss: rpc-test.d11k.dojima.network
+      graphql: graph-test.d11k.dojima.network
+  faucet:
+    api: faucet.h4s.dojima.network
+
 
 image:
   name: nginx
@@ -48,6 +72,25 @@ service:
     arweave:
       testnet:
         api: 1984
+    solana:
+      testnet:
+        rpc: 8899
+        wss: 8900
+        udp: 8003
+        gossip: 1024
+        tpu: 1027
+    polkadot:
+      testnet:
+        wss: 9944
+        http: 9933
+    dc:
+      testnet:
+        http: 8545
+        wss: 8546
+        graphql: 8547
+    faucet:
+      testnet:
+        api: 8081
 
 serviceAccount:
   # Specifies whether a service account should be created

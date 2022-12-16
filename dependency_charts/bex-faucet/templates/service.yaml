@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bex-faucet.fullname" . }}
+  labels:
+    {{- include "bex-faucet.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: api
+      port: {{ include "bex-faucet.api" . }}
+      targetPort: api
+      protocol: TCP
+  selector:
+    {{- include "bex-faucet.selectorLabels" . | nindent 4 }}

@@ -7,12 +7,12 @@ autoupdate:
   enable: false
   nodes:
 
-chain_home_folder: "~/.hermes"
+chain_home_folder: "/root/.hermesnode"
 ar_key_path: "/Users/luffybhaagi/dojima/ar-contracts/wallet-1.json"
 ar_address: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
 
 signer:
-  name: hermesnode
+  name: hermeschain
   password: password
   mnemonicSecret: "password"
   passwordSecret: "password"
@@ -21,7 +21,8 @@ signer:
   # validator 1 phrase
   # signer_seed_phrase: "pipe expire lecture state pilot latin stamp senior market much dilemma tooth airport oblige flower caught risk canoe radar gadget tag narrow inch trust"
 
-
+eth_host: http://ethereum-daemon:8545
+dojima_rpc_url: http://dojima-chain:8545
 peer:
 seeds:
 peerApi:
@@ -51,7 +52,7 @@ strategyType: Recreate
 
 image:
   repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
-  tag: testnet-1.89.0_18
+  tag: testnet-1.89.0_40
   hash: sha256:904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
   pullPolicy: IfNotPresent
 
@@ -66,6 +67,7 @@ service:
     testnet:
       p2p: 26656
       rpc: 26657
+      grpc: 9090
 
 persistence:
   enabled: true

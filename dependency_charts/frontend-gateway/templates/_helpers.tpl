@@ -73,9 +73,7 @@ Net
 Landing page http Port
 */}}
 {{- define "gateway-landing-page.http" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.landing_page.http }}
-{{- end -}}
 {{- end -}}
 
 {{/*
@@ -105,9 +103,7 @@ Dojima wallet page domain name
 Dojima wallet http Port
 */}}
 {{- define "gateway-dojima-wallet.http" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.dojima_wallet.http }}
-{{- end -}}
 {{- end -}}
 
 
@@ -115,9 +111,7 @@ Dojima wallet http Port
 Dojima explorer http Port
 */}}
 {{- define "gateway-dojima-explorer.http" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.dojima_explorer.http }}
-{{- end -}}
 {{- end -}}
 
 
@@ -148,7 +142,5 @@ Developer docs page domain name
 Developer docs http Port
 */}}
 {{- define "gateway-developer-docs.http" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.developer_docs.http }}
-{{- end -}}
 {{- end -}}

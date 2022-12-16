@@ -1,0 +1,162 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dojima-chain.fullname" . }}
+  labels:
+    {{- include "dojima-chain.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.strategyType }}
+  selector:
+    matchLabels:
+      {{- include "dojima-chain.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "dojima-chain.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "dojima-chain.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
+
+      initContainers:
+      - name: init-external-ip
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        {{- if .Values.global.gateway.enabled }}
+        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "dojima-chain.fullname" . }}-external-ip']
+        {{- else }}
+        command: ['/scripts/external-ip.sh', 'false', '{{ include "dojima-chain.fullname" . }}', '{{ include "dojima-chain.fullname" . }}-external-ip']
+        {{- end }}
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+      - name: create-password-txt
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [ '/scripts/password.sh' ]
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
+      - name: generate-keystore
+        image: {{ include "dojima-chain.hermesnode-image" . }}
+        command: [ '/scripts/genesis.sh' ]
+        env:
+          - name: CHAIN_HOME_FOLDER
+            value: {{ .Values.chain_home_folder }}
+          - name: SIGNER_NAME
+            value: {{ .Values.signer.name }}
+          - name: SIGNER_PASSWD
+            value: {{ .Values.signer.password }}
+          - name: SIGNER_SEED_PHRASE
+            value: "{{ .Values.signer.signer_seed_phrase }}"
+          - name: CHAIN_ID
+            value: "{{ include "dojima-chain.chainID" . }}"
+        volumeMounts:
+          - name: data
+            mountPath: /root
+          - name: scripts
+            mountPath: /kube-scripts/
+      - name: copy-keystore
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [ '/scripts/copy-keystore.sh' ]
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
+      - name: init-keepalive
+        image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
+        command:
+        - /bin/sh
+        - -c
+        - |
+          sysctl -w net.ipv4.tcp_keepalive_time=120
+          sysctl -w net.ipv4.tcp_keepalive_intvl=60
+          sysctl -w net.ipv4.tcp_keepalive_probes=3
+        securityContext:
+          privileged: true
+      - name: init-hermeschain
+        image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
+        command: ['sh', '-c', 'until nc -zv {{ .Values.h4s.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "dojima-chain.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - dojimachain
+            - --dojima-testnet={{ .Values.cmd_args.dojima_testnet_enable }}
+            - --mine
+            - --unlock={{ .Values.cmd_args.unlock_addr }}
+            - --password={{ .Values.cmd_args.password_path }}
+            - --allow-insecure-unlock
+          volumeMounts:
+            - name: data
+              mountPath: /root/
+            - name: scripts
+              mountPath: /kube-scripts/
+          env:
+            - name: EXTERNAL_IP
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dojima-chain.fullname" . }}-external-ip
+                  key: externalIP
+            - name: DOJIMA_RPC_URL
+              value: "http://{{ .Values.h4s.hermesApi }}"
+            - name: DOJIMA_GRPC_URL
+              value: "{{ .Values.h4s.grpc }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port.testnet.http }}
+              protocol: TCP
+            - name: wss
+              containerPort: {{ .Values.service.port.testnet.wss }}
+              protocol: TCP
+            - name: devp2p
+              containerPort: {{ .Values.service.port.testnet.devp2p }}
+              protocol: TCP
+            - name: graphql
+              containerPort: {{ .Values.service.port.testnet.graphql }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+      volumes:
+      - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "dojima-chain.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        hostPath:
+          path: {{ .Values.persistence.hostPath }}
+          type: DirectoryOrCreate
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: scripts
+        configMap:
+          name: {{ include "dojima-chain.fullname" . }}-scripts
+          defaultMode: 0777
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

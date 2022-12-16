@@ -42,7 +42,7 @@ spec:
              {{- toYaml .Values.securityContext | nindent 12 }}
            image: "{{ include "hermesnode.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
-           command: ["/scripts/{{ .Values.type }}.sh", "hermes", "start", "--rpc.laddr", "tcp://0.0.0.0:26657"]
+           command: ["/scripts/{{ .Values.type }}.sh", "hermesnode", "start", "--rpc.laddr", "tcp://0.0.0.0:26657"]
            volumeMounts:
            - name: data
              mountPath: /root/
@@ -90,7 +90,7 @@ spec:
              - name: SIGNER_SEED_PHRASE
                value: "{{ .Values.signer.signer_seed_phrase }}"
              - name: CHAIN_HOME_FOLDER
-               value: /root/.hermes
+               value: {{ .Values.chain_home_folder }}
              - name: CHAIN_ID
                value: "{{ include "hermesnode.chainID" . }}"
              - name: THOR_AUTO_STATE_SYNC_ENABLED
@@ -103,8 +103,18 @@ spec:
                value: "/scripts/testnet/arweave-testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
              - name: AR_ADDRESS
                value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
+             - name: SOL_KEYPATH
+               value: "/scripts/testnet/solana_testnet/82iP5jLLyiuTHbQRrSwUgZ6sKycT2mjbNkncgpm7Duvg.json"
+             - name: SOL_PUBKEY
+               value: "82iP5jLLyiuTHbQRrSwUgZ6sKycT2mjbNkncgpm7Duvg"
+             - name: DOT_ADDRESS
+               value: "5H16DLfWFLdpm5C4f9Qr6UkADsT1PtD9jELWF9WKuiC7St1T"
              - name: KEY_PASSPHRASE
                value: {{ .Values.signer.password }}
+             - name: ETH_HOST
+               value: "{{ .Values.eth_host }}"
+             - name: DOJIMA_RPC_URL
+               value: "{{ .Values.dojima_rpc_url }}"
            ports: 
             - name: api 
               containerPort: {{ .Values.service.port.api }} 
@@ -117,6 +127,9 @@ spec:
               protocol: TCP 
             - name: prometheus 
               containerPort: 26660
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ include "hermesnode.grpc" . }}
               protocol: TCP
            livenessProbe: 
              timeoutSeconds: 10 

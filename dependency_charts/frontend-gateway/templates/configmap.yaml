@@ -83,6 +83,7 @@ data:
         '' close;
       }
 
+      {{- if .Values.domain.landing_page.enable }}
       server {
         listen 80;
         server_name {{ include "gateway-landing-page.domain" . }};
@@ -154,7 +155,9 @@ data:
           proxy_pass http://landing-page:{{ .Values.service.port.landing_page.http }};
         }
       }
+      {{- end }}
 
+      {{- if .Values.domain.dojima_wallet.enable }}
       server {
         listen {{ .Values.service.port.landing_page.http }};
         server_name {{ include "gateway-dojima-wallet.domain" . }};
@@ -223,6 +226,9 @@ data:
 
       }
 
+      {{- end }}
+
+      {{- if .Values.domain.block_explorer.enable }}
       server {
         listen {{ .Values.service.port.landing_page.http }};
         server_name {{ include "gateway-dojima-explorer.domain" . }};
@@ -291,8 +297,9 @@ data:
         }
 
       }
+      {{- end }}
 
-
+      {{- if .Values.domain.developer_doc.enable }}
       server {
         listen {{ .Values.service.port.landing_page.http }};
         server_name {{ include "gateway-developer-docs.domain" . }};
@@ -362,6 +369,7 @@ data:
 
       }
 
+      {{- end }}
 
       server {
         listen 80;

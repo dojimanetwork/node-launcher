@@ -10,61 +10,59 @@ dependencies:
   - name: hermes-gateway
     repository: file://../dependency_charts/hermes_gateway
     version: 0.1.0
+    condition: hermes-gateway.enabled
 
   - name: hermesnode
     repository: file://../dependency_charts/hermes
     version: 0.1.0
+    condition: hermesnode.enabled
 
   - name: narada
     repository: file://../dependency_charts/narada
     version: 0.1.0
+    condition: narada.enabled
 
-#  - name: midgard
-#    repository: file://../midgard
-#    version: 0.1.0
-#    condition: midgard.enabled
-#
+  - name: dojima-chain
+    repository: file://../dependency_charts/dojima-chain
+    version: 0.1.0
+    condition: dojima-chain.enabled
+
   - name: binance-daemon
     repository: file://../dependency_charts/binance-daemon
     version: 0.1.0
-#    condition: binance-daemon.enabled
+    condition: binance-daemon.enabled
 
   - name: arweave-daemon
     repository: file://../dependency_charts/arweave-daemon
     version: 0.1.0
+    condition: arweave-daemon.enabled
 
-#
-#  - name: bitcoin-daemon
-#    repository: file://../bitcoin-daemon
-#    version: 0.1.0
-#    condition: bitcoin-daemon.enabled
-#
-#  - name: litecoin-daemon
-#    repository: file://../litecoin-daemon
-#    version: 0.1.0
-#    condition: litecoin-daemon.enabled
-#
-#  - name: bitcoin-cash-daemon
-#    repository: file://../bitcoin-cash-daemon
-#    version: 0.1.0
-#    condition: bitcoin-cash-daemon.enabled
-#
-#  - name: ethereum-daemon
-#    repository: file://../ethereum-daemon
-#    version: 0.1.0
-#    condition: ethereum-daemon.enabled
-#
-#  - name: dogecoin-daemon
-#    repository: file://../dogecoin-daemon
-#    version: 0.1.0
-#    condition: dogecoin-daemon.enabled
-#
-#  - name: gaia-daemon
-#    repository: file://../gaia-daemon
-#    version: 0.1.0
-#    condition: gaia-daemon.enabled
-#
-#  - name: avalanche-daemon
-#    repository: file://../avalanche-daemon
-#    version: 0.1.0
-#    condition: avalanche-daemon.enabled
+  - name: bitcoin-daemon
+    repository: file://../dependency_charts/bitcoin-daemon
+    version: 0.1.0
+    condition: bitcoin-daemon.enabled
+
+  - name: ethereum-daemon
+    repository: file://../dependency_charts/ethereum-daemon
+    version: 0.1.0
+    condition: ethereum-daemon.enabled
+
+  - name: gaia-daemon
+    repository: file://../dependency_charts/gaia-daemon
+    version: 0.1.0
+    condition: gaia-daemon.enabled
+
+  - name: polkadot-daemon
+    repository: file://../dependency_charts/polkadot-daemon
+    version: 0.1.0
+    condition: polkadot-daemon.enabled
+
+  - name: solana-daemon
+    repository: file://../dependency_charts/solana-daemon
+    version: 0.1.0
+    condition: solana-daemon.enabled
+
+  - name: bex-faucet
+    repository: file://../dependency_charts/bex-faucet
+    version: 0.1.0
+    condition: bex-faucet.enabled

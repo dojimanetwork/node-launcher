@@ -13,8 +13,8 @@ image:
   testnet: "solanalabs/solana:stable"
 
 imagePullSecrets: []
-nameOverride: "solana-daemon"
-fullnameOverride: "solana-daemon"
+nameOverride: "solana-daemond"
+fullnameOverride: "fsolana-daemond"
 
 recoverNineRealmsSnapshot: false
 
@@ -22,15 +22,23 @@ service:
   type: ClusterIP
   port:
     testnet:
-      p2p: 26656
-      rpc: 26657
-      api: 1984
+      rpc: 8899
+      ws: 8900
+      udp: 8003
+      gossip: 1024
+      tpu: 1027
     stagenet:
-      p2p: 27146
-      rpc: 27147
+      rpc: 8899
+      ws: 8900
+      udp: 8003
+      gossip: 1024
+      tpu: 1027
     mainnet:
-      p2p: 27146
-      rpc: 27147
+      rpc: 8899
+      ws: 8900
+      udp: 8003
+      gossip: 1024
+      tpu: 1027
 
 ingress:
   enabled: false
@@ -98,7 +106,7 @@ global:
   passwordSecret:
   mnemonicSecret:
   gateway:
-    enabled: false
+    enabled: true
     name: "hermesnode-gateway"
   images:
     alpineK8s:

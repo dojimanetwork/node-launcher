@@ -7,9 +7,25 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: api
-      port: {{ include "solana-daemon.api" . }}
-      targetPort: api
+    - name: rpc
+      port: {{ include "solana-daemon.rpc" . }}
+      targetPort: rpc
       protocol: TCP
+    - name: ws
+      port: {{ include "solana-daemon.ws" . }}
+      protocol: TCP
+      targetPort: ws
+    - name: udp
+      port: {{ include "solana-daemon.udp" . }}
+      protocol: UDP
+      targetPort: udp
+    - name: gossip
+      port: {{ include "solana-daemon.gossip" . }}
+      protocol: TCP
+      targetPort: gossip
+    - name: tpu
+      port: {{ include "solana-daemon.tpu" . }}
+      protocol: TCP
+      targetPort: tpu
   selector:
     {{- include "solana-daemon.selectorLabels" . | nindent 4 }}

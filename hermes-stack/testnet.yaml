@@ -1,5 +1,5 @@
 global:
-  tag: testnet-1.89.0_18
+  tag: testnet-1.89.0_40
   gateway:
     enabled: false
     name: fhermesnode-gateway
@@ -14,7 +14,7 @@ global:
       tag: latest
       hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
 
-gateway:
+hermes-gateway:
   enabled: true
 
 hermesnode:
@@ -22,12 +22,9 @@ hermesnode:
 
 narada:
   enabled: true
-  dogecoinDaemon:
-    enabled: false
-  litecoinDaemon:
-    enabled: false
-  gaiaDaemon:
-    enabled: false
+
+dojima-chain:
+  enabled: true
 
 midgard:
   blockstore:
@@ -36,25 +33,25 @@ midgard:
     size: 10Gi
 
 binance-daemon:
-  enabled: true
+  enabled: false
 
 bitcoin-daemon:
   enabled: false
 
-litecoin-daemon:
-  enabled: false
-
-bitcoin-cash-daemon:
-  enabled: false
-
 ethereum-daemon:
-  enabled: false
-
-dogecoin-daemon:
-  enabled: false
+  enabled: true
 
 gaia-daemon:
   enabled: false
 
-avalanche-daemon:
-  enabled: false
+arweave-daemon:
+  enabled: true
+
+polkadot-daemon:
+  enabled: true
+
+solana-daemon:
+  enabled: true
+
+bex-faucet:
+  enabled: true
