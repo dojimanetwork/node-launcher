@@ -434,7 +434,7 @@ deploy_frontend() {
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$FRONTEND_NET" \
 #  confirm
-  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
+#  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
 }
 
 deploy_validator() {
