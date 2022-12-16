@@ -1,1 +1,15 @@
-{{ template "library-chart.service" . }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dojima-faas-daemon.fullname" . }}
+  labels:
+    {{- include "dojima-faas-daemon.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ include "dojima-faas-daemon.http" . }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "dojima-faas-daemon.selectorLabels" . | nindent 4 }}
