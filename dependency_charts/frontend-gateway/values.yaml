@@ -32,12 +32,12 @@ domain:
     mainnet: wallet.dojima.network
     enable: true
   block_explorer:
-    testnet: block-explorer-test.dojima.network
-    mainnet: block-explorer.dojima.network
+    testnet: bex-test.dojima.network
+    mainnet: bex.dojima.network
     enable: false
   developer_doc:
-    testnet: developer-docs-test.dojima.network
-    mainnet: developer-docs.dojima.network
+    testnet: devoc-test.dojima.network
+    mainnet: devoc.dojima.network
     enable: false
 
 service:
