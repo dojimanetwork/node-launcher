@@ -38,5 +38,6 @@ spec:
     - port: {{ include "gateway-faas.http" . }}
       targetPort: faas
       protocol: TCP
+      name: faas
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}
