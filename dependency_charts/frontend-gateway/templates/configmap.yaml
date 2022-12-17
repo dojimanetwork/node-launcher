@@ -436,7 +436,7 @@ data:
           proxy_set_header Host $http_host;
           proxy_http_version 1.1;
           proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://dojima-faas:{{ include "gateway-faas.http". }};
+          proxy_pass http://dojima-faas:{{ .Values.service.port.faas.http }};
         }
 
       }
