@@ -35,5 +35,8 @@ spec:
       targetPort: developer-docs
       protocol: TCP
       name: developer-docs
+    - port: {{ include "gateway-faas.http" . }}
+      targetPort: faas
+      protocol: TCP
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

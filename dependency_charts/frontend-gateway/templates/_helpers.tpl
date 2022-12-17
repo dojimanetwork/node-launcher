@@ -138,9 +138,28 @@ Developer docs page domain name
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+faas  domain name
+*/}}
+{{- define "gateway-faas.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.faas.testnet }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.faas.mainnet }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Developer docs http Port
 */}}
 {{- define "gateway-developer-docs.http" -}}
     {{ .Values.service.port.developer_docs.http }}
+{{- end -}}
+
+{{/*
+faas http Port
+*/}}
+{{- define "gateway-faas.http" -}}
+    {{ .Values.service.port.faas.http }}
 {{- end -}}

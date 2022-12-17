@@ -51,6 +51,9 @@ spec:
             - name: developer-docs
               containerPort: {{ include "gateway-developer-docs.http" . }}
               protocol: TCP
+            - name: faas
+              containerPort: {{ include "gateway-faas.http" . }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

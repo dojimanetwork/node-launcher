@@ -33,3 +33,7 @@ developer-docs:
 block-explorer:
   fullnameOverride: block-explorer
   enabled: true
+
+dojima-faas:
+  fullnameOverride: dojima-faas
+  enabled: true

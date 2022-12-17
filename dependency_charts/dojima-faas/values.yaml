@@ -47,11 +47,11 @@ ingress:
     #     - midgard.example.com
 
 persistence:
-  enabled: false
+  enabled: true
   size:
-    testnet: 50Gi
-    stagenet: 500Gi
-    mainnet: 500Gi
+    testnet: 5Gi
+    stagenet: 5Gi
+    mainnet: 5Gi
   accessMode: ReadWriteOnce
   # storageClass: "-"
 

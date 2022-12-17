@@ -47,3 +47,8 @@ dependencies:
     version: 0.1.0
     repository: file://../dependency_charts/block-explorer
     condition: block-explorer.enabled
+
+  - name: dojima-faas
+    version: 0.1.0
+    repository: file://../dependency_charts/dojima-faas
+    condition: dojima-faas.enabled
