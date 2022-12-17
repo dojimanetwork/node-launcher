@@ -34,11 +34,11 @@ domain:
   block_explorer:
     testnet: bex-test.dojima.network
     mainnet: bex.dojima.network
-    enable: false
+    enable: true
   developer_doc:
     testnet: devoc-test.dojima.network
     mainnet: devoc.dojima.network
-    enable: false
+    enable: true
 
 service:
   type: LoadBalancer
