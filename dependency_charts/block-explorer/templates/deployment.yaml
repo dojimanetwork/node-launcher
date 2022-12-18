@@ -40,6 +40,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "block-explorer-daemon.image" . }}
           imagePullPolicy: IfNotPresent
+          env:
+            - name: REACT_APP_HERMES_API_URL
+              value: {{ .Values.env.hermes_api }}
+            - name: REACT_APP_HERMES_RPC_URL
+              value: {{ .Values.env.hermes_rpc }}
           ports:
             - name: http
               containerPort: {{ include "block-explorer-daemon.http" . }}
