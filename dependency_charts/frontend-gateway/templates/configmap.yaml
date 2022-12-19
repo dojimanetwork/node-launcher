@@ -234,20 +234,21 @@ data:
         server_name {{ include "gateway-dojima-explorer.domain" . }};
 
         location ~* ^/block-explorer/dashboard {
+           if ($http_origin = '') {
+            set $http_origin "*";
+          }
+
           proxy_hide_header Access-Control-Allow-Origin;
-          proxy_hide_header Access-Control-Allow-Methods;
-          proxy_hide_header Access-Control-Allow-Headers;
-          proxy_hide_header Access-Control-Allow-Credentials;
-          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Origin $http_origin;
           add_header Access-Control-Allow-Credentials true always;
-          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST,PUT,HEAD,CONNECT' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With,X-Auth-Token,Content-Length,Access-Control-Allow-Headers,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,solana-client' always;
 
           if ($request_method = 'OPTIONS') {
-            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Origin $http_origin;
             add_header Access-Control-Allow-Credentials true always;
-            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST,PUT,HEAD,CONNECT' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With,X-Auth-Token,Content-Length,Access-Control-Allow-Headers,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,solana-client' always;
             add_header 'Access-Control-Max-Age' 1728000 always;
             add_header 'Content-Type' 'text/plain; charset=utf-8' always;
             add_header 'Content-Length' 0 always;
@@ -255,7 +256,6 @@ data:
           }
 
           add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
-          add_header X-Cache-Status $upstream_cache_status always;
           proxy_cache frontend-apps;
           proxy_cache_lock on;
           proxy_cache_lock_timeout 20s;
