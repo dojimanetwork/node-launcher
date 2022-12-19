@@ -30,8 +30,8 @@ service:
       http: 82
 
 env:
-  hermes_api: https://api-test.h4s.dojima.network
-  hermes_rpc: https://rpc-test.h4s.dojima.network
+  hermes_api: https://api-test.h4s.dojima.network/
+  hermes_rpc: https://rpc-test.h4s.dojima.network/
 
 ingress:
   enabled: false
