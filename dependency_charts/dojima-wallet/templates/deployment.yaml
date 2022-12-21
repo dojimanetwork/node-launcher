@@ -53,6 +53,8 @@ spec:
               value: {{ .Values.env.eth_api_key }}
             - name: REACT_APP_DISABLE_ARWEAVE
               value: "{{ .Values.env.disable_arweave }}"
+            - name: GENERATE_SOURCEMAP
+              value: "{{ .Values.env.generate_sourcemap }}"
           ports:
             - name: http
               containerPort: {{ include "wallet-daemon.http" . }}
