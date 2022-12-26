@@ -48,7 +48,7 @@ service:
   type: LoadBalancer
   port:
     landing_page:
-      http: 80
+      http: 443
     dojima_wallet:
       http: 81
     dojima_explorer:
