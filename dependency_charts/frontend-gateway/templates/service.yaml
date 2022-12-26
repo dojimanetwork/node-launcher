@@ -18,14 +18,14 @@ metadata:
 
     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:576263512135:certificate/7e7c2f73-8cc3-4cc8-a881-2ec497880ac0
     # Only run SSL on the port named "https" below.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "tls"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "landing-page"
 spec:
   type: {{ .Values.service.type }}
   externalTrafficPolicy: Local
   ports:
     - port: 443
       targetPort: landing-page
-      protocol: TLS
+      protocol: TCP
       name: landing-page
     - port: {{ include "gateway-dojima-wallet.http" . }}
       targetPort: dojima-wallet
