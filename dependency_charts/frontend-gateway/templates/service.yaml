@@ -25,7 +25,7 @@ spec:
   ports:
     - port: 443
       targetPort: landing-page
-      protocol: TCP
+      protocol: TLS
       name: landing-page
     - port: {{ include "gateway-dojima-wallet.http" . }}
       targetPort: dojima-wallet
