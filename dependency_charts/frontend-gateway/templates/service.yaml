@@ -19,7 +19,7 @@ spec:
   type: {{ .Values.service.type }}
   externalTrafficPolicy: Local
   ports:
-    - port: {{ include "gateway-landing-page.http" . }}
+    - port: 443
       targetPort: landing-page
       protocol: TCP
       name: landing-page
