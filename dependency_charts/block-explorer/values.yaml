@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-block-explorer
-  testnet: "testnet-0.1.5-2022-12-21"
+  testnet: "testnet-0.1.6-2022-12-22"
   mainnet: ""
-  testnet_hash: "8185362c4b1dd3cc0cdae3eddb04c9c5bbe48ec3d347aac8bb1bd6cd81401355"
+  testnet_hash: "61e4b2192b58252df6bb4d247a3b85cdac2d9ff1f11dca3d6ce05eecc849ffd8"
   mainnet_hash: ""
 
 imagePullSecrets: []
