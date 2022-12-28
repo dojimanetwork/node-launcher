@@ -150,6 +150,19 @@ faas  domain name
 {{- end -}}
 {{- end -}}
 
+
+
+{{/*
+dojima blockscout  domain name
+*/}}
+{{- define "gateway-dojima-blockscout.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.blockscout.testnet }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.blockscout.mainnet }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Developer docs http Port
 */}}
@@ -162,4 +175,12 @@ faas http Port
 */}}
 {{- define "gateway-faas.http" -}}
     {{ .Values.service.port.faas.http }}
+{{- end -}}
+
+
+{{/*
+blockscout http Port
+*/}}
+{{- define "gateway-dojima-blockscout.http" -}}
+    {{ .Values.service.port.bs.http }}
 {{- end -}}

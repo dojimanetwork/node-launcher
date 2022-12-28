@@ -54,6 +54,9 @@ spec:
             - name: faas
               containerPort: {{ include "gateway-faas.http" . }}
               protocol: TCP
+            - name: dojima-blockscout
+              containerPort: {{ include "gateway-dojima-blockscout.http" . }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

@@ -37,3 +37,7 @@ block-explorer:
 dojima-faas:
   fullnameOverride: dojima-faas
   enabled: true
+
+dojima-blockscout:
+  fullnameOverride: dojima-blockscout
+  enabled: true

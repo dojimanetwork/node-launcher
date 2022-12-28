@@ -43,5 +43,9 @@ spec:
       targetPort: faas
       protocol: TCP
       name: faas
+    - port: {{ include "gateway-dojima-blockscout.http" . }}
+      targetPort: dojima-blockscout
+      protocol: TCP
+      name: dojima-blockscout
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}
