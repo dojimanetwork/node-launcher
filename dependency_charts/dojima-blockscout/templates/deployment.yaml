@@ -53,8 +53,7 @@ spec:
           command:
             - /bin/sh
             - -c
-            - ./bin/blockscout
-            - start
+            - "./bin/blockscout start"
           env:
             - name: ETHEREUM_JSONRPC_VARIANT
               value: {{ .Values.env.eth_json_var }}
