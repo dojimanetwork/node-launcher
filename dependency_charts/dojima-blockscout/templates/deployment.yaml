@@ -34,9 +34,6 @@ spec:
             - postgres
             - -c
             - 'max-connections=1000'
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/postgresql/data
           env:
             - name: POSTGRES_PASSWORD
               value: {{ .Values.env.pg_pass }}
@@ -44,8 +41,6 @@ spec:
               value: {{ .Values.env.pg_user }}
             - name: POSTGRES_HOST_AUTH_METHOD
               value: {{ .Values.env.pg_host_auth_method }}
-            - name: PGDATA
-              value: /var/lib/postgresql/data/blockscout
           ports:
             - name: port
               containerPort: {{ .Values.service.port }}
