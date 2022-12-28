@@ -22,7 +22,7 @@ env:
   coin: DOJ
   chain_id: 1001
   eth_json_http: http://hermesnode-test.dojima-chain:8545
-  database_url: "postgresql://postgres:@localhost:5432/blockscout?ssl=false"
+  database_url: "postgresql://postgres:@localhost:5432/postgres?ssl=false"
   secret_key: YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC
   mix_env: dev
 
