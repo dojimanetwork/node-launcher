@@ -54,7 +54,7 @@ spec:
             - name: faas
               containerPort: {{ include "gateway-faas.http" . }}
               protocol: TCP
-            - name: dojima-blockscout
+            - name: doj-blockscout
               containerPort: {{ include "gateway-dojima-blockscout.http" . }}
               protocol: TCP
           resources:

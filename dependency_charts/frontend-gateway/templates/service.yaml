@@ -46,6 +46,6 @@ spec:
     - port: {{ include "gateway-dojima-blockscout.http" . }}
       targetPort: doj-blockscout
       protocol: TCP
-      name: dojima-blockscout
+      name: doj-blockscout
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}
