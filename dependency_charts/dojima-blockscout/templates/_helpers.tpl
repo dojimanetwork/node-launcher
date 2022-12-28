@@ -76,9 +76,17 @@ Net
 
 
 {{/*
-Docker image
+Postgressql Docker image
 */}}
 {{- define "dojima-blockscout-postgres.image" -}}
 {{ .Values.image.postgres.image }}
+{{- end -}}
+
+
+{{/*
+Blockscout Docker image
+*/}}
+{{- define "dojima-blockscout-blockscout.image" -}}
+{{ .Values.image.blockscout.image }}:${{ .Values.image.blockscout.tag }}
 {{- end -}}
 

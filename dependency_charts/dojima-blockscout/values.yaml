@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   blockscout:
-    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout
+    repository: blockscout/blockscout
     pullPolicy: IfNotPresent
-    tag: testnet-1.89.0_40
+    tag: frontend-main
   postgres:
     image: postgres:14
 
@@ -18,6 +18,12 @@ env:
   pg_pass: ""
   pg_user: postgres
   pg_host_auth_method: 'trust'
+  eth_json_var: geth
+  coin: DOJ
+  chain_id: 1001
+  eth_json_http: http://hermesnode-test.dojima-chain:8545
+  database_url: "postgresql://postgres:@host.docker.internal:5432/blockscout"
+  secret_key: "YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC"
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"
