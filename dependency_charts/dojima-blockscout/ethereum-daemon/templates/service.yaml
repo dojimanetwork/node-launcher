@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dojima-blockscout.fullname" . }}
+  labels:
+    {{- include "dojima-blockscout.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: port
+      protocol: TCP
+      name: port
+  selector:
+    {{- include "dojima-blockscout.selectorLabels" . | nindent 4 }}
