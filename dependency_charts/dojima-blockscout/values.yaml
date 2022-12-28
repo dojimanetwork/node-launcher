@@ -26,6 +26,7 @@ env:
   secret_key: YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC
   mix_env: dev
   ecto_use_ssl: false
+  trace_first_block: 221443
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"

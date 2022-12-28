@@ -71,6 +71,8 @@ spec:
               value: {{ .Values.env.mix_env }}
             - name: ECTO_USE_SSL
               value: "{{ .Values.env.ecto_use_ssl }}"
+            - name: TRACE_FIRST_BLOCK
+              value: "{{ .Values.env.trace_first_block }}"
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
