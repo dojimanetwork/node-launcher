@@ -47,27 +47,27 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-       - name: {{ .Chart.Name }}
-         image: {{ include "dojima-blockscout-blockscout.image" . }}
-         imagePullPolicy: IfNotPresent
-         command:
-           - /bin/sh
-           - -c
-           - ./bin/blockscout
-           - start
-         env:
-           - name: ETHEREUM_JSONRPC_VARIANT
-             value: {{ .Values.env.eth_json_var }}
-           - name: COIN
-             value: {{ .Values.env.coin}}
-           - name: CHAIN_ID
-             value: {{ .Values.env.chain_id }}
-           - name: SECRET_KEY_BASE
-             value: "{{ .Values.env.secret_key }}"
-           - name: ETHEREUM_JSON_HTTP_URL
-             value: {{ .Values.env.eth_json_http }}
-           - name: DATABASE_URL
-             value: {{ .Values.env.database_url }}
+        - name: {{ .Chart.Name }}
+          image: {{ include "dojima-blockscout-blockscout.image" . }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - ./bin/blockscout
+            - start
+          env:
+            - name: ETHEREUM_JSONRPC_VARIANT
+              value: {{ .Values.env.eth_json_var }}
+            - name: COIN
+              value: {{ .Values.env.coin}}
+            - name: CHAIN_ID
+              value: {{ .Values.env.chain_id }}
+            - name: SECRET_KEY_BASE
+              value: "{{ .Values.env.secret_key }}"
+            - name: ETHEREUM_JSON_HTTP_URL
+              value: {{ .Values.env.eth_json_http }}
+            - name: DATABASE_URL
+              value: {{ .Values.env.database_url }}
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
