@@ -69,6 +69,8 @@ spec:
               value: {{ .Values.env.database_url }}
             - name: MIX_ENV
               value: {{ .Values.env.mix_env }}
+            - name: ECTO_USE_SSL
+              value: "{{ .Values.env.ecto_use_ssl }}"
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
