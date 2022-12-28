@@ -61,7 +61,7 @@ spec:
             - name: COIN
               value: {{ .Values.env.coin}}
             - name: CHAIN_ID
-              value: {{ .Values.env.chain_id }}
+              value: "{{ .Values.env.chain_id }}"
             - name: SECRET_KEY_BASE
               value: "{{ .Values.env.secret_key }}"
             - name: ETHEREUM_JSON_HTTP_URL
