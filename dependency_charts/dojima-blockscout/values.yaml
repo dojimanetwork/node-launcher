@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   blockscout:
-    repository: blockscout/blockscout
+    repository: blockscout/blockscout-mainnet
     pullPolicy: IfNotPresent
-    tag: frontend-main
+    tag: 4.1.8-prerelease-f0a95a7b-experimental
   postgres:
     image: postgres:14
 
