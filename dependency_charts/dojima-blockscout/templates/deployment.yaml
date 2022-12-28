@@ -68,7 +68,7 @@ spec:
             - name: DATABASE_URL
               value: {{ .Values.env.database_url }}
             - name: MIX_ENV
-              value: prod
+              value: {{ .Values.env.mix_env }}
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
