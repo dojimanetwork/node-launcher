@@ -8,9 +8,10 @@ replicaCount: 1
 
 image:
   blockscout:
-    repository: blockscout/blockscout-mainnet
+    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout
     pullPolicy: IfNotPresent
-    tag: 4.1.8-prerelease-f0a95a7b-experimental
+    tag: "testnet-0.1.0-2022-12-30"
+    hash: "sha256:110c11ebda6d422aa9466db7f25b31b2cd51638cfc3b92823fc3bb20f257bace"
   postgres:
     image: postgres:14
 
