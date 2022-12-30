@@ -54,6 +54,6 @@ dependencies:
     condition: dojima-faas.enabled
 
   - name: dojima-blockscout
-    version: 0.1.0
+    version: 0.1.1
     repository: file://../dependency_charts/dojima-blockscout
     condition: dojima-blockscout.enabled
