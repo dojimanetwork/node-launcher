@@ -51,9 +51,9 @@ spec:
           image: {{ include "dojima-blockscout-blockscout.image" . }}
           imagePullPolicy: IfNotPresent
           command:
-            - /bin/sh
+            - bash
             - -c
-            - "./bin/blockscout start"
+            - "./bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && ./bin/blockscout start"
           env:
             - name: ETHEREUM_JSONRPC_VARIANT
               value: {{ .Values.env.eth_json_var }}
