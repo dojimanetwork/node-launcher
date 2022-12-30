@@ -78,7 +78,7 @@ spec:
             - name: TRACE_FIRST_BLOCK
               value: "{{ .Values.env.trace_first_block }}"
             - name: PORT
-              value: {{ .Values.service.bs }}
+              value: "{{ .Values.service.bs }}"
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
