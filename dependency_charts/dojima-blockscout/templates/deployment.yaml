@@ -42,14 +42,18 @@ spec:
             - name: PGDATA
               value: /var/lib/postgresql/data/blockscout
           ports:
-            - name: port
-              containerPort: {{ .Values.service.port }}
+            - name: postgres
+              containerPort: {{ .Values.service.postgres }}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: {{ .Chart.Name }}
           image: {{ include "dojima-blockscout-blockscout.image" . }}
           imagePullPolicy: IfNotPresent
+          ports:
+            - name: bs
+              containerPort: {{ .Values.service.bs }}
+              protocol: TCP
           command:
             - bash
             - -c

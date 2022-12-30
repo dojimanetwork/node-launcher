@@ -7,9 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: port
+    - port: {{ .Values.service.postgres }}
+      targetPort: postgres
       protocol: TCP
-      name: port
+      name: postgres
+    - port: {{ .Values.service.bs }}
+      targetPort: bs
+      protocol: TCP
+      name: bs
   selector:
     {{- include "dojima-blockscout.selectorLabels" . | nindent 4 }}

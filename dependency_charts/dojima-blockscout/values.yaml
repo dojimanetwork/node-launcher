@@ -53,7 +53,8 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 5432
+  postgres: 5432
+  bs: 4000
 
 ingress:
   enabled: false
