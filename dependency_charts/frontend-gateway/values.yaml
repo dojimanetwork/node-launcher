@@ -44,9 +44,9 @@ domain:
     mainnet: faas.dojima.network
     enable: true
   blockscout:
-    testnet: dojbs-test.dojima.network
-    mainnet: dojbs.dojima.network
-    enable: false
+    testnet: doj-bex-test.dojima.network
+    mainnet: doj-bex.dojima.network
+    enable: true
 
 service:
   type: LoadBalancer
@@ -62,7 +62,7 @@ service:
     faas:
       http: 3000
     bs:
-      http: 3001
+      http: 4000
 
 serviceAccount:
   # Specifies whether a service account should be created

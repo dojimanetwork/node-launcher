@@ -28,6 +28,7 @@ env:
   mix_env: dev
   ecto_use_ssl: false
   trace_first_block: 221443
+  indexer_dis_pending_fetcher: true
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"

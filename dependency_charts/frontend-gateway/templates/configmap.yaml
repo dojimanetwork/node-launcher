@@ -443,7 +443,7 @@ data:
 
       {{- end }}
 
-      {{- if .Values.domain.blockscout.mainnet }}
+      {{- if .Values.domain.blockscout.enable }}
        server {
         listen {{ .Values.service.port.landing_page.http }};
         server_name {{ include "gateway-dojima-blockscout.domain" . }};
