@@ -22,13 +22,37 @@ env:
   eth_json_var: geth
   coin: DOJ
   chain_id: 1001
-  eth_json_http: https://api-test.d11k.dojima.network:8545
+  eth_json_http: http://dojima-chain.hermesnode-test:8545
+  eth_ws_url: ws://dojima-chain.hermesnode-test:8546
+  eth_jsonrpc_transport: http
   database_url: "postgresql://postgres:@localhost:5432/postgres?ssl=false"
   secret_key: YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC
   mix_env: dev
   ecto_use_ssl: false
   trace_first_block: 221443
   indexer_dis_pending_fetcher: true
+  network: "(Dojima Network)"
+  sub_network: "Dojima chain"
+  coin_name: DOJ
+  cache_tx_count_period: 7200
+  cache_block_count_period: 7200
+  pool_size: 120
+  pool_size_api: 400
+  blockscout_host: https://api-test.d11k.dojima.network:8545
+  supported_chains: "[ { 'title': 'HERMES', 'url': 'https://bex-test.h4s.dojima.network' } ]"
+  other_explorers: "{ 'Hermes': 'https://bex-test.h4s.dojima.network' }"
+  show_price_chart: true
+  show_txs_chart: true
+  history_fetch_interval: 240
+  txs_stats_days_to_compile_at_init: 10
+  coin_balance_history_days: 90
+  apps_menu: true
+  display_token_icons: true
+  api_rate_limit: 100
+  api_rate_limit_by_key: 30
+  api_rate_limit_by_ip: 30
+  indexer_memory_limit: 7
+  enable_tx_stats: true
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"
