@@ -83,6 +83,12 @@ data:
         '' close;
       }
 
+      {{- if .Values.domain.blockscout.enable }}
+      upstream dojima-blockscout-websocket {
+        server dojima-blockscout:{{ .Values.service.port.bs.http }};
+      }
+      {{- end }}
+
       {{- if .Values.domain.landing_page.enable }}
       server {
         listen 80;
@@ -448,6 +454,36 @@ data:
         listen {{ .Values.service.port.landing_page.http }};
         server_name {{ include "gateway-dojima-blockscout.domain" . }};
 
+        location ~* ^/(socket|phoneix) {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_pass http://dojima-blockscout-websocket;
+        }
+
         location / {
           proxy_hide_header Access-Control-Allow-Origin;
           proxy_hide_header Access-Control-Allow-Methods;
@@ -475,6 +511,8 @@ data:
           proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
           proxy_pass http://dojima-blockscout:{{ .Values.service.port.bs.http }};
         }
+
+
 
       }
 
