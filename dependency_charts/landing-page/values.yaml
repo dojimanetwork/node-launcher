@@ -19,6 +19,20 @@ fullnameOverride: "landing-paged"
 
 recoverNineRealmsSnapshot: false
 
+env:
+  dojima_wallet_url: https://wallet.dojima.network/wallet/get-started
+  dojima_network_logo: https://dojima-brand-images.s3.ap-south-1.amazonaws.com/dojimanetworklogo.zip
+  dojima_token_logo: https://dojima-brand-images.s3.ap-south-1.amazonaws.com/dojimalogo.zip
+  api_key: "AIzaSyAacJtbWs09ItdyfEQ5XqPczWCDvf47IpA"
+  auth_domain: "dojima-wallet-d3638.firebaseapp.com"
+  database_url: "https://dojima-wallet-d3638-default-rtdb.firebaseio.com"
+  project_id: "dojima-wallet-d3638"
+  storage_bucket: "dojima-wallet-d3638.appspot.com"
+  messaging_sender_id: "462805295807"
+  app_id: "1:462805295807:web:d659bfab5dd48f87045c0a"
+  measurement_id: "G-KJFKE93ST6"
+  generate_sourcemap: false
+
 service:
   type: ClusterIP
   port:
