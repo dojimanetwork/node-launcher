@@ -79,6 +79,12 @@ spec:
               value: "{{ .Values.service.bs }}"
             - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
               value: "{{ .Values.env.indexer_dis_pending_fetcher}}"
+            - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
+              value: "{{ .Values.env.indexer_dis_internal_tx_fetcher }}"
+            - name: INDEXER_DISABLE_BLOCK_REWARD_FETCHER
+              value: "{{ .Values.env.indexer_dis_block_rew_fetcher }}"
+            - name: COIN_NAME
+              value: {{ .Values.env.coin_name }}
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}

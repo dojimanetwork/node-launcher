@@ -23,7 +23,7 @@ env:
   coin: DOJ
   chain_id: 1001
   eth_json_http: http://dojima-chain.hermesnode-test:8545
-  eth_ws_url: ws://dojima-chain.hermesnode-test:8546
+  eth_ws_url: ws://dojima-chain.hermesnode-test:8545/ws
   eth_jsonrpc_transport: http
   database_url: "postgresql://postgres:@localhost:5432/postgres?ssl=false"
   secret_key: YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC
@@ -31,6 +31,8 @@ env:
   ecto_use_ssl: false
   trace_first_block: 221443
   indexer_dis_pending_fetcher: true
+  indexer_dis_internal_tx_fetcher: true
+  indexer_dis_block_rew_fetcher: true
   network: "(Dojima Network)"
   sub_network: "Dojima chain"
   coin_name: DOJ
