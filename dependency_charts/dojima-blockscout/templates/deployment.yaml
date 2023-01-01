@@ -92,9 +92,9 @@ spec:
             - name: COIN_NAME
               value: {{ .Values.env.coin_name }}
             - name: CACHE_TXS_COUNT_PERIOD
-              value: {{ .Values.env.cache_tx_count_period }}
+              value: "{{ .Values.env.cache_tx_count_period }}"
             - name: CACHE_BLOCK_COUNT_PERIOD
-              value: {{ .Values.env.cache_block_count_period }}
+              value: "{{ .Values.env.cache_block_count_period }}"
             - name: POOL_SIZE
               value: "{{ .Values.env.pool_size }}"
             - name: POOL_SIZE_API
