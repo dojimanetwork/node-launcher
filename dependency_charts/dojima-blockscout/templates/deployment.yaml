@@ -99,10 +99,6 @@ spec:
               value: "{{ .Values.env.pool_size }}"
             - name: POOL_SIZE_API
               value: "{{ .Values.env.pool_size_api}}"
-            - name: BLOCKSCOUT_HOST
-              value: {{ .Values.env.blockscout_host }}
-            - name: SUPPORTED_CHAINS
-              value: "{{ .Values.env.supported_chains }}"
             - name: SHOW_PRICE_CHART
               value: "{{ .Values.env.show_price_chart }}"
             - name: SHOW_TXS_CHART
