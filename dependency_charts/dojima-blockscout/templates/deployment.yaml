@@ -79,18 +79,6 @@ spec:
               value: "{{ .Values.service.bs }}"
             - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
               value: "{{ .Values.env.indexer_dis_pending_fetcher}}"
-            - name: ETHEREUM_JSONRPC_TRACE_URL
-              value: "{{ .Values.env.eth_json_http }}"
-            - name: ETHEREUM_JSONRPC_WS_URL
-              value: "{{ .Values.env.eth_ws_url }}"
-            - name: ETHEREUM_JSONRPC_TRANSPORT
-              value: "{{ .Values.env.eth_jsonrpc_transport }}"
-            - name: NETWORK
-              value: {{ .Values.env.network }}
-            - name: SUBNETWORK
-              value: {{ .Values.env.sub_network }}
-            - name: COIN_NAME
-              value: {{ .Values.env.coin_name }}
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
