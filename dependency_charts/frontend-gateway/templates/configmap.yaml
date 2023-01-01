@@ -85,7 +85,7 @@ data:
 
       {{- if .Values.domain.blockscout.enable }}
       upstream dojima-blockscout-websocket {
-        server dojima-blockscout:{{ .Values.service.port.bs.http }};
+        server http://dojima-blockscout:{{ .Values.service.port.bs.http }};
       }
       {{- end }}
 
