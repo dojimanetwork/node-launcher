@@ -102,7 +102,7 @@ spec:
             - name: BLOCKSCOUT_HOST
               value: {{ .Values.env.blockscout_host }}
             - name: SUPPORTED_CHAINS
-              value: {{ .Values.env.supported_chains }}
+              value: "{{ .Values.env.supported_chains }}"
             - name: SHOW_PRICE_CHART
               value: "{{ .Values.env.show_price_chart }}"
             - name: SHOW_TXS_CHART
