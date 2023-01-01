@@ -10,7 +10,7 @@ image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
   testnet: "testnet-0.1.14-2022-12-26"
   mainnet: "mainnet-0.1.11-2022-12-22"
-  testnet_hash: "224006e85749379272995c33eddc38c6fa5383fb7440bd1618b615c105da3c0a"
+  testnet_hash: "a5862334d02357fff21647433b19bdf5f9edbfa1d9233bd2762283bf5c65b0f0"
   mainnet_hash: "c9d07e2bf2a5fdfad41b0bdad14cdee7060c6f97513f4c001a6236811120d6ed"
 
 imagePullSecrets: []
