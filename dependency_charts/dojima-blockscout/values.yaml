@@ -55,6 +55,7 @@ env:
   api_rate_limit_by_ip: 30
   indexer_memory_limit: 7
   enable_tx_stats: true
+  disable_exchange_rate: true
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"
