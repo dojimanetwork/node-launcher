@@ -86,7 +86,7 @@ spec:
             - name: COIN_NAME
               value: {{ .Values.env.coin_name }}
             - name: DISABLE_EXCHANGE_RATES
-              value: {{ .Values.env.disable_exchange_rate }}
+              value: "{{ .Values.env.disable_exchange_rate }}"
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
