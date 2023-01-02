@@ -67,7 +67,7 @@ spec:
               value: "{{ .Values.env.chain_id }}"
             - name: SECRET_KEY_BASE
               value: "{{ .Values.env.secret_key }}"
-            - name: ETHEREUM_JSON_HTTP_URL
+            - name: ETHEREUM_JSONRPC_HTTP_URL
               value: {{ .Values.env.eth_json_http }}
             - name: DATABASE_URL
               value: {{ .Values.env.database_url }}
