@@ -91,10 +91,6 @@ spec:
               value: {{ .Values.env.logo }}
             - name: LOGO_FOOTER
               value: {{ .Values.env.logo_footer }}
-            - name: NETWORK
-              value: "{{ .Values.env.network }}"
-            - name: SUBNETWORK
-              value: {{ .Values.env.sub_network }}
 
       volumes:
         - name: data
