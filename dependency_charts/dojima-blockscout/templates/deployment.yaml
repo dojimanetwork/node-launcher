@@ -28,10 +28,11 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "dojima-blockscout-postgres.image" . }}
-          command:
-            - postgres
-            - -N
-            - '2000'
+          args:
+            - -c
+            - max_connections=1000
+            - -c
+            - shared_buffers=1024MB
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: data
