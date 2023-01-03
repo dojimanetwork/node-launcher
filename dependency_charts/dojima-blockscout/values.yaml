@@ -11,7 +11,7 @@ image:
     repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout
     pullPolicy: IfNotPresent
     tag: "testnet-0.1.0-2023-01-03"
-    hash: "sha256:1fd230e8d849cc401a978f2d2378f368d3d9b581688ad21fb21f2fb7c3234ae8"
+    hash: "sha256:dcba62f89e0ca0db9ea90c49d26d115a6d945e2a2c48c8d18b7a345b25032a07"
   postgres:
     image: postgres:13.4
 
