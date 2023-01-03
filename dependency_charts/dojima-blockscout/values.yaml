@@ -10,8 +10,8 @@ image:
   blockscout:
     repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout
     pullPolicy: IfNotPresent
-    tag: "testnet-0.1.0-2022-12-30"
-    hash: "sha256:110c11ebda6d422aa9466db7f25b31b2cd51638cfc3b92823fc3bb20f257bace"
+    tag: "testnet-0.1.0-2023-01-03"
+    hash: "sha256:1fd230e8d849cc401a978f2d2378f368d3d9b581688ad21fb21f2fb7c3234ae8"
   postgres:
     image: postgres:13.4
 
@@ -40,8 +40,7 @@ env:
   cache_block_count_period: 7200
   pool_size: 120
   pool_size_api: 400
-  blockscout_host: https://api-test.d11k.dojima.network:8545
-  supported_chains: "[ { 'title': 'HERMES', 'url': 'https://bex-test.h4s.dojima.network' } ]"
+  link_other_bex: true
   other_explorers: "{ 'Hermes': 'https://bex-test.h4s.dojima.network' }"
   show_price_chart: true
   show_txs_chart: true
@@ -56,6 +55,8 @@ env:
   indexer_memory_limit: 7
   enable_tx_stats: true
   disable_exchange_rate: true
+  logo: /images/doj.svg
+  logo_footer: /images/doj.svg
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"
