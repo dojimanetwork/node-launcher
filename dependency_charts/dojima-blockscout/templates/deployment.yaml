@@ -30,7 +30,7 @@ spec:
           image: {{ include "dojima-blockscout-postgres.image" . }}
           args:
             - -c
-            - max_connections=1000
+            - max_connections=20000
             - -c
             - shared_buffers=1024MB
           imagePullPolicy: IfNotPresent
