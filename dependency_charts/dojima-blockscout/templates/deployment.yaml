@@ -101,30 +101,6 @@ spec:
               value: "{{ .Values.env.eth_ws_url }}"
             - name: ETHEREUM_JSONRPC_TRANSPORT
               value: "{{ .Values.env.eth_jsonrpc_transport }}"
-            - name: CACHE_TXS_COUNT_PERIOD
-              value: "{{ .Values.env.cache_tx_count_period }}"
-            - name: CACHE_BLOCK_COUNT_PERIOD
-              value: "{{ .Values.env.cache_block_count_period }}"
-            - name: LINK_TO_OTHER_EXPLORERS
-              value: "{{ .Values.env.link_other_bex }}"
-            - name: OTHER_EXPLORERS
-              value: "{{ .Values.env.other_explorers }}"
-            - name: POOL_SIZE
-              value: "{{ .Values.env.pool_size }}"
-            - name: POOL_SIZE_API
-              value: "{{ .Values.env.pool_size_api}}"
-            - name: SHOW_PRICE_CHART
-              value: "{{ .Values.env.show_price_chart }}"
-            - name: SHOW_TXS_CHART
-              value: "{{ .Values.env.show_txs_chart }}"
-            - name: ENABLE_TXS_STATS
-              value: "{{ .Values.env.enable_tx_stats }}"
-            - name: HISTORY_FETCH_INTERVAL
-              value: "{{ .Values.env.history_fetch_interval }}"
-            - name: APPS_MENU
-              value: "{{ .Values.env.apps_menu }}"
-            - name: DISPLAY_TOKEN_ICONS
-              value: "{{ .Values.env.display_token_icons }}"
 
       volumes:
         - name: data
