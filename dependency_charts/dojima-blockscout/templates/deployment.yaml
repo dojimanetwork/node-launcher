@@ -93,10 +93,13 @@ spec:
             - name: DISABLE_EXCHANGE_RATES
               value: "{{ .Values.env.disable_exchange_rate }}"
             - name: LOGO
-              value: {{ .Values.env.logo }}
+              value: "{{ .Values.env.logo }}"
             - name: LOGO_FOOTER
-              value: {{ .Values.env.logo_footer }}
-
+              value: "{{ .Values.env.logo_footer }}"
+            - name: SUBNETWORK
+              value: "{{ .Values.env.sub_network }}"
+            - name: INDEXER_EMPTY_BLOCKS_SANITIZER_BATCH_SIZE
+              value: "{{ .Values.env.indexer_empty_blocks_sanitize }}"
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
