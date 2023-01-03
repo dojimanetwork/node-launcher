@@ -95,12 +95,8 @@ spec:
               value: "{{ .Values.env.network }}"
             - name: SUBNETWORK
               value: {{ .Values.env.sub_network }}
-            - name: ETHEREUM_JSONRPC_TRACE_URL
-              value: "{{ .Values.env.eth_json_http }}"
             - name: ETHEREUM_JSONRPC_WS_URL
               value: "{{ .Values.env.eth_ws_url }}"
-            - name: ETHEREUM_JSONRPC_TRANSPORT
-              value: "{{ .Values.env.eth_jsonrpc_transport }}"
 
       volumes:
         - name: data
