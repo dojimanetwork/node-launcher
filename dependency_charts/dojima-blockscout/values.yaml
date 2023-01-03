@@ -55,8 +55,8 @@ env:
   indexer_memory_limit: 7
   enable_tx_stats: true
   disable_exchange_rate: true
-  logo: /images/doj.svg
-  logo_footer: /images/doj.svg
+  logo: https://dojima-images.s3.ap-south-1.amazonaws.com/blockscout/doj.svg
+  logo_footer: https://dojima-images.s3.ap-south-1.amazonaws.com/blockscout/doj.svg
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"
