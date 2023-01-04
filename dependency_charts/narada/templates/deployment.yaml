@@ -160,17 +160,17 @@ spec:
             - name: INCLUDE_BINANCE_CHAIN
               value: "false"
             - name: INCLUDE_BTC_CHAIN
-              value: "false"
+              value: "{{ .Values.chains.include_btc_chain }}"
             - name: INCLUDE_ETH_CHAIN
-              value: "true"
+              value: "{{ .Values.chains.include_eth_chain }}"
             - name: INCLUDE_AR_CHAIN
-              value: "true"
+              value: "{{ .Values.chains.include_ar_chain }}"
             - name: INCLUDE_DOT_CHAIN
-              value: "false"
+              value: "{{ .Values.chains.include_dot_chain }}"
             - name: INCLUDE_SOL_CHAIN
-              value: "true"
+              value: "{{ .Values.chains.include_sol_chain }}"
             - name: INCLUDE_GAIA_CHAIN
-              value: "false"
+              value: "{{ .Values.chains.include_gaia_chain }}"
             - name: DOJIMA_CHAIN_ID
               value: "{{ .Values.dojima_chain.chain_id }}"
             - name: DOJIMA_RPC_URL

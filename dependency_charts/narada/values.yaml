@@ -31,7 +31,7 @@ chains:
   include_ar_chain: "true"
   include_dot_chain: "true"
   include_sol_chain: "true"
-  include_gaia_chain: "true"
+  include_gaia_chain: "false"
 
 # use in multi nodes envs
 peer: 65.1.56.77
