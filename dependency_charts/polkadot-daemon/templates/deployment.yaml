@@ -53,6 +53,11 @@ spec:
             - --chain={{ .Values.chain.mainnet }}
           {{- else }}
             - --dev
+            - --name=dojima-polka-testnet
+            - --state-pruning=archive
+            - --blocks-pruning=archive
+            - --version
+            - --base-path=/data/.{{ .Values.chain.devnet }}
           {{- end }}
           ports:
             - name: p2p
@@ -64,6 +69,9 @@ spec:
             - name: ws
               containerPort: {{ include "polkadot-daemon.ws" . }}
               protocol: TCP
+          volumeMounts:
+            - mountPath: /data
+              name: data
           resources:
           {{- if not (eq (include "polkadot-daemon.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
