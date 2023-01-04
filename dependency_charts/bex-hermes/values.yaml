@@ -1,19 +1,23 @@
-# Default values for narada.
+# Default values for binance-daemon.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 net: testnet
-data_dir: single_node_testnet
+
 replicaCount: 1
 
-strategyType: Recreate
-
 image:
-  repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojimanetwork/dojimachain
-  pullPolicy: IfNotPresent
-  tag: "testnet-0.1.0-2022-12-15"
-  hash: "310a12a7078ff97d089c58db06882e8e6408fe832719e7c181b4c9accd0da123" # Not used for mocknet/testnet
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
+  tag: "mainnet-0.1.0-2023-01-03"
+  hash: "2b33d125505e95c9fba5d2b022d2f0c53a9a0ff7b4c8a3d4f5d64a49640ec619"
+  postgres:
+    image: postgres:13.4
 
+imagePullSecrets: []
+nameOverride: "bex-hermesd"
+fullnameOverride: "fbex-hermesd"
+
+recoverNineRealmsSnapshot: false
 chain_home_folder: "/root/.hermesnode"
 signer:
   name: hermeschain
@@ -28,59 +32,63 @@ signer:
 chainID:
   testnet: "hermes-testnet"
 
-h4s:
-  hermesApi: fhermesnode-hermes:1317
-  narada: http://narada:6040
-  grpc: fhermesnode-hermes:9090
-
 hermes:
   testnet:
     image: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
     tag: testnet-1.89.0_40
     hash: 904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
 
-cmd_args:
-  dojima_testnet_enable: true
-  unlock_addr: 0xd526d5f47f863eff32b99bc4F9e77ddB4bd2929b
-  password_path: /root/password.txt
+env:
+  mongo_uri: "mongodb+srv://Admin:6x4cuxFjT0DycMdx@cluster0.r9add7o.mongodb.net/?retryWrites=true&w=majority"
+  hermes_grpc_host: fhermesnode-hermes:9090
+  hermes_host: http://fhermesnode-hermes:26657
+  pg_pass: ""
+  pg_user: postgres
+  pg_host_auth_method: 'trust'
+  pg_host: localhost
+  pg_db_name: postgres
+  start_block_height: 0
 
+service:
+  type: ClusterIP
+  postgres: 5432
+  fiber: 8080
 
-imagePullSecrets: []
-nameOverride: "dojima-chain"
-fullnameOverride: "fdojima-chain"
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts: []
+    # - host: midgard.example.com
+    #   paths:
+    #   - path: /
+    #     backend:
+    #       serviceName: gateway
+    #       servicePort: midgard
+  tls: []
+    # - secretName: midgard-tls
+    #   hosts:
+    #     - midgard.example.com
 
 persistence:
   enabled: true
   size:
-    testnet: 5000Gi
-#    mainnet: 50Gi
-#    stagenet: 10Gi
-#    mocknet: 10Gi
+    testnet: 2Gi
+    stagenet: 2Gi
+    mainnet: 4Gi
   accessMode: ReadWriteOnce
-  # existingClaim: your-pvc
   # storageClass: "-"
-  # hostPath: /host-path
-
-service:
-  type: ClusterIP
-  port:
-    testnet:
-      wss: 8546
-      http: 8545
-      graphql: 8547
-      devp2p: 30303
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "serv-dojima-chain"
+  name: "serv-bex-hermes"
 
-priorityClassName: ""
-
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  fsGroup: 1000
 
 securityContext: {}
   # capabilities:
@@ -90,17 +98,13 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# service:
-#   type: ClusterIP
-#   port: 80
-
 resources:
   requests:
     cpu: 2
     memory: 2Gi
   limits:
-    cpu: 2
-    memory: 4Gi
+    # cpu: 2
+    memory: 2Gi
 
 nodeSelector: {}
 
@@ -108,9 +112,16 @@ tolerations: []
 
 affinity: {}
 
+
 global:
+  tag:
+  net: testnet
+  peer:
+  passwordSecret:
+  mnemonicSecret:
   gateway:
     enabled: false
+    name: "hermesnode-gateway"
   images:
     alpineK8s:
       tag: 1.18.2
@@ -118,3 +129,4 @@ global:
     busybox:
       tag: latest
       hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
+

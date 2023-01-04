@@ -87,7 +87,7 @@ Image
 {{- if eq (include "solana-daemon.net" .) "mocknet" -}}
     "{{ .Values.image.mocknet }}:latest"
 {{- else if eq (include "solana-daemon.net" .) "testnet" -}}
-    "{{ .Values.image.testnet }}"
+    "{{ .Values.image.name }}:{{.Values.image.tag}}@sha256:{{.Values.image.hash}}"
 {{- else -}}
     "{{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}"
 {{- end -}}

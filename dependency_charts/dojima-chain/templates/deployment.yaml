@@ -101,6 +101,14 @@ spec:
             - --unlock={{ .Values.cmd_args.unlock_addr }}
             - --password={{ .Values.cmd_args.password_path }}
             - --allow-insecure-unlock
+            - --http
+            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug
+            - --http.addr=0.0.0.0
+            - --http.port={{ .Values.service.port.testnet.http }}
+            - --http.corsdomain=*
+            - --http.vhosts=*
+            - --ws.port={{ .Values.service.port.testnet.wss }}
+            - --ws.addr=0.0.0.0
           volumeMounts:
             - name: data
               mountPath: /root/

@@ -7,9 +7,9 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci
-  tag: "solana-daemon-0.1.0"
-  hash: "sha256:2427431f29f674d4b672f2e55ba0fc9d08f40d133f58c863a63a8a83dbc1ed97"
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/solana-anchor
+  tag: "mainnet-0.1.0-2022-12-16"
+  hash: "99a9a9a79d61b5424a1ae605b12eb4e5bafd098713ad18c1d252c523cb04e4c1"
   testnet: "solanalabs/solana:stable"
 
 imagePullSecrets: []
@@ -87,10 +87,10 @@ securityContext: {}
 resources:
   requests:
     cpu: 4
-    memory: 20Gi
+    memory: 4Gi
   limits:
     # cpu: 2
-    memory: 20Gi
+    memory: 4Gi
 
 nodeSelector: {}
 

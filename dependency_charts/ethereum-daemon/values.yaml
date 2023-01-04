@@ -48,7 +48,8 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8545
+  port: 9545
+  wss: 9546
 
 ingress:
   enabled: false

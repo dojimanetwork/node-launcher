@@ -66,3 +66,8 @@ dependencies:
     repository: file://../dependency_charts/bex-faucet
     version: 0.1.0
     condition: bex-faucet.enabled
+
+  - name: bex-hermes
+    repository: file://../dependency_charts/bex-hermes
+    version: 0.1.0
+    condition: bex-hermes.enabled

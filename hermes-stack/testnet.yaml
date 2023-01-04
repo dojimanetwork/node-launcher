@@ -55,3 +55,6 @@ solana-daemon:
 
 bex-faucet:
   enabled: true
+
+bex-hermes:
+  enabled: true

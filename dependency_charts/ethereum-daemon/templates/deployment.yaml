@@ -48,13 +48,21 @@ spec:
             - --http
             - --http.api=eth,net,engine,web3,miner,personal,txpool,debug
             - --http.addr=0.0.0.0
-            - --http.port=8545
+            - --http.port={{ .Values.service.port }}
             - --http.corsdomain=*
             - --http.vhosts=*
+            - --ws.port={{ .Values.service.wss }}
+            - --ws.addr=0.0.0.0
           {{- if eq .Values.net "mocknet" }}
             - --dev
             - --dev.period=5
             - --datadir=/data/{{ .Values.net }}
+            - --ignore-legacy-receipts
+            - --networkid=1148
+            - --mine
+            - --miner.threads=1
+            - --allow-insecure-unlock
+            - --nodiscover
           {{- else if eq .Values.net "testnet" }}
             - --override.terminaltotaldifficulty=50000000000000000
             - --{{ .Values.chain }}
@@ -82,6 +90,9 @@ spec:
           ports:
             - name: rpc
               containerPort: {{ .Values.service.port }}
+              protocol: TCP
+            - name: wss
+              containerPort: {{ .Values.service.wss }}
               protocol: TCP
           {{- if eq .Values.net "testnet" }}
           startupProbe:

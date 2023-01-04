@@ -105,5 +105,15 @@ spec:
       protocol: TCP
       name: faucet
     {{- end }}
+    {{- if .Values.eth }}
+    - port: {{ include "gateway-eth-chain.api" . }}
+      targetPort: eth-api
+      protocol: TCP
+      name: eth-api
+    - port: {{ include "gateway-eth-chain.wss" . }}
+      targetPort: eth-wss
+      protocol: TCP
+      name: eth-wss
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

@@ -15,6 +15,7 @@ solana: true
 polkadot: true
 dojima_chain: true
 faucet: true
+eth: true
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
 # traffic if not provided.
@@ -32,6 +33,8 @@ domain:
       dot_ws: dotws-test.h4s.dojima.network
       sol: sol-test.h4s.dojima.network
       sol_ws: solws-test.h4s.dojima.network
+      eth: eth-test.h4s.dojima.network
+      eth_ws: ethws-test.h4s.dojima.network
   d11k:
     testnet:
       api: api-test.d11k.dojima.network
@@ -79,6 +82,10 @@ service:
         udp: 8003
         gossip: 1024
         tpu: 1027
+    ethereum:
+      testnet:
+        api: 9545
+        wss: 9546
     polkadot:
       testnet:
         wss: 9944

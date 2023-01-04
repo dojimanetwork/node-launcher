@@ -153,6 +153,17 @@ sol ws port domain name
 {{- end -}}
 {{- end -}}
 
+{{/*
+ethereum wss port domain name
+*/}}
+{{- define "gateway-hermes-eth-ws.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.h4s.testnet.eth_ws }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.h4s.mainnet.eth_ws }}
+{{- end -}}
+{{- end -}}
+
 
 {{/*
 sol port domain name
@@ -162,6 +173,18 @@ sol port domain name
     {{ .Values.domain.h4s.testnet.sol }}
 {{- else if eq (include "gateway.net" .) "mainnet" -}}
     {{ .Values.domain.h4s.mainnet.sol }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+ethereum port domain name
+*/}}
+{{- define "gateway-hermes-eth-api.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.h4s.testnet.eth }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.h4s.mainnet.eth }}
 {{- end -}}
 {{- end -}}
 
@@ -315,5 +338,25 @@ DC wss/rpc Port
 {{- define "gateway-dojima-chain.faucet" -}}
 {{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.faucet.testnet.api }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+ETH wss/rpc Port
+*/}}
+{{- define "gateway-eth-chain.wss" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.ethereum.testnet.wss }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+ETH wss Port
+*/}}
+{{- define "gateway-eth-chain.api" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.ethereum.testnet.api }}
 {{- end -}}
 {{- end -}}

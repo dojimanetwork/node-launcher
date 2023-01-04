@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "bex-faucet.name" -}}
+{{- define "bex-hermes.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "bex-faucet.fullname" -}}
+{{- define "bex-hermes.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "bex-faucet.chart" -}}
+{{- define "bex-hermes.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "bex-faucet.labels" -}}
-helm.sh/chart: {{ include "bex-faucet.chart" . }}
-{{ include "bex-faucet.selectorLabels" . }}
+{{- define "bex-hermes.labels" -}}
+helm.sh/chart: {{ include "bex-hermes.chart" . }}
+{{ include "bex-hermes.selectorLabels" . }}
 app.kubernetes.io/version: {{ .Values.image.tag }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
@@ -44,17 +44,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "bex-faucet.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "bex-faucet.name" . }}
+{{- define "bex-hermes.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "bex-hermes.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "bex-faucet.serviceAccountName" -}}
+{{- define "bex-hermes.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "bex-faucet.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "bex-hermes.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
@@ -63,29 +63,29 @@ Create the name of the service account to use
 {{/*
 Net
 */}}
-{{- define "bex-faucet.net" -}}
+{{- define "bex-hermes.net" -}}
 {{- default .Values.net .Values.global.net -}}
 {{- end -}}
 
 {{/*
 Image
 */}}
-{{- define "bex-faucet.image" -}}
+{{- define "bex-hermes.image" -}}
    "{{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}"
 {{- end -}}
 
 {{/*
 Faucet Port
 */}}
-{{- define "bex-faucet.api" -}}
+{{- define "bex-hermes.api" -}}
     {{ .Values.service.port }}
 {{- end -}}
 
 {{/*
 Image
 */}}
-{{- define "bex-faucet.hermesnode-image" -}}
-{{- if eq (include "bex-faucet.net" .) "testnet" -}}
+{{- define "bex-hermes.hermesnode-image" -}}
+{{- if eq (include "bex-hermes.net" .) "testnet" -}}
 {{- .Values.hermes.testnet.image -}}:{{ .Values.hermes.testnet.tag }}
 {{- else -}}
 {{- .Values.hermes.mainnet.image -}}:{{ .Values.hermes.mainnet.tag }}@sha256:{{ .Values.hermes.mainnet.hash}}
@@ -96,8 +96,15 @@ Image
 {{/*
 chain id
 */}}
-{{- define "bex-faucet.chainID" -}}
-{{- if eq (include "bex-faucet.net" .) "testnet" -}}
+{{- define "bex-hermes.chainID" -}}
+{{- if eq (include "bex-hermes.net" .) "testnet" -}}
     {{ .Values.chainID.testnet }}
 {{- end -}}
+{{- end -}}
+
+{{/*
+Postgressql Docker image
+*/}}
+{{- define "bex-hermes-postgres.image" -}}
+{{ .Values.image.postgres.image }}
 {{- end -}}

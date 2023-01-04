@@ -8,14 +8,47 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
-  tag: "HEAD-0.1.0-2022-12-16"
-  hash: "f9454bf85c4d0308e9a1a3c2ee0f74678ed58e61411450a27130a468bcfe0e74"
+  tag: "mainnet-0.1.0-2023-01-02"
+  hash: "099a26c18f69faf967ff738535b2ae5fe918ac43f59a5d2153d82fcee637a163"
 
 imagePullSecrets: []
 nameOverride: "bex-faucetd"
 fullnameOverride: "fbex-faucetd"
 
 recoverNineRealmsSnapshot: false
+
+
+chain_home_folder: "/root/.hermesnode"
+signer:
+  name: hermeschain
+  password: password
+  mnemonicSecret: "password"
+  passwordSecret: "password"
+  #genesis phrase
+  signer_seed_phrase: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
+  # validator 1 phrase
+  # signer_seed_phrase: "pipe expire lecture state pilot latin stamp senior market much dilemma tooth airport oblige flower caught risk canoe radar gadget tag narrow inch trust"
+
+chainID:
+  testnet: "hermes-testnet"
+
+hermes:
+  testnet:
+    image: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
+    tag: testnet-1.89.0_40
+    hash: 904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
+
+env:
+  mongo_uri: "mongodb+srv://Admin:6x4cuxFjT0DycMdx@cluster0.r9add7o.mongodb.net/?retryWrites=true&w=majority"
+  ar_host: http://arweave-daemon:1984
+  ar_amt: 1000000000000
+  dot_host: ws://polkadot-daemon:9944
+  mnemonic: "hero eagle luxury slight survey catch toy goat model general alarm inner"
+  sol_host: http://solana-daemon:8899
+  hermes_grpc_host: fhermesnode-hermes:9090
+  hermes_host: http://fhermesnode-hermes:26657
+  doj_host: http://dojima-chain:8545
+  eth_host: http://ethereum-daemon:9545
 
 service:
   type: ClusterIP
@@ -68,10 +101,10 @@ securityContext: {}
 resources:
   requests:
     cpu: 2
-    memory: 10Gi
+    memory: 1Gi
   limits:
     # cpu: 2
-    memory: 20Gi
+    memory: 1Gi
 
 nodeSelector: {}
 

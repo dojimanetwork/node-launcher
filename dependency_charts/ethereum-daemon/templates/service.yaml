@@ -11,6 +11,10 @@ spec:
       targetPort: rpc
       protocol: TCP
       name: rpc
+    - port: {{ .Values.service.wss }}
+      targetPort: wss
+      name: wss
+      protocol: TCP
     - port: 3500
       targetPort: beacon
       protocol: TCP

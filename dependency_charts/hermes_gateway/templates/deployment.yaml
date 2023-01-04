@@ -93,6 +93,12 @@ spec:
             - name: faucet
               containerPort: {{ include "gateway-dojima-chain.faucet" .}}
               protocol: TCP
+            - name: eth-api
+              containerPort: {{ include "gateway-eth-chain.api" . }}
+              protocol: TCP
+            - name: eth-wss
+              containerPort: {{ include "gateway-eth-chain.wss" . }}
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /healthz
