@@ -55,7 +55,6 @@ spec:
             - --name=dojima-polka-testnet
             - --state-pruning=archive
             - --blocks-pruning=archive
-            - --version
             - --base-path=/data/.{{ .Values.chain.devnet }}
           {{- end }}
           ports:
