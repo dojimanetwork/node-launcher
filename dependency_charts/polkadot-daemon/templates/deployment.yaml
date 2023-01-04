@@ -45,7 +45,6 @@ spec:
             - --rpc-external
             - --ws-external
             - --rpc-cors=all
-            - --pruning=archive
             - --prometheus-external
           {{- if eq .Values.net "testnet" }}
             - --chain={{ .Values.chain.testnet }}
