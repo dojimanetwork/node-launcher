@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name }}-{{ include "bex-faucet.name" . }}
-  namespace: prometheus-system
+  namespace: prometheus
   labels:
     {{- include "bex-faucet.labels" . | nindent 4 }}
     release: prometheus
