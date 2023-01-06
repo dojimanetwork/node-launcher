@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name }}-{{ include "dojima-chain.name" . }}
-  namespace: prometheus
+  namespace: prometheus-system
   labels:
 {{- include "dojima-chain.labels" . | nindent 4 }}
     release: prometheus

@@ -189,15 +189,15 @@ grafana: ## Access Grafana UI through port-forward locally
 	@echo User: admin
 	@echo Password: thorchain
 	@echo Open your browser at http://localhost:3000
-	@kubectl -n prometheus port-forward service/prometheus-grafana 3000:80
+	@kubectl -n prometheus-system port-forward service/prometheus-grafana 3000:80
 
 prometheus: ## Access Prometheus UI through port-forward locally
 	@echo Open your browser at http://localhost:9090
-	@kubectl -n prometheus port-forward service/prometheus-kube-prometheus-prometheus 9090
+	@kubectl -n prometheus-system port-forward service/prometheus-kube-prometheus-prometheus 9090
 
 alert-manager: ## Access Alert-Manager UI through port-forward locally
 	@echo Open your browser at http://localhost:9093
-	@kubectl -n prometheus port-forward service/prometheus-kube-prometheus-alertmanager 9093
+	@kubectl -n prometheus-system port-forward service/prometheus-kube-prometheus-alertmanager 9093
 
 dashboard: ## Access Kubernetes Dashboard UI through port-forward locally
 	@echo Open your browser at http://localhost:8000

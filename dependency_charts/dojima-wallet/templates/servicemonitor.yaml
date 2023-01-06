@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name }}-{{ include "wallet-daemon.name" . }}
-  namespace: prometheus
+  namespace: prometheus-system
   labels:
     {{- include "wallet-daemon.labels" . | nindent 4 }}
     release: prometheus

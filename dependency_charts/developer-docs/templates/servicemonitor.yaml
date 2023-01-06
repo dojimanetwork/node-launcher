@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name }}-{{ include "developer-docs-daemon.name" . }}
-  namespace: prometheus
+  namespace: prometheus-system
   labels:
     {{- include "developer-docs-daemon.labels" . | nindent 4 }}
     release: prometheus
