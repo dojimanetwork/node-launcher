@@ -222,6 +222,18 @@ Dojima faucet api domain name
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Binance rpc domain name
+*/}}
+{{- define "gateway-bnb-rpc.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.h4s.testnet.bnb }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.h4s.mainnet.bnb }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 P2P Port
 */}}
@@ -358,5 +370,14 @@ ETH wss Port
 {{- define "gateway-eth-chain.api" -}}
 {{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.ethereum.testnet.api }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Binance rpc Port
+*/}}
+{{- define "gateway-bnb-chain.rpc" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.binance.testnet.rpc }}
 {{- end -}}
 {{- end -}}

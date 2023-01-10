@@ -107,7 +107,7 @@ Binance daemon
 {{- else if eq (include "narada.net" .) "stagenet" -}}
     {{ .Values.binanceDaemon.stagenet }}
 {{- else -}}
-    {{ default .Values.binanceDaemon.testnet .Values.global.binanceDaemon }}
+    {{ default .Values.binanceDaemon.mocknet .Values.global.binanceDaemon }}
 {{- end -}}
 {{- end -}}
 

@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: testnet
+net: mocknet
 
 replicaCount: 1
 
@@ -30,6 +30,8 @@ service:
     mainnet:
       p2p: 27146
       rpc: 27147
+    mocknet:
+      rpc: 26660
 
 ingress:
   enabled: false

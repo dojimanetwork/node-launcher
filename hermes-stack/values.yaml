@@ -36,7 +36,7 @@ midgard:
 
 binance-daemon:
   fullnameOverride: binance-daemon
-  enabled: false
+  enabled: true
 
 bitcoin-daemon:
   fullnameOverride: bitcoin-daemon

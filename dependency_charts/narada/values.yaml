@@ -80,7 +80,7 @@ binanceDaemon:
 #  mainnet: http://binance-daemon:27147
   testnet: http://binance-daemon:26657
 #  stagenet: http://binance-daemon:27147
-#  mocknet: http://binance-daemon:26657
+  mocknet: http://binance-daemon:26660
   binanceStartBlockHeight: 0
 
 bitcoinDaemon:

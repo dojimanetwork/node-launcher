@@ -115,5 +115,11 @@ spec:
       protocol: TCP
       name: eth-wss
     {{- end }}
+    {{- if .Values.binance }}
+    - port: {{ include "gateway-bnb-chain.rpc" . }}
+      targetPort: bnb-rpc
+      protocol: TCP
+      name: bnb-rpc
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

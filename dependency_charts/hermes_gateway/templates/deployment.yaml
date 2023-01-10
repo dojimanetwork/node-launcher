@@ -99,6 +99,9 @@ spec:
             - name: eth-wss
               containerPort: {{ include "gateway-eth-chain.wss" . }}
               protocol: TCP
+            - name: bnb-rpc
+              containerPort: {{ include "gateway-bnb-chain.rpc" .}}
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /healthz

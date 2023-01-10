@@ -762,6 +762,42 @@ data:
       }
       {{- end }}
 
+      {{- if .Values.binance }}
+      server {
+        listen 80;
+        server_name {{ include "gateway-bnb-rpc.domain" .}};
+
+        location / {
+          proxy_hide_header Access-Control-Allow-Origin;
+          proxy_hide_header Access-Control-Allow-Methods;
+          proxy_hide_header Access-Control-Allow-Headers;
+          proxy_hide_header Access-Control-Allow-Credentials;
+          add_header Access-Control-Allow-Origin '*' always;
+          add_header Access-Control-Allow-Credentials true always;
+          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+
+          if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin '*' always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
+            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
+            add_header 'Access-Control-Max-Age' 1728000 always;
+            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+            add_header 'Content-Length' 0 always;
+            return 204;
+          }
+
+          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
+          proxy_pass http://binance-daemon:{{ include "gateway-bnb-chain.rpc" . }};
+
+        }
+      }
+      {{- end }}
+
 
     }
 

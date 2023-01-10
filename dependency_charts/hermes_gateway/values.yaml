@@ -16,6 +16,7 @@ polkadot: true
 dojima_chain: true
 faucet: true
 eth: true
+binance: false
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
 # traffic if not provided.
@@ -35,6 +36,7 @@ domain:
       sol_ws: solws-test.h4s.dojima.network
       eth: eth-test.h4s.dojima.network
       eth_ws: ethws-test.h4s.dojima.network
+      bnb: bnb-test.h4s.dojima.network
   d11k:
     testnet:
       api: api-test.d11k.dojima.network
@@ -98,6 +100,9 @@ service:
     faucet:
       testnet:
         api: 8081
+    binance:
+      testnet:
+        rpc: 26660
 
 serviceAccount:
   # Specifies whether a service account should be created

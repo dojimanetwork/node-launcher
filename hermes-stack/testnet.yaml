@@ -33,7 +33,7 @@ midgard:
     size: 10Gi
 
 binance-daemon:
-  enabled: false
+  enabled: true
 
 bitcoin-daemon:
   enabled: false

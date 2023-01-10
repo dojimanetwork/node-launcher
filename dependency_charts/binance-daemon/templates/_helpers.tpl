@@ -100,7 +100,7 @@ RPC Port
 {{- else if eq (include "binance-daemon.net" .) "stagenet" -}}
     {{ .Values.service.port.stagenet.rpc}}
 {{- else -}}
-    {{ .Values.service.port.testnet.rpc }}
+    {{ .Values.service.port.mocknet.rpc }}
 {{- end -}}
 {{- end -}}
 
