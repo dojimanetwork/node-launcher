@@ -274,6 +274,7 @@ data:
 
         location ~* ^/(health|status) {
         {{- else }}
+        limit_req zone=rpc_req burst=10 nodelay;
 
         location / {
         {{- end }}
@@ -381,7 +382,7 @@ data:
           proxy_pass http://solana-daemon:{{ .Values.service.port.solana.testnet.rpc }};
 
         }
-
+      }
 
       server {
         listen {{.Values.service.port.solana.testnet.wss}};
