@@ -274,7 +274,6 @@ data:
 
         location ~* ^/(health|status) {
         {{- else }}
-        limit_req zone=rpc_req burst=10 nodelay;
 
         location / {
         {{- end }}
