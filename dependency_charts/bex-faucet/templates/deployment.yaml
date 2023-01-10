@@ -48,6 +48,8 @@ spec:
               value: "{{ .Values.signer.signer_seed_phrase }}"
             - name: CHAIN_ID
               value: "{{ include "bex-faucet.chainID" . }}"
+            - name: ETH_HOST
+              value: {{ .Values.env.eth_host }}
           volumeMounts:
             - name: data
               mountPath: /root
