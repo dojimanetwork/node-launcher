@@ -58,7 +58,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "bex-faucet.image" . }}
-          command: ["bs-faucet"]
+          command: ["/scripts/narada.sh", "bs-faucet"]
           imagePullPolicy: IfNotPresent
           env:
             - name: MONGO_URI
@@ -98,6 +98,8 @@ spec:
           volumeMounts:
             - mountPath: /root
               name: data
+            - name: scripts
+              mountPath: /kube-scripts/
           resources:
           {{- if not (eq (include "bex-faucet.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
