@@ -36,9 +36,9 @@ spec:
       port: {{ include "hermesnode.abci" . }}
       protocol: TCP
       targetPort: abci
-    - name: prom_collector
+    - name: prom-collector
       port: {{ include "hermesnode.prometheus_collector" . }}
-      targetPort: prom_collector
+      targetPort: prom-collector
       protocol: TCP
     - name: grpc_web
       port: {{ include "hermesnode.grpc-web" . }}

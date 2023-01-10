@@ -134,7 +134,7 @@ spec:
             - name: abci
               containerPort: {{ include "hermesnode.abci" . }}
               protocol: TCP
-            - name: prom_collector
+            - name: prom-collector
               containerPort: {{ include "hermesnode.prometheus_collector" .}}
               protocol: TCP
             - name: grpc_web
