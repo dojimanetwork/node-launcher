@@ -25,6 +25,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
       initContainers:
+      {{- if .Values.net ne "mocknet"}}
       - name: recover
         image: {{ include "binance-daemon.image" . }}
         command: ["/scripts/recover.sh"]
@@ -33,6 +34,7 @@ spec:
             mountPath: /opt/bnbchaind
           - name: scripts
             mountPath: /scripts
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
