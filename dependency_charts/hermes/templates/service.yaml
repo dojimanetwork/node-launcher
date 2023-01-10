@@ -40,9 +40,9 @@ spec:
       port: {{ include "hermesnode.prometheus_collector" . }}
       targetPort: prom-collector
       protocol: TCP
-    - name: grpc_web
+    - name: grpc-web
       port: {{ include "hermesnode.grpc-web" . }}
-      targetPort: grpc_web
+      targetPort: grpc-web
       protocol: TCP
     - name: pprof
       port:  {{ include "hermesnode.pprof" . }}

@@ -137,7 +137,7 @@ spec:
             - name: prom-collector
               containerPort: {{ include "hermesnode.prometheus_collector" .}}
               protocol: TCP
-            - name: grpc_web
+            - name: grpc-web
               containerPort: {{ include "hermesnode.grpc-web" . }}
               protocol: TCP
             - name: pprof
