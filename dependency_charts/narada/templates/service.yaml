@@ -25,7 +25,7 @@ spec:
       protocol: TCP
       name: p2p
     - name: prometheus
-      port: 9000
+      port: {{ .Values.service.port.prometheus}}
       targetPort: prometheus
       protocol: TCP
   selector:

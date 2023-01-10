@@ -52,7 +52,7 @@ strategyType: Recreate
 
 image:
   repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
-  tag: testnet-1.89.0_40
+  tag: testnet-1.89.0_41
   hash: sha256:904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
   pullPolicy: IfNotPresent
 
@@ -68,6 +68,12 @@ service:
       p2p: 26656
       rpc: 26657
       grpc: 9090
+      in_com: 26656
+      abci: 26658
+      prometheus_collector: 26661
+      rosetta: 8080
+      grpc_web: 9091
+      pprof: 6060
 
 persistence:
   enabled: true

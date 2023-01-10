@@ -131,6 +131,21 @@ spec:
             - name: grpc
               containerPort: {{ include "hermesnode.grpc" . }}
               protocol: TCP
+            - name: abci
+              containerPort: {{ include "hermesnode.abci" . }}
+              protocol: TCP
+            - name: prom_collector
+              containerPort: {{ include "hermesnode.prometheus_collector" .}}
+              protocol: TCP
+            - name: grpc_web
+              containerPort: {{ include "hermesnode.grpc-web" . }}
+              protocol: TCP
+            - name: pprof
+              containerPort: {{ include "hermesnode.pprof" . }}
+              protocol: TCP
+            - name: rosetta
+              containerPort: {{ include "hermesnode.rosetta" . }}
+              protocol: TCP
            livenessProbe: 
              timeoutSeconds: 10 
              httpGet: 

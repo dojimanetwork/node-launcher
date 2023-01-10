@@ -32,9 +32,25 @@ spec:
       port: {{ include "hermesnode.grpc" . }}
       targetPort: grpc
       protocol: TCP
-    - name: prometheus
-      port: 26660
-      targetPort: prometheus
+    - name: abci
+      port: {{ include "hermesnode.abci" . }}
+      protocol: TCP
+      targetPort: abci
+    - name: prom_collector
+      port: {{ include "hermesnode.prometheus_collector" . }}
+      targetPort: prom_collector
+      protocol: TCP
+    - name: grpc_web
+      port: {{ include "hermesnode.grpc-web" . }}
+      targetPort: grpc_web
+      protocol: TCP
+    - name: pprof
+      port:  {{ include "hermesnode.pprof" . }}
+      targetPort: pprof
+      protocol: TCP
+    - name: rosetta
+      port:  {{ include "hermesnode.rosetta" . }}
+      targetPort: rosetta
       protocol: TCP
   selector:
     {{- include "hermesnode.selectorLabels" . | nindent 4 }}

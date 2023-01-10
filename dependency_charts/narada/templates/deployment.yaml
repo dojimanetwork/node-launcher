@@ -185,7 +185,7 @@ spec:
               containerPort: {{ .Values.service.port.http }}
               protocol: TCP
             - name: prometheus
-              containerPort: 9000
+              containerPort: {{ .Values.service.port.prometheus}}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

@@ -107,12 +107,59 @@ P2P Port
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+ABCI Port
+*/}}
+{{- define "hermesnode.abci" -}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.abci }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Prometheus collectior Port
+*/}}
+{{- define "hermesnode.prometheus_collector" -}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.prometheus_collector }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 GRPC Port
 */}}
 {{- define "hermesnode.grpc" -}}
 {{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.grpc }}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+GRPC Web Port
+*/}}
+{{- define "hermesnode.grpc-web" -}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.grpc_web }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+PProf Port
+*/}}
+{{- define "hermesnode.pprof" -}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.pprof }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Rosetta Port
+*/}}
+{{- define "hermesnode.rosetta" -}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.rosetta }}
 {{- end -}}
 {{- end -}}
 
