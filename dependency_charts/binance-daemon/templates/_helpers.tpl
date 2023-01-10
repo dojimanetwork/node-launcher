@@ -64,7 +64,7 @@ Create the name of the service account to use
 Net
 */}}
 {{- define "binance-daemon.net" -}}
-{{- default .Values.net .Values.global.net -}}
+{{ .Values.net }}
 {{- end -}}
 
 {{/*
