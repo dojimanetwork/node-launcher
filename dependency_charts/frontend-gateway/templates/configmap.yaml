@@ -94,6 +94,10 @@ data:
         listen 80;
         server_name {{ include "gateway-landing-page.domain" . }};
 
+        if ($http_x_forwarded_proto = 'http'){
+          return 301 https://$host$request_uri;
+        }
+
         location /healthz {
           access_log off;
           return 200 "healthy\n";
