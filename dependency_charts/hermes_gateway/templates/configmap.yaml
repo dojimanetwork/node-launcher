@@ -767,7 +767,7 @@ data:
         listen 80;
         server_name {{ include "gateway-bnb-rpc.domain" .}};
 
-        location ~* /(ping | block | abci_info | abci_query | status | tx_search | blocks | broadcast | broadcast_tx_commit | account | broadcast_tx_async | accounts) {
+        location ~* ^/(ping | block | abci_info | abci_query | status | tx_search | blocks | broadcast | broadcast_tx_commit | account | broadcast_tx_async | accounts) {
           proxy_hide_header Access-Control-Allow-Origin;
           proxy_hide_header Access-Control-Allow-Methods;
           proxy_hide_header Access-Control-Allow-Headers;
