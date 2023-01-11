@@ -158,9 +158,9 @@ spec:
             - name: PREPARAM
               value: {{ .Values.preparam }}
             - name: INCLUDE_BINANCE_CHAIN
-              value: "false"
+              value: {{ .Values.chains.include_binance_chain | quote }}
             - name: INCLUDE_BTC_CHAIN
-              value: "{{ .Values.chains.include_btc_chain }}"
+              value: {{ .Values.chains.include_btc_chain | quote }}
             - name: INCLUDE_ETH_CHAIN
               value: "{{ .Values.chains.include_eth_chain }}"
             - name: INCLUDE_AR_CHAIN
