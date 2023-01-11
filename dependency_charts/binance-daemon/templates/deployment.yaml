@@ -63,6 +63,7 @@ spec:
             - name: prometheus
               containerPort: 28660
               protocol: TCP
+          {{- if ne .Values.net "mocknet"}}
           startupProbe:
             failureThreshold: 120
             periodSeconds: 10
@@ -76,6 +77,7 @@ spec:
             exec:
               command:
                 - /scripts/probe.sh
+          {{- end }}
           readinessProbe:
             timeoutSeconds: 10
             httpGet:
