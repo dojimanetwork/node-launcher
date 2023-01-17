@@ -8,10 +8,10 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/core/dojima-wallet
-  testnet: "testnet-0.1.7-2023-01-05"
+  testnet: "testnet-0.1.8-2023-01-17"
   testnet_hash: "09eb1fdb1f30b8159bf19312a66d56c8842e78fdc8f5bf5990c34144538a1746"
   mainnet: "mainnet-0.1.5-2022-12-22"
-  mainnet_hash: "b98cb474069868ed0c1fada993b9ab788a2b162d63791c5e239cca4bbf68837e"
+  mainnet_hash: "baea2bb176c6603ba04061328b82ab405eb24632cca00b089d9cf795505d3dd5"
 
 imagePullSecrets: []
 nameOverride: "wallet-paged"
