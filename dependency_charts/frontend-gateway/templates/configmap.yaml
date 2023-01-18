@@ -90,13 +90,16 @@ data:
       {{- end }}
 
       {{- if .Values.domain.landing_page.enable }}
+
+      server {
+        listen 8080;
+        server_name {{ include "gateway-landing-page.domain" . }};
+        return 301 https://$host$request_uri;
+      }
+
       server {
         listen 80;
         server_name {{ include "gateway-landing-page.domain" . }};
-
-        if ($http_x_forwarded_proto = 'http'){
-          return 301 https://$host$request_uri;
-        }
 
         location /healthz {
           access_log off;

@@ -23,6 +23,10 @@ spec:
   type: {{ .Values.service.type }}
   externalTrafficPolicy: Local
   ports:
+    - port: 80
+      targetPort: http-lp
+      protocol: TCP
+      name: http-lp
     - port: 443
       targetPort: landing-page
       protocol: TCP

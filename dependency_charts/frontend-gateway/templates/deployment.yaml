@@ -39,6 +39,9 @@ spec:
             subPath: nginx.conf
             name: config
           ports:
+            - name: http-lp
+              containerPort: 8080
+              protocol: TCP
             - name: landing-page
               containerPort: {{ include "gateway-landing-page.http" .}}
               protocol: TCP
