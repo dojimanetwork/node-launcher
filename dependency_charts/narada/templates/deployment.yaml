@@ -168,7 +168,7 @@ spec:
             - name: INCLUDE_ETH_CHAIN
               value: "{{ .Values.chains.include_eth_chain }}"
             - name: INCLUDE_AR_CHAIN
-              value: "{{ .Values.chains.include_ar_chain }}"
+              value: {{ .Values.chains.include_ar_chain | quote }}
             - name: INCLUDE_DOT_CHAIN
               value: "{{ .Values.chains.include_dot_chain }}"
             - name: INCLUDE_SOL_CHAIN
