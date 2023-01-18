@@ -15,6 +15,10 @@ spec:
     metadata:
       labels:
         {{- include "narada.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/metrics'
+        prometheus.io/port: '9000'
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
