@@ -47,7 +47,7 @@ env:
   pg_host_auth_method: 'trust'
   pg_host: localhost
   pg_db_name: postgres
-  start_block_height: 0
+  start_block_height: 1
 
 service:
   type: ClusterIP
