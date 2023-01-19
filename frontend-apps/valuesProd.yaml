@@ -30,6 +30,6 @@ developer-docs:
   fullnameOverride: developer-docs
   enabled: false
 
-block-explorer:
-  fullnameOverride: block-explorer
+hermes-explorer:
+  fullnameOverride: hermes-explorer
   enabled: false
