@@ -75,13 +75,6 @@ Image
 {{- end -}}
 
 {{/*
-Faucet Port
-*/}}
-{{- define "bex-hermes.api" -}}
-    {{ .Values.service.port }}
-{{- end -}}
-
-{{/*
 Image
 */}}
 {{- define "bex-hermes.hermesnode-image" -}}
