@@ -277,7 +277,7 @@ data:
           proxy_set_header Host $http_host;
           proxy_http_version 1.1;
           proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://block-explorer:{{ .Values.service.port.dojima_explorer.http }};
+          proxy_pass http://hermes-explorer:{{ .Values.service.port.dojima_explorer.http }};
         }
 
 

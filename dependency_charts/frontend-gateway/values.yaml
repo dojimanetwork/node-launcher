@@ -32,7 +32,7 @@ domain:
     mainnet: wallet.dojima.network
     enable: true
   block_explorer:
-    testnet: bex-test.dojima.network
+    testnet: hermes-bex-test.dojima.network
     mainnet: bex.dojima.network
     enable: true
   developer_doc:
