@@ -85,7 +85,7 @@ spec:
               value: {{ .Values.env.mongo_uri }}
           ports:
             - name: fiber-port
-              containerPort: {{ .Values.service.fiber }}
+              containerPort: {{ include "bex-hermes.api" . }}
               protocol: TCP
         - name: {{ .Chart.Name }}
           securityContext:

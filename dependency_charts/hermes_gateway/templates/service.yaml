@@ -33,11 +33,11 @@ spec:
       protocol: TCP
       name: narada-p2p
     {{- end }}
-    {{- if .Values.midgard }}
-    - port: {{ .Values.service.port.midgard }}
-      targetPort: midgard
+    {{- if .Values.fiber }}
+    - port: {{ .Values.service.port.fiber.testnet.api }}
+      targetPort: bex-fiber
       protocol: TCP
-      name: midgard
+      name: bex-fiber
     {{- end }}
     {{- if .Values.api }}
     - port: {{ .Values.service.port.api }}

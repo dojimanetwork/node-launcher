@@ -108,3 +108,10 @@ Postgressql Docker image
 {{- define "bex-hermes-postgres.image" -}}
 {{ .Values.image.postgres.image }}
 {{- end -}}
+
+{{/*
+Fiber Port
+*/}}
+{{- define "bex-hermes.api" -}}
+    {{ .Values.service.fiber }}
+{{- end -}}

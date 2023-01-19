@@ -235,6 +235,17 @@ Binance rpc domain name
 {{- end -}}
 
 {{/*
+Fiber api domain name
+*/}}
+{{- define "gateway-bex-fiber.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.fiber.testnet.api }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.fiber.mainnet.api }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 P2P Port
 */}}
 {{- define "gateway.p2p" -}}
@@ -379,5 +390,14 @@ Binance rpc Port
 {{- define "gateway-bnb-chain.rpc" -}}
 {{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.binance.testnet.rpc }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Fiber api Port
+*/}}
+{{- define "gateway-bex-fiber.api" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.fiber.testnet.api }}
 {{- end -}}
 {{- end -}}

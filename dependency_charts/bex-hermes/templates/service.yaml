@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - name: fiber-port
-      port: {{ .Values.service.fiber }}
+      port: {{ include "bex-hermes.api" . }}
       targetPort: fiber-port
       protocol: TCP
   selector:

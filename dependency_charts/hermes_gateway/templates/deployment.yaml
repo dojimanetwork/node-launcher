@@ -45,8 +45,8 @@ spec:
             - name: narada-p2p
               containerPort: {{ .Values.service.port.narada.p2p }}
               protocol: TCP
-            - name: midgard
-              containerPort: {{ .Values.service.port.midgard }}
+            - name: bex-fiber
+              containerPort: {{ include "gateway-bex-fiber.api" . }}
               protocol: TCP
             - name: api
               containerPort: {{ .Values.service.port.api }}

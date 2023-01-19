@@ -17,6 +17,7 @@ dojima_chain: true
 faucet: true
 eth: true
 binance: true
+fiber: true
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
 # traffic if not provided.
@@ -44,6 +45,9 @@ domain:
       graphql: graph-test.d11k.dojima.network
   faucet:
     api: faucet.h4s.dojima.network
+  fiber:
+    testnet:
+      api: fiber-test.h4s.dojima.network
 
 
 image:
@@ -100,6 +104,9 @@ service:
     faucet:
       testnet:
         api: 8081
+    fiber:
+      testnet:
+        api: 8080
     binance:
       testnet:
         rpc: 26660
