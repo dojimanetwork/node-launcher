@@ -170,7 +170,7 @@ spec:
             - name: INCLUDE_AR_CHAIN
               value: {{ .Values.chains.include_ar_chain | quote }}
             - name: INCLUDE_DOT_CHAIN
-              value: "{{ .Values.chains.include_dot_chain }}"
+              value: {{ .Values.chains.include_dot_chain | quote }}
             - name: INCLUDE_SOL_CHAIN
               value: "{{ .Values.chains.include_sol_chain }}"
             - name: INCLUDE_GAIA_CHAIN
