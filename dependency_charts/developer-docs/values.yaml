@@ -10,7 +10,7 @@ image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
   testnet: "mainnet-0.1.2-2023-01-20"
   mainnet: "mainnet-0.1.2-2022-12-22"
-  testnet_hash: "1ecdddce17fcca93fb306ddf5d94d5709ab9ad9328c1bd6e403f4940e9cca129"
+  testnet_hash: "e1681a0cdaf3fa30be7afda60d10fb5405c6f3229fdb9e066ad1222a339849ba"
   mainnet_hash: "18a07537dfc38ec2d297dce1efd97ab82c035f266b1a4586afabbffdd96b97b3"
 
 imagePullSecrets: []
