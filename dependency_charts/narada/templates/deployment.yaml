@@ -166,21 +166,21 @@ spec:
             - name: INCLUDE_BTC_CHAIN
               value: {{ .Values.chains.include_btc_chain | quote }}
             - name: INCLUDE_ETH_CHAIN
-              value: "{{ .Values.chains.include_eth_chain }}"
+              value: {{ .Values.chains.include_eth_chain | quote }}
             - name: INCLUDE_AR_CHAIN
               value: {{ .Values.chains.include_ar_chain | quote }}
             - name: INCLUDE_DOT_CHAIN
               value: {{ .Values.chains.include_dot_chain | quote }}
             - name: INCLUDE_SOL_CHAIN
-              value: "{{ .Values.chains.include_sol_chain }}"
+              value: {{ .Values.chains.include_sol_chain | quote }}
             - name: INCLUDE_GAIA_CHAIN
-              value: "{{ .Values.chains.include_gaia_chain }}"
+              value: {{ .Values.chains.include_gaia_chain | quote }}
             - name: DOJIMA_CHAIN_ID
-              value: "{{ .Values.dojima_chain.chain_id }}"
+              value: {{ .Values.dojima_chain.chain_id | quote }}
             - name: DOJIMA_RPC_URL
-              value: "{{ .Values.dojima_chain.rpc_url }}"
+              value: {{ .Values.dojima_chain.rpc_url | quote }}
             - name: DOJIMA_GRPC_URL
-              value: "{{ .Values.dojima_chain.grpc_url }}"
+              value: {{ .Values.dojima_chain.grpc_url | quote }}
           ports:
             - name: p2p
               containerPort: {{ .Values.service.port.p2p }}
