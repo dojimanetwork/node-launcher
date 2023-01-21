@@ -312,10 +312,10 @@ data:
       {{ if .Values.grpc }}
       server {
         listen {{ include "gateway-hermes.grpc" . }} http2;
-        server_name {{ include "gateway-hermes-api.domain" . }}
+        server_name {{ include "gateway-hermes-api.domain" . }};
 
         location / {
-          grpc_pass grpc://fhermesnode-hermes:{{ include "gateway-hermes.grpc" . }}
+          grpc_pass grpc://fhermesnode-hermes:{{ include "gateway-hermes.grpc" . }};
         }
       }
       {{- end }}
