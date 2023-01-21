@@ -28,7 +28,7 @@ chains:
   include_binance_chain: "true"
   include_btc_chain: "false"
   include_eth_chain: "true"
-  include_ar_chain: "false"
+  include_ar_chain: "true"
   include_dot_chain: "true"
   include_sol_chain: "true"
   include_gaia_chain: "false"
