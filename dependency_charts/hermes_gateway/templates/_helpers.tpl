@@ -401,3 +401,12 @@ Fiber api Port
     {{ .Values.service.port.fiber.testnet.api }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Hermes GRPC Port
+*/}}
+{{- define "gateway-hermes.grpc" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.service.port.grpc }}
+{{- end -}}
+{{- end -}}

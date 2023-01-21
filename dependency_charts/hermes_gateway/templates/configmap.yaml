@@ -309,6 +309,17 @@ data:
       }
       {{- end }}
 
+      {{ if .Values.grpc }}
+      server {
+        listen {{ include "gateway-hermes.grpc" . }} http2;
+        server_name {{ include "gateway-hermes-api.domain" . }}
+
+        location / {
+          grpc_pass grpc://fhermesnode-hermes:{{ include "gateway-hermes.grpc" . }}
+        }
+      }
+      {{- end }}
+
       {{- if .Values.arweave }}
       server {
         listen 80;

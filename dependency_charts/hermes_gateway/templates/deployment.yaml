@@ -102,6 +102,9 @@ spec:
             - name: bnb-rpc
               containerPort: {{ include "gateway-bnb-chain.rpc" .}}
               protocol: TCP
+            - name: hermes-grpc
+              containerPort: {{ include "gateway-hermes.grpc" .}}
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /healthz

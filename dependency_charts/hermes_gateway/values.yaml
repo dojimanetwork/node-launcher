@@ -6,6 +6,7 @@ net: testnet
 
 validator: true
 midgard: false
+grpc: true
 rpc:
   enabled: true
   limited: false
@@ -69,6 +70,7 @@ service:
       api: 6040
     midgard: 8080
     api: 1317
+    grpc: 9090
     mainnet:
       p2p: 27146
       rpc: 27147

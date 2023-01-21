@@ -121,5 +121,11 @@ spec:
       protocol: TCP
       name: bnb-rpc
     {{- end }}
+    {{- if .Values.grpc }}
+    - port: {{ include "gateway-hermes.grpc" . }}
+      targetPort: hermes-grpc
+      protocol: TCP
+      name: hermes-grpc
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}
