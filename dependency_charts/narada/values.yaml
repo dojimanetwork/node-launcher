@@ -61,7 +61,7 @@ hermesDaemon:
 arweaveDaemon:
   enabled: true
   testnet: http://arweave-daemon:1984
-  arweaveStartBlockHeight: 34
+  arweaveStartBlockHeight: 35
 
 polkaDaemmon:
   enabled: true
