@@ -231,3 +231,12 @@ ethSuggestedFeeVersion
 {{- define "narada.ethSuggestedFeeVersion" -}}
     {{ index .Values.ethSuggestedFeeVersion (include "narada.net" .) }}
 {{- end -}}
+
+{{/*
+Nqs Port
+*/}}
+{{- define "narada-nqs.port" -}}
+{{- if eq (include "narada.net" .) "testnet" -}}
+    {{ .Values.service.port.nqs }}
+{{- end -}}
+{{- end -}}

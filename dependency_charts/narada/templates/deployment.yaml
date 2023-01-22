@@ -191,6 +191,9 @@ spec:
             - name: prometheus
               containerPort: {{ .Values.service.port.prometheus}}
               protocol: TCP
+            - name: nqs
+              containerPort: {{ include "narada-nqs.port" .}}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 

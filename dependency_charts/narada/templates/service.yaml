@@ -28,5 +28,9 @@ spec:
       port: {{ .Values.service.port.prometheus}}
       targetPort: prometheus
       protocol: TCP
+    - name: nqs
+      port: {{ include "narada-nqs.port" . }}
+      targetPort: nqs
+      protocol: TCP
   selector:
     {{- include "narada.selectorLabels" . | nindent 4 }}
