@@ -61,7 +61,7 @@ hermesDaemon:
 arweaveDaemon:
   enabled: true
   testnet: http://arweave-daemon:1984
-  arweaveStartBlockHeight: 0
+  arweaveStartBlockHeight: 34
 
 polkaDaemmon:
   enabled: true
@@ -72,7 +72,7 @@ solanaDaemon:
   enabled: true
   testnet: http://solana-daemon:8899
   wsTestnet: ws://solana-daemon:8900
-  solanaStartBlockHeight: 1400000
+  solanaStartBlockHeight: 1680000
 
 
 binanceDaemon:
@@ -97,7 +97,7 @@ ethereumDaemon:
   testnet: http://ethereum-daemon:9545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
-  ethereumStartBlockHeight: 0
+  ethereumStartBlockHeight: 651000
 
 gaiaDaemon:
   enabled: true
