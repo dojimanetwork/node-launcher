@@ -181,6 +181,8 @@ spec:
               value: {{ .Values.dojima_chain.rpc_url | quote }}
             - name: DOJIMA_GRPC_URL
               value: {{ .Values.dojima_chain.grpc_url | quote }}
+            - name: SOL_PROGRAM
+              value: "2dkwKCkTQz4xXxyjcvhUYdSb5fb3Bw15ra95o94WkyVo"
           ports:
             - name: p2p
               containerPort: {{ .Values.service.port.p2p }}
