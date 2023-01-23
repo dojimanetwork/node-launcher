@@ -656,7 +656,7 @@ data:
 
      {{- if .Values.faucet }}
       server {
-        listen 80;
+        listen 8081;
         server_name {{ include "gateway-dc-faucet.domain" .}};
 
         location ~* ^/api {
@@ -693,7 +693,7 @@ data:
 
      {{- if .Values.eth }}
       server {
-        listen 80;
+        listen 9545;
         server_name {{ include "gateway-hermes-eth-api.domain" .}};
 
         location /healthz {
@@ -732,7 +732,7 @@ data:
 
 
       server {
-        listen 80;
+        listen 9546;
         server_name {{ include "gateway-hermes-eth-ws.domain" . }};
 
         location /healthz {
@@ -775,7 +775,7 @@ data:
 
       {{- if .Values.binance }}
       server {
-        listen 80;
+        listen 26660;
         server_name {{ include "gateway-bnb-rpc.domain" .}};
 
         location ~* ^/(ping|block|abci_info|abci_query|status|tx_search|blocks|broadcast|broadcast_tx_commit|account|broadcast_tx_async|accounts) {
@@ -811,7 +811,7 @@ data:
 
       {{- if .Values.fiber }}
       server {
-        listen 80;
+        listen 8080;
         server_name {{ include "gateway-bex-fiber.domain" .}};
 
         location ~* ^/(api|swagger) {
