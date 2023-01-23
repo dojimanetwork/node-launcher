@@ -58,7 +58,7 @@ spec:
               containerPort: {{ include "gateway.p2p" . }}
               protocol: TCP
             - name: http
-              containerPort: 1317
+              containerPort: 80
               protocol: TCP
             - name: arweave-api
               containerPort: {{ include "gateway-arweave-daemon.api" .}}

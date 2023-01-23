@@ -109,7 +109,7 @@ data:
       {{- end }}
 
       server {
-        listen 1317;
+        listen 80;
         server_name {{ include "gateway-hermes-api.domain" .}};
 
         location /healthz {
@@ -191,7 +191,7 @@ data:
 
       {{- if .Values.validator }}
       server {
-        listen 6040;
+        listen 80;
         server_name narada-test.h4s.dojima.network;
 
         location / {
@@ -252,7 +252,7 @@ data:
 
       {{- if .Values.rpc.enabled }}
       server {
-        listen 26657;
+        listen 80;
         server_name {{ include "gateway-hermes-rpc.domain" .}};
 
         location /genesis {
@@ -322,7 +322,7 @@ data:
 
       {{- if .Values.arweave }}
       server {
-        listen 1984;
+        listen 80;
         server_name {{ include "gateway-hermes-ar.domain" .}};
 
         location ~* ^/(info|tx|price|wallet|block|peers|mint|graphql|mine) {
@@ -656,7 +656,7 @@ data:
 
      {{- if .Values.faucet }}
       server {
-        listen 8081;
+        listen 80;
         server_name {{ include "gateway-dc-faucet.domain" .}};
 
         location ~* ^/api {
@@ -693,7 +693,7 @@ data:
 
      {{- if .Values.eth }}
       server {
-        listen 9545;
+        listen 80;
         server_name {{ include "gateway-hermes-eth-api.domain" .}};
 
         location /healthz {
@@ -732,7 +732,7 @@ data:
 
 
       server {
-        listen 9546;
+        listen 80;
         server_name {{ include "gateway-hermes-eth-ws.domain" . }};
 
         location /healthz {
@@ -775,7 +775,7 @@ data:
 
       {{- if .Values.binance }}
       server {
-        listen 26660;
+        listen 80;
         server_name {{ include "gateway-bnb-rpc.domain" .}};
 
         location ~* ^/(ping|block|abci_info|abci_query|status|tx_search|blocks|broadcast|broadcast_tx_commit|account|broadcast_tx_async|accounts) {
@@ -811,7 +811,7 @@ data:
 
       {{- if .Values.fiber }}
       server {
-        listen 8080;
+        listen 80;
         server_name {{ include "gateway-bex-fiber.domain" .}};
 
         location ~* ^/(api|swagger) {
