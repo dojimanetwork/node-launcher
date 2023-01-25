@@ -340,7 +340,7 @@ create_mnemonic() {
   local mnemonic
   if ! kubectl get -n "$NAME" secrets/hermesnode-mnemonic >/dev/null 2>&1; then
     echo "=> Generating hermesnode Mnemonic phrase"
-    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node:testnet-1.89.0_48 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node:testnet-1.89.0_49 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
 #     mnemonic="wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"

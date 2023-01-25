@@ -123,7 +123,7 @@ strategyType: Recreate
 image:
   repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
   pullPolicy: IfNotPresent
-  tag: "testnet-1.89.0_48"
+  tag: "testnet-1.89.0_49"
   hash: "sha256:92d84bedcd92961c217f16c4f9a0137b4c114709d4de675f68b756469d1845ad" # Not used for mocknet/testnet
 
 imagePullSecrets: []
