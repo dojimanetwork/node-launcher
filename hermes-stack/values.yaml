@@ -64,7 +64,7 @@ solana-daemon:
 
 bex-faucet:
   fullnameOverride: bex-faucet
-  enabled: false
+  enabled: true
 
 bex-hermes:
   fullnameOverride: bex-hermes

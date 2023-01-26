@@ -15,7 +15,7 @@ arweave: true
 solana: true
 polkadot: true
 dojima_chain: true
-faucet: false
+faucet: true
 eth: true
 binance: true
 fiber: false
