@@ -61,6 +61,14 @@ spec:
             value: "{{ .Values.signer.signer_seed_phrase }}"
           - name: CHAIN_ID
             value: "{{ include "dojima-chain.chainID" . }}"
+          - name: ETH_HOST
+            value: {{ .Values.h4s.eth }}
+          - name: FAUCET_DEST
+            value: {{ .Values.env.faucet_dest | quote }}
+          - name: FAUCET_AMT
+            value: {{ .Values.env.faucet_amt | quote }}
+          - name: ETH_ACC_PASS
+            value: {{ .Values.env.eth_acc_pass | quote }}
         volumeMounts:
           - name: data
             mountPath: /root
