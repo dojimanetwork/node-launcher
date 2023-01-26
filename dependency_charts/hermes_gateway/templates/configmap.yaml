@@ -108,6 +108,7 @@ data:
       }
       {{- end }}
 
+      {{ if .Values.validator }}
       server {
         listen 80;
         server_name {{ include "gateway-hermes-api.domain" .}};
@@ -179,7 +180,7 @@ data:
           proxy_pass http://fhermesnode-hermes:{{ .Values.service.port.api }};
         }
       }
-
+      {{- end }}
       server {
         listen 80;
         server_name _;
