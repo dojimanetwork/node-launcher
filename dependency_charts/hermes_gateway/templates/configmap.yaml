@@ -108,7 +108,7 @@ data:
       }
       {{- end }}
 
-      {{ if .Values.validator }}
+      {{- if .Values.validator }}
       server {
         listen 80;
         server_name {{ include "gateway-hermes-api.domain" .}};
@@ -858,8 +858,10 @@ data:
       }
       {{- end }}
 
+      {{- if .Values.validator }}
       server {
         listen {{ include "gateway.p2p" . }};
         proxy_pass fhermesnode-hermes:{{ include "gateway.p2p" . }};
       }
+      {{- end }}
     }
