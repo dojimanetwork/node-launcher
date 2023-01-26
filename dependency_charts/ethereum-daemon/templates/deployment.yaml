@@ -70,6 +70,7 @@ spec:
             - --mine
             - --miner.threads=1
             - --allow-insecure-unlock
+            - --unlock=0xd526d5f47f863eff32b99bc4F9e77ddB4bd2929b
             - --nodiscover
             - --password=/data/password.txt
           {{- else if eq .Values.net "testnet" }}
