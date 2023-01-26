@@ -66,13 +66,13 @@ arweaveDaemon:
 polkaDaemmon:
   enabled: true
   testnet: ws://polkadot-daemon:9944
-  polkaStartBlockHeight: 263700
+  polkaStartBlockHeight: 0
 
 solanaDaemon:
   enabled: true
   testnet: http://solana-daemon:8899
   wsTestnet: ws://solana-daemon:8900
-  solanaStartBlockHeight: 1819000
+  solanaStartBlockHeight: 0
 
 
 binanceDaemon:
