@@ -118,7 +118,7 @@ spec:
              - name: FAUCET_DEST
                value: {{ .Values.env.faucet_dest | quote }}
              - name: FAUCET_AMT
-               value: {{ .Values.env.faucet_amt | quote }}
+               value: "{{ .Values.env.faucet_amt }}"
              - name: ETH_ACC_PASS
                value: {{ .Values.env.eth_acc_pass | quote }}
            ports: 
