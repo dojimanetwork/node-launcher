@@ -20,15 +20,15 @@ hermes-gateway:
 
 hermesnonde:
   fullnameOverride: hermesnode
-  enabled: false
+  enabled: true
 
 narada:
   fullnameOverride: narada
-  enabled: false
+  enabled: true
 
 dojima-chain:
   fullnameOverride: dojima-chain
-  enabled: false
+  enabled: true
 
 midgard:
   enabled: false
@@ -36,7 +36,7 @@ midgard:
 
 binance-daemon:
   fullnameOverride: binance-daemon
-  enabled: false
+  enabled: true
 
 bitcoin-daemon:
   fullnameOverride: bitcoin-daemon
@@ -44,7 +44,7 @@ bitcoin-daemon:
 
 ethereum-daemon:
   fullnameOverride: ethereum-daemon
-  enabled: false
+  enabled: true
 
 gaia-daemon:
   fullnameOverride: gaia-daemon
@@ -56,7 +56,7 @@ arweave-daemon:
 
 polkadot-daemon:
   fullnameOverride: polkadot-daemon
-  enabled: trfalseue
+  enabled: true
 
 solana-daemon:
   fullnameOverride: solana-daemon
@@ -64,7 +64,7 @@ solana-daemon:
 
 bex-faucet:
   fullnameOverride: bex-faucet
-  enabled: false
+  enabled: true
 
 bex-hermes:
   fullnameOverride: bex-hermes

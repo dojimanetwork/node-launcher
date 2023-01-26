@@ -18,13 +18,13 @@ hermes-gateway:
   enabled: true
 
 hermesnode:
-  enabled: false
+  enabled: true
 
 narada:
-  enabled: false
+  enabled: true
 
 dojima-chain:
-  enabled: false
+  enabled: true
 
 midgard:
   blockstore:
@@ -33,13 +33,13 @@ midgard:
     size: 10Gi
 
 binance-daemon:
-  enabled: false
+  enabled: true
 
 bitcoin-daemon:
   enabled: false
 
 ethereum-daemon:
-  enabled: false
+  enabled: true
 
 gaia-daemon:
   enabled: false
@@ -48,13 +48,13 @@ arweave-daemon:
   enabled: false
 
 polkadot-daemon:
-  enabled: false
+  enabled: true
 
 solana-daemon:
   enabled: true
 
 bex-faucet:
-  enabled: false
+  enabled: true
 
 bex-hermes:
   enabled: false
