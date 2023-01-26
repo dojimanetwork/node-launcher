@@ -121,8 +121,8 @@ spec:
             - --ws.port={{ .Values.service.port.testnet.wss }}
             - --ws.addr=0.0.0.0
             - --ws.api="eth,net,web3,network,debug,txpool"
-            - --syncmode="full"
-            - --gcmode="archive"
+            - --syncmode=full
+            - --gcmode=archive
           volumeMounts:
             - name: data
               mountPath: /root/
