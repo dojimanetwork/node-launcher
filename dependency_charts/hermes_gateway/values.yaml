@@ -4,20 +4,20 @@
 
 net: testnet
 
-validator: true
+validator: false
 midgard: false
-grpc: true
+grpc: false
 rpc:
-  enabled: true
+  enabled: false
   limited: false
-api: true
-arweave: true
+api: false
+arweave: false
 solana: true
-polkadot: true
-dojima_chain: true
-faucet: true
-eth: true
-binance: true
+polkadot: false
+dojima_chain: false
+faucet: false
+eth: false
+binance: false
 fiber: false
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
