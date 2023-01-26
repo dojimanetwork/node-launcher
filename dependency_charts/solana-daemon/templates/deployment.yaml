@@ -45,7 +45,7 @@ spec:
             - --ledger=/data/.solana-test
             - --limit-ledger-size=10000000000000000000
             - --bpf-program
-            - "/solana-anchor/dojima-keypair.json"
+            - "2dkwKCkTQz4xXxyjcvhUYdSb5fb3Bw15ra95o94WkyVo"
             - "/solana-anchor/dojima.so"
           ports:
             - name: rpc
