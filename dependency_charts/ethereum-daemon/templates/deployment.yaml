@@ -71,7 +71,7 @@ spec:
             - --miner.threads=1
             - --allow-insecure-unlock
             - --nodiscover
-            - --password=/root/password.txt
+            - --password=/data/password.txt
           {{- else if eq .Values.net "testnet" }}
             - --override.terminaltotaldifficulty=50000000000000000
             - --{{ .Values.chain }}
