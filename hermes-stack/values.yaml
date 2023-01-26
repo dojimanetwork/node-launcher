@@ -20,15 +20,15 @@ hermes-gateway:
 
 hermesnonde:
   fullnameOverride: hermesnode
-  enabled: false
+  enabled: true
 
 narada:
   fullnameOverride: narada
-  enabled: false
+  enabled: true
 
 dojima-chain:
   fullnameOverride: dojima-chain
-  enabled: false
+  enabled: true
 
 midgard:
   enabled: false
