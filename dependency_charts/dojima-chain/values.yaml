@@ -17,7 +17,7 @@ image:
 chain_home_folder: "/root/.hermesnode"
 signer:
   name: hermeschain
-  password: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+  password: password
   mnemonicSecret: "password"
   passwordSecret: "password"
   #genesis phrase

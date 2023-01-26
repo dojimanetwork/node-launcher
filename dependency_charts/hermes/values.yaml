@@ -13,7 +13,7 @@ ar_address: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
 
 signer:
   name: hermeschain
-  password: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+  password: password
   mnemonicSecret: "password"
   passwordSecret: "password"
   #genesis phrase
