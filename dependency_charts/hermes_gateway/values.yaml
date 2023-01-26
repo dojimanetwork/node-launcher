@@ -4,18 +4,18 @@
 
 net: testnet
 
-validator: true
+validator: false
 midgard: false
-grpc: true
+grpc: false
 rpc:
-  enabled: true
+  enabled: false
   limited: false
-api: true
+api: false
 arweave: true
 solana: true
 polkadot: true
-dojima_chain: true
-faucet: true
+dojima_chain: false
+faucet: false
 eth: true
 binance: true
 fiber: false
