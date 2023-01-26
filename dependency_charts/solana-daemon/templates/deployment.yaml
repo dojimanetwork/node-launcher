@@ -42,6 +42,11 @@ spec:
           imagePullPolicy: IfNotPresent
           command:
             - solana-test-validator
+            - --ledger=/data/.solana-test
+            - --limit-ledger-size=10000000000000000000
+            - --bpf-program
+            - "/solana-anchor/dojima-keypair.json"
+            - "/solana-anchor/dojima.so"
           ports:
             - name: rpc
               containerPort: {{ include "solana-daemon.rpc" . }}
@@ -61,6 +66,8 @@ spec:
           volumeMounts:
             - mountPath: /scripts
               name: scripts
+            - name: data
+              mountPath: /data
           resources:
           {{- if not (eq (include "solana-daemon.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}

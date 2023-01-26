@@ -88,6 +88,14 @@ spec:
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.h4s.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
+      - name: wait-for-narada
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [ '/scripts/check-narada.sh' ]
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -102,13 +110,19 @@ spec:
             - --password={{ .Values.cmd_args.password_path }}
             - --allow-insecure-unlock
             - --http
-            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug
+            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug,shh
             - --http.addr=0.0.0.0
+            - --port=30303
             - --http.port={{ .Values.service.port.testnet.http }}
             - --http.corsdomain=*
             - --http.vhosts=*
+            - --ws
+            - --ws.origins="*"
             - --ws.port={{ .Values.service.port.testnet.wss }}
             - --ws.addr=0.0.0.0
+            - --ws.api="eth,net,web3,network,debug,txpool"
+            - --syncmode="full"
+            - --gcmode="archive"
           volumeMounts:
             - name: data
               mountPath: /root/

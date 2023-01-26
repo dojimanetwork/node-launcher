@@ -115,6 +115,12 @@ spec:
                value: "{{ .Values.eth_host }}"
              - name: DOJIMA_RPC_URL
                value: "{{ .Values.dojima_rpc_url }}"
+             - name: FAUCET_DEST
+               value: {{ .Values.env.faucet_dest | quote }}
+             - name: FAUCET_AMT
+               value: {{ .Values.env.faucet_amt | quote }}
+             - name: ETH_ACC_PASS
+               value: {{ .Values.env.eth_acc_pass | quote }}
            ports: 
             - name: api 
               containerPort: {{ .Values.service.port.api }} 

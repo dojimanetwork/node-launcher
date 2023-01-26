@@ -16,19 +16,19 @@ global:
 
 hermes-gateway:
   fullnameOverride: hermes-gateway
-  enabled: true
+  enabled: false
 
 hermesnonde:
   fullnameOverride: hermesnode
-  enabled: true
+  enabled: false
 
 narada:
   fullnameOverride: narada
-  enabled: true
+  enabled: false
 
 dojima-chain:
   fullnameOverride: dojima-chain
-  enabled: true
+  enabled: false
 
 midgard:
   enabled: false
@@ -64,7 +64,7 @@ solana-daemon:
 
 bex-faucet:
   fullnameOverride: bex-faucet
-  enabled: true
+  enabled: false
 
 bex-hermes:
   fullnameOverride: bex-hermes

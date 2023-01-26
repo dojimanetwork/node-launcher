@@ -21,6 +21,12 @@ signer:
   # validator 1 phrase
   # signer_seed_phrase: "pipe expire lecture state pilot latin stamp senior market much dilemma tooth airport oblige flower caught risk canoe radar gadget tag narrow inch trust"
 
+
+env:
+  faucet_dest: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+  faucet_amt: 1000000000000000000
+  eth_acc_pass: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+
 eth_host: http://ethereum-daemon:9545
 dojima_rpc_url: http://dojima-chain:8545
 peer:

@@ -78,6 +78,14 @@ get_node_name() {
   echo
 }
 
+get_hermes_gateway() {
+  if [ "$HERMES_GATEWAY" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter frontend gateway name [$HERMES_GATEWAY]: " name
+    HERMES_GATEWAY=${name:-$HERMES_GATEWAY}
+}
+
 get_frontend_gateway() {
   if [ "$FRONTEND_GATEWAY" != "" ]; then
     return
@@ -416,7 +424,7 @@ deploy_genesis() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 #  confirm
-  kubectl rollout restart -n "${NAME}" deployment hermes-gateway
+  kubectl rollout restart -n "${NAME}" deployment "${HERMES_GATEWAY}"
 }
 
 deploy_frontend() {

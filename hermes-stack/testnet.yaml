@@ -15,16 +15,16 @@ global:
       hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
 
 hermes-gateway:
-  enabled: true
+  enabled: false
 
 hermesnode:
-  enabled: true
+  enabled: false
 
 narada:
-  enabled: true
+  enabled: false
 
 dojima-chain:
-  enabled: true
+  enabled: false
 
 midgard:
   blockstore:
@@ -54,7 +54,7 @@ solana-daemon:
   enabled: true
 
 bex-faucet:
-  enabled: true
+  enabled: false
 
 bex-hermes:
   enabled: false

@@ -28,7 +28,7 @@ spec:
       initContainers:
       {{- if not (eq .Values.net "mocknet") }}
         - name: init-beacon
-          image: alpine:{{ .Values.global.images.alpine.tag }}@sha256:{{ .Values.global.images.alpine.hash }}
+          image: "alpine:{{ .Values.global.images.alpine.tag }}@sha256:{{ .Values.global.images.alpine.hash }}"
           volumeMounts:
             - name: data
               mountPath: /data
@@ -37,11 +37,19 @@ spec:
           command:
             - /scripts/init-beacon.sh
       {{- end }}
+        - name: create-password-txt
+          image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+          command: [ '/scripts/password.sh' ]
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+            - name: data
+              mountPath: /data
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ .Values.image.eth.name }}:{{ include "daemon.tag" . }}@sha256:{{ .Values.image.eth.hash }}
+          image: "{{ .Values.image.eth.name }}:{{ include "daemon.tag" . }}@sha256:{{ .Values.image.eth.hash }}"
           imagePullPolicy: IfNotPresent
           command:
             - geth
@@ -63,6 +71,7 @@ spec:
             - --miner.threads=1
             - --allow-insecure-unlock
             - --nodiscover
+            - --password=/root/password.txt
           {{- else if eq .Values.net "testnet" }}
             - --override.terminaltotaldifficulty=50000000000000000
             - --{{ .Values.chain }}
