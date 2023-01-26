@@ -82,8 +82,6 @@ spec:
               value: "{{ .Values.env.ecto_use_ssl }}"
             - name: PORT
               value: "{{ .Values.service.bs }}"
-            - name: DISABLE_EXCHANGE_RATES
-              value: "{{ .Values.env.disable_exchange_rate }}"
             - name: LOGO
               value: "{{ .Values.env.logo }}"
             - name: LOGO_FOOTER
