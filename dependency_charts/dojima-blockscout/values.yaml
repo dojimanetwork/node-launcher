@@ -22,8 +22,8 @@ env:
   eth_json_var: geth
   coin: DOJ
   chain_id: 1001
-  eth_json_http: http://dojima-chain.hermesnode-test:8545
-  eth_ws_url: ws://dojima-chain.hermesnode-test:8545/ws
+  eth_json_http: http://dojima-chain.hermes-testnet:8545
+  eth_ws_url: ws://dojima-chain.hermes-testnet:8545/ws
   eth_jsonrpc_transport: http
   database_url: "postgresql://postgres:@localhost:5432/postgres?ssl=false"
   secret_key: YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC
