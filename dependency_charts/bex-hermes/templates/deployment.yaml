@@ -81,7 +81,7 @@ spec:
               value: {{ .Values.env.pg_pass }}
             - name: POSTGRES_DB_PORT
               value: "{{ .Values.service.postgres }}"
-            - name: MONGO_URI
+            - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
           ports:
             - name: fiber-port
@@ -94,7 +94,7 @@ spec:
           command: ["/scripts/narada.sh", "bs-hermes", "-c", "/etc/block-explorer/config.json", "-l", "debug"]
           imagePullPolicy: IfNotPresent
           env:
-            - name: MONGO_URI
+            - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
             - name: D11K_HOST
               value: "{{ .Values.env.hermes_host }}"
@@ -139,7 +139,7 @@ spec:
               value: {{ .Values.env.pg_pass }}
             - name: POSTGRES_DB_PORT
               value: {{ .Values.service.postgres | quote }}
-            - name: MONGO_URI
+            - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
           resources:
           {{- if not (eq (include "bex-hermes.net" . ) "mocknet") }}
