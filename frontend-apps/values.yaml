@@ -40,4 +40,4 @@ dojima-faas:
 
 dojima-blockscout:
   fullnameOverride: dojima-blockscout
-  enabled: false
+  enabled: true
