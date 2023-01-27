@@ -57,4 +57,4 @@ bex-faucet:
   enabled: true
 
 bex-hermes:
-  enabled: false
+  enabled: true
