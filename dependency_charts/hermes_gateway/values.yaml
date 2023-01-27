@@ -11,7 +11,7 @@ rpc:
   enabled: true
   limited: false
 api: true
-arweave: false
+arweave: true
 solana: true
 polkadot: true
 dojima_chain: true
