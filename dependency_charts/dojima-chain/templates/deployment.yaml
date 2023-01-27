@@ -61,6 +61,14 @@ spec:
             value: "{{ .Values.signer.signer_seed_phrase }}"
           - name: CHAIN_ID
             value: "{{ include "dojima-chain.chainID" . }}"
+          - name: ETH_HOST
+            value: {{ .Values.h4s.eth }}
+          - name: FAUCET_DEST
+            value: {{ .Values.env.faucet_dest | quote }}
+          - name: FAUCET_AMT
+            value: {{ .Values.env.faucet_amt | quote }}
+          - name: ETH_ACC_PASS
+            value: {{ .Values.env.eth_acc_pass | quote }}
         volumeMounts:
           - name: data
             mountPath: /root
@@ -102,13 +110,19 @@ spec:
             - --password={{ .Values.cmd_args.password_path }}
             - --allow-insecure-unlock
             - --http
-            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug
+            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug,shh
             - --http.addr=0.0.0.0
+            - --port=30303
             - --http.port={{ .Values.service.port.testnet.http }}
             - --http.corsdomain=*
             - --http.vhosts=*
+            - --ws
+            - --ws.origins="*"
             - --ws.port={{ .Values.service.port.testnet.wss }}
             - --ws.addr=0.0.0.0
+            - --ws.api="eth,net,web3,network,debug,txpool"
+            - --syncmode=full
+            - --gcmode=archive
           volumeMounts:
             - name: data
               mountPath: /root/

@@ -7,9 +7,18 @@ data:
     #!/bin/bash
 
     touch /root/password.txt
-    echo "password" >> /root/password.txt
+    echo {{.Values.signer.password }} >> /root/password.txt
     ls -lasrt /root
     echo "successfully created password file"
+
+  check-narada.sh: |
+    #!/bin/bash
+
+    echo "Checking for narada to start"
+    until curl -s "{{.Values.h4s.narada }}/ping" &>/dev/null; do
+    echo "Waiting for narada to be available($1)"
+    sleep 1
+    done
 
   copy-keystore.sh: |
     #!/bin/bash

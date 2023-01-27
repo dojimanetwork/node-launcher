@@ -1,5 +1,5 @@
 global:
-  tag: testnet-1.89.0_46
+  tag: testnet-1.89.0_50
   gateway:
     enabled: false
     name: fhermesnode-gateway
@@ -57,4 +57,4 @@ bex-faucet:
   enabled: true
 
 bex-hermes:
-  enabled: true
+  enabled: false

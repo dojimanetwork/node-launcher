@@ -7,9 +7,12 @@ metadata:
   annotations:
     # AWS
     service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:576263512135:certificate/36a81c43-d2f2-4d33-8ff6-cbb564684ba3
+    # Only run SSL on the port named "https" below.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: hermes-grpc,solana-rpc,polkadot-wss,eth-api,dc-rpc,polkadot-http,https,dc-http,bnb-rpc,solana-wss,arweave-api
     # hcloud
     load-balancer.hetzner.cloud/location: nbg1
     load-balancer.hetzner.cloud/use-private-ip: "true"
@@ -23,6 +26,10 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 443
+      targetPort: http
+      protocol: TCP
+      name: https
     {{- if .Values.validator }}
     - port: {{ .Values.service.port.narada.api }}
       targetPort: narada-api

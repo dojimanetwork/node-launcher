@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
-  tag: "mainnet-0.1.0-2023-01-18"
-  hash: "859185d9c3b17bf3c9441793ebd020976bae8183c69ad6c484fd4fc2fed977e1"
+  tag: "mainnet-0.1.0-2023-01-23"
+  hash: "9fd5c1d152fec9be8c66b860696f5effd5c6b287c044bb21c9e3656460f677f2"
 
 imagePullSecrets: []
 nameOverride: "bex-faucetd"
@@ -35,7 +35,7 @@ chainID:
 hermes:
   testnet:
     image: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
-    tag: testnet-1.89.0_46
+    tag: testnet-1.89.0_50
     hash: 904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
 
 env:

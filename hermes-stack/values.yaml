@@ -68,4 +68,4 @@ bex-faucet:
 
 bex-hermes:
   fullnameOverride: bex-hermes
-  enabled: true
+  enabled: false

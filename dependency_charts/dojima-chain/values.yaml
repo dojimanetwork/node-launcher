@@ -28,15 +28,21 @@ signer:
 chainID:
   testnet: "hermes-testnet"
 
+env:
+  faucet_dest: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+  faucet_amt: 1000000000
+  eth_acc_pass: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+
 h4s:
   hermesApi: fhermesnode-hermes:1317
   narada: http://narada:6040
   grpc: fhermesnode-hermes:9090
+  eth: http://ethereum-daemon:9545
 
 hermes:
   testnet:
     image: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
-    tag: testnet-1.89.0_46
+    tag: testnet-1.89.0_50
     hash: 904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
 
 cmd_args:

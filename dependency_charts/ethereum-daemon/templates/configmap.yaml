@@ -3,6 +3,13 @@ kind: ConfigMap
 metadata:
   name: {{ include "ethereum-daemon.fullname" . }}-scripts
 data:
+  password.sh: |
+    #!/bin/bash
+
+    touch /data/password.txt
+    echo {{.Values.fee_recipient }} >> /data/password.txt
+    ls -lasrt /data
+    echo "successfully created password file"
   init-beacon.sh: |
     #!/bin/sh
 
