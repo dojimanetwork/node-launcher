@@ -39,6 +39,12 @@ spec:
             subPath: nginx.conf
             name: config
           ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
             - name: narada-api
               containerPort: {{ .Values.service.port.narada.api }}
               protocol: TCP
@@ -56,9 +62,6 @@ spec:
               protocol: TCP
             - name: p2p
               containerPort: {{ include "gateway.p2p" . }}
-              protocol: TCP
-            - name: http
-              containerPort: 80
               protocol: TCP
             - name: arweave-api
               containerPort: {{ include "gateway-arweave-daemon.api" .}}
@@ -108,11 +111,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: http
+              port: https
           readinessProbe:
             httpGet:
               path: /healthz
-              port: http
+              port: https
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
