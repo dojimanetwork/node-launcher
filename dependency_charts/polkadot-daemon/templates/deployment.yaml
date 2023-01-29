@@ -56,6 +56,8 @@ spec:
             - --state-pruning=archive
             - --blocks-pruning=archive
             - --base-path=/data/.{{ .Values.chain.devnet }}
+            - --ws-max-connections=1000000
+            - --rpc-max-subscriptions-per-connection=100000
           {{- end }}
           ports:
             - name: p2p
