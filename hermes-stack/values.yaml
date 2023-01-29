@@ -44,7 +44,7 @@ bitcoin-daemon:
 
 ethereum-daemon:
   fullnameOverride: ethereum-daemon
-  enabled: false
+  enabled: true
 
 gaia-daemon:
   fullnameOverride: gaia-daemon
@@ -60,7 +60,7 @@ polkadot-daemon:
 
 solana-daemon:
   fullnameOverride: solana-daemon
-  enabled: false
+  enabled: true
 
 bex-faucet:
   fullnameOverride: bex-faucet
