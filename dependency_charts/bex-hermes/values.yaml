@@ -53,6 +53,7 @@ service:
   type: ClusterIP
   postgres: 5432
   fiber: 8080
+  hermes_health: 7040
 
 ingress:
   enabled: false

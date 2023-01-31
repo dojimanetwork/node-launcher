@@ -138,6 +138,10 @@ spec:
               command: ["/wait-for-it.sh", "localhost:7040/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
+          ports:
+            - containerPort: {{ .Values.service.hermes_health }}
+              name: hermes-health
+              protocol: TCP
           volumeMounts:
             - name: scripts
               mountPath: /scripts
