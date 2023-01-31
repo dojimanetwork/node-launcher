@@ -80,12 +80,13 @@ spec:
         - name: bex-fiber
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
-          command: ["/scripts/narada.sh", "bs-fiber"]
+          command: ["/bs-scripts/narada.sh", "bs-fiber"]
           volumeMounts:
             - name: scripts
-              mountPath: /kube-scripts/
-            - name: config-scripts
-              mountPath: /scripts
+              mountPath: /scripts/
+            - name: data
+              mountPath: /data
+              subPath: /bs-scripts
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
@@ -105,14 +106,14 @@ spec:
               protocol: TCP
           readinessProbe:
             exec:
-              command: ["/config-scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
+              command: ["/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "bex-hermes.image" . }}
-          command: ["/scripts/narada.sh", "bs-hermes", "-c", "/etc/block-explorer/config.json", "-l", "debug"]
+          command: ["/bs-scripts/narada.sh", "bs-hermes", "-c", "/etc/block-explorer/config.json", "-l", "debug"]
           imagePullPolicy: IfNotPresent
           env:
             - name: MONGO_DB_URI
@@ -135,20 +136,21 @@ spec:
               value: "{{ include "bex-hermes.chainID" . }}"
           readinessProbe:
             exec:
-              command: ["/config-scripts/wait-for-it.sh", "localhost:7040/ping"]
+              command: ["/scripts/wait-for-it.sh", "localhost:7040/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
           volumeMounts:
             - name: scripts
-              mountPath: /kube-scripts/
+              mountPath: /scripts/
             - mountPath: /var/data/block-explorer
               name: data
               subPath: data
             - mountPath: /etc/block-explorer
               name: data
               subPath: etc
-            - name: config-scripts
-              mountPath: /scripts
+            - name: data
+              mountPath: /data
+              subPath: /bs-scripts
         - name: bex-cron
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
