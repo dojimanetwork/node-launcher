@@ -84,6 +84,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /root
+            - name: scripts
+              mountPath: /scripts
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
@@ -103,7 +105,7 @@ spec:
               protocol: TCP
           readinessProbe:
             exec:
-              command: [ "/scripts/wait-for-it.sh", "localhost:8080/api/v1/ping" ]
+              command: [ "/wait-for-it.sh", "localhost:8080/api/v1/ping" ]
             timeoutSeconds: 2
             initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
@@ -133,7 +135,7 @@ spec:
               value: "{{ include "bex-hermes.chainID" . }}"
           readinessProbe:
             exec:
-              command: ["/scripts/wait-for-it.sh", "localhost:7040/ping"]
+              command: ["/wait-for-it.sh", "localhost:7040/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
           volumeMounts:
