@@ -84,6 +84,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /root
+            - name: scripts
+              mountPath: /scripts
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
@@ -101,6 +103,11 @@ spec:
             - name: fiber-port
               containerPort: {{ include "bex-hermes.api" . }}
               protocol: TCP
+          readinessProbe:
+            exec:
+              command: [ "/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping" ]
+            timeoutSeconds: 2
+            initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -133,23 +140,22 @@ spec:
             initialDelaySeconds: 10
           volumeMounts:
             - name: scripts
-              mountPath: /scripts/
+              mountPath: /scripts
             - mountPath: /var/data/block-explorer
               name: data
               subPath: data
             - mountPath: /etc/block-explorer
               name: data
               subPath: etc
-            - mountPath: /bs-scripts
+            - mountPath: /root
               name: data
-              subPath: data
         - name: bex-cron
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
           command: [ "/scripts/narada.sh", "bs-cron", "-c", "/etc/block-explorer/config.json"]
           volumeMounts:
-            - name: scripts
-              mountPath: /kube-scripts/
+            - name: data
+              mountPath: /root
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
