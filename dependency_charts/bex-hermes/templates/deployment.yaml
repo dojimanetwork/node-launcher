@@ -105,7 +105,7 @@ spec:
               protocol: TCP
           readinessProbe:
             exec:
-              command: [ "/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping" ]
+              command: [ "/scripts/wait-for-it.sh", "localhost:8080/api/v1/ping" ]
             timeoutSeconds: 2
             initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
