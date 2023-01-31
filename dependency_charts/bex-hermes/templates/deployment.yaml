@@ -80,10 +80,10 @@ spec:
         - name: bex-fiber
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
-          command: ["/bs-scripts/narada.sh", "bs-fiber"]
+          command: ["/scripts/narada.sh", "bs-fiber"]
           volumeMounts:
             - name: scripts
-              mountPath: /scripts/
+              mountPath: /kube-scripts/
             - mountPath: /bs-scripts
               name: data
               subPath: data
