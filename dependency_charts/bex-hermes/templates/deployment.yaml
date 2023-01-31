@@ -83,7 +83,7 @@ spec:
           command: ["/bs-scripts/narada.sh", "bs-fiber"]
           volumeMounts:
             - name: data
-              mountPath: /bs-scripts/
+              mountPath: /root
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
