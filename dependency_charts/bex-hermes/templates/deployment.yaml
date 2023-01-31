@@ -104,11 +104,6 @@ spec:
             - name: fiber-port
               containerPort: {{ include "bex-hermes.api" . }}
               protocol: TCP
-          readinessProbe:
-            exec:
-              command: ["/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
-            timeoutSeconds: 2
-            initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
