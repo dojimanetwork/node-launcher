@@ -61,6 +61,18 @@ spec:
             - name: postgres
               containerPort: {{ .Values.service.postgres }}
               protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - psql
+                - -U
+                - {{ .Values.env.pg_user }}
+                - -d
+                - {{ .Values.env.pg_db_name }}
+                - -c
+                - "SELECT 1"
+            timeoutSeconds: 2
+            initialDelaySeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: bex-fiber
@@ -87,6 +99,11 @@ spec:
             - name: fiber-port
               containerPort: {{ include "bex-hermes.api" . }}
               protocol: TCP
+          readinessProbe:
+            exec:
+              command: ["/scripts/wait-for-it.sh", "localhost:7040/ping"]
+            timeoutSeconds: 2
+            initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -112,6 +129,11 @@ spec:
               value: "{{ .Values.env.start_block_height }}"
             - name: CHAIN_ID
               value: "{{ include "bex-hermes.chainID" . }}"
+          readinessProbe:
+            exec:
+              command: ["/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
+            timeoutSeconds: 2
+            initialDelaySeconds: 10
           volumeMounts:
             - name: scripts
               mountPath: /kube-scripts/
