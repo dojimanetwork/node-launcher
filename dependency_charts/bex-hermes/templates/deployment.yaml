@@ -84,7 +84,7 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /kube-scripts/
-            - name: scripts
+            - name: config-scripts
               mountPath: /scripts
           env:
             - name: POSTGRES_DB_HOST
@@ -105,7 +105,7 @@ spec:
               protocol: TCP
           readinessProbe:
             exec:
-              command: ["/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
+              command: ["/config-scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
@@ -135,7 +135,7 @@ spec:
               value: "{{ include "bex-hermes.chainID" . }}"
           readinessProbe:
             exec:
-              command: ["/scripts/wait-for-it.sh", "localhost:7040/ping"]
+              command: ["/config-scripts/wait-for-it.sh", "localhost:7040/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
           volumeMounts:
@@ -147,7 +147,7 @@ spec:
             - mountPath: /etc/block-explorer
               name: data
               subPath: etc
-            - name: scripts
+            - name: config-scripts
               mountPath: /scripts
         - name: bex-cron
           image: {{ include "bex-hermes.image" . }}
