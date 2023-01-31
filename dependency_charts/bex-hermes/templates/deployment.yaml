@@ -80,13 +80,10 @@ spec:
         - name: bex-fiber
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
-          command: ["/scripts/narada.sh", "bs-fiber"]
+          command: ["/bs-scripts/narada.sh", "bs-fiber"]
           volumeMounts:
-            - name: scripts
-              mountPath: /kube-scripts/
-            - mountPath: /bs-scripts
-              name: data
-              subPath: data
+            - name: data
+              mountPath: /bs-scripts/
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
