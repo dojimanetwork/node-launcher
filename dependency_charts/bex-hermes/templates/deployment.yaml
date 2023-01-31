@@ -48,6 +48,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
+            - name: scripts
+              mountPath: /scripts
           env:
             - name: POSTGRES_PASSWORD
               value: {{ .Values.env.pg_pass }}
@@ -82,6 +84,8 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /kube-scripts/
+            - name: scripts
+              mountPath: /scripts
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
@@ -101,7 +105,7 @@ spec:
               protocol: TCP
           readinessProbe:
             exec:
-              command: ["/scripts/wait-for-it.sh", "localhost:7040/ping"]
+              command: ["/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
         - name: {{ .Chart.Name }}
@@ -131,7 +135,7 @@ spec:
               value: "{{ include "bex-hermes.chainID" . }}"
           readinessProbe:
             exec:
-              command: ["/scripts/wait-for-it.sh", "localhost:7042/api/v1/ping"]
+              command: ["/scripts/wait-for-it.sh", "localhost:7040/ping"]
             timeoutSeconds: 2
             initialDelaySeconds: 10
           volumeMounts:
@@ -143,6 +147,8 @@ spec:
             - mountPath: /etc/block-explorer
               name: data
               subPath: etc
+            - name: scripts
+              mountPath: /scripts
         - name: bex-cron
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
