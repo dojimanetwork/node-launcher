@@ -152,7 +152,7 @@ spec:
         - name: bex-cron
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
-          command: [ "/scripts/narada.sh", "bs-cron", "-c", "/etc/block-explorer/config.json"]
+          command: [ "/bs-scripts/narada.sh", "bs-cron", "-c", "/etc/block-explorer/config.json"]
           volumeMounts:
             - name: data
               mountPath: /root
