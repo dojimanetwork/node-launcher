@@ -84,9 +84,9 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts/
-            - name: data
-              mountPath: /data
-              subPath: /bs-scripts
+            - mountPath: /bs-scripts
+              name: data
+              subPath: /data
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
@@ -148,9 +148,9 @@ spec:
             - mountPath: /etc/block-explorer
               name: data
               subPath: etc
-            - name: data
-              mountPath: /data
-              subPath: /bs-scripts
+            - mountPath: /bs-scripts
+              name: data
+              subPath: /data
         - name: bex-cron
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
