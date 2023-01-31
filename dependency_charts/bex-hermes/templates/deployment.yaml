@@ -84,8 +84,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /root
-            - name: scripts
-              mountPath: /scripts
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
