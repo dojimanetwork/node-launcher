@@ -48,6 +48,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
+            - name: scripts
+              mountPath: /scripts
           env:
             - name: POSTGRES_PASSWORD
               value: {{ .Values.env.pg_pass }}
@@ -61,15 +63,29 @@ spec:
             - name: postgres
               containerPort: {{ .Values.service.postgres }}
               protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - psql
+                - -U
+                - {{ .Values.env.pg_user }}
+                - -d
+                - {{ .Values.env.pg_db_name }}
+                - -c
+                - "SELECT 1"
+            timeoutSeconds: 2
+            initialDelaySeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: bex-fiber
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
-          command: ["/scripts/narada.sh", "bs-fiber"]
+          command: ["/bs-scripts/narada.sh", "bs-fiber"]
           volumeMounts:
+            - name: data
+              mountPath: /root
             - name: scripts
-              mountPath: /kube-scripts/
+              mountPath: /scripts
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
@@ -81,20 +97,25 @@ spec:
               value: {{ .Values.env.pg_pass }}
             - name: POSTGRES_DB_PORT
               value: "{{ .Values.service.postgres }}"
-            - name: MONGO_URI
+            - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
           ports:
             - name: fiber-port
               containerPort: {{ include "bex-hermes.api" . }}
               protocol: TCP
+          readinessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /api/v1/ping
+              port: fiber-port
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "bex-hermes.image" . }}
-          command: ["/scripts/narada.sh", "bs-hermes", "-c", "/etc/block-explorer/config.json", "-l", "debug"]
+          command: ["/bs-scripts/narada.sh", "bs-hermes", "-c", "/etc/block-explorer/config.json", "-l", "debug"]
           imagePullPolicy: IfNotPresent
           env:
-            - name: MONGO_URI
+            - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
             - name: D11K_HOST
               value: "{{ .Values.env.hermes_host }}"
@@ -112,22 +133,33 @@ spec:
               value: "{{ .Values.env.start_block_height }}"
             - name: CHAIN_ID
               value: "{{ include "bex-hermes.chainID" . }}"
+          readinessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /ping
+              port: hermes-health
+          ports:
+            - containerPort: {{ .Values.service.hermes_health }}
+              name: hermes-health
+              protocol: TCP
           volumeMounts:
             - name: scripts
-              mountPath: /kube-scripts/
+              mountPath: /scripts
             - mountPath: /var/data/block-explorer
               name: data
               subPath: data
             - mountPath: /etc/block-explorer
               name: data
               subPath: etc
+            - mountPath: /root
+              name: data
         - name: bex-cron
           image: {{ include "bex-hermes.image" . }}
           imagePullPolicy: IfNotPresent
-          command: [ "/scripts/narada.sh", "bs-cron", "-c", "/etc/block-explorer/config.json"]
+          command: [ "/bs-scripts/narada.sh", "bs-cron", "-c", "/etc/block-explorer/config.json"]
           volumeMounts:
-            - name: scripts
-              mountPath: /kube-scripts/
+            - name: data
+              mountPath: /root
           env:
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
@@ -139,7 +171,7 @@ spec:
               value: {{ .Values.env.pg_pass }}
             - name: POSTGRES_DB_PORT
               value: {{ .Values.service.postgres | quote }}
-            - name: MONGO_URI
+            - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
           resources:
           {{- if not (eq (include "bex-hermes.net" . ) "mocknet") }}

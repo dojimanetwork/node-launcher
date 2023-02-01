@@ -11,5 +11,9 @@ spec:
       port: {{ include "bex-hermes.api" . }}
       targetPort: fiber-port
       protocol: TCP
+    - name: hermes-health
+      protocol: TCP
+      port: {{ .Values.service.hermes_health }}
+      targetPort: hermes-health
   selector:
     {{- include "bex-hermes.selectorLabels" . | nindent 4 }}
