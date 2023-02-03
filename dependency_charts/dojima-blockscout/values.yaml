@@ -10,8 +10,8 @@ image:
   blockscout:
     repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout
     pullPolicy: IfNotPresent
-    tag: "testnet-0.1.0-2023-01-03"
-    hash: "sha256:dcba62f89e0ca0db9ea90c49d26d115a6d945e2a2c48c8d18b7a345b25032a07"
+    tag: "testnet-0.1.0-2023-02-03"
+    hash: "sha256:9114616bf6356f3af067e8aabfdaa5ee533e61f949aee9bef4ebc50d9a700c61"
   postgres:
     image: postgres:13.4
 
