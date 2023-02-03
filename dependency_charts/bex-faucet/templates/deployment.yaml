@@ -63,7 +63,7 @@ spec:
           command: ["/scripts/narada.sh", "bs-faucet"]
           imagePullPolicy: IfNotPresent
           env:
-            - name: MONGO_URI
+            - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
             - name: AR_HOST
               value: {{ .Values.env.ar_host }}
