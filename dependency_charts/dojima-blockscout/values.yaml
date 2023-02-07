@@ -59,6 +59,7 @@ env:
   logo: /images/doj.svg
   logo_footer: /images/doj.svg
   api_url: https://doj-bex-test.dojima.network
+  blockscout_host: doj-bex-test.dojima.network
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"

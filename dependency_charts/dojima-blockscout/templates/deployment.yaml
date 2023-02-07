@@ -103,7 +103,7 @@ spec:
             - name: API_URL
               value: {{ .Values.env.api_url }}
             - name: BLOCKSCOUT_HOST
-              value: {{ .Values.env.api_url }}
+              value: {{ .Values.env.blockscout_host }}
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
