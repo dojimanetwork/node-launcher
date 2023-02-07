@@ -100,6 +100,8 @@ spec:
               value: "{{ .Values.env.sub_network }}"
             - name: INDEXER_EMPTY_BLOCKS_SANITIZER_BATCH_SIZE
               value: "{{ .Values.env.indexer_empty_blocks_sanitize }}"
+            - name: API_URL
+              value: {{ .Values.env.api_url }}
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}

@@ -58,6 +58,7 @@ env:
   disable_exchange_rate: true
   logo: /images/doj.svg
   logo_footer: /images/doj.svg
+  api_url: https://doj-bex-test.dojima.network
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"
