@@ -102,6 +102,8 @@ spec:
               value: "{{ .Values.env.indexer_empty_blocks_sanitize }}"
             - name: API_URL
               value: {{ .Values.env.api_url }}
+            - name: BLOCKSCOUT_HOST
+              value: {{ .Values.env.api_url }}
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
