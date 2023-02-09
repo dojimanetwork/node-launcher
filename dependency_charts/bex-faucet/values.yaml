@@ -49,7 +49,7 @@ env:
   hermes_host: http://fhermesnode-hermes:26657
   doj_host: http://dojima-chain:8545
   eth_host: http://ethereum-daemon:9545
-  eth_amt: 300000000000000000
+  eth_amt: 500000000000000000
 
 service:
   type: ClusterIP
