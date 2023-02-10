@@ -71,7 +71,7 @@ Net
 Tag
 */}}
 {{- define "dojima-chain.tag" -}}
-{{- coalesce  .Values.global.tag .Values.image.tag .Chart.AppVersion -}}
+{{- coalesce .Values.image.tag .Chart.AppVersion -}}
 {{- end -}}
 
 {{/*
