@@ -12,7 +12,7 @@ image:
   repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojimanetwork/dojimachain
   pullPolicy: IfNotPresent
   tag: "testnet-0.1.0-2023-02-10"
-  hash: "58792b68867b0d07797c8b2fcfcd7a6398edf8d6021768a4ca1552959b911d43" # Not used for mocknet/testnet
+  hash: "35acd204dc46f28513e2e53df9dd99fece8023f1f2038e6ec088b581ceb076d1" # Not used for mocknet/testnet
 
 chain_home_folder: "/root/.hermesnode"
 signer:
