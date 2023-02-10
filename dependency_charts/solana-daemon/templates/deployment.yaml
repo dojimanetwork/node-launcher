@@ -43,7 +43,7 @@ spec:
           command:
             - solana-test-validator
             - --ledger=/data/.solana-test
-            - --limit-ledger-size=10000000000000000000
+            - --limit-ledger-size=1000000
             - --bpf-program
             - "2dkwKCkTQz4xXxyjcvhUYdSb5fb3Bw15ra95o94WkyVo"
             - "/solana-anchor/dojima.so"
