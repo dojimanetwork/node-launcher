@@ -72,7 +72,7 @@ solanaDaemon:
   enabled: true
   testnet: http://solana-daemon:8899
   wsTestnet: ws://solana-daemon:8900
-  solanaStartBlockHeight: 1571708
+  solanaStartBlockHeight: 0
 
 
 binanceDaemon:
@@ -81,7 +81,7 @@ binanceDaemon:
   testnet: http://binance-daemon:26657
 #  stagenet: http://binance-daemon:27147
   mocknet: http://binance-daemon:26660
-  binanceStartBlockHeight: 0
+  binanceStartBlockHeight: 2772400
 
 bitcoinDaemon:
   enabled: false
@@ -97,7 +97,7 @@ ethereumDaemon:
   testnet: http://ethereum-daemon:9545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
-  ethereumStartBlockHeight: 389133
+  ethereumStartBlockHeight: 0
 
 gaiaDaemon:
   enabled: true
