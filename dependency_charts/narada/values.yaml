@@ -27,10 +27,10 @@ chain_home_folder: /root/.hermesnode
 chains:
   include_binance_chain: "true"
   include_btc_chain: "false"
-  include_eth_chain: "true"
+  include_eth_chain: "false"
   include_ar_chain: "false"
   include_dot_chain: "true"
-  include_sol_chain: "true"
+  include_sol_chain: "false"
   include_gaia_chain: "false"
 
 # use in multi nodes envs
