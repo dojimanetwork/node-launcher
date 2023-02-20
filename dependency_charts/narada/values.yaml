@@ -27,10 +27,10 @@ chain_home_folder: /root/.hermesnode
 chains:
   include_binance_chain: "true"
   include_btc_chain: "false"
-  include_eth_chain: "false"
+  include_eth_chain: "true"
   include_ar_chain: "false"
   include_dot_chain: "true"
-  include_sol_chain: "false"
+  include_sol_chain: "true"
   include_gaia_chain: "false"
 
 # use in multi nodes envs
@@ -72,7 +72,7 @@ solanaDaemon:
   enabled: true
   testnet: http://solana-daemon:8899
   wsTestnet: ws://solana-daemon:8900
-  solanaStartBlockHeight: 1445282
+  solanaStartBlockHeight: 1571708
 
 
 binanceDaemon:
@@ -97,7 +97,7 @@ ethereumDaemon:
   testnet: http://ethereum-daemon:9545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
-  ethereumStartBlockHeight: 0
+  ethereumStartBlockHeight: 389133
 
 gaiaDaemon:
   enabled: true
