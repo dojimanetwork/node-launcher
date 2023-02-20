@@ -81,7 +81,7 @@ binanceDaemon:
   testnet: http://binance-daemon:26657
 #  stagenet: http://binance-daemon:27147
   mocknet: http://binance-daemon:26660
-  binanceStartBlockHeight: 2772400
+  binanceStartBlockHeight: 0
 
 bitcoinDaemon:
   enabled: false
