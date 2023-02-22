@@ -10,8 +10,8 @@ image:
   blockscout:
     repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout
     pullPolicy: IfNotPresent
-    tag: "testnet-0.1.0-2023-02-03"
-    hash: "sha256:9114616bf6356f3af067e8aabfdaa5ee533e61f949aee9bef4ebc50d9a700c61"
+    tag: "testnet-0.1.0-2023-02-22"
+    hash: "sha256:5d3b127e86e71fff32a11eb6c174d176141b2bd10e2485d45102bf965a3b1ea2"
   smartcontract_verifier:
     repository: ghcr.io/blockscout/smart-contract-verifier
     tag: main
