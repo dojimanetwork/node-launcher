@@ -132,7 +132,7 @@ service:
   type: ClusterIP
   postgres: 5432
   bs: 4000
-  bs_rs: 8050
+  bs_rs: 8043
 
 ingress:
   enabled: false
