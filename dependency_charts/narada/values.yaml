@@ -72,7 +72,7 @@ solanaDaemon:
   enabled: true
   testnet: http://solana-daemon:8899
   wsTestnet: ws://solana-daemon:8900
-  solanaStartBlockHeight: 1756500
+  solanaStartBlockHeight: 1868921
 
 
 binanceDaemon:
