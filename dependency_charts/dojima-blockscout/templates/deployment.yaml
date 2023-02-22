@@ -66,13 +66,14 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: smart-contract-verifier
           image: {{ include "dojima-blockscout-rs.image" . }}
+          command: ["-c", "/scripts/config.toml"]
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: {{ .Values.service.bs_rs }}
               name: bs-rs-http
               protocol: TCP
           volumeMounts:
-            - mountPath: /app/config
+            - mountPath: /scripts
               name: scripts
               readOnly: true
         - name: {{ .Chart.Name }}
