@@ -74,11 +74,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /health
-              port: http
+              port: bs-rs-http
           readinessProbe:
             httpGet:
               path: /health
-              port: http
+              port: bs-rs-http
           env:
             - name: SMART_CONTRACT_VERIFIER__SERVER__HTTP__ENABLED
               value: {{ .Values.bs_rs_env.server.enabled | quote }}
