@@ -137,7 +137,7 @@ spec:
             - name: BLOCKSCOUT_HOST
               value: {{ .Values.env.blockscout_host }}
             - name: ENABLE_RUST_VERIFICATION_SERVICE
-              value: {{ .Values.env.enable_rs_verify_service }}
+              value: {{ .Values.env.enable_rs_verify_service | quote }}
             - name: RUST_VERIFICATION_SERVICE_URL
               value: {{ .Values.env.rs_verify_url }}
       volumes:
