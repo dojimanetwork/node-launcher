@@ -12,13 +12,20 @@ image:
     pullPolicy: IfNotPresent
     tag: "testnet-0.1.0-2023-02-03"
     hash: "sha256:9114616bf6356f3af067e8aabfdaa5ee533e61f949aee9bef4ebc50d9a700c61"
+  smartcontract_verifier:
+    repository: ghcr.io/blockscout/smart-contract-verifier
+    tag: main
   postgres:
     image: postgres:13.4
+
+# You need to provide some config file. For example, just copy `example_config.toml`
+config: "config.toml"
 
 env:
   pg_pass: ""
   pg_user: postgres
   pg_host_auth_method: 'trust'
+  pg_db_name: postgres
   eth_json_var: geth
   coin: DOJ
   chain_id: 1001
@@ -60,6 +67,8 @@ env:
   logo_footer: /images/doj.svg
   api_url: https://doj-bex-test.dojima.network
   blockscout_host: doj-bex-test.dojima.network
+  enable_rs_verify_service: true
+  rs_verify_url: http://localhost:8043
 
 imagePullSecrets: []
 nameOverride: "dojima-blockscoutd"
@@ -87,6 +96,7 @@ service:
   type: ClusterIP
   postgres: 5432
   bs: 4000
+  bs_rs: 8043
 
 ingress:
   enabled: false

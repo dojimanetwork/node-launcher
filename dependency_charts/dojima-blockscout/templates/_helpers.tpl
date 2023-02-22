@@ -90,3 +90,10 @@ Blockscout Docker image
 {{ .Values.image.blockscout.repository }}:{{ .Values.image.blockscout.tag }}@{{ .Values.image.blockscout.hash}}
 {{- end -}}
 
+
+{{/*
+Smart contract verifier Docker image
+*/}}
+{{- define "dojima-blockscout-rs.image" -}}
+{{ .Values.image.smartcontract_verifier.repository }}:{{ .Values.image.smartcontract_verifier.tag }}
+{{- end -}}

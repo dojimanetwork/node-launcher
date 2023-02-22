@@ -15,5 +15,9 @@ spec:
       targetPort: bs
       protocol: TCP
       name: bs
+    - port: {{ .Values.service.bs_rs }}
+      targetPort: bs-rs-http
+      protocol: TCP
+      name: bs-rs-http
   selector:
     {{- include "dojima-blockscout.selectorLabels" . | nindent 4 }}
