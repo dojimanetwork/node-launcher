@@ -71,14 +71,6 @@ spec:
             - containerPort: {{ .Values.service.bs_rs }}
               name: bs-rs-http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: bs-rs-http
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: bs-rs-http
           volumeMounts:
             - mountPath: /app/config
               name: scripts
