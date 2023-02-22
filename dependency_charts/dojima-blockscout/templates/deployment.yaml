@@ -74,11 +74,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /health
-              port: http
+              port: bs-rs-http
           readinessProbe:
             httpGet:
               path: /health
-              port: http
+              port: bs-rs-http
           volumeMounts:
             - mountPath: /app/config
               name: scripts
