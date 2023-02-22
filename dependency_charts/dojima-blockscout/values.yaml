@@ -68,7 +68,7 @@ env:
   api_url: https://doj-bex-test.dojima.network
   blockscout_host: doj-bex-test.dojima.network
   enable_rs_verify_service: true
-  rs_verify_url: http://localhost:8043
+  rs_verify_url: http://localhost:8050
 
 bs_rs_env:
   server:
@@ -129,7 +129,7 @@ service:
   type: ClusterIP
   postgres: 5432
   bs: 4000
-  bs_rs: 8043
+  bs_rs: 8050
 
 ingress:
   enabled: false
