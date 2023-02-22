@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "dojima-blockscout.fullname" . }}-scripts
 data:
-  config.toml: |
+  config.toml: |-
     [server]
     addr = "0.0.0.0:8043"
 
