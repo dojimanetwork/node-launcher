@@ -73,11 +73,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /health?service=
+              path: /health
               port: bs-rs-http
           readinessProbe:
             httpGet:
-              path: /health?service=
+              path: /health
               port: bs-rs-http
           env:
             - name: SMART_CONTRACT_VERIFIER__SERVER__HTTP__ENABLED

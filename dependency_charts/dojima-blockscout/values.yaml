@@ -13,8 +13,11 @@ image:
     tag: "testnet-0.1.0-2023-02-22"
     hash: "sha256:9d76e4077c5364d2ba0a7118bd5cecb0ee152b95a501c257c3a74895a0020b9e"
   smartcontract_verifier:
-    repository: ghcr.io/blockscout/smart-contract-verifier
-    tag: main
+    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/blockscout-rs
+    testnet:
+      tag: testnet-0.1.0-2023-02-22
+      hash: f1e91d0d25e850902b647d882271f4536596674d8de71bb649130f3188c5ff55
+
   postgres:
     image: postgres:13.4
 
@@ -68,12 +71,12 @@ env:
   api_url: https://doj-bex-test.dojima.network
   blockscout_host: doj-bex-test.dojima.network
   enable_rs_verify_service: true
-  rs_verify_url: http://localhost:8050
+  rs_verify_url: http://localhost:8043
 
 bs_rs_env:
   server:
     enabled: true
-    addr: 0.0.0.0:8050
+    addr: 0.0.0.0:8043
     max_body_size: 2097152
   compilers:
     max_threads: 8
