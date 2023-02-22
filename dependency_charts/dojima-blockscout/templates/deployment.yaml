@@ -71,6 +71,43 @@ spec:
             - containerPort: {{ .Values.service.bs_rs }}
               name: bs-rs-http
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+          env:
+            - name: SMART_CONTRACT_VERIFIER__SERVER__ADDR
+              value: {{ .Values.bs_rs_env.server.addr | quote }}
+            - name: SMART_CONTRACT_VERIFIER__COMPILERS__MAX_THREADS
+              value: {{ .Values.bs_rs_env.compilers.max_threads | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED
+              value: {{ .Values.bs_rs_env.solidity.enabled | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__COMPILERS_DIR
+              value: {{ .Values.bs_rs_env.solidity.compiler_dir | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__REFRESH_VERSIONS_SCHEDULE
+              value: {{ .Values.bs_rs_env.solidity.refresh_versions_schedule | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL
+              value: {{ .Values.bs_rs_env.solidity.fetcher_list.list_url | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__ENABLED
+              value: {{ .Values.bs_rs_env.vyper.enabled | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__COMPILERS_DIR
+              value: {{ .Values.bs_rs_env.vyper.compilers_dir | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__REFRESH_VERSIONS_SCHEDULE
+              value: {{ .Values.bs_rs_env.vyper.refresh_versions_schedule | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__FETCHER__LIST__LIST_URL
+              value: {{ .Values.bs_rs_env.vyper.fetcher_list.list_url | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__ENABLED
+              value: {{ .Values.bs_rs_env.sourcify.enabled | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__API_URL
+              value: {{ .Values.bs_rs_env.sourcify.api_url | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__VERIFICATION_ATTEMPTS
+              value: {{ .Values.bs_rs_env.sourcify.verification_attempts | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__REQUEST_TIMEOUT
+              value: {{ .Values.bs_rs_env.sourcify.request_timeout | quote }}
           volumeMounts:
             - mountPath: /app/config
               name: scripts
