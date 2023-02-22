@@ -67,7 +67,6 @@ spec:
         - name: smart-contract-verifier
           image: {{ include "dojima-blockscout-rs.image" . }}
           imagePullPolicy: IfNotPresent
-          args: [ "-c", "/app/config/config.toml"]
           ports:
             - containerPort: {{ .Values.service.bs_rs }}
               name: bs-rs-http
