@@ -95,5 +95,5 @@ Blockscout Docker image
 Smart contract verifier Docker image
 */}}
 {{- define "dojima-blockscout-rs.image" -}}
-{{ .Values.image.smartcontract_verifier.repository }}:{{ .Values.image.smartcontract_verifier.tag }}
+{{ .Values.image.smartcontract_verifier.repository }}:{{ .Values.image.smartcontract_verifier.testnet.tag }}@sha256:{{ .Values.image.smartcontract_verifier.testnet.hash}}
 {{- end -}}
