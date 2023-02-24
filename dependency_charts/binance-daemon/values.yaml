@@ -79,8 +79,8 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 4
-    memory: 20Gi
+    cpu: 1
+    memory: 1Gi
   limits:
     # cpu: 2
     memory: 20Gi
