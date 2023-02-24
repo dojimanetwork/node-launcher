@@ -42,7 +42,7 @@ spec:
           imagePullPolicy: IfNotPresent
           command:
             - solana-test-validator
-            - --tick-per-slot=192
+            - --ticks-per-slot=192
             - --ledger=/data/.solana-test
             - --limit-ledger-size=100000
             - --bpf-program
