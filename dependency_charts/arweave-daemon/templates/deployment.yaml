@@ -39,6 +39,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "arweave-daemon.image" . }}
+          command: ["npx", "nodemon", "bin/index.js", "--persist", "--dbpath=/data/.arweave"]
           imagePullPolicy: IfNotPresent
           ports:
             - name: api
@@ -49,6 +50,9 @@ spec:
             httpGet:
               path: /info
               port: api
+          volumeMounts:
+            - mountPath: /data
+              name: data
           resources:
           {{- if not (eq (include "arweave-daemon.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
