@@ -18,7 +18,7 @@ image:
   scripts:
     repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
     pullPolicy: IfNotPresent
-    tag: testnet-1.89.0_56
+    tag: testnet-1.89.0_57
 
 chain: goerli
 sync_url: https://goerli.checkpoint-sync.ethdevops.io
