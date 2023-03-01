@@ -45,7 +45,7 @@ spec:
             - name: SIGNER_PASSWD
               value: {{ .Values.signer.password }}
             - name: SIGNER_SEED_PHRASE
-              value: "{{ .Values.signer.signer_seed_phrase }}"
+              value: "{{ .Values.env.mnemonic }}"
             - name: CHAIN_ID
               value: "{{ include "bex-faucet.chainID" . }}"
             - name: ETH_HOST
