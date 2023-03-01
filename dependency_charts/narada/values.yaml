@@ -97,7 +97,7 @@ ethereumDaemon:
   testnet: http://ethereum-daemon:9545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
-  ethereumStartBlockHeight: 0
+  ethereumStartBlockHeight: 541932
 
 gaiaDaemon:
   enabled: true
