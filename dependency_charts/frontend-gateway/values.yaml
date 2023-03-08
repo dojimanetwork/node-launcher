@@ -28,7 +28,7 @@ domain:
     mainnet: www.domain.network
     enable: true
   dojima_wallet:
-    testnet: wallet-test.dojima.network
+    testnet: wallet.dojima.network
     mainnet: wallet.dojima.network
     enable: true
   block_explorer:
