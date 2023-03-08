@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
-  tag: "mainnet-0.1.0-2023-02-27"
-  hash: "57b399a6fe8fbafbd7c986addbb315aedc6e685af00980c5fc896bf755aca56a"
+  tag: "mainnet-0.1.0-2023-03-08"
+  hash: "e6dfe1450608eb7bad41ffb617765c8ea8a3dc69f38230dd6b7031365f6f1cd9"
 
 imagePullSecrets: []
 nameOverride: "bex-faucetd"
