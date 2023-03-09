@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-faas
-  testnet: "master-0.1.1-2023-02-28"
+  testnet: "master-0.1.2-2023-03-09"
   mainnet: ""
-  testnet_hash: "1b320b3c09104ba241184c73a3c000eef30e048c35d306ea1b9385d1442fc631"
+  testnet_hash: "f677608c1194be55fb368d50729b1fe4b2222cf0bd5b63997abdcb694215d6ae"
   mainnet_hash: ""
 
 imagePullSecrets: []
