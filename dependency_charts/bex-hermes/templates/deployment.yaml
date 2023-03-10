@@ -77,6 +77,79 @@ spec:
             initialDelaySeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "bex-hermes.image" . }}
+          command: ["/bs-scripts/narada.sh", "bs-hermes", "-c", "/etc/block-explorer/config.json", "-l", "debug"]
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MONGO_DB_URI
+              value: {{ .Values.env.mongo_uri }}
+            - name: D11K_HOST
+              value: "{{ .Values.env.hermes_host }}"
+            - name: D11K_GRPC_HOST
+              value: "{{ .Values.env.hermes_grpc_host }}"
+            - name: CHAIN_HOME_FOLDER
+              value: {{ .Values.chain_home_folder }}
+            - name: SIGNER_NAME
+              value: {{ .Values.signer.name }}
+            - name: SIGNER_PASSWD
+              value: {{ .Values.signer.password }}
+            - name: SIGNER_SEED_PHRASE
+              value: "{{ .Values.signer.signer_seed_phrase }}"
+            - name: D11K_START_BLOCK_HEIGHT
+              value: "{{ .Values.env.start_block_height }}"
+            - name: CHAIN_ID
+              value: "{{ include "bex-hermes.chainID" . }}"
+            - name: BS_FIBER_PORT
+              value: {{ .Values.env.bs_fiber_port | quote }}
+            - name: BS_FIBER_HOST
+              value: {{ .Values.env.bs_fiber_host | quote }}
+          readinessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /ping
+              port: hermes-health
+          ports:
+            - containerPort: {{ .Values.service.hermes_health }}
+              name: hermes-health
+              protocol: TCP
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+            - mountPath: /var/data/block-explorer
+              name: data
+              subPath: data
+            - mountPath: /etc/block-explorer
+              name: data
+              subPath: etc
+            - mountPath: /root
+              name: data
+        - name: bex-cron
+          image: {{ include "bex-hermes.image" . }}
+          imagePullPolicy: IfNotPresent
+          command: [ "/bs-scripts/narada.sh", "bs-cron", "-c", "/etc/block-explorer/config.json"]
+          volumeMounts:
+            - name: data
+              mountPath: /root
+          env:
+            - name: POSTGRES_DB_HOST
+              value: {{ .Values.env.pg_host }}
+            - name: POSTGRES_DB_NAME
+              value: {{ .Values.env.pg_db_name }}
+            - name: POSTGRES_DB_USER
+              value: {{ .Values.env.pg_user }}
+            - name: POSTGRES_DB_PASSWD
+              value: {{ .Values.env.pg_pass }}
+            - name: POSTGRES_DB_PORT
+              value: {{ .Values.service.postgres | quote }}
+            - name: MONGO_DB_URI
+              value: {{ .Values.env.mongo_uri }}
+          resources:
+          {{- if not (eq (include "bex-hermes.net" . ) "mocknet") }}
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
