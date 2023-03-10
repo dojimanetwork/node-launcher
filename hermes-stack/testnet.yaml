@@ -58,3 +58,6 @@ bex-faucet:
 
 bex-hermes:
   enabled: true
+
+bex-fiber:
+  enabled: true

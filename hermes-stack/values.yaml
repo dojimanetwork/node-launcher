@@ -69,3 +69,7 @@ bex-faucet:
 bex-hermes:
   fullnameOverride: bex-hermes
   enabled: true
+
+bex-fiber:
+  fullnameOverride: bex-fiber
+  enabled: true
