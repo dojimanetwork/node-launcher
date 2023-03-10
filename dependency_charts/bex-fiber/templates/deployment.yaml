@@ -63,6 +63,11 @@ spec:
             - name: fiber-port
               containerPort: {{ include "bex-fiber.api" . }}
               protocol: TCP
+          readinessProbe:
+            timeoutSeconds: 10
+            httpGet:
+              path: /api/v1/ping
+              port: fiber-port
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
