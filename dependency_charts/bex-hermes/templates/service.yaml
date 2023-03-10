@@ -7,13 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: fiber-port
-      port: {{ include "bex-hermes.api" . }}
-      targetPort: fiber-port
-      protocol: TCP
     - name: hermes-health
       protocol: TCP
       port: {{ .Values.service.hermes_health }}
       targetPort: hermes-health
+    - name: postgres
+      port: {{ .Values.service.postgres }}
+      targetPort: postgres
+      protocol: TCP
   selector:
     {{- include "bex-hermes.selectorLabels" . | nindent 4 }}
