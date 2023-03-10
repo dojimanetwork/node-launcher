@@ -9,7 +9,9 @@ replicaCount: 1
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
   tag: "mainnet-0.1.0-2023-03-10"
-  hash: "66d4e15aa6af3dcd491eeda7e04d3529094fa75b9cdb1d6bc5cac61021c1bc7f"
+  hash: "8835ccd30aae29e4910774af201e971e79bb580d7be60e4637062547c4da53a7"
+  postgres:
+    image: postgres:13.4
 
 imagePullSecrets: []
 nameOverride: "bex-fiberd"
@@ -42,7 +44,7 @@ env:
   pg_pass: ""
   pg_user: postgres
   pg_host_auth_method: 'trust'
-  pg_host: bex-hermes
+  pg_host: localhost
   pg_db_name: postgres
   start_block_height: 1
 
@@ -69,7 +71,7 @@ ingress:
     #     - midgard.example.com
 
 persistence:
-  enabled: false
+  enabled: true
   size:
     testnet: 2Gi
     stagenet: 2Gi

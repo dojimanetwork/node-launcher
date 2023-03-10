@@ -35,48 +35,6 @@ spec:
             - name: scripts
               mountPath: /scripts
       containers:
-        - name: bex-postgres
-          securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "bex-hermes-postgres.image" . }}
-          args:
-            - -c
-            - max_connections=20000
-            - -c
-            - shared_buffers=1024MB
-          imagePullPolicy: IfNotPresent
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/postgresql/data
-            - name: scripts
-              mountPath: /scripts
-          env:
-            - name: POSTGRES_PASSWORD
-              value: {{ .Values.env.pg_pass }}
-            - name: POSTGRES_USER
-              value: {{ .Values.env.pg_user }}
-            - name: POSTGRES_HOST_AUTH_METHOD
-              value: {{ .Values.env.pg_host_auth_method }}
-            - name: PGDATA
-              value: /var/lib/postgresql/data/bex-hermes
-          ports:
-            - name: postgres
-              containerPort: {{ .Values.service.postgres }}
-              protocol: TCP
-          readinessProbe:
-            exec:
-              command:
-                - psql
-                - -U
-                - {{ .Values.env.pg_user }}
-                - -d
-                - {{ .Values.env.pg_db_name }}
-                - -c
-                - "SELECT 1"
-            timeoutSeconds: 2
-            initialDelaySeconds: 10
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -126,30 +84,6 @@ spec:
               subPath: etc
             - mountPath: /root
               name: data
-        - name: bex-cron
-          image: {{ include "bex-hermes.image" . }}
-          imagePullPolicy: IfNotPresent
-          command: [ "/bs-scripts/narada.sh", "bs-cron", "-c", "/etc/block-explorer/config.json"]
-          volumeMounts:
-            - name: data
-              mountPath: /root
-          env:
-            - name: POSTGRES_DB_HOST
-              value: {{ .Values.env.pg_host }}
-            - name: POSTGRES_DB_NAME
-              value: {{ .Values.env.pg_db_name }}
-            - name: POSTGRES_DB_USER
-              value: {{ .Values.env.pg_user }}
-            - name: POSTGRES_DB_PASSWD
-              value: {{ .Values.env.pg_pass }}
-            - name: POSTGRES_DB_PORT
-              value: {{ .Values.service.postgres | quote }}
-            - name: MONGO_DB_URI
-              value: {{ .Values.env.mongo_uri }}
-          resources:
-          {{- if not (eq (include "bex-hermes.net" . ) "mocknet") }}
-            {{- toYaml .Values.resources | nindent 12 }}
-          {{- end }}
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}

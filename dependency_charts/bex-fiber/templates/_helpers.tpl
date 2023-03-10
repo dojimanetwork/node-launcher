@@ -101,3 +101,10 @@ Fiber Port
 {{- define "bex-fiber.api" -}}
     {{ .Values.service.fiber }}
 {{- end -}}
+
+{{/*
+Postgressql Docker image
+*/}}
+{{- define "bex-fiber-postgres.image" -}}
+{{ .Values.image.postgres.image }}
+{{- end -}}
