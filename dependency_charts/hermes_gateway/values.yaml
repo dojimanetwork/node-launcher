@@ -108,7 +108,7 @@ service:
         api: 8081
     fiber:
       testnet:
-        api: 8080
+        api: 7050
     binance:
       testnet:
         rpc: 26660

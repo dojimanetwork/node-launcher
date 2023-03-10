@@ -847,7 +847,7 @@ data:
           proxy_set_header Host $http_host;
           proxy_http_version 1.1;
           proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://bex-hermes:{{ include "gateway-bex-fiber.api" . }};
+          proxy_pass http://bex-fiber:{{ include "gateway-bex-fiber.api" . }};
 
         }
       }

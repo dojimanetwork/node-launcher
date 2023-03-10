@@ -1,0 +1,7 @@
+apiVersion: v2
+name: bex-fiber
+description: api for hermes block explorer
+type: application
+version: 0.1.0
+
+appVersion: 0.1.0

@@ -77,37 +77,6 @@ spec:
             initialDelaySeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        - name: bex-fiber
-          image: {{ include "bex-hermes.image" . }}
-          imagePullPolicy: IfNotPresent
-          command: ["/bs-scripts/narada.sh", "bs-fiber"]
-          volumeMounts:
-            - name: data
-              mountPath: /root
-            - name: scripts
-              mountPath: /scripts
-          env:
-            - name: POSTGRES_DB_HOST
-              value: {{ .Values.env.pg_host }}
-            - name: POSTGRES_DB_NAME
-              value: {{ .Values.env.pg_db_name }}
-            - name: POSTGRES_DB_USER
-              value: {{ .Values.env.pg_user }}
-            - name: POSTGRES_DB_PASSWD
-              value: {{ .Values.env.pg_pass }}
-            - name: POSTGRES_DB_PORT
-              value: "{{ .Values.service.postgres }}"
-            - name: MONGO_DB_URI
-              value: {{ .Values.env.mongo_uri }}
-          ports:
-            - name: fiber-port
-              containerPort: {{ include "bex-hermes.api" . }}
-              protocol: TCP
-          readinessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /api/v1/ping
-              port: fiber-port
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -133,6 +102,10 @@ spec:
               value: "{{ .Values.env.start_block_height }}"
             - name: CHAIN_ID
               value: "{{ include "bex-hermes.chainID" . }}"
+            - name: BS_FIBER_PORT
+              value: {{ .Values.env.bs_fiber_port | quote }}
+            - name: BS_FIBER_HOST
+              value: {{ .Values.env.bs_fiber_host | quote }}
           readinessProbe:
             timeoutSeconds: 10
             httpGet:

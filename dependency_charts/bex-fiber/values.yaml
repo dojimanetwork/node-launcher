@@ -10,14 +10,11 @@ image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
   tag: "mainnet-0.1.0-2023-03-09"
   hash: "ce62b3966d7f268f32e00511eb825a61c14abddb259fc724dfd21cbf162dfd4e"
-  postgres:
-    image: postgres:13.4
 
 imagePullSecrets: []
-nameOverride: "bex-hermesd"
-fullnameOverride: "fbex-hermesd"
+nameOverride: "bex-fiberd"
+fullnameOverride: "fbex-fiberd"
 
-recoverNineRealmsSnapshot: false
 chain_home_folder: "/root/.hermesnode"
 signer:
   name: hermeschain
@@ -45,17 +42,14 @@ env:
   pg_pass: ""
   pg_user: postgres
   pg_host_auth_method: 'trust'
-  pg_host: localhost
+  pg_host: bex-hermes
   pg_db_name: postgres
   start_block_height: 1
-  bs_fiber_port: 7050
-  bs_fiber_host: http://bex-fiber
 
 service:
   type: ClusterIP
+  fiber: 7050
   postgres: 5432
-  fiber: 8080
-  hermes_health: 7040
 
 ingress:
   enabled: false
@@ -75,7 +69,7 @@ ingress:
     #     - midgard.example.com
 
 persistence:
-  enabled: true
+  enabled: false
   size:
     testnet: 2Gi
     stagenet: 2Gi
@@ -103,8 +97,8 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 2
-    memory: 2Gi
+    cpu: 1
+    memory: 1Gi
   limits:
     # cpu: 2
     memory: 2Gi
