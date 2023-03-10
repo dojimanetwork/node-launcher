@@ -57,6 +57,8 @@ spec:
               value: {{ .Values.service.postgres | quote }}
             - name: MONGO_DB_URI
               value: {{ .Values.env.mongo_uri }}
+            - name: BS_FIBER_PORT
+              value: {{ .Values.service.fiber | quote }}
           ports:
             - name: fiber-port
               containerPort: {{ include "bex-fiber.api" . }}
