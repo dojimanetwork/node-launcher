@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
-  tag: "mainnet-0.1.0-2023-03-10"
-  hash: "8835ccd30aae29e4910774af201e971e79bb580d7be60e4637062547c4da53a7"
+  tag: "mainnet-0.1.0-2023-03-11"
+  hash: "66936b2dfd49dd393c7532cff5b8e75c01f953c682814cec5adce0968bc77be8"
   postgres:
     image: postgres:13.4
 
