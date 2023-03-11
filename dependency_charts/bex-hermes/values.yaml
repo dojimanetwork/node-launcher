@@ -49,7 +49,7 @@ env:
   pg_db_name: postgres
   start_block_height: 1
   bs_fiber_port: 7050
-  bs_fiber_host: http://bex-fiber
+  bs_fiber_host: http://bex-fiber:7050
 
 service:
   type: ClusterIP
