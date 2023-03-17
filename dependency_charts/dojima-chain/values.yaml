@@ -11,8 +11,8 @@ strategyType: Recreate
 image:
   repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojimanetwork/dojimachain
   pullPolicy: IfNotPresent
-  tag: "testnet-0.1.0-2023-03-16"
-  hash: "4577f7d36c04d52fd383459e78351a91c0f30c023d01d7d55a4271caa7a4626b" # Not used for mocknet/testnet
+  tag: "testnet-0.1.0-2023-03-17"
+  hash: "e45e81640f9968f13b24f37b6d1572d54ae40c2c04d51b7bb851d54d8e0db09b" # Not used for mocknet/testnet
 
 chain_home_folder: "/root/.hermesnode"
 signer:
