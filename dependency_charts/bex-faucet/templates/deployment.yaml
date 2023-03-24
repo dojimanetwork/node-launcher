@@ -95,6 +95,10 @@ spec:
               value: "{{ include "bex-faucet.chainID" . }}"
             - name: ETH_AMT
               value: {{ .Values.env.eth_amt | quote }}
+            - name: BNB_AMT
+              value: {{ .Values.env.bnb_amt }}
+            - name: BNB_HOST
+              value: {{ .Values.env.bnb_host }}
           ports:
             - name: api
               containerPort: {{ include "bex-faucet.api" . }}

@@ -50,6 +50,8 @@ env:
   doj_host: http://dojima-chain:8545
   eth_host: http://ethereum-daemon:9545
   eth_amt: 500000000000000000
+  bnb_host: http://binance-daemon:26660
+  bnb_amt: 100000000
 
 service:
   type: ClusterIP
