@@ -96,7 +96,7 @@ spec:
             - name: ETH_AMT
               value: {{ .Values.env.eth_amt | quote }}
             - name: BNB_AMT
-              value: {{ .Values.env.bnb_amt }}
+              value: {{ .Values.env.bnb_amt | quote }}
             - name: BNB_HOST
               value: {{ .Values.env.bnb_host }}
           ports:
