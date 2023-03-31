@@ -6,10 +6,10 @@ net: testnet
 
 replicaCount: 1
 
-image:
+image: 
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
-  tag: "mainnet-0.1.0-2023-03-30"
-  hash: "b07f654333071851df357e566447fdc0f3db84b9444266dac7f9479f5ab45cc9"
+  tag: "mainnet-0.1.0-2023-03-31"
+  hash: "44858d8de9bcc3b3e7cd04563d7d9abcf446a60d5bda4fcac9b6ded0cb35fa63"
   postgres:
     image: postgres:13.4
 
