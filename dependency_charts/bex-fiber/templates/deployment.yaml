@@ -101,10 +101,10 @@ spec:
               value: {{ .Values.env.mongo_uri }}
             - name: BS_FIBER_PORT
               value: {{ .Values.service.fiber | quote }}
-            - name: SINGLE_CHECK
-              value: { { .Values.env.single_check } }
-            - name: D11K_START_BLOCK_HEIGHT
-              value: { { .Values.env.d11k_start_block_height } }
+            # - name: SINGLE_CHECK
+            #   value: { { .Values.env.single_check } }
+            # - name: D11K_START_BLOCK_HEIGHT
+            #   value: { { .Values.env.d11k_start_block_height } }
             
           ports:
             - name: fiber-port
