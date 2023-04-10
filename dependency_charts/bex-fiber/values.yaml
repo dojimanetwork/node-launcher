@@ -9,7 +9,7 @@ replicaCount: 1
 image: 
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
   tag: "mainnet-0.1.0-2023-04-10"
-  hash: "4187529c4883370395fbb79839cb43730a35dddf6b66b59aac9fbce307b43e6e"
+  hash: "1045600944940564ddf9231cbb7848ea293c4b7b2b60d7911858742401a7789f"
   postgres:
     image: postgres:13.4
 
@@ -47,6 +47,8 @@ env:
   pg_host: localhost
   pg_db_name: postgres
   start_block_height: 1
+  single_check : "SWAP"
+  d11k_start_block_height : 1
 
 service:
   type: ClusterIP
