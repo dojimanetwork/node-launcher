@@ -87,8 +87,8 @@ spec:
             - name: scripts
               mountPath: /scripts
           env:
-            # - name: SINGLE_CHECK
-            #   value: {{ .Values.env.single_check }}
+            - name: SINGLE_CHECK
+              value: {{ .Values.env.sin_check }}
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
             - name: POSTGRES_DB_NAME
