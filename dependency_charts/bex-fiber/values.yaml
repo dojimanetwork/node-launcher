@@ -49,7 +49,7 @@ env:
   pg_db_name: postgres
   start_block_height: 1
   sin_check : "ADD"
-  d11k_start_block_height : 1
+  d11k_start_block_ht : 1
 
 service:
   type: ClusterIP
