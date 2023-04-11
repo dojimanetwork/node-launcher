@@ -48,8 +48,8 @@ env:
   pg_host: localhost
   pg_db_name: postgres
   start_block_height: 1
-  sin_check : "ADD"
-  d11k_start_block_ht : 1
+  single_check : "ADD"
+  d11k_start_block_height : 1
 
 service:
   type: ClusterIP

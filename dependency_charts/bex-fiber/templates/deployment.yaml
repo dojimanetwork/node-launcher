@@ -88,7 +88,7 @@ spec:
               mountPath: /scripts
           env:
             - name: SINGLE_CHECK
-              value: {{ .Values.env.sin_check }}
+              value: {{ .Values.env.single_check }}
             - name: POSTGRES_DB_HOST
               value: {{ .Values.env.pg_host }}
             - name: POSTGRES_DB_NAME
@@ -103,8 +103,8 @@ spec:
               value: {{ .Values.env.mongo_uri }}
             - name: BS_FIBER_PORT
               value: {{ .Values.service.fiber | quote }}
-            # - name: D11K_START_BLOCK_HEIGHT
-            #   value: {{ .Values.env.d11k_start_block_ht }}
+            - name: D11K_START_BLOCK_HEIGHT
+              value: {{ .Values.env.d11k_start_block_height | quote }}
             
           ports:
             - name: fiber-port
