@@ -139,6 +139,8 @@ spec:
               value: {{ .Values.service.fiber | quote }}
             - name: BS_FIBER_HOST
               value: {{ .Values.env.bs_fiber_host | quote }}
+            - name: INDIVIDUAL_MSG_TYPE
+              value: {{ .Values.env.individual_msg_type | quote }}
           readinessProbe:
             timeoutSeconds: 10
             httpGet:
