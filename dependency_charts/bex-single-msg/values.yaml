@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/block-explorer-go
-  tag: "mainnet-0.1.0-2023-04-18"
-  hash: "ee0345cb1e9e08aa3b13d4d48aef4c30c38c669ca37bd8b6b057d271e37383aa"
+  tag: "mainnet-0.1.0-2023-04-19"
+  hash: "ea04b978a195d535b24a38333d781bac96a94dd49fe7594cbbe93bb2ec1ae2ad"
   postgres:
     image: postgres:13.4
 
@@ -50,7 +50,7 @@ env:
   pg_db_name: postgres
   start_block_height: 1
   bs_fiber_host: http://localhost:7050
-  individual_msg_type: SWAP
+  individual_msg_type: NETWORK_FEE
 
 service:
   type: ClusterIP
