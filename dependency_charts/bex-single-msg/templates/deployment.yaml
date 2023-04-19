@@ -141,11 +141,6 @@ spec:
               value: {{ .Values.env.bs_fiber_host | quote }}
             - name: INDIVIDUAL_MSG_TYPE
               value: {{ .Values.env.individual_msg_type | quote }}
-          readinessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /ping
-              port: hermes-health
           ports:
             - containerPort: {{ .Values.service.single_msg_health }}
               name: hermes-health
