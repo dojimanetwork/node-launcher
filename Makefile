@@ -33,6 +33,11 @@ update-frontend-deps:
 	@helm dependencies update ./frontend-apps
 	@echo
 
+update-backend-deps:
+	@echo "=> Updating backtend helm chart deps"
+	@helm dependencies update ./backend-apps
+	@echo
+
 update-trust-state: ## Updates statesync trusted height/hash and Midgard blockstore hashes from Nine Realms
 	@./scripts/update-trust-state.sh
 
@@ -50,6 +55,9 @@ install: pull update-dependencies ## Deploy a THORNode
 
 install-frontend: pull update-frontend-deps
 	@./scripts/frontend-install.sh
+
+install-backend: pull update-backend-deps
+	@./scripts/backend-install.sh
 
 recycle: pull update-dependencies ## Destroy and recreate a THORNode recycling existing daemons to avoid re-sync
 	@./scripts/recycle.sh
