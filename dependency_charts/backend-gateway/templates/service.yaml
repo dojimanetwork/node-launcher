@@ -18,7 +18,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-03585604fa1ea7eba,eipalloc-0467abb2d11250e82,eipalloc-0016cbf203672fd0d
     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:576263512135:certificate/36a81c43-d2f2-4d33-8ff6-cbb564684ba3
     # Only run SSL on the port named "https" below.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "landing-page"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
 spec:
   type: {{ .Values.service.type }}
   externalTrafficPolicy: Local
