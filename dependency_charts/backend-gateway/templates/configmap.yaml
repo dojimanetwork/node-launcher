@@ -94,6 +94,11 @@ data:
           listen 8443;
           server_name {{ include "gateway-dc-faucet.domain" .}};
 
+          location /healthz {
+            access_log off;
+            return 200 "healthy\n";
+          }
+
           location ~* ^/api {
             proxy_hide_header Access-Control-Allow-Origin;
             proxy_hide_header Access-Control-Allow-Methods;
@@ -160,13 +165,4 @@ data:
         }
       }
       {{- end }}
-
-      server {
-        listen 80;
-        server_name _;
-        location /healthz {
-          access_log off;
-          return 200 "healthy\n";
-        }
-      }
     }
