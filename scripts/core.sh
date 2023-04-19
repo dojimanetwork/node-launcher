@@ -515,7 +515,7 @@ deploy_backend() {
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$BACKEND_NET" \
 #  confirm
-#  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
+  kubectl rollout restart -n "${BACKEND_NAME}" deployment "${BACKEND_GATEWAY}"
 }
 
 deploy_validator() {
