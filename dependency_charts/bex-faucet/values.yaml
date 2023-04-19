@@ -40,17 +40,17 @@ hermes:
 
 env:
   mongo_uri: "mongodb+srv://dojimanetwork:jevkus-gucmuH-9padbe@hermes-testnet.rhjqu.mongodb.net/?retryWrites=true&w=majority"
-  ar_host: http://arweave-daemon:1984
+  ar_host: http://arweave-daemon.hermes-testnet:1984
   ar_amt: 1000000000000
-  dot_host: ws://polkadot-daemon:9944
+  dot_host: ws://polkadot-daemon.hermes-testnet:9944
   mnemonic: "hero eagle luxury slight survey catch toy goat model general alarm inner"
-  sol_host: http://solana-daemon:8899
-  hermes_grpc_host: fhermesnode-hermes:9090
-  hermes_host: http://fhermesnode-hermes:26657
-  doj_host: http://dojima-chain:8545
-  eth_host: http://ethereum-daemon:9545
+  sol_host: http://solana-daemon.hermes-testnet:8899
+  hermes_grpc_host: fhermesnode-hermes.hermes-testnet:9090
+  hermes_host: http://fhermesnode-hermes.hermes-testnet:26657
+  doj_host: http://dojima-chain.hermes-testnet:8545
+  eth_host: http://ethereum-daemon.hermes-testnet:9545
   eth_amt: 500000000000000000
-  bnb_host: http://binance-daemon:26660
+  bnb_host: http://binance-daemon.hermes-testnet:26660
   bnb_amt: 100000000
 
 service:

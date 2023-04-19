@@ -24,12 +24,12 @@ fullnameOverride: "f-backend-gateway"
 
 domain:
   faucet:
-    api: faucet.h4s.dojima.network
+    api: faucet-test.h4s.dojima.network
     enable: true
   fiber:
     testnet:
       api: fiber-test.h4s.dojima.network
-      enable: true
+      enable: false
 
 service:
   type: LoadBalancer
