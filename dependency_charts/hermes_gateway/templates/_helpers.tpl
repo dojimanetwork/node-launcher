@@ -356,7 +356,7 @@ DC wss/rpc Port
 {{- end -}}
 
 {{/*
-DC wss/rpc Port
+faucet Port
 */}}
 {{- define "gateway-dojima-chain.faucet" -}}
 {{- if eq (include "gateway.net" .) "testnet" -}}

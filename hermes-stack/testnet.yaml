@@ -63,5 +63,4 @@ bex-fiber:
   enabled: true
 
 bex-single-msg:
-  fullnameOverride: bex-single-msg
   enabled: true
