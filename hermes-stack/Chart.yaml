@@ -62,11 +62,6 @@ dependencies:
     version: 0.1.0
     condition: solana-daemon.enabled
 
-  - name: bex-faucet
-    repository: file://../dependency_charts/bex-faucet
-    version: 0.1.0
-    condition: bex-faucet.enabled
-
   - name: bex-hermes
     repository: file://../dependency_charts/bex-hermes
     version: 0.1.0
@@ -76,8 +71,3 @@ dependencies:
     version: 0.1.0
     condition: bex-fiber.enabled
     repository: file://../dependency_charts/bex-fiber
-
-  - name: bex-single-msg
-    version: 0.1.0
-    condition: bex-single-msg.enabled
-    repository: file://../dependency_charts/bex-single-msg
