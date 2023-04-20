@@ -134,7 +134,7 @@ spec:
             - name: D11K_START_BLOCK_HEIGHT
               value: "{{ .Values.env.start_block_height }}"
             - name: CHAIN_ID
-              value: "{{ include "bex-hermes.chainID" . }}"
+              value: "{{ include "bex-single-msg.chainID" . }}"
             - name: BS_FIBER_PORT
               value: {{ .Values.service.fiber | quote }}
             - name: BS_FIBER_HOST
