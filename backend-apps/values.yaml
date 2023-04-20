@@ -14,6 +14,10 @@ global:
       tag: latest
       hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
 
+backend-gateway:
+  fullnameOverride: backend-gateway
+  enabled: true
+
 bex-faucet:
   fullnameOverride: bex-faucet
   enabled: true
