@@ -24,7 +24,7 @@ fullnameOverride: "f-backend-gateway"
 
 domain:
   faucet:
-    api: faucet-test.h4s.dojima.network
+    api: faucet.h4s.dojima.network
     enable: true
   fiber:
     testnet:
