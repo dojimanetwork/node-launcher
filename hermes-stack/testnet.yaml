@@ -53,14 +53,8 @@ polkadot-daemon:
 solana-daemon:
   enabled: true
 
-bex-faucet:
-  enabled: true
-
 bex-hermes:
   enabled: true
 
 bex-fiber:
-  enabled: true
-
-bex-single-msg:
   enabled: true

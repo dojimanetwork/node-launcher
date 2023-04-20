@@ -62,18 +62,10 @@ solana-daemon:
   fullnameOverride: solana-daemon
   enabled: true
 
-bex-faucet:
-  fullnameOverride: bex-faucet
-  enabled: true
-
 bex-hermes:
   fullnameOverride: bex-hermes
   enabled: true
 
 bex-fiber:
   fullnameOverride: bex-fiber
-  enabled: true
-
-bex-single-msg:
-  fullnameOverride: bex-single-msg
   enabled: true

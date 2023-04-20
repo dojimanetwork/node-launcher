@@ -28,4 +28,4 @@ bex-fiber:
 
 bex-single-msg:
   fullnameOverride: bex-single-msg
-  enabled: false
+  enabled: true
