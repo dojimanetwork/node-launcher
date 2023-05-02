@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/developer-docs
-  testnet: "mainnet-0.1.2-2023-05-01"
+  testnet: "mainnet-0.1.2-2023-05-02"
   mainnet: "mainnet-0.1.2-2022-12-22"
-  testnet_hash: "394a30fa8ec252be6f76715f0e5774b062f3c7631ce06f9e91e8cc9dc24fdd1b"
+  testnet_hash: "218b3d3657a31d347ca8a64d63e839494bd08b13c39f24db08d8db316278742e"
   mainnet_hash: "18a07537dfc38ec2d297dce1efd97ab82c035f266b1a4586afabbffdd96b97b3"
 
 imagePullSecrets: []
