@@ -40,7 +40,7 @@ hermes:
 env:
 #mongodb+srv://Admin:6x4cuxFjT0DycMdx@cluster0.r9add7o.mongodb.net/?retryWrites=true&w=majority
 
-  mongo_uri: "mongodb+srv://Admin:6x4cuxFjT0DycMdx@cluster0.r9add7o.mongodb.net/?retryWrites=true&w=majority"
+  mongo_uri: "mongodb+srv://dojimanetwork:jevkus-gucmuH-9padbe@hermes-testnet.rhjqu.mongodb.net/?retryWrites=true&w=majority"
   hermes_grpc_host: fhermesnode-hermes.hermes-testnet:9090
   hermes_host: http://fhermesnode-hermes.hermes-testnet:26657
   pg_pass: ""
@@ -50,7 +50,7 @@ env:
   pg_db_name: postgres
   start_block_height: 1
   bs_fiber_host: http://localhost:7050
-  individual_msg_type: SWAP
+  individual_msg_type: NETWORK_FEE
 
 service:
   type: ClusterIP
