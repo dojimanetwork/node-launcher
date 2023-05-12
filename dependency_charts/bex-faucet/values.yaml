@@ -39,7 +39,7 @@ hermes:
     hash: 904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
 
 env:
-  mongo_uri: "mongodb+srv://dojimanetwork:jevkus-gucmuH-9padbe@hermes-testnet.rhjqu.mongodb.net/?retryWrites=true&w=majority"
+  mongo_uri: "mongodb+srv://dojimanetwork:gahbis-tokdyv-4xaMxe@hermes-testnet.rhjqu.mongodb.net/?retryWrites=true&w=majority"
   ar_host: http://arweave-daemon.hermes-testnet:1984
   ar_amt: 1000000000000
   dot_host: ws://polkadot-daemon.hermes-testnet:9944
