@@ -16,11 +16,11 @@ global:
 
 backend-gateway:
   fullnameOverride: backend-gateway
-  enabled: true
+  enabled: false
 
 bex-faucet:
   fullnameOverride: bex-faucet
-  enabled: true
+  enabled: false
 
 bex-hermes:
   fullnameOverride: bex-hermes
@@ -33,3 +33,7 @@ bex-fiber:
 bex-single-msg:
   fullnameOverride: bex-single-msg
   enabled: false
+
+hello-word:
+  fullnameOverride: hello-word
+  enabled: true
