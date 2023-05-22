@@ -11,6 +11,5 @@ spec:
   - ReadWriteOnce
   awsElasticBlockStore:
     volumeID: vol-0778a2ca059680bb2
-    fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp2
