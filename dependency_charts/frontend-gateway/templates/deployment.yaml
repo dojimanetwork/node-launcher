@@ -39,10 +39,10 @@ spec:
             subPath: nginx.conf
             name: config
           ports:
-            - name: http-lp
-              containerPort: 8080
+            - name: https
+              containerPort: 8443
               protocol: TCP
-            - name: landing-page
+            - name: http
               containerPort: {{ include "gateway-landing-page.http" .}}
               protocol: TCP
             - name: dojima-wallet
