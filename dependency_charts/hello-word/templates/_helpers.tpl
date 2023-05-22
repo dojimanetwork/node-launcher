@@ -84,13 +84,7 @@ Bnet
 Image
 */}}
 {{- define "hello-word.image" -}}
-{{- if eq (include "hello-word.net" .) "mocknet" -}}
-    "{{ .Values.image.mocknet }}:latest"
-{{- else if eq (include "hello-word.net" .) "testnet" -}}
-    "{{ .Values.image.testnet }}"
-{{- else -}}
-    "{{ .Values.image.name }}:{{ .Values.image.tag }}"
-{{- end -}}
+  {{ .Values.image.name }}:{{ .Values.image.tag }}
 {{- end -}}
 
 {{/*
