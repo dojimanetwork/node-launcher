@@ -6,6 +6,5 @@ metadata:
     {{- include "hello-word.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
-  ports:
   selector:
     {{- include "hello-word.selectorLabels" . | nindent 4 }}
