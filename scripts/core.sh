@@ -496,6 +496,7 @@ deploy_frontend() {
   helm upgrade --install "$FRONTEND_NAME" ./frontend-apps -n "$FRONTEND_NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$FRONTEND_NET" \
+    --skip-crds \
 #  confirm
 #  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
 }
@@ -514,6 +515,7 @@ deploy_backend() {
   helm upgrade --install "$BACKEND_NAME" ./backend-apps -n "$BACKEND_NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$BACKEND_NET" \
+    --skip-crds \
 #  confirm
   kubectl rollout restart -n "${BACKEND_NAME}" deployment "${BACKEND_GATEWAY}"
 }
