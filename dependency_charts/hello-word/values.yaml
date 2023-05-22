@@ -56,7 +56,7 @@ persistence:
     stagenet: 500Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce
-#  storageClass: standard
+  storageClass: gp2
 
 storageclass:
   name: hello-word
