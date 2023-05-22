@@ -32,7 +32,7 @@ developer-docs:
 
 hermes-explorer:
   fullnameOverride: hermes-explorer
-  enabled: false
+  enabled: true
 
 dojima-faas:
   fullnameOverride: dojima-faas
