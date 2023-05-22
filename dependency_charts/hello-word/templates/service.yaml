@@ -6,5 +6,10 @@ metadata:
     {{- include "hello-word.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  ports:
+    - name: api
+      port: {{ include "hello-word.api" . }}
+      targetPort: api
+      protocol: TCP
   selector:
     {{- include "hello-word.selectorLabels" . | nindent 4 }}
