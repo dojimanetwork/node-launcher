@@ -30,6 +30,9 @@ spec:
           image: {{ include "hello-word.image" . }}
           command: ["/scripts/print.sh"]
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
           resources:
           {{- if not (eq (include "hello-word.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
