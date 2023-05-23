@@ -42,7 +42,7 @@ domain:
   faas:
     testnet: faas-test.dojima.network
     mainnet: faas.dojima.network
-    enable: false
+    enable: true
   blockscout:
     testnet: doj-bex-test.dojima.network
     mainnet: doj-bex.dojima.network
