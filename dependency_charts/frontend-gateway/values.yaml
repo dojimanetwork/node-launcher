@@ -46,7 +46,7 @@ domain:
   blockscout:
     testnet: doj-bex-test.dojima.network
     mainnet: doj-bex.dojima.network
-    enable: true
+    enable: false
 
 service:
   type: LoadBalancer
