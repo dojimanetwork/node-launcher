@@ -36,7 +36,7 @@ hermes-explorer:
 
 dojima-faas:
   fullnameOverride: dojima-faas
-  enabled: true
+  enabled: false
 
 dojima-blockscout:
   fullnameOverride: dojima-blockscout
