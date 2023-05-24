@@ -45,6 +45,8 @@ spec:
               mountPath: /scripts
             - name: data
               mountPath: /data
+      nodeSelector:
+        retain1a: hermes1a
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
