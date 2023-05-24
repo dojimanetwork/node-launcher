@@ -9,7 +9,7 @@ spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
   volumeMode: Filesystem
-  volumeName: {{ template "hello-word.fullname" . }}-pv
+  volumeName: {{ template "hello-word.fullname" . }}-pv-1
   resources:
     requests:
       {{- if eq (include "hello-word.net" .) "mainnet" }}

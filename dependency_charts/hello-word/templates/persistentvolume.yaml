@@ -1,7 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: {{ template "hello-word.fullname" . }}-pv
+  name: {{ template "hello-word.fullname" . }}-pv-1
 spec:
   capacity:
     storage: 20Gi
