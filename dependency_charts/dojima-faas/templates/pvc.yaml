@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: dojima-faas-pv
+  volumeName: {{ template "dojima-faas-daemon.fullname" . }}-pv
   volumeMode: Filesystem
   resources:
     requests:
