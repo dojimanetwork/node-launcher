@@ -8,7 +8,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1c/vol-0130e64e50008d6fc
+    volumeID: aws://ap-south-1c/vol-02d685db301f26dd5
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
