@@ -1,10 +1,10 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: ebs-gp3
+  name: gp3
 provisioner: ebs.csi.aws.com
 parameters:
-  type: ebs-gp3
+  type: gp3
   fsType: ext4
 reclaimPolicy: Retain
 mountOptions:
