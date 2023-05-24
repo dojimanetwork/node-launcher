@@ -1,14 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: {{ template "hello-word.fullname" . }}-pv-2
+  name: {{ template "hello-word.fullname" . }}-pv-3
 spec:
   capacity:
     storage: 20Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1c/vol-0778a2ca059680bb2
+    volumeID: aws://ap-south-1c/vol-0130e64e50008d6fc
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
