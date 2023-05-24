@@ -28,13 +28,11 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "hello-word.image" . }}
-          command: ["/scripts/print.sh"]
+          command: ["npx", "nodemon", "bin/index.js", "--persist", "--dbpath=/data/.arweave"]
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - name: scripts
-              mountPath: /scripts
-            - name: data
-              mountPath: /root
+            - mountPath: /data
+              name: data
           resources:
           {{- if not (eq (include "hello-word.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
