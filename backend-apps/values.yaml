@@ -16,7 +16,7 @@ global:
 
 backend-gateway:
   fullnameOverride: backend-gateway
-  enabled: true
+  enabled: false
 
 bex-faucet:
   fullnameOverride: bex-faucet
