@@ -64,7 +64,7 @@ persistence:
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
-  # storageClass: "-"
+  storageClass: gp3
   # hostPath: /host-path
 
 service:

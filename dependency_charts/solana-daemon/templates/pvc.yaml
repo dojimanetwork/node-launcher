@@ -8,6 +8,8 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
+  volumeName: solana-pv
+  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "solana-daemon.net" .) "mainnet" }}

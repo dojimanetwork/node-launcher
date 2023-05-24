@@ -1,0 +1,15 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: binance-pv
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+  - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: aws://ap-south-1b/vol-04cb4be2ade0c2490
+    fsType: ext4
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: gp3
+  volumeMode: Filesystem

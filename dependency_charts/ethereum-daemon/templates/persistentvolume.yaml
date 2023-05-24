@@ -1,0 +1,15 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: ethereum-pv
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+  - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: aws://ap-south-1a/vol-04fcc2d505b11d077
+    fsType: ext4
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: gp3
+  volumeMode: Filesystem
