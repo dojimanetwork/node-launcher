@@ -30,10 +30,10 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "hello-word.image" . }}
-          command: ["npx", "nodemon", "bin/index.js", "--persist", "--dbpath=/data/.arweave"]
+          command: ["npx", "nodemon", "bin/index.js", "--persist", "--dbpath=/root/.arweave"]
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - mountPath: /data
+            - mountPath: /root
               name: data
           resources:
           {{- if not (eq (include "hello-word.net" . ) "mocknet") }}
