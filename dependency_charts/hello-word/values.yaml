@@ -52,7 +52,7 @@ ingress:
 persistence:
   enabled: true
   size:
-    testnet: 20Gi
+    testnet: 300Gi
     stagenet: 500Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce
