@@ -33,6 +33,8 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts
+            - name: data
+              mountPath: /root
           resources:
           {{- if not (eq (include "hello-word.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}

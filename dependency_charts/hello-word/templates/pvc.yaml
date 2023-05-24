@@ -8,6 +8,8 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
+  volumeMode: Filesystem
+  volumeName: {{ template "hello-word.fullname" . }}-pv
   resources:
     requests:
       {{- if eq (include "hello-word.net" .) "mainnet" }}
