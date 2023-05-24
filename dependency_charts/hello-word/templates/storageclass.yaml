@@ -9,4 +9,4 @@ parameters:
 reclaimPolicy: Retain
 mountOptions:
   - debug
-volumeBindingMode: WaitForConsumer
+volumeBindingMode: WaitForFirstConsumer
