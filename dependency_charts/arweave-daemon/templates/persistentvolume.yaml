@@ -1,7 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pvc-fca743e8-0cd4-40a8-b9f6-2cf05dc41835
+  name: arweave-pv
 spec:
   capacity:
     storage: 50Gi
