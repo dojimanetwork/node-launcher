@@ -24,7 +24,7 @@ landing-page:
 
 dojima-wallet:
   fullnameOverride: dojima-wallet
-  enabled: false
+  enabled: true
 
 developer-docs:
   fullnameOverride: developer-docs
