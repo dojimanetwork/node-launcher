@@ -23,6 +23,8 @@ spec:
       serviceAccountName: {{ include "dojima-blockscout.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      nodeSelector:
+        retain2a: hermes2a
       containers:
         - name: postgres
           securityContext:

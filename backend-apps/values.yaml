@@ -20,7 +20,7 @@ backend-gateway:
 
 bex-faucet:
   fullnameOverride: bex-faucet
-  enabled: false
+  enabled: true
 
 bex-hermes:
   fullnameOverride: bex-hermes
@@ -28,7 +28,7 @@ bex-hermes:
 
 bex-fiber:
   fullnameOverride: bex-fiber
-  enabled: false
+  enabled: true
 
 bex-single-msg:
   fullnameOverride: bex-single-msg
@@ -36,4 +36,4 @@ bex-single-msg:
 
 hello-word:
   fullnameOverride: hello-word
-  enabled: true
+  enabled: false
