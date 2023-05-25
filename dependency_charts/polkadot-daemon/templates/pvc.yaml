@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: polkadot-pv
+  volumeName: polkadot-backup-pv
   volumeMode: Filesystem
   resources:
     requests:

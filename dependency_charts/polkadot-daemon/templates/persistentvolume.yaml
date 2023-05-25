@@ -1,14 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: polkadot-pv
+  name: polkadot-backup-pv
 spec:
   capacity:
     storage: 50Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1a/vol-0f340b8b5d25b7ad3
+    volumeID: aws://ap-south-1a/vol-0298b0c0abf122f0c
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
