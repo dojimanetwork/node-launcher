@@ -7,9 +7,9 @@ metadata:
   annotations:
     # AWS
     service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
     # hcloud
     load-balancer.hetzner.cloud/location: nbg1
     load-balancer.hetzner.cloud/use-private-ip: "true"
@@ -18,19 +18,19 @@ metadata:
 
     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:576263512135:certificate/7e7c2f73-8cc3-4cc8-a881-2ec497880ac0
     # Only run SSL on the port named "https" below.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https,dojima-wallet,dojima-explorer,developer-docs
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "landing-page"
 spec:
   type: {{ .Values.service.type }}
   externalTrafficPolicy: Local
   ports:
     - port: 80
-      targetPort: http
+      targetPort: http-lp
       protocol: TCP
-      name: http
+      name: http-lp
     - port: 443
-      targetPort: https
+      targetPort: landing-page
       protocol: TCP
-      name: https
+      name: landing-page
     - port: {{ include "gateway-dojima-wallet.http" . }}
       targetPort: dojima-wallet
       protocol: TCP
