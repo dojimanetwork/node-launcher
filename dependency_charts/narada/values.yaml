@@ -27,7 +27,7 @@ chain_home_folder: /root/.hermesnode
 chains:
   include_binance_chain: "false"
   include_btc_chain: "false"
-  include_eth_chain: "false"
+  include_eth_chain: "true"
   include_ar_chain: "true"
   include_dot_chain: "false"
   include_sol_chain: "false"
@@ -97,7 +97,7 @@ ethereumDaemon:
   testnet: http://ethereum-daemon:9545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
-  ethereumStartBlockHeight: 541932
+  ethereumStartBlockHeight: 0
 
 gaiaDaemon:
   enabled: true
