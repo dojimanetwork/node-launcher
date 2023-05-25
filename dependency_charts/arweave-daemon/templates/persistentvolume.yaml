@@ -1,14 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: arweave-pv
+  name: arweave-backup-pv
 spec:
   capacity:
     storage: 50Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1a/vol-0800772a82673af3c
+    volumeID: aws://ap-south-1c/vol-0ada78e98e8232d1f
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3

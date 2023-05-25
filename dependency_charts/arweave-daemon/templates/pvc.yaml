@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: arweave-pv
+  volumeName: arweave-backup-pv
   volumeMode: Filesystem
   resources:
     requests:
