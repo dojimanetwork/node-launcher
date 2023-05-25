@@ -55,6 +55,8 @@ spec:
               mountPath: /root
             - name: scripts
               mountPath: /kube-scripts/
+      nodeSelector:
+        retain2b: hermes2b
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
