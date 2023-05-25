@@ -21,7 +21,7 @@ hermesnode:
   enabled: true
 
 narada:
-  enabled: false
+  enabled: true
 
 dojima-chain:
   enabled: false
