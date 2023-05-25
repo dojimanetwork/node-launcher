@@ -37,7 +37,7 @@ spec:
           - name: scripts
             mountPath: /scripts
       nodeSelector:
-        retain2c: hermes2c
+        retain3c: hermes3c
       containers:
          - name: {{ .Chart.Name }}
            securityContext:
