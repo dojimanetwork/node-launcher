@@ -8,8 +8,6 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: {{ template "dojima-faas-daemon.fullname" . }}-pv
-  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "dojima-faas-daemon.net" .) "mainnet" }}
