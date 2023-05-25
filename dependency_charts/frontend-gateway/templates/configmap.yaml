@@ -89,13 +89,13 @@ data:
       }
       {{- end }}
 
-      {{- if .Values.domain.landing_page.enable }}
-
       server {
         listen 8080;
-        server_name {{ include "gateway-landing-page.domain" . }};
+        server_name _;
         return 301 https://$host$request_uri;
       }
+
+      {{- if .Values.domain.landing_page.enable }}
 
       server {
         listen 80;
