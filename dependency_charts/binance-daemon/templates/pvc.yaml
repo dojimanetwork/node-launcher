@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: binance-pv
+  volumeName: binance-backup-pv
   volumeMode: Filesystem
   resources:
     requests:

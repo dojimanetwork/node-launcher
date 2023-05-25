@@ -25,7 +25,7 @@ signer:
 chain_home_folder: /root/.hermesnode
 
 chains:
-  include_binance_chain: "false"
+  include_binance_chain: "true"
   include_btc_chain: "false"
   include_eth_chain: "true"
   include_ar_chain: "true"
