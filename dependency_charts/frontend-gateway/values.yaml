@@ -30,7 +30,7 @@ domain:
   dojima_wallet:
     testnet: wallet-test.dojima.network
     mainnet: wallet.dojima.network
-    enable: true
+    enable: false
   block_explorer:
     testnet: hermes-bex-test.dojima.network
     mainnet: bex.dojima.network
