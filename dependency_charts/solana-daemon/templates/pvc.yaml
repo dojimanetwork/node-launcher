@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: solana-pv
+  volumeName: solana-backup-pv
   volumeMode: Filesystem
   resources:
     requests:

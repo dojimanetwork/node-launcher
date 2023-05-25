@@ -51,7 +51,7 @@ polkadot-daemon:
   enabled: true
 
 solana-daemon:
-  enabled: false
+  enabled: true
 
 bex-hermes:
   enabled: false
