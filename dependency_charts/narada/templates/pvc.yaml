@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: narada-pv
+  volumeName: narada-backup-pv
   volumeMode: Filesystem
   resources:
     requests:
