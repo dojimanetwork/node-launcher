@@ -26,7 +26,7 @@ domain:
   landing_page:
     testnet: www-test.dojima.network
     mainnet: www.domain.network
-    enable: true
+    enable: false
   dojima_wallet:
     testnet: wallet-test.dojima.network
     mainnet: wallet.dojima.network
@@ -34,15 +34,15 @@ domain:
   block_explorer:
     testnet: hermes-bex-test.dojima.network
     mainnet: bex.dojima.network
-    enable: true
+    enable: false
   developer_doc:
     testnet: devoc-test.dojima.network
     mainnet: devoc.dojima.network
-    enable: true
+    enable: false
   faas:
     testnet: faas-test.dojima.network
     mainnet: faas.dojima.network
-    enable: true
+    enable: false
   blockscout:
     testnet: doj-bex-test.dojima.network
     mainnet: doj-bex.dojima.network

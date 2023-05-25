@@ -20,7 +20,7 @@ frontend-gateway:
 
 landing-page:
   fullnameOverride: landing-page
-  enabled: true
+  enabled: false
 
 dojima-wallet:
   fullnameOverride: dojima-wallet
@@ -28,15 +28,15 @@ dojima-wallet:
 
 developer-docs:
   fullnameOverride: developer-docs
-  enabled: true
+  enabled: false
 
 hermes-explorer:
   fullnameOverride: hermes-explorer
-  enabled: true
+  enabled: false
 
 dojima-faas:
   fullnameOverride: dojima-faas
-  enabled: true
+  enabled: false
 
 dojima-blockscout:
   fullnameOverride: dojima-blockscout

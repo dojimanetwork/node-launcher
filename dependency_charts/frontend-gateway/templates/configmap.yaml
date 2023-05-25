@@ -90,89 +90,15 @@ data:
       {{- end }}
 
       server {
-        listen 8080;
+        listen 80;
         server_name _;
         return 301 https://$host$request_uri;
       }
 
-      {{- if .Values.domain.landing_page.enable }}
-
-      server {
-        listen 80;
-        server_name {{ include "gateway-landing-page.domain" . }};
-
-        location /healthz {
-          access_log off;
-          return 200 "healthy\n";
-        }
-
-        location ~* ^/home/(wallet|dojima-faas|dojima-block-explorer|dojima-road-map|hackathon-register|dojima-faq|tokenomics) {
-          proxy_hide_header Access-Control-Allow-Origin;
-          proxy_hide_header Access-Control-Allow-Methods;
-          proxy_hide_header Access-Control-Allow-Headers;
-          proxy_hide_header Access-Control-Allow-Credentials;
-          add_header Access-Control-Allow-Origin '*' always;
-          add_header Access-Control-Allow-Credentials true always;
-          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-
-          if ($request_method = 'OPTIONS') {
-            add_header Access-Control-Allow-Origin '*' always;
-            add_header Access-Control-Allow-Credentials true always;
-            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-            add_header 'Access-Control-Max-Age' 1728000 always;
-            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
-            add_header 'Content-Length' 0 always;
-            return 204;
-          }
-
-          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
-          add_header X-Cache-Status $upstream_cache_status always;
-          proxy_cache frontend-apps;
-          proxy_cache_lock on;
-          proxy_cache_lock_timeout 20s;
-          proxy_cache_lock_age 20s;
-          proxy_cache_valid any 5s;
-          proxy_set_header Host $http_host;
-          proxy_http_version 1.1;
-          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://landing-page:{{ .Values.service.port.landing_page.http }};
-        }
-
-        location / {
-          proxy_hide_header Access-Control-Allow-Origin;
-          proxy_hide_header Access-Control-Allow-Methods;
-          proxy_hide_header Access-Control-Allow-Headers;
-          proxy_hide_header Access-Control-Allow-Credentials;
-          add_header Access-Control-Allow-Origin '*' always;
-          add_header Access-Control-Allow-Credentials true always;
-          add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-          add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-
-          if ($request_method = 'OPTIONS') {
-            add_header Access-Control-Allow-Origin '*' always;
-            add_header Access-Control-Allow-Credentials true always;
-            add_header Access-Control-Allow-Methods 'GET,OPTIONS,POST' always;
-            add_header Access-Control-Allow-Headers 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With,X-Token-Auth,X-Mx-ReqToken,X-Requested-With' always;
-            add_header 'Access-Control-Max-Age' 1728000 always;
-            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
-            add_header 'Content-Length' 0 always;
-            return 204;
-          }
-
-          add_header Cache-Control "no-cache, must-revalidate, max-age=0" always;
-          proxy_set_header Host $http_host;
-          proxy_http_version 1.1;
-          proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://landing-page:{{ .Values.service.port.landing_page.http }};
-        }
-      }
-      {{- end }}
 
       {{- if .Values.domain.dojima_wallet.enable }}
       server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-dojima-wallet.domain" . }};
 
         location ~* ^/wallet/(get-started|import-seed-phrase-file) {
@@ -243,7 +169,7 @@ data:
 
       {{- if .Values.domain.block_explorer.enable }}
       server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-dojima-explorer.domain" . }};
 
         location ~* ^/block-explorer/dashboard {
@@ -314,7 +240,7 @@ data:
 
       {{- if .Values.domain.developer_doc.enable }}
       server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-developer-docs.domain" . }};
 
         location ~* ^/(wallet|developers) {
@@ -386,7 +312,7 @@ data:
 
        {{- if .Values.domain.faas.enable }}
        server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-faas.domain" . }};
 
         location ~* ^/dojima-faas {
@@ -524,13 +450,4 @@ data:
       }
 
       {{- end }}
-
-      server {
-        listen 80;
-        server_name _;
-        location /healthz {
-          access_log off;
-          return 200 "healthy\n";
-        }
-      }
     }
