@@ -62,7 +62,7 @@ persistence:
     stagenet: 500Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce
-  storageClass: gp3
+#  storageClass: gp3
 
 serviceAccount:
   # Specifies whether a service account should be created
