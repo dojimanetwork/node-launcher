@@ -8,8 +8,6 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: arweave-backup-pv
-  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "arweave-daemon.net" .) "mainnet" }}

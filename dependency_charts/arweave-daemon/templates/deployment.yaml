@@ -34,8 +34,6 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-      nodeSelector:
-        retain1c: hermes1c
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
