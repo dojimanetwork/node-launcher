@@ -8,8 +8,6 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: polkadot-backup-pv
-  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "polkadot-daemon.net" .) "mainnet" }}
