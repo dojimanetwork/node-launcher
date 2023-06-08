@@ -49,4 +49,9 @@ dependencies:
     condition: bex-single-msg.enabled
     repository: file://../dependency_charts/bex-single-msg
 
+  - name: hello-word
+    version: 0.1.0
+    condition: hello-word.enabled
+    repository: file://../dependency_charts/hello-word
+
   

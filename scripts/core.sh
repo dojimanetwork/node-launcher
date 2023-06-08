@@ -403,8 +403,8 @@ create_mnemonic() {
   local mnemonic
   if ! kubectl get -n "$NAME" secrets/hermesnode-mnemonic >/dev/null 2>&1; then
     echo "=> Generating hermesnode Mnemonic phrase"
-    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node:testnet-1.89.0_59 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
-#     mnemonic="wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
+#    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node:testnet-1.89.0_59 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+     mnemonic="wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
     echo
@@ -497,7 +497,7 @@ deploy_frontend() {
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$FRONTEND_NET" \
 #  confirm
-#  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
+  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
 }
 
 deploy_backend() {
@@ -514,6 +514,7 @@ deploy_backend() {
   helm upgrade --install "$BACKEND_NAME" ./backend-apps -n "$BACKEND_NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$BACKEND_NET" \
+    --skip-crds \
 #  confirm
   kubectl rollout restart -n "${BACKEND_NAME}" deployment "${BACKEND_GATEWAY}"
 }

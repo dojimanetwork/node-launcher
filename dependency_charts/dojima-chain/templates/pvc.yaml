@@ -8,6 +8,8 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
+  volumeName: dojima-chain-backup-pv
+  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "dojima-chain.net" .) "mainnet" }}

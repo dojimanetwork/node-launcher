@@ -75,7 +75,7 @@ persistence:
     stagenet: 900Gi
     mainnet: 1228Gi
   accessMode: ReadWriteOnce
-  # storageClass: "-"
+  storageClass: gp3
   #
 resources:
   limits:

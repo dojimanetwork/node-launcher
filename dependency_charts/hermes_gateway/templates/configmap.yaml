@@ -664,7 +664,7 @@ data:
 
      {{- if .Values.eth }}
       server {
-        listen 8443;
+        listen {{ include "gateway-eth-chain.api" . }};
         server_name {{ include "gateway-hermes-eth-api.domain" .}};
 
         location /healthz {
@@ -703,7 +703,7 @@ data:
 
 
       server {
-        listen 8443;
+        listen {{ include "gateway-eth-chain.wss" .}};
         server_name {{ include "gateway-hermes-eth-ws.domain" . }};
 
         location /healthz {

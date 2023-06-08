@@ -7,15 +7,14 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-faas
-  testnet: "master-0.1.3-2023-03-09"
-  mainnet: ""
-  testnet_hash: "2e5a06b1d21393064cb8aefcfb477af4b3edac45862cd51578e3dd2b3c8f352d"
-  mainnet_hash: ""
+  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
+  tag: "testnet-1.89.0_59"
+  hash: "c3902fc7008ec884c396404919838840a3e4b24b81ece5f0524450ebf0f6c2dd"
+  testnet: "textury/arlocal:latest"
 
 imagePullSecrets: []
-nameOverride: "dojima-faasd"
-fullnameOverride: "dojima-faasd"
+nameOverride: "hello-word"
+fullnameOverride: "fhello-wordd"
 
 recoverNineRealmsSnapshot: false
 
@@ -23,11 +22,15 @@ service:
   type: ClusterIP
   port:
     testnet:
-      http: 3000
+      p2p: 26656
+      rpc: 26657
+      api: 1984
     stagenet:
-      http: 3000
+      p2p: 27146
+      rpc: 27147
     mainnet:
-      http: 3000
+      p2p: 27146
+      rpc: 27147
 
 ingress:
   enabled: false
@@ -49,37 +52,40 @@ ingress:
 persistence:
   enabled: true
   size:
-    testnet: 5Gi
-    stagenet: 5Gi
-    mainnet: 5Gi
+    testnet: 300Gi
+    stagenet: 500Gi
+    mainnet: 500Gi
   accessMode: ReadWriteOnce
-#  storageClass: gp3
+  storageClass: gp3
+
+storageclass:
+  name: hello-word
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "serv-frontend-dojima-faas"
+  name: "serv-hello-word"
 
 podSecurityContext:
   fsGroup: 1000
 
-securityContext: {}
+securityContext:
   # capabilities:
   #   drop:
   #   - ALL
   # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+   runAsUser: 1000
+   runAsGroup: 3000
 
 resources:
   requests:
     cpu: 1
     memory: 2Gi
   limits:
-#     cpu: 2
-    memory: 3Gi
+    # cpu: 2
+    memory: 2Gi
 
 nodeSelector: {}
 
@@ -96,7 +102,7 @@ global:
   mnemonicSecret:
   gateway:
     enabled: false
-    name: "frontend-gateway"
+    name: "hermesnode-gateway"
   images:
     alpineK8s:
       tag: 1.18.2

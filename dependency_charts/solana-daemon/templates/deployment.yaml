@@ -33,7 +33,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: scripts
-              mountPath: /scripts      
+              mountPath: /scripts
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -42,7 +42,7 @@ spec:
           imagePullPolicy: IfNotPresent
           command:
             - solana-test-validator
-            - --ticks-per-slot=192
+            - --ticks-per-slot=166
             - --ledger=/data/.solana-test
             - --limit-ledger-size=100000
             - --bpf-program

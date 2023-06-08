@@ -54,7 +54,7 @@ solana-daemon:
   enabled: true
 
 bex-hermes:
-  enabled: true
+  enabled: false
 
 bex-fiber:
-  enabled: true
+  enabled: false

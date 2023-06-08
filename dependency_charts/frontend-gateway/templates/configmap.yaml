@@ -89,16 +89,16 @@ data:
       }
       {{- end }}
 
-      {{- if .Values.domain.landing_page.enable }}
-
       server {
-        listen 8080;
-        server_name {{ include "gateway-landing-page.domain" . }};
+        listen 80;
+        server_name _;
         return 301 https://$host$request_uri;
       }
 
+      {{- if .Values.domain.landing_page.enable }}
+
       server {
-        listen 80;
+        listen 8443;
         server_name {{ include "gateway-landing-page.domain" . }};
 
         location /healthz {
@@ -172,7 +172,7 @@ data:
 
       {{- if .Values.domain.dojima_wallet.enable }}
       server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-dojima-wallet.domain" . }};
 
         location ~* ^/wallet/(get-started|import-seed-phrase-file) {
@@ -243,7 +243,7 @@ data:
 
       {{- if .Values.domain.block_explorer.enable }}
       server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-dojima-explorer.domain" . }};
 
         location ~* ^/block-explorer/dashboard {
@@ -314,7 +314,7 @@ data:
 
       {{- if .Values.domain.developer_doc.enable }}
       server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-developer-docs.domain" . }};
 
         location ~* ^/(wallet|developers) {
@@ -386,7 +386,7 @@ data:
 
        {{- if .Values.domain.faas.enable }}
        server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-faas.domain" . }};
 
         location ~* ^/dojima-faas {
@@ -458,7 +458,7 @@ data:
 
       {{- if .Values.domain.blockscout.enable }}
        server {
-        listen {{ .Values.service.port.landing_page.http }};
+        listen 8443;
         server_name {{ include "gateway-dojima-blockscout.domain" . }};
 
         location ~* ^/(socket|phoneix) {
@@ -524,13 +524,4 @@ data:
       }
 
       {{- end }}
-
-      server {
-        listen 80;
-        server_name _;
-        location /healthz {
-          access_log off;
-          return 200 "healthy\n";
-        }
-      }
     }

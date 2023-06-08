@@ -60,11 +60,11 @@ ingress:
 persistence:
   enabled: true
   size:
-    testnet: 200Gi
+    testnet: 300Gi
     stagenet: 500Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce
-  # storageClass: "-"
+#  storageClass: gp3
 
 serviceAccount:
   # Specifies whether a service account should be created

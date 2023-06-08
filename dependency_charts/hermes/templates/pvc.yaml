@@ -8,6 +8,8 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
+  volumeName: hermesnode-pv
+  volumeMode: Filesystem
   resources:
     requests:
       storage: {{ .Values.persistence.size | quote }}

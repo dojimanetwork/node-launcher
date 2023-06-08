@@ -15,10 +15,10 @@ arweave: true
 solana: true
 polkadot: true
 dojima_chain: true
-faucet: true
+faucet: false
 eth: true
 binance: true
-fiber: true
+fiber: false
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
 # traffic if not provided.

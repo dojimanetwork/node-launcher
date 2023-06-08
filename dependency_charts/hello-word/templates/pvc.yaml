@@ -2,19 +2,19 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "dojima-blockscout.fullname" . }}
+  name: {{ template "hello-word.fullname" . }}
   labels:
-    {{- include "dojima-blockscout.labels" . | nindent 4 }}
+    {{- include "hello-word.labels" . | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: dojima-blockscout-backup-pv
   volumeMode: Filesystem
+  volumeName: {{ template "hello-word.fullname" . }}-pv
   resources:
     requests:
-      {{- if eq (include "dojima-blockscout.net" .) "mainnet" }}
+      {{- if eq (include "hello-word.net" .) "mainnet" }}
       storage: {{ .Values.persistence.size.mainnet | quote }}
-      {{- else if eq (include "dojima-blockscout.net" .) "stagenet" }}
+      {{- else if eq (include "hello-word.net" .) "stagenet" }}
       storage: {{ .Values.persistence.size.stagenet | quote }}
       {{- else }}
       storage: {{ .Values.persistence.size.testnet | quote }}

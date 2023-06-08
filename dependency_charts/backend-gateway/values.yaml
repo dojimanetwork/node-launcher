@@ -29,7 +29,7 @@ domain:
   fiber:
     testnet:
       api: fiber-test.h4s.dojima.network
-      enable: false
+      enable: true
 
 service:
   type: LoadBalancer

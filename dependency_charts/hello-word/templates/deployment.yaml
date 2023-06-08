@@ -1,67 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "arweave-daemon.fullname" . }}
+  name: {{ include "hello-word.fullname" . }}
   labels:
-    {{- include "arweave-daemon.labels" . | nindent 4 }}
+    {{- include "hello-word.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      {{- include "arweave-daemon.selectorLabels" . | nindent 6 }}
+      {{- include "hello-word.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "arweave-daemon.selectorLabels" . | nindent 8 }}
+        {{- include "hello-word.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "arweave-daemon.serviceAccountName" . }}
+      serviceAccountName: {{ include "hello-word.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      initContainers:
-        - name: init-external-ip
-          image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-          {{- if .Values.global.gateway.enabled }}
-          command: [ '/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "arweave-daemon.fullname" . }}-external-ip' ]
-          {{- else }}
-          command: [ '/scripts/external-ip.sh', 'false', '{{ include "arweave-daemon.fullname" . }}', '{{ include "arweave-daemon.fullname" . }}-external-ip' ]
-          {{- end }}
-          volumeMounts:
-            - name: scripts
-              mountPath: /scripts
+      nodeSelector:
+        retainc: hermesc
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "arweave-daemon.image" . }}
+          image: {{ include "hello-word.image" . }}
           command: ["npx", "nodemon", "bin/index.js", "--persist", "--dbpath=/root/.arweave"]
           imagePullPolicy: IfNotPresent
-          ports:
-            - name: api
-              containerPort: {{ include "arweave-daemon.api" . }}
-              protocol: TCP
-          readinessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /info
-              port: api
           volumeMounts:
             - mountPath: /root
               name: data
           resources:
-          {{- if not (eq (include "arweave-daemon.net" . ) "mocknet") }}
+          {{- if not (eq (include "hello-word.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
         persistentVolumeClaim:
-          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "arweave-daemon.fullname" . }}{{- end }}
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "hello-word.fullname" . }}{{- end }}
       {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
         hostPath:
           path: {{ .Values.persistence.hostPath }}
@@ -71,7 +53,7 @@ spec:
       {{- end }}
       - name: scripts
         configMap:
-          name: {{ include "arweave-daemon.fullname" . }}-scripts
+          name: {{ include "hello-word.fullname" . }}-scripts
           defaultMode: 0777
       {{- with .Values.nodeSelector }}
       nodeSelector:
