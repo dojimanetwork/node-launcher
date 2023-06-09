@@ -163,6 +163,16 @@ dojima blockscout  domain name
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+kubecost domain name
+*/}}
+{{- define "gateway-dojima-kubecost.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.kubecost.testnet }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Developer docs http Port
 */}}
@@ -182,5 +192,13 @@ faas http Port
 blockscout http Port
 */}}
 {{- define "gateway-dojima-blockscout.http" -}}
+    {{ .Values.service.port.bs.http }}
+{{- end -}}
+
+
+{{/*
+kubecost http Port
+*/}}
+{{- define "gateway-dojima-kubecost.http" -}}
     {{ .Values.service.port.bs.http }}
 {{- end -}}

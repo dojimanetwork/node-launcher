@@ -47,6 +47,9 @@ domain:
     testnet: doj-bex-test.dojima.network
     mainnet: doj-bex.dojima.network
     enable: true
+  kubecost:
+    testnet: kubecost-test.dojima.network
+    enable: true
 
 service:
   type: LoadBalancer
@@ -63,6 +66,8 @@ service:
       http: 3000
     bs:
       http: 4000
+    kubecost:
+      http: 9090
 
 serviceAccount:
   # Specifies whether a service account should be created

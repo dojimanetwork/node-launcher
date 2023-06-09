@@ -60,6 +60,9 @@ spec:
             - name: doj-blockscout
               containerPort: {{ include "gateway-dojima-blockscout.http" . }}
               protocol: TCP
+            - name: kubecost
+              containerPort: {{ include "gateway-dojima-kubecost.http" . }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

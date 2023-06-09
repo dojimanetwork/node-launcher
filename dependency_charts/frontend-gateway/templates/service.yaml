@@ -45,5 +45,11 @@ spec:
       targetPort: doj-blockscout
       protocol: TCP
       name: doj-blockscout
+    {{- if .Values.domain.kubecost.enable }}
+    - port: {{ include "gateway-dojima-kubecost.http" . }}
+      targetPort: kubecost
+      protocol: TCP
+      name: kubecost
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}
