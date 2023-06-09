@@ -200,5 +200,5 @@ blockscout http Port
 kubecost http Port
 */}}
 {{- define "gateway-dojima-kubecost.http" -}}
-    {{ .Values.service.port.bs.http }}
+    {{ .Values.service.port.kubecost.http }}
 {{- end -}}
