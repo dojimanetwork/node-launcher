@@ -97,7 +97,7 @@ spec:
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.h4s.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       nodeSelector:
-        retain2a: hermes2a
+        retain1a: hermes1a
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
