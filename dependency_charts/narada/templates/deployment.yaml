@@ -20,6 +20,15 @@ spec:
         prometheus.io/path: '/metrics'
         prometheus.io/port: '9000'
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: topology.kubernetes.io/zone
+                    operator: In
+                    values:
+                      - ap-south-1b
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -57,8 +66,6 @@ spec:
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
-      nodeSelector:
-        retain1b: hermes1b
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
