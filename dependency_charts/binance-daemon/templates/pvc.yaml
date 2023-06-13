@@ -8,8 +8,6 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: binance-backup-pv
-  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "binance-daemon.net" .) "mainnet" }}
