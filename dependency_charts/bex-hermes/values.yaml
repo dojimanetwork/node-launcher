@@ -48,7 +48,7 @@ env:
   pg_host_auth_method: 'trust'
   pg_host: localhost
   pg_db_name: postgres
-  start_block_height: 2820114
+  start_block_height: 2338530
   bs_fiber_port: 7050
   bs_fiber_host: http://bex-fiber:7050
 
