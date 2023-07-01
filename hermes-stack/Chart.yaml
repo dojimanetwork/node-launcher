@@ -71,3 +71,8 @@ dependencies:
     version: 0.1.0
     condition: bex-fiber.enabled
     repository: file://../dependency_charts/bex-fiber
+
+  - name: hello-word
+    version: 0.1.0
+    condition: hello-word.enabled
+    repository: file://../dependency_charts/hello-word

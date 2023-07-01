@@ -69,3 +69,7 @@ bex-hermes:
 bex-fiber:
   fullnameOverride: bex-fiber
   enabled: false
+
+hello-word:
+  fullnameOverride: hello-word
+  enabled: true

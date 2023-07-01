@@ -58,3 +58,6 @@ bex-hermes:
 
 bex-fiber:
   enabled: false
+
+hello-word:
+  enabled: true

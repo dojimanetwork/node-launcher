@@ -36,4 +36,4 @@ bex-single-msg:
 
 hello-word:
   fullnameOverride: hello-word
-  enabled: true
+  enabled: false
