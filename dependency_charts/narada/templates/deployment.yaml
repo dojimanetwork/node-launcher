@@ -82,7 +82,7 @@ spec:
             - mountPath: /var/data/narada
               name: data
               subPath: data
-            - mountPath: /root/.hermes
+            - mountPath: /root/.hermesnode
               name: data
               subPath: hermesnode
             - mountPath: /etc/narada
