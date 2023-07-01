@@ -1,15 +1,15 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: narada-backup-pv
+  name: narada-pv
 spec:
   capacity:
-    storage: 10Gi
+    storage: 1Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1b/vol-08a29ffc8a42f8a2c
+    volumeID: aws://ap-south-1b/vol-09b55f7ba26e61740
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: gp3
+  storageClassName: gp2
   volumeMode: Filesystem

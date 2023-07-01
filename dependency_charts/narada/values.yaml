@@ -133,13 +133,13 @@ fullnameOverride: "fhermesnode-narada"
 persistence:
   enabled: true
   size:
-    testnet: 10Gi
+    testnet: 1Gi
 #    mainnet: 50Gi
 #    stagenet: 10Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
-  storageClass: gp3
+  storageClass: gp2
   # hostPath: /host-path
 
 service:
