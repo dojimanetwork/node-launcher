@@ -52,11 +52,11 @@ ingress:
 persistence:
   enabled: true
   size:
-    testnet: 10Gi
-    stagenet: 10Gi
-    mainnet: 10Gi
+    testnet: 1Gi
+    stagenet: 1Gi
+    mainnet: 1Gi
   accessMode: ReadWriteOnce
-  storageClass: gp3
+  storageClass: gp2
 
 storageclass:
   name: hello-word
