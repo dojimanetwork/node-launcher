@@ -23,8 +23,15 @@ spec:
       serviceAccountName: {{ include "hello-word.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      nodeSelector:
-        retainc: hermesc
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: topology.kubernetes.io/zone
+                    operator: In
+                    values:
+                      - ap-south-1b
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
