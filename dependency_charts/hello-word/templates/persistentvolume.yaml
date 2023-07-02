@@ -1,14 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: narada-pv
+  name: hermesnode-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 300Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1b/vol-09b55f7ba26e61740
+    volumeID: aws://ap-south-1c/vol-0e802d85a1c4816cb
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp2
