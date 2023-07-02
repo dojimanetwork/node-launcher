@@ -20,7 +20,7 @@ hermes-gateway:
 
 hermesnonde:
   fullnameOverride: hermesnode
-  enabled: true
+  enabled: false
 
 narada:
   fullnameOverride: narada
@@ -72,4 +72,4 @@ bex-fiber:
 
 hello-word:
   fullnameOverride: hello-word
-  enabled: false
+  enabled: true

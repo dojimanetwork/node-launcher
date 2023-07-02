@@ -18,7 +18,7 @@ hermes-gateway:
   enabled: true
 
 hermesnode:
-  enabled: true
+  enabled: false
 
 narada:
   enabled: true
@@ -60,4 +60,4 @@ bex-fiber:
   enabled: false
 
 hello-word:
-  enabled: false
+  enabled: true
