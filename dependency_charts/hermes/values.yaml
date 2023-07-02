@@ -84,9 +84,9 @@ service:
 persistence:
   enabled: true
   size:
-    testnet: 300Gi
+    testnet: 100Gi
   accessMode: ReadWriteOnce
-  storageClass: gp3
+  storageClass: gp2
 
 serviceAccount:
   create: true
