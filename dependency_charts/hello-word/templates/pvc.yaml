@@ -9,7 +9,7 @@ spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
   volumeMode: Filesystem
-  volumeName: hermesnode-pv
+  volumeName: hermes-pv
   resources:
     requests:
       {{- if eq (include "hello-word.net" .) "mainnet" }}
