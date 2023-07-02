@@ -1,15 +1,15 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: hermes-pv
+  name: hermesnode-pv
 spec:
   capacity:
-    storage: 100Gi
+    storage: 300Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1c/vol-0ec973e760286eb33
+    volumeID: aws://ap-south-1c/vol-0e802d85a1c4816cb
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: gp2
+  storageClassName: gp3
   volumeMode: Filesystem
