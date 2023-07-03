@@ -24,7 +24,7 @@ narada:
   enabled: true
 
 dojima-chain:
-  enabled: true
+  enabled: false
 
 midgard:
   blockstore:
