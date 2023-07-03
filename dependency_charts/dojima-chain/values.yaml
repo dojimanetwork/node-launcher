@@ -58,7 +58,7 @@ fullnameOverride: "fdojima-chain"
 persistence:
   enabled: true
   size:
-    testnet: 5000Gi
+    testnet: 50Gi
 #    mainnet: 50Gi
 #    stagenet: 10Gi
 #    mocknet: 10Gi
