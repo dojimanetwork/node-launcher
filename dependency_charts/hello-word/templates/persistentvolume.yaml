@@ -1,14 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: dojima-chain-pv
+  name: hermesnode-pv
 spec:
   capacity:
-    storage: 50Gi
+    storage: 300Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1a/vol-085413f5bdd04fd11
+    volumeID: aws://ap-south-1c/vol-0e802d85a1c4816cb
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
