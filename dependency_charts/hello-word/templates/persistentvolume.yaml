@@ -1,15 +1,15 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: hermes-pv
+  name: dojima-chain-backup-pv
 spec:
   capacity:
-    storage: 100Gi
+    storage: 5000Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1c/vol-0ec973e760286eb33
+    volumeID: aws://ap-south-1a/vol-0c734d11622af6174
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: gp2
+  storageClassName: gp3
   volumeMode: Filesystem

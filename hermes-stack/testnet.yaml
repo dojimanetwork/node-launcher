@@ -60,4 +60,4 @@ bex-fiber:
   enabled: false
 
 hello-word:
-  enabled: false
+  enabled: true
