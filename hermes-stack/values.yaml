@@ -72,4 +72,4 @@ bex-fiber:
 
 hello-word:
   fullnameOverride: hello-word
-  enabled: false
+  enabled: true

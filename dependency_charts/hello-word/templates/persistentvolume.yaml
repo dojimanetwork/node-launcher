@@ -1,14 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: dojima-chain-backup-pv
+  name: dojima-chain-pv
 spec:
   capacity:
-    storage: 5000Gi
+    storage: 50Gi
   accessModes:
   - ReadWriteOnce
   awsElasticBlockStore:
-    volumeID: aws://ap-south-1a/vol-0c734d11622af6174
+    volumeID: aws://ap-south-1a/vol-085413f5bdd04fd11
     fsType: ext4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
