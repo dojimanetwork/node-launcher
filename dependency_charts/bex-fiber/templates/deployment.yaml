@@ -76,7 +76,7 @@ spec:
             timeoutSeconds: 2
             initialDelaySeconds: 10
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.resources.bex_postgres | nindent 12 }}
         - name: bex-fiber
           image: {{ include "bex-fiber.image" . }}
           imagePullPolicy: IfNotPresent
@@ -115,6 +115,8 @@ spec:
             httpGet:
               path: /api/v1/ping
               port: fiber-port
+          resources:
+            {{- toYaml .Values.resources.bex_fiber | nindent 12 }}
         - name: bex-cron
           image: {{ include "bex-fiber.image" . }}
           imagePullPolicy: IfNotPresent
@@ -140,7 +142,7 @@ spec:
            
           resources:
           {{- if not (eq (include "bex-fiber.net" . ) "mocknet") }}
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.resources.bex_cron | nindent 12 }}
           {{- end }}
       volumes:
       - name: data
