@@ -32,7 +32,7 @@ bex-fiber:
 
 bex-single-msg:
   fullnameOverride: bex-single-msg
-  enabled: true
+  enabled: false
 
 hello-word:
   fullnameOverride: hello-word
