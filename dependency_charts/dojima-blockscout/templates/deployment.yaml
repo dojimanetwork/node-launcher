@@ -72,7 +72,7 @@ spec:
             timeoutSeconds: 2
             initialDelaySeconds: 10
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.resources.postgres | nindent 12 }}
         - name: smart-contract-verifier
           image: {{ include "dojima-blockscout-rs.image" . }}
           imagePullPolicy: IfNotPresent
@@ -120,6 +120,8 @@ spec:
           volumeMounts:
             - mountPath: /app/config
               name: scripts
+          resources:
+            {{- toYaml .Values.resources.smart_contract_verifier | nindent 12 }}
         - name: {{ .Chart.Name }}
           image: {{ include "dojima-blockscout-blockscout.image" . }}
           imagePullPolicy: IfNotPresent
