@@ -102,11 +102,11 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 2
-    memory: 2Gi
+    cpu: 0.01
+    memory: 1000Mi
   limits:
-    cpu: 2
-    memory: 4Gi
+    cpu: 0.1
+    memory: 2000Mi
 
 nodeSelector: {}
 

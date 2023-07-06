@@ -159,14 +159,32 @@ persistence:
     mainnet: 200Gi
   accessMode: ReadWriteOnce
   storageClass: gp3
-  #
+
 resources:
-  limits:
-    # cpu: 1
-    memory: 18Gi
-  requests:
-    cpu: 4
-    memory: 8Gi
+  postgres:
+    limits:
+      cpu: 0.5
+      memory: 10Gi
+    requests:
+      cpu: 0.12
+      memory: 8Gi
+  smart_contract_verifier:
+    limits:
+      cpu: 0.05
+      memory: 50Gi
+    requests:
+      cpu: 0.01
+      memory: 20Mi
+  blockscout:
+    limits:
+      cpu: 0.5
+      memory: 10Gi
+    requests:
+      cpu: 0.12
+      memory: 8Gi
+
+
+
 
 nodeSelector: {}
 
