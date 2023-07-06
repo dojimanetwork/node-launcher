@@ -51,7 +51,7 @@ env:
   pg_db_name: postgres
   start_block_height: 1
   bs_fiber_host: http://localhost:7050
-  individual_msg_type: ADD
+  individual_msg_type: WITHDRAW
 
 service:
   type: ClusterIP
