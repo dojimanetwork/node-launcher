@@ -20,11 +20,11 @@ frontend-gateway:
 
 landing-page:
   fullnameOverride: landing-page
-  enabled: true
+  enabled: false
 
 dojima-wallet:
   fullnameOverride: dojima-wallet
-  enabled: true
+  enabled: false
 
 developer-docs:
   fullnameOverride: developer-docs
