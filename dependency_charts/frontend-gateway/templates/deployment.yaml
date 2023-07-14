@@ -63,6 +63,9 @@ spec:
             - name: kubecost
               containerPort: {{ include "gateway-dojima-kubecost.http" . }}
               protocol: TCP
+            - name: landing-page
+              containerPort: {{ include "gateway-landing-page.http" . }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

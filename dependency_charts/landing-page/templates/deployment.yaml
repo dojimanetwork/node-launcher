@@ -70,9 +70,7 @@ spec:
               containerPort: {{ include "landing-page-daemon.http" . }}
               protocol: TCP
           resources:
-          {{- if not (eq (include "landing-page-daemon.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- end }}
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}

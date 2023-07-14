@@ -51,5 +51,11 @@ spec:
       protocol: TCP
       name: kubecost
     {{- end }}
+    {{- if .Values.domain.landing_page.enable }}
+    - port: {{ include "gateway-landing-page.http" . }}
+      targetPort: landing-page
+      protocol: TCP
+      name: landing-page
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

@@ -37,11 +37,11 @@ service:
   type: ClusterIP
   port:
     testnet:
-      http: 80
+      http: 3002
     stagenet:
-      http: 80
+      http: 3002
     mainnet:
-      http: 80
+      http: 3002
 
 ingress:
   enabled: false
