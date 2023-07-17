@@ -112,16 +112,16 @@ resources:
   bex_cron:
     requests:
       cpu: 0.02
-      memory: 250Mi
+      memory: 100Mi
     limits:
-      cpu: 0.05
-      memory: 350Mi
+      cpu: 0.03
+      memory: 200Mi
   bex_fiber:
     requests:
-      cpu: 0.5
+      cpu: 0.100
       memory: 350Mi
     limits:
-      cpu: 0.75
+      cpu: 0.150
       memory: 500Mi
 
 

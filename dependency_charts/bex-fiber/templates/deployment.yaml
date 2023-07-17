@@ -139,11 +139,8 @@ spec:
               value: {{ .Values.env.mongo_uri }}
             - name: BS_FIBER_PORT
               value: {{ .Values.service.fiber | quote }}
-           
           resources:
-          {{- if not (eq (include "bex-fiber.net" . ) "mocknet") }}
             {{- toYaml .Values.resources.bex_cron | nindent 12 }}
-          {{- end }}
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}

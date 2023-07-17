@@ -101,10 +101,10 @@ securityContext: {}
 resources:
   requests:
     cpu: 0.1
-    memory: 6000Mi
+    memory: 4000Mi
   limits:
     cpu: 0.5
-    memory: 9000Mi
+    memory: 7500Mi
 
 nodeSelector: {}
 
