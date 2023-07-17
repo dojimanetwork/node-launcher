@@ -119,10 +119,10 @@ resources:
   bex_fiber:
     requests:
       cpu: 0.100
-      memory: 350Mi
+      memory: 500Mi
     limits:
       cpu: 0.150
-      memory: 500Mi
+      memory: 750Mi
 
 
 nodeSelector: {}
