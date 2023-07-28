@@ -62,16 +62,6 @@ dependencies:
     version: 0.1.0
     condition: solana-daemon.enabled
 
-  - name: bex-hermes
-    repository: file://../dependency_charts/bex-hermes
-    version: 0.1.0
-    condition: bex-hermes.enabled
-
-  - name: bex-fiber
-    version: 0.1.0
-    condition: bex-fiber.enabled
-    repository: file://../dependency_charts/bex-fiber
-
   - name: hello-word
     version: 0.1.0
     condition: hello-word.enabled
