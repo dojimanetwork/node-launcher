@@ -49,7 +49,7 @@ domain:
     enable: true
   kubecost:
     testnet: kubecost-test.dojima.network
-    enable: true
+    enable: false
 
 service:
   type: LoadBalancer
