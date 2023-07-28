@@ -16,19 +16,19 @@ global:
 
 hermes-gateway:
   fullnameOverride: hermes-gateway
-  enabled: true
+  enabled: false
 
 hermesnonde:
   fullnameOverride: hermesnode
-  enabled: true
+  enabled: false
 
 narada:
   fullnameOverride: narada
-  enabled: true
+  enabled: false
 
 dojima-chain:
   fullnameOverride: dojima-chain
-  enabled: true
+  enabled: false
 
 midgard:
   enabled: false
@@ -61,14 +61,6 @@ polkadot-daemon:
 solana-daemon:
   fullnameOverride: solana-daemon
   enabled: true
-
-bex-hermes:
-  fullnameOverride: bex-hermes
-  enabled: false
-
-bex-fiber:
-  fullnameOverride: bex-fiber
-  enabled: false
 
 hello-word:
   fullnameOverride: hello-word
