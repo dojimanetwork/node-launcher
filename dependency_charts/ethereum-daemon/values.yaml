@@ -75,15 +75,15 @@ persistence:
     stagenet: 900Gi
     mainnet: 1228Gi
   accessMode: ReadWriteOnce
-  storageClass: gp3
+#  storageClass: gp3
   #
 resources:
   limits:
     cpu: 0.05
-    memory: 900Mi
+    memory: 1500Mi
   requests:
     cpu: 0.01
-    memory: 750Mi
+    memory: 1000Mi
 
 nodeSelector: {}
 
