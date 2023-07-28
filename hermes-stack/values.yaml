@@ -60,7 +60,7 @@ polkadot-daemon:
 
 solana-daemon:
   fullnameOverride: solana-daemon
-  enabled: true
+  enabled: false
 
 hello-word:
   fullnameOverride: hello-word

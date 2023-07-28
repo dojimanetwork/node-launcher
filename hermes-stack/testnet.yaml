@@ -51,7 +51,7 @@ polkadot-daemon:
   enabled: true
 
 solana-daemon:
-  enabled: true
+  enabled: false
 
 hello-word:
   enabled: false
