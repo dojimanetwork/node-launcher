@@ -18,7 +18,7 @@ hermes-gateway:
   enabled: false
 
 hermesnode:
-  enabled: false
+  enabled: true
 
 narada:
   enabled: false
