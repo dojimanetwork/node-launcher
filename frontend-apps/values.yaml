@@ -16,7 +16,7 @@ global:
 
 frontend-gateway:
   fullnameOverride: frontend-gateway
-  enabled: true
+  enabled: false
 
 landing-page:
   fullnameOverride: landing-page
@@ -40,4 +40,4 @@ dojima-faas:
 
 dojima-blockscout:
   fullnameOverride: dojima-blockscout
-  enabled: true
+  enabled: false
