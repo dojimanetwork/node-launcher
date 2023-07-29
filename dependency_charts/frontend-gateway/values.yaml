@@ -38,7 +38,7 @@ domain:
   developer_doc:
     testnet: devoc-test.dojima.network
     mainnet: devoc.dojima.network
-    enable: false
+    enable: true
   faas:
     testnet: faas-test.dojima.network
     mainnet: faas.dojima.network

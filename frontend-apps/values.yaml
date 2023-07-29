@@ -28,7 +28,7 @@ dojima-wallet:
 
 developer-docs:
   fullnameOverride: developer-docs
-  enabled: false
+  enabled: true
 
 hermes-explorer:
   fullnameOverride: hermes-explorer
