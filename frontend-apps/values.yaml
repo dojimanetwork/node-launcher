@@ -28,16 +28,16 @@ dojima-wallet:
 
 developer-docs:
   fullnameOverride: developer-docs
-  enabled: false
+  enabled: true
 
 hermes-explorer:
   fullnameOverride: hermes-explorer
-  enabled: false
+  enabled: true
 
 dojima-faas:
   fullnameOverride: dojima-faas
-  enabled: true
+  enabled: false
 
 dojima-blockscout:
   fullnameOverride: dojima-blockscout
-  enabled: true
+  enabled: false
