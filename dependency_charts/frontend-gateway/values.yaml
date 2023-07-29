@@ -34,19 +34,19 @@ domain:
   block_explorer:
     testnet: hermes-bex-test.dojima.network
     mainnet: bex.dojima.network
-    enable: true
+    enable: false
   developer_doc:
     testnet: devoc-test.dojima.network
     mainnet: devoc.dojima.network
-    enable: true
+    enable: false
   faas:
     testnet: faas-test.dojima.network
     mainnet: faas.dojima.network
-    enable: false
+    enable: true
   blockscout:
     testnet: doj-bex-test.dojima.network
     mainnet: doj-bex.dojima.network
-    enable: false
+    enable: true
   kubecost:
     testnet: kubecost-test.dojima.network
     enable: false
