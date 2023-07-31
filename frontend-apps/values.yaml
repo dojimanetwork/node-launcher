@@ -20,7 +20,7 @@ frontend-gateway:
 
 landing-page:
   fullnameOverride: landing-page
-  enabled: false
+  enabled: true
 
 dojima-wallet:
   fullnameOverride: dojima-wallet
