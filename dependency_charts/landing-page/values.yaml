@@ -107,7 +107,7 @@ affinity:
             - key: topology.kubernetes.io/zone
               operator: In
               values:
-                - ap-south-1c
+                - ap-south-1a
 
 
 global:
