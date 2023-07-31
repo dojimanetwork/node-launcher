@@ -89,17 +89,25 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 1
-    memory: 700Mi
+    cpu: 0.05
+    memory: 20Mi
   limits:
-    cpu: 2
-    memory: 900Mi
+    cpu: 0.1
+    memory: 100Mi
 
 nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - ap-south-1c
 
 
 global:
