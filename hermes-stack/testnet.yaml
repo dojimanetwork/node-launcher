@@ -45,13 +45,13 @@ gaia-daemon:
   enabled: false
 
 arweave-daemon:
-  enabled: false
+  enabled: true
 
 polkadot-daemon:
   enabled: true
 
 solana-daemon:
-  enabled: false
+  enabled: true
 
 hello-word:
   enabled: false
