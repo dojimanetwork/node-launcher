@@ -52,7 +52,7 @@ gaia-daemon:
 
 arweave-daemon:
   fullnameOverride: arweave-daemon
-  enabled: false
+  enabled: true
 
 polkadot-daemon:
   fullnameOverride: polkadot-daemon
@@ -60,7 +60,7 @@ polkadot-daemon:
 
 solana-daemon:
   fullnameOverride: solana-daemon
-  enabled: false
+  enabled: true
 
 hello-word:
   fullnameOverride: hello-word
