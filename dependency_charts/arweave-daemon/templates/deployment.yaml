@@ -45,11 +45,6 @@ spec:
             - name: api
               containerPort: {{ include "arweave-daemon.api" . }}
               protocol: TCP
-          readinessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /info
-              port: api
           volumeMounts:
             - mountPath: /root
               name: data
