@@ -24,11 +24,11 @@ bex-faucet:
 
 bex-hermes:
   fullnameOverride: bex-hermes
-  enabled: true
+  enabled: false
 
 bex-fiber:
   fullnameOverride: bex-fiber
-  enabled: true
+  enabled: false
 
 bex-single-msg:
   fullnameOverride: bex-single-msg
