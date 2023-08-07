@@ -39,7 +39,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "arweave-daemon.image" . }}
-          command: ["npx", "nodemon", "bin/index.js", "--persist", "--dbpath=/root/.arweave"]
+          command: ["npx", "nodemon", "bin/index.js", "--persist", "--dbpath=/root"]
           imagePullPolicy: IfNotPresent
           ports:
             - name: api
