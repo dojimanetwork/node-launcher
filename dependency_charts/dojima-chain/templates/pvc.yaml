@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: dojima-chain-pv
+  volumeName: dojima-chain-ap-south-1c
   volumeMode: Filesystem
   resources:
     requests:
