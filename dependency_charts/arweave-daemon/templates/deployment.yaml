@@ -54,9 +54,7 @@ spec:
             - mountPath: /root
               name: data
           resources:
-          {{- if not (eq (include "arweave-daemon.net" . ) "mocknet") }}
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- end }}
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}

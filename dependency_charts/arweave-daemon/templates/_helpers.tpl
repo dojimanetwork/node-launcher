@@ -87,8 +87,6 @@ Image
 {{- if eq (include "arweave-daemon.net" .) "mocknet" -}}
     "{{ .Values.image.mocknet }}:latest"
 {{- else if eq (include "arweave-daemon.net" .) "testnet" -}}
-    "{{ .Values.image.testnet }}"
-{{- else -}}
     "{{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}"
 {{- end -}}
 {{- end -}}
