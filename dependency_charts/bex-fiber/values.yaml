@@ -49,7 +49,7 @@ env:
   pg_host: localhost
   pg_db_name: postgres
   start_block_height: 1
-  single_check : "ADD"
+  single_check : "ALL"
   d11k_start_block_height : 1
 
 service:
