@@ -51,6 +51,7 @@ env:
   start_block_height: 0
   bs_fiber_port: 7050
   bs_fiber_host: http://bex-fiber:7050
+  individual_msg_type: ALL
 
 service:
   type: ClusterIP
