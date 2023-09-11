@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
-  testnet: "testnet-0.1.010-2023-08-31"
+  testnet: "testnet-0.1.011-2023-09-11"
   mainnet: ""
-  testnet_hash: "539981559ca30988d93d96385f7ac4c05ce10b77f988f4c0b73d26cf9283010c"
+  testnet_hash: "a582454f51be1c762823902a3720cd4c7ae8948f0e5a033c9fb56b1963464495"
   mainnet_hash: ""
 
 imagePullSecrets: []
