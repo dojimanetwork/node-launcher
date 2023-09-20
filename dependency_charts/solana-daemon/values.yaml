@@ -17,6 +17,9 @@ nameOverride: "solana-daemond"
 fullnameOverride: "fsolana-daemond"
 
 recoverNineRealmsSnapshot: false
+options:
+  ticks_per_slot: 262 # 262 5 blocks, 198 7 blocks , 166 10 blocks  reference for 10 secs
+
 
 service:
   type: ClusterIP
