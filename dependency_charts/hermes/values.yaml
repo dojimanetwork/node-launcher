@@ -80,6 +80,7 @@ service:
       rosetta: 8080
       grpc_web: 9091
       pprof: 6060
+      prometheus: 26660
 
 persistence:
   enabled: true

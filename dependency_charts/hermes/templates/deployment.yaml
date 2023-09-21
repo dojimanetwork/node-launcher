@@ -15,6 +15,10 @@ spec:
     metadata: 
       labels:
         {{- include "hermesnode.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/metrics'
+        prometheus.io/port: '{{ .Values.service.port.testnet.prometheus }}'
     spec:
       affinity:
         nodeAffinity:
