@@ -18,7 +18,7 @@ spec:
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/path: '/metrics'
-        prometheus.io/port: '{{ .Values.service.port.testnet.prometheus }}'
+        prometheus.io/port: '{{ .Values.service.port.testnet.prometheus_collector }}'
     spec:
       affinity:
         nodeAffinity:
