@@ -4,6 +4,9 @@
 {{- if or (kindIs "string" $item) (kindIs "int64" $item) (kindIs "bool" $item)}}
 - name: {{ $key }}
   value: {{ $value | quote }}
+ {{- else }}
+- name: {{ $key }}
+  value: {{ $item | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
