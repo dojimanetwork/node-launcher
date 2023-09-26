@@ -11,7 +11,7 @@ spec:
       targetPort: postgres
       protocol: TCP
       name: postgres
-    - port: {{ .Values.service.bs }}
+    - port: 4002
       targetPort: bs
       protocol: TCP
       name: bs
@@ -29,7 +29,7 @@ spec:
       name: stats-metrics
     - name: frontend-http
       targetPort: frontend-http
-      port: {{ .Values.service.bs_frontend }}
+      port: 3004
       protocol: TCP
   selector:
     {{- include "dojima-blockscout-v2.selectorLabels" . | nindent 4 }}
