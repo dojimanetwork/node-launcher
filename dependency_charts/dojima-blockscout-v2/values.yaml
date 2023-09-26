@@ -260,7 +260,7 @@ persistence:
     stagenet: 150Gi
     mainnet: 200Gi
   accessMode: ReadWriteOnce
-  storageClass: gp3
+#  storageClass: gp3
 
 resources:
   postgres:

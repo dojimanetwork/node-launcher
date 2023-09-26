@@ -8,8 +8,6 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: dojima-blockscout-v2-backup-pv
-  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "dojima-blockscout-v2.net" .) "mainnet" }}
