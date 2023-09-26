@@ -160,13 +160,13 @@ spec:
           {{- end }}
           env:
             - name: ENV
-              value: {{ .Values.env.env }}
+              value: {{ .Values.env.env | quote }}
             - name: RESOURCE_MODE
-              value: {{ .Values.env.resource_mode }}
+              value: {{ .Values.env.resource_mode  | quote }}
             - name: ETHEREUM_JSONRPC_WS_URL
-              value: {{ .Values.env.eth_ws_url }}
+              value: {{ .Values.env.eth_ws_url | quote}}
             - name: JSON_RPC
-              value: {{ .Values.env.eth_json_http}}
+              value: {{ .Values.env.eth_json_http | quote }}
             - name: ETHEREUM_JSONRPC_VARIANT
               value: {{ .Values.env.eth_json_var }}
             - name: COIN
@@ -216,7 +216,7 @@ spec:
             - name: SHOW_TESTNET_LABEL
               value: {{ .Values.env.show_testnet_label | quote }}
             - name: API_V2_ENABLED
-              value: {{ .Values.env.api_v2_enable }}
+              value: {{ .Values.env.api_v2_enable | quote }}
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.blockscout.path }}
