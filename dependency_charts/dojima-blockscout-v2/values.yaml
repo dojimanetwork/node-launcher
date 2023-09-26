@@ -149,28 +149,14 @@ bs_stats:
 
 frontend:
   environment:
-    NEXT_PUBLIC_BLOCKSCOUT_VERSION:
-      _default: v4.1.8-beta
-    NEXT_PUBLIC_FOOTER_GITHUB_LINK:
-      _default: https://github.com/blockscout/blockscout
-    NEXT_PUBLIC_FOOTER_TWITTER_LINK:
-      _default: https://www.twitter.com/blockscoutcom
     NEXT_PUBLIC_APP_ENV:
       _default: preview
     NEXT_PUBLIC_APP_INSTANCE:
       _default: unknown
-    NEXT_PUBLIC_FOOTER_TELEGRAM_LINK:
-      _default: https://t.me/poa_network
-    NEXT_PUBLIC_FOOTER_STAKING_LINK:
-      _default: https://duneanalytics.com/maxaleks/xdai-staking
     NEXT_PUBLIC_NETWORK_NAME:
       _default: Dojima
     NEXT_PUBLIC_NETWORK_SHORT_NAME:
       _default: DOJ
-    NEXT_PUBLIC_NETWORK_ASSETS_PATHNAME:
-      _default: poa
-    NEXT_PUBLIC_NETWORK_TYPE:
-      _default: geth
     NEXT_PUBLIC_NETWORK_ID:
       _default: 1001
     NEXT_PUBLIC_NETWORK_CURRENCY_NAME:
@@ -197,8 +183,6 @@ frontend:
       _default: https://raw.githubusercontent.com/blockscout/frontend-configs/main/configs/marketplace/eth-goerli.json
     NEXT_PUBLIC_LOGOUT_URL:
       _default: https://blockscoutcom.us.auth0.com/v2/logout
-    NEXT_PUBLIC_LOGOUT_RETURN_URL:
-      _default: http://blockscout.test.aws-k8s.blockscout.com/auth/logout
     NEXT_PUBLIC_STATS_API_HOST:
       _default: https://stats-e2e.test.aws-k8s.blockscout.com
     NEXT_PUBLIC_NETWORK_RPC_URL:
