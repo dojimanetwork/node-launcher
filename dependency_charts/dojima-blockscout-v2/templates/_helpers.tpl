@@ -87,7 +87,7 @@ Postgressql Docker image
 Blockscout Docker image
 */}}
 {{- define "dojima-blockscout-v2-blockscout.image" -}}
-{{ .Values.image.blockscout.repository }}:{{ .Values.image.blockscout.tag }}@{{ .Values.image.blockscout.hash}}
+{{ .Values.image.blockscout.repository }}:{{ .Values.image.blockscout.tag }}
 {{- end -}}
 
 
