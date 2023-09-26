@@ -7,10 +7,18 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
+    - port: {{ .Values.service.postgres }}
+      targetPort: postgres
+      protocol: TCP
+      name: postgres
     - port: 4002
       targetPort: bs
       protocol: TCP
       name: bs
+    - port: {{ .Values.service.bs_rs }}
+      targetPort: bs-rs-http
+      protocol: TCP
+      name: bs-rs-http
     - port: {{ .Values.service.bs_stats_http }}
       targetPort: stats-http
       protocol: TCP
