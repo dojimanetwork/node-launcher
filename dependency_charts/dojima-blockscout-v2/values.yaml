@@ -203,7 +203,7 @@ service:
   bs_rs: 8043
   bs_stats_http: 8050
   bs_stats_metrics: 6060
-  bs_frontend: 3004
+  bs_frontend: 3000
 
 
 ingress:
