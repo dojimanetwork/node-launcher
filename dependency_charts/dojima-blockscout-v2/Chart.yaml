@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dojima-blockscout-v2
+description: dojima chain version2 block explorer for dojima blockchain
+version: 0.1.0
+
+appVersion: v0.1.0

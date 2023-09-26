@@ -1,0 +1,377 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+net: testnet
+
+replicaCount: 1
+
+image:
+  blockscout:
+    repository: blockscout/blockscout
+    pullPolicy: IfNotPresent
+    tag: "latest"
+    hash: "sha256:9d76e4077c5364d2ba0a7118bd5cecb0ee152b95a501c257c3a74895a0020b9e"
+  smartcontract_verifier:
+    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/blockscout-rs
+    testnet:
+      tag: testnet-0.1.0-2023-02-22
+      hash: f1e91d0d25e850902b647d882271f4536596674d8de71bb649130f3188c5ff55
+  stats:
+    repository: ghcr.io/blockscout/stats
+    tag: latest
+  visualizer:
+    repository: ghcr.io/blockscout/visualizer
+    tag: latest
+  frontend:
+    repository: ghcr.io/blockscout/frontend
+    tag: main
+  postgres:
+    image: postgres:13.4
+
+# You need to provide some config file. For example, just copy `example_config.toml`
+config: "config.toml"
+
+env:
+  env: test
+  resource_mode: account
+  pg_port: 5432
+  pg_pass: ""
+  pg_user: postgres
+  pg_host_auth_method: 'trust'
+  pg_db_name: postgres
+  eth_json_var: geth
+  coin: DOJ
+  chain_id: 1001
+  account_enabled: true
+  show_testnet_label: true
+  api_v2_enable: true
+  port_network_http: 8545
+  port_network_ws: 8546
+  eth_json_http: http://dojima-chain.hermes-testnet:8545
+  eth_ws_url: ws://dojima-chain.hermes-testnet:8546
+  eth_jsonrpc_transport: http
+  database_url: "postgresql://postgres:@localhost:5432/postgres?ssl=false"
+  secret_key: YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC
+  mix_env: dev
+  ecto_use_ssl: false
+  trace_first_block: 221443
+  indexer_dis_pending_fetcher: true
+  indexer_dis_internal_tx_fetcher: true
+  indexer_dis_block_rew_fetcher: true
+  indexer_empty_blocks_sanitize: 1000
+  network: "(Dojima Network)"
+  sub_network: "Dojima chain"
+  coin_name: DOJ
+  cache_tx_count_period: 7200
+  cache_block_count_period: 7200
+  pool_size: 120
+  pool_size_api: 400
+  link_other_bex: true
+  other_explorers: "{ 'Hermes': 'https://bex-test.h4s.dojima.network' }"
+  show_price_chart: true
+  show_txs_chart: true
+  history_fetch_interval: 240
+  txs_stats_days_to_compile_at_init: 10
+  coin_balance_history_days: 90
+  apps_menu: true
+  display_token_icons: true
+  api_rate_limit: 100
+  api_rate_limit_by_key: 30
+  api_rate_limit_by_ip: 30
+  indexer_memory_limit: 7
+  enable_tx_stats: true
+  disable_exchange_rate: true
+  logo: /images/doj.svg
+  logo_footer: /images/doj.svg
+  api_url: https://v2-doj-bex-test.dojima.network
+  blockscout_host: v2-doj-bex-test.dojima.network
+  enable_rs_verify_service: true
+  rs_verify_url: http://localhost:8043
+
+
+bs_rs_env:
+  server:
+    enabled: true
+    addr: 0.0.0.0:8043
+    max_body_size: 2097152
+  compilers:
+    max_threads: 8
+  solidity:
+    enabled: true
+    compiler_dir: /tmp/solidity-compilers
+    refresh_versions_schedule: "0 0 * * * * *"
+    fetcher_list:
+      list_url: "https://solc-bin.ethereum.org/linux-amd64/list.json"
+  vyper:
+    enabled: true
+    compiler_dir: /tmp/vyper-compilers
+    refresh_versions_schedule: "0 0 * * * * *"
+    fetcher_list:
+      list_url: "https://raw.githubusercontent.com/blockscout/solc-bin/main/vyper.list.json"
+  sourcify:
+    enabled: true
+    api_url: "https://sourcify.dev/server/"
+    verification_attempts: 3
+    request_timeout: 10
+  metrics:
+    enabled: false
+    addr: "0.0.0.0:6060"
+    route: "/metrics"
+  jaeger:
+    enabled: false
+    agent_endpoint: "localhost:6831"
+
+bs_stats:
+  server:
+    http:
+      enabled: true
+      addr: 0.0.0.0:8050
+      max_body_size: 2097152
+    grpc:
+      enabled: false
+      addr: 0.0.0.0:8051
+  db:
+    url: postgres://postgres:@localhost:5432/stats
+    bs_url: postgresql://postgres:@localhost:5432/postgres?ssl=false
+    create_db: true
+    run_migrations: true
+    default_schedule: 0 0 1 * * * *
+    force_update_on_start: false
+  metrics:
+    enabled: false
+    addr: 0.0.0.0:6060
+    route: /metrics
+  jaeger:
+    enabled: false
+    agent_endpoint: localhost:6831
+  tracing:
+    enabled: true
+    format: default
+
+frontend:
+  environment:
+    NEXT_PUBLIC_BLOCKSCOUT_VERSION:
+      _default: v4.1.8-beta
+    NEXT_PUBLIC_FOOTER_GITHUB_LINK:
+      _default: https://github.com/blockscout/blockscout
+    NEXT_PUBLIC_FOOTER_TWITTER_LINK:
+      _default: https://www.twitter.com/blockscoutcom
+    NEXT_PUBLIC_APP_ENV:
+      _default: preview
+    NEXT_PUBLIC_APP_INSTANCE:
+      _default: unknown
+    NEXT_PUBLIC_FOOTER_TELEGRAM_LINK:
+      _default: https://t.me/poa_network
+    NEXT_PUBLIC_FOOTER_STAKING_LINK:
+      _default: https://duneanalytics.com/maxaleks/xdai-staking
+    NEXT_PUBLIC_NETWORK_NAME:
+      _default: Dojima
+    NEXT_PUBLIC_NETWORK_SHORT_NAME:
+      _default: DOJ
+    NEXT_PUBLIC_NETWORK_ASSETS_PATHNAME:
+      _default: poa
+    NEXT_PUBLIC_NETWORK_TYPE:
+      _default: geth
+    NEXT_PUBLIC_NETWORK_ID:
+      _default: 1001
+    NEXT_PUBLIC_NETWORK_CURRENCY_NAME:
+      _default: Dojima Network
+    NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL:
+      _default: DOJ
+    NEXT_PUBLIC_NETWORK_CURRENCY_DECIMALS:
+      _default: 18
+    NEXT_PUBLIC_NETWORK_VERIFICATION_TYPE:
+      _default: validation
+    NEXT_PUBLIC_IS_ACCOUNT_SUPPORTED:
+      _default: 'true'
+    NEXT_PUBLIC_FEATURED_NETWORKS:
+      _default: https://raw.githubusercontent.com/blockscout/frontend-configs/main/configs/featured-networks/eth-goerli.json
+    NEXT_PUBLIC_API_HOST:
+      _default: doj-bex-test.v2.dojima.network
+    NEXT_PUBLIC_APP_HOST:
+      _default: doj-bex-test.v2.dojima.network
+    NEXT_PUBLIC_API_BASE_PATH:
+      _default: /
+    NEXT_PUBLIC_MARKETPLACE_SUBMIT_FORM:
+      _default: https://airtable.com/shrqUAcjgGJ4jU88C
+    NEXT_PUBLIC_MARKETPLACE_CONFIG_URL:
+      _default: https://raw.githubusercontent.com/blockscout/frontend-configs/main/configs/marketplace/eth-goerli.json
+    NEXT_PUBLIC_LOGOUT_URL:
+      _default: https://blockscoutcom.us.auth0.com/v2/logout
+    NEXT_PUBLIC_LOGOUT_RETURN_URL:
+      _default: http://blockscout.test.aws-k8s.blockscout.com/auth/logout
+    NEXT_PUBLIC_STATS_API_HOST:
+      _default: https://stats-e2e.test.aws-k8s.blockscout.com
+    NEXT_PUBLIC_NETWORK_RPC_URL:
+      _default: https://api-test.d11k.dojima.network
+
+imagePullSecrets: []
+nameOverride: "dojima-blockscoutd"
+fullnameOverride: "fdojima-blockscoutd"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "serv-dojima-blockscout"
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+terminationGracePeriodSeconds: 300
+service:
+  type: ClusterIP
+  postgres: 5432
+  bs: 4000
+  bs_rs: 8043
+  bs_stats_http: 8050
+  bs_stats_metrics: 6060
+  bs_frontend: 3000
+
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts: []
+    # - host: midgard.example.com
+    #   paths:
+    #   - path: /
+    #     backend:
+    #       serviceName: gateway
+    #       servicePort: midgard
+  tls: []
+    # - secretName: midgard-tls
+    #   hosts:
+    #     - midgard.example.com
+
+persistence:
+  enabled: true
+  size:
+    testnet: 100Gi
+    stagenet: 150Gi
+    mainnet: 200Gi
+  accessMode: ReadWriteOnce
+  storageClass: gp3
+
+resources:
+  postgres:
+    limits:
+      cpu: 0.5
+      memory: 10Gi
+    requests:
+      cpu: 0.12
+      memory: 8Gi
+  smart_contract_verifier:
+    limits:
+      cpu: 0.05
+      memory: 50Gi
+    requests:
+      cpu: 0.01
+      memory: 20Mi
+  blockscout:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  stats:
+    limits:
+      memory: 512Mi
+      cpu: 250m
+    requests:
+      memory: 512Mi
+      cpu: 250m
+  visualizer:
+    limits:
+      memory: 0.05Gi
+      cpu: 0.05
+    requests:
+      memory: 0.05Gi
+      cpu: 0.05
+  frontend:
+    limits:
+      memory: 0.3Gi
+      cpu: 0.4
+    requests:
+      memory: 0.3Gi
+      cpu: 0.2
+
+commands:
+  init:
+    command:
+      - /bin/sh
+    args:
+      - -c
+      - bin/blockscout eval "Elixir.Explorer.ReleaseTasks.create_and_migrate()"
+  blockscout:
+    command:
+      - /bin/sh
+    args:
+      -c
+      - bin/blockscout start
+
+
+readinessProbe:
+  blockscout:
+    path: /api/v1/health/readiness
+    params:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 60
+  stats:
+    path: /health
+    params:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 60
+  frontend:
+    path: /api/healthz
+    params:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 30
+
+
+livenessProbe:
+  blockscout:
+    path: /api/v1/health/liveness
+    params:
+      initialDelaySeconds: 100
+      periodSeconds: 100
+      timeoutSeconds: 30
+  stats:
+    path: /health
+    params:
+      initialDelaySeconds: 100
+      periodSeconds: 100
+      timeoutSeconds: 30
+  frontend:
+    path: /api/healthz
+    params:
+      initialDelaySeconds: 100
+      periodSeconds: 100
+      timeoutSeconds: 30
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# necessary for lint
+global:
+  images:
+    alpine:
+      tag: foo
+      hash: bar

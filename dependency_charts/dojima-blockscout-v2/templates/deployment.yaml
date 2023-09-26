@@ -1,0 +1,330 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dojima-blockscout-v2.fullname" . }}
+  labels:
+    {{- include "dojima-blockscout-v2.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "dojima-blockscout-v2.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "dojima-blockscout-v2.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "dojima-blockscout-v2.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-migrations
+          image: "{{ .Values.image.blockscout.repository }}:{{ .Values.image.blockscout.tag }}"
+          resources:
+            {{- toYaml .Values.resources.blockscout | nindent 12 }}
+          {{- with .Values.commands.init.command }}
+          command:  {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- with .Values.commands.init.args }}
+          args: {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          env:
+            - name: PORT
+              value: "4000"
+            - name: CHAIN_ID
+              value: {{ .Values.env.chain_id | quote }}
+            - name: COIN
+              value: {{ .Values.env.coin | quote }}
+            - name: ACCOUNT_ENABLED
+              value: {{ .Values.env.account_enabled | quote }}
+            - name: SHOW_TESTNET_LABEL
+              value: {{ .Values.env.show_testnet_label | quote }}
+            - name: API_V2_ENABLED
+              value: {{ .Values.env.api_v2_enable | quote }}
+            - name: BLOCKSCOUT_HOST
+              value: {{ .Values.env.blockscout_host | quote }}
+      containers:
+        - name: {{ .Chart.Name }}-postgres
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "dojima-blockscout-v2-postgres.image" . }}
+          args:
+            - -c
+            - max_connections=20000
+            - -c
+            - shared_buffers=2048MB
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: postgresdb
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+            - name: postgres-cm
+              mountPath:
+          env:
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.env.pg_pass }}
+            - name: POSTGRES_USER
+              value: {{ .Values.env.pg_user }}
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: {{ .Values.env.pg_host_auth_method }}
+            - name: PGDATA
+              value: /var/lib/postgresql/data/blockscout
+          ports:
+            - name: postgres
+              containerPort: {{ .Values.service.postgres }}
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - psql
+                - -U
+                - {{ .Values.env.pg_user }}
+                - -d
+                - {{ .Values.env.pg_db_name }}
+                - -c
+                - "SELECT 1"
+            timeoutSeconds: 2
+            initialDelaySeconds: 10
+          resources:
+            {{- toYaml .Values.resources.postgres | nindent 12 }}
+        - name: smart-contract-verifier
+          image: {{ include "dojima-blockscout-v2-rs.image" . }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.service.bs_rs }}
+              name: bs-rs-http
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: bs-rs-http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: bs-rs-http
+          env:
+            - name: SMART_CONTRACT_VERIFIER__SERVER__ADDR
+              value: {{ .Values.bs_rs_env.server.addr | quote }}
+            - name: SMART_CONTRACT_VERIFIER__COMPILERS__MAX_THREADS
+              value: {{ .Values.bs_rs_env.compilers.max_threads | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED
+              value: {{ .Values.bs_rs_env.solidity.enabled | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__COMPILERS_DIR
+              value: {{ .Values.bs_rs_env.solidity.compiler_dir | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__REFRESH_VERSIONS_SCHEDULE
+              value: {{ .Values.bs_rs_env.solidity.refresh_versions_schedule | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL
+              value: {{ .Values.bs_rs_env.solidity.fetcher_list.list_url | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__ENABLED
+              value: {{ .Values.bs_rs_env.vyper.enabled | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__COMPILERS_DIR
+              value: {{ .Values.bs_rs_env.vyper.compiler_dir | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__REFRESH_VERSIONS_SCHEDULE
+              value: {{ .Values.bs_rs_env.vyper.refresh_versions_schedule | quote }}
+            - name: SMART_CONTRACT_VERIFIER__VYPER__FETCHER__LIST__LIST_URL
+              value: {{ .Values.bs_rs_env.vyper.fetcher_list.list_url | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__ENABLED
+              value: {{ .Values.bs_rs_env.sourcify.enabled | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__API_URL
+              value: {{ .Values.bs_rs_env.sourcify.api_url | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__VERIFICATION_ATTEMPTS
+              value: {{ .Values.bs_rs_env.sourcify.verification_attempts | quote }}
+            - name: SMART_CONTRACT_VERIFIER__SOURCIFY__REQUEST_TIMEOUT
+              value: {{ .Values.bs_rs_env.sourcify.request_timeout | quote }}
+          volumeMounts:
+            - mountPath: /app/config
+              name: scripts
+          resources:
+            {{- toYaml .Values.resources.smart_contract_verifier | nindent 12 }}
+        - name: {{ .Chart.Name }}-backend
+          image: {{ include "dojima-blockscout-v2-blockscout.image" . }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: bs-http
+              containerPort: {{ .Values.service.bs }}
+              protocol: TCP
+          {{- with .Values.commands.blockscout.command }}
+          command: {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- with .Values.commands.blockscout.args }}
+          args: {{ . | toYaml | nindent 12 }}
+          {{- end }}
+          env:
+            - name: ENV
+              value: {{ .Values.env.env }}
+            - name: RESOURCE_MODE
+              value: {{ .Values.env.resource_mode }}
+            - name: ETHEREUM_JSONRPC_WS_URL
+              value: {{ .Values.env.eth_ws_url }}
+            - name: JSON_RPC
+              value: {{ .Values.env.eth_json_http}}
+            - name: ETHEREUM_JSONRPC_VARIANT
+              value: {{ .Values.env.eth_json_var }}
+            - name: COIN
+              value: {{ .Values.env.coin}}
+            - name: CHAIN_ID
+              value: "{{ .Values.env.chain_id }}"
+            - name: SECRET_KEY_BASE
+              value: "{{ .Values.env.secret_key }}"
+            - name: ETHEREUM_JSONRPC_HTTP_URL
+              value: {{ .Values.env.eth_json_http }}
+            - name: DATABASE_URL
+              value: {{ .Values.env.database_url }}
+            - name: MIX_ENV
+              value: {{ .Values.env.mix_env }}
+            - name: ECTO_USE_SSL
+              value: "{{ .Values.env.ecto_use_ssl }}"
+            - name: PORT
+              value: "{{ .Values.service.bs }}"
+            - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
+              value: "{{ .Values.env.indexer_dis_pending_fetcher}}"
+            - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
+              value: "{{ .Values.env.indexer_dis_internal_tx_fetcher }}"
+            - name: INDEXER_DISABLE_BLOCK_REWARD_FETCHER
+              value: "{{ .Values.env.indexer_dis_block_rew_fetcher }}"
+            - name: COIN_NAME
+              value: {{ .Values.env.coin_name }}
+            - name: DISABLE_EXCHANGE_RATES
+              value: "{{ .Values.env.disable_exchange_rate }}"
+            - name: LOGO
+              value: "{{ .Values.env.logo }}"
+            - name: LOGO_FOOTER
+              value: "{{ .Values.env.logo_footer }}"
+            - name: SUBNETWORK
+              value: "{{ .Values.env.sub_network }}"
+            - name: INDEXER_EMPTY_BLOCKS_SANITIZER_BATCH_SIZE
+              value: "{{ .Values.env.indexer_empty_blocks_sanitize }}"
+            - name: API_URL
+              value: {{ .Values.env.api_url }}
+            - name: BLOCKSCOUT_HOST
+              value: {{ .Values.env.blockscout_host }}
+            - name: ENABLE_RUST_VERIFICATION_SERVICE
+              value: {{ .Values.env.enable_rs_verify_service | quote }}
+            - name: RUST_VERIFICATION_SERVICE_URL
+              value: {{ .Values.env.rs_verify_url }}
+            - name: ACCOUNT_ENABLED
+              value: {{ .Values.env.account_enabled | quote }}
+            - name: SHOW_TESTNET_LABEL
+              value: {{ .Values.env.show_testnet_label | quote }}
+            - name: API_V2_ENABLED
+              value: {{ .Values.env.api_v2_enable }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.blockscout.path }}
+              port: bs-http
+              scheme: HTTP
+              {{- with .Values.readinessProbe.blockscout.params }}
+              {{- . | toYaml | nindent 12 }}
+              {{- end }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.blockscout.path }}
+              port: bs-http
+              scheme: HTTP
+              {{- with .Values.livenessProbe.blockscout.params }}
+              {{- . | toYaml | nindent 12 }}
+              {{- end }}
+        - name: {{ .Chart.Name }}-stats
+          image: "{{ .Values.image.stats.repository }}:{{ .Values.image.stats.tag }}"
+          resources:
+            {{- toYaml .Values.resources.stats | nindent 12 }}
+          imagePullPolicy: {{ .Values.image.blockscout.pullPolicy }}
+          ports:
+            - name: stats-http
+              containerPort: {{ .Values.service.bs_stats_http }}
+              protocol: TCP
+            - name: stats-metrics
+              containerPort: {{ .Values.service.bs_stats_metrics }}
+              protocol: TCP
+          env:
+            - name: STATS__DB_URL
+              value: {{ .Values.bs_stats.db.url | quote }}
+            - name: STATS__BLOCKSCOUT_DB_URL
+              value: {{ .Values.bs_stats.db.bs_url | quote }}
+            - name: STATS__CREATE_DATABASE
+              value: {{ .Values.bs_stats.db.create_db | quote }}
+            - name: STATS__RUN_MIGRATIONS
+              value: {{ .Values.bs_stats.db.run_migrations | quote }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.stats.path }}
+              port: stats-http
+              scheme: HTTP
+              {{- with .Values.readinessProbe.stats.params }}
+              {{- . | toYaml | nindent 12 }}
+              {{- end }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.stats.path }}
+              port: stats-http
+              scheme: HTTP
+              {{- with .Values.livenessProbe.stats.params }}
+              {{- . | toYaml | nindent 12 }}
+              {{- end }}
+        - name: {{ .Chart.Name }}-frontend
+          image: "{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
+          resources:
+            {{- toYaml .Values.resources.frontend | nindent 12 }}
+          imagePullPolicy: {{ .Values.image.blockscout.pullPolicy }}
+          ports:
+            - name: frontend-http
+              containerPort: {{ .Values.service.bs_frontend }}
+              protocol: TCP
+          env:
+{{- include "frontend_env" . | indent 10 }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.frontend.path }}
+              port: frontend-http
+              scheme: HTTP
+            {{- with .Values.readinessProbe.frontend.params }}
+            {{ . | toYaml | nindent 12 }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.frontend.path }}
+              port: frontend-http
+              scheme: HTTP
+            {{- with .Values.livenessProbe.frontend.params }}
+            {{ . | toYaml | nindent 12 }}
+            {{- end }}
+      volumes:
+        - name: data
+        {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "dojima-blockscout-v2.fullname" . }}{{- end }}
+        {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+          hostPath:
+            path: {{ .Values.persistence.hostPath }}
+            type: DirectoryOrCreate
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: entrypoint
+          emptyDir: {}
+        - name: scripts
+          configMap:
+            name: {{ include "dojima-blockscout-v2.fullname" . }}-scripts
+            defaultMode: 0777
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ . | toYaml | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

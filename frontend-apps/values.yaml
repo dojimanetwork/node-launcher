@@ -41,3 +41,7 @@ dojima-faas:
 dojima-blockscout:
   fullnameOverride: dojima-blockscout
   enabled: true
+
+dojima-blockscout-v2:
+  fullnameOverride: dojima-blockscout-v2
+  enabled: true
