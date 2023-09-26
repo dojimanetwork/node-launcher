@@ -286,11 +286,11 @@ resources:
       memory: 1Gi
   stats:
     limits:
-      memory: 512Mi
-      cpu: 250m
+      memory: "0.5Gi"
+      cpu: "0.25"
     requests:
-      memory: 512Mi
-      cpu: 250m
+      memory: "0.5Gi"
+      cpu: "0.25"
   visualizer:
     limits:
       memory: 0.05Gi
