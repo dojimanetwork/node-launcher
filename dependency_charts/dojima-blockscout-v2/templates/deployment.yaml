@@ -54,6 +54,7 @@ spec:
             - name: postgres
               containerPort: {{ .Values.service.postgres }}
               protocol: TCP
+          {{- if .Values.readinessProbe.postgres.enable }}
           readinessProbe:
             exec:
               command:
@@ -66,6 +67,7 @@ spec:
                 - "SELECT 1"
             timeoutSeconds: 2
             initialDelaySeconds: 10
+          {{- end }}
           resources:
             {{- toYaml .Values.resources.postgres | nindent 12 }}
         - name: smart-contract-verifier
@@ -75,14 +77,18 @@ spec:
             - containerPort: {{ .Values.service.bs_rs }}
               name: bs-rs-http
               protocol: TCP
+          {{- if .Values.livenessProbe.sc.enable }}
           livenessProbe:
             httpGet:
               path: /health
               port: bs-rs-http
+          {{- end }}
+          {{- if .Values.readinessProbe.sc.enable }}
           readinessProbe:
             httpGet:
               path: /health
               port: bs-rs-http
+          {{- end }}
           env:
             - name: SMART_CONTRACT_VERIFIER__SERVER__ADDR
               value: {{ .Values.bs_rs_env.server.addr | quote }}
@@ -191,6 +197,7 @@ spec:
               value: {{ .Values.env.show_testnet_label | quote }}
             - name: API_V2_ENABLED
               value: {{ .Values.env.api_v2_enable | quote }}
+          {{- if .Values.readinessProbe.blockscout.enable }}
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.blockscout.path }}
@@ -199,6 +206,8 @@ spec:
               {{- with .Values.readinessProbe.blockscout.params }}
               {{- . | toYaml | nindent 12 }}
               {{- end }}
+          {{- end }}
+          {{- if .Values.livenessProbe.blockscout.enable }}
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.blockscout.path }}
@@ -207,6 +216,7 @@ spec:
               {{- with .Values.livenessProbe.blockscout.params }}
               {{- . | toYaml | nindent 12 }}
               {{- end }}
+          {{- end }}
         - name: {{ .Chart.Name }}-stats
           image: "{{ .Values.image.stats.repository }}:{{ .Values.image.stats.tag }}"
           resources:
@@ -228,6 +238,7 @@ spec:
               value: {{ .Values.bs_stats.db.create_db | quote }}
             - name: STATS__RUN_MIGRATIONS
               value: {{ .Values.bs_stats.db.run_migrations | quote }}
+          {{- if .Values.readinessProbe.stats.enable }}
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.stats.path }}
@@ -236,6 +247,8 @@ spec:
               {{- with .Values.readinessProbe.stats.params }}
               {{- . | toYaml | nindent 12 }}
               {{- end }}
+          {{- end }}
+          {{- if .Values.livenessProbe.stats.enable }}
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.stats.path }}
@@ -244,6 +257,7 @@ spec:
               {{- with .Values.livenessProbe.stats.params }}
               {{- . | toYaml | nindent 12 }}
               {{- end }}
+          {{- end }}
         - name: {{ .Chart.Name }}-frontend
           image: "{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
           resources:
@@ -255,6 +269,7 @@ spec:
               protocol: TCP
           env:
 {{- include "frontend_env" . | indent 10 }}
+          {{- if .Values.readinessProbe.frontend.enable }}
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.frontend.path }}
@@ -263,6 +278,8 @@ spec:
             {{- with .Values.readinessProbe.frontend.params }}
             {{ . | toYaml | nindent 12 }}
             {{- end }}
+          {{- end }}
+          {{- if .Values.livenessProbe.frontend.enable }}
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.frontend.path }}
@@ -271,6 +288,7 @@ spec:
             {{- with .Values.livenessProbe.frontend.params }}
             {{ . | toYaml | nindent 12 }}
             {{- end }}
+          {{- end }}
       volumes:
         - name: postgredb
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}

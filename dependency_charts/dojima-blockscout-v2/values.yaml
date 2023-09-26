@@ -292,19 +292,26 @@ commands:
 
 
 readinessProbe:
+  postgres:
+    enable: true
+  sc:
+    enable: false
   blockscout:
     path: /api/v1/health/readiness
+    enable: false
     params:
       initialDelaySeconds: 60
       periodSeconds: 10
       timeoutSeconds: 60
   stats:
     path: /health
+    enable: false
     params:
       initialDelaySeconds: 60
       periodSeconds: 10
       timeoutSeconds: 60
   frontend:
+    enable: false
     path: /api/healthz
     params:
       initialDelaySeconds: 60
@@ -313,20 +320,27 @@ readinessProbe:
 
 
 livenessProbe:
+  postgres:
+    enable: true
+  sc:
+    enable: false
   blockscout:
     path: /api/v1/health/liveness
+    enable: false
     params:
       initialDelaySeconds: 100
       periodSeconds: 100
       timeoutSeconds: 30
   stats:
     path: /health
+    enable: false
     params:
       initialDelaySeconds: 100
       periodSeconds: 100
       timeoutSeconds: 30
   frontend:
     path: /api/healthz
+    enable: false
     params:
       initialDelaySeconds: 100
       periodSeconds: 100
