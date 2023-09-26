@@ -318,7 +318,7 @@ commands:
       - /bin/sh
     args:
       - -c
-      - bin/blockscout start
+      - bin/blockscout eval "Elixir.Explorer.ReleaseTasks.create_and_migrate()" && bin/blockscout start
 
 
 readinessProbe:

@@ -23,32 +23,6 @@ spec:
       serviceAccountName: {{ include "dojima-blockscout-v2.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      initContainers:
-        - name: init-migrations
-          image: "{{ .Values.image.blockscout.repository }}:{{ .Values.image.blockscout.tag }}"
-          resources:
-            {{- toYaml .Values.resources.blockscout | nindent 12 }}
-          {{- with .Values.commands.init.command }}
-          command:  {{ . | toYaml | nindent 12 }}
-          {{- end }}
-          {{- with .Values.commands.init.args }}
-          args: {{ . | toYaml | nindent 12 }}
-          {{- end }}
-          env:
-            - name: PORT
-              value: "4000"
-            - name: CHAIN_ID
-              value: {{ .Values.env.chain_id | quote }}
-            - name: COIN
-              value: {{ .Values.env.coin | quote }}
-            - name: ACCOUNT_ENABLED
-              value: {{ .Values.env.account_enabled | quote }}
-            - name: SHOW_TESTNET_LABEL
-              value: {{ .Values.env.show_testnet_label | quote }}
-            - name: API_V2_ENABLED
-              value: {{ .Values.env.api_v2_enable | quote }}
-            - name: BLOCKSCOUT_HOST
-              value: {{ .Values.env.blockscout_host | quote }}
       containers:
         - name: {{ .Chart.Name }}-postgres
           securityContext:
