@@ -149,10 +149,6 @@ bs_stats:
 
 frontend:
   environment:
-    NEXT_PUBLIC_APP_ENV:
-      _default: preview
-    NEXT_PUBLIC_APP_INSTANCE:
-      _default: unknown
     NEXT_PUBLIC_NETWORK_NAME:
       _default: Dojima
     NEXT_PUBLIC_NETWORK_SHORT_NAME:
@@ -177,12 +173,6 @@ frontend:
       _default: doj-bex-test.v2.dojima.network
     NEXT_PUBLIC_API_BASE_PATH:
       _default: /
-    NEXT_PUBLIC_MARKETPLACE_SUBMIT_FORM:
-      _default: https://airtable.com/shrqUAcjgGJ4jU88C
-    NEXT_PUBLIC_MARKETPLACE_CONFIG_URL:
-      _default: https://raw.githubusercontent.com/blockscout/frontend-configs/main/configs/marketplace/eth-goerli.json
-    NEXT_PUBLIC_LOGOUT_URL:
-      _default: https://blockscoutcom.us.auth0.com/v2/logout
     NEXT_PUBLIC_STATS_API_HOST:
       _default: https://stats-e2e.test.aws-k8s.blockscout.com
     NEXT_PUBLIC_NETWORK_RPC_URL:
