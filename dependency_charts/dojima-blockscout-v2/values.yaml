@@ -205,15 +205,15 @@ frontend:
       _default: https://api-test.d11k.dojima.network
 
 imagePullSecrets: []
-nameOverride: "dojima-blockscoutd"
-fullnameOverride: "fdojima-blockscoutd"
+nameOverride: "v2-dojima-blockscoutd"
+fullnameOverride: "v2-fdojima-blockscoutd"
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "serv-dojima-blockscout"
+  name: "v2-serv-dojima-blockscout"
 
 podSecurityContext: {}
   # fsGroup: 2000
