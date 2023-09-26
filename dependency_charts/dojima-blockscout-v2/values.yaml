@@ -164,9 +164,9 @@ frontend:
     NEXT_PUBLIC_FEATURED_NETWORKS:
       _default: https://raw.githubusercontent.com/blockscout/frontend-configs/main/configs/featured-networks/eth-goerli.json
     NEXT_PUBLIC_API_HOST:
-      _default: doj-bex-test.v2.dojima.network
+      _default: v2-doj-bex-test.dojima.network
     NEXT_PUBLIC_APP_HOST:
-      _default: doj-bex-test.v2.dojima.network
+      _default: v2-doj-bex-test.dojima.network
     NEXT_PUBLIC_API_BASE_PATH:
       _default: /
     NEXT_PUBLIC_STATS_API_HOST:
