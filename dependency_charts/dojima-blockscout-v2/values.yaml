@@ -173,6 +173,8 @@ frontend:
       _default: https://stats-e2e.test.aws-k8s.blockscout.com
     NEXT_PUBLIC_NETWORK_RPC_URL:
       _default: https://api-test.d11k.dojima.network
+    NEXT_PUBLIC_APP_PORT:
+      _default: 3004
 
 imagePullSecrets: []
 nameOverride: "v2-dojima-blockscoutd"
@@ -199,11 +201,11 @@ terminationGracePeriodSeconds: 300
 service:
   type: ClusterIP
   postgres: 5432
-  bs: 4000
+  bs: 4002
   bs_rs: 8043
   bs_stats_http: 8050
   bs_stats_metrics: 6060
-  bs_frontend: 3000
+  bs_frontend: 3004
 
 
 ingress:

@@ -57,5 +57,17 @@ spec:
       protocol: TCP
       name: landing-page
     {{- end }}
+    {{- if .Values.domain.v2_blockscout.enable }}
+    - port: {{ include "gateway-dojima-v2-blockscout-backend.http" . }}
+      targetPort: v2-doj-bs-backend
+      protocol: TCP
+      name: v2-doj-bs-backend
+    {{- end }}
+    {{- if .Values.domain.v2_blockscout.enable }}
+    - port: {{ include "gateway-dojima-v2-blockscout-frontend.http" . }}
+      targetPort: v2-doj-bs-frontend
+      protocol: TCP
+      name: v2-doj-bs-frontend
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

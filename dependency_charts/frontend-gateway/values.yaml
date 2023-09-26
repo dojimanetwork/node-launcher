@@ -50,6 +50,10 @@ domain:
   kubecost:
     testnet: kubecost-test.dojima.network
     enable: false
+  v2_blockscout:
+    testnet: v2-doj-bex-test.dojima.network
+    mainnet: v2-doj-bex.dojima.network
+    enable: true
 
 service:
   type: LoadBalancer
@@ -68,6 +72,9 @@ service:
       http: 4000
     kubecost:
       http: 9090
+    v2_bs:
+      backend: 4002
+      frontend: 3004
 
 serviceAccount:
   # Specifies whether a service account should be created

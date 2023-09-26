@@ -66,6 +66,12 @@ spec:
             - name: landing-page
               containerPort: {{ include "gateway-landing-page.http" . }}
               protocol: TCP
+            - name: v2-doj-bs-backend
+              containerPort: {{ include "gateway-dojima-v2-blockscout-backend.http" . }}
+              protocol: TCP
+            - name: v2-doj-bs-frontend
+              containerPort: {{ include "gateway-dojima-v2-blockscout-frontend.http" . }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
