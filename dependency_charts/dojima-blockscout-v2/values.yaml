@@ -256,7 +256,7 @@ ingress:
 persistence:
   enabled: true
   size:
-    testnet: 100Gi
+    testnet: 50Gi
     stagenet: 150Gi
     mainnet: 200Gi
   accessMode: ReadWriteOnce
@@ -268,7 +268,7 @@ resources:
       cpu: 0.5
       memory: 10Gi
     requests:
-      cpu: 0.12
+      cpu: 0.2
       memory: 8Gi
   smart_contract_verifier:
     limits:
@@ -317,7 +317,7 @@ commands:
     command:
       - /bin/sh
     args:
-      -c
+      - -c
       - bin/blockscout start
 
 

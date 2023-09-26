@@ -146,6 +146,8 @@ spec:
         - name: {{ .Chart.Name }}-backend
           image: {{ include "dojima-blockscout-v2-blockscout.image" . }}
           imagePullPolicy: IfNotPresent
+          resources:
+            {{- toYaml .Values.resources.stats | nindent 12 }}
           ports:
             - name: bs-http
               containerPort: {{ .Values.service.bs }}
