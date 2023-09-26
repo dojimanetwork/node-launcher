@@ -59,15 +59,15 @@ spec:
     {{- end }}
     {{- if .Values.domain.v2_blockscout.enable }}
     - port: {{ include "gateway-dojima-v2-blockscout-backend.http" . }}
-      targetPort: v2-doj-bs-backend
+      targetPort: v2doj-backend
       protocol: TCP
-      name: v2-doj-bs-backend
+      name: v2doj-backend
     {{- end }}
     {{- if .Values.domain.v2_blockscout.enable }}
     - port: {{ include "gateway-dojima-v2-blockscout-frontend.http" . }}
-      targetPort: v2-doj-bs-frontend
+      targetPort: v2doj-frontend
       protocol: TCP
-      name: v2-doj-bs-frontend
+      name: v2doj-frontend
     {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

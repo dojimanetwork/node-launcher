@@ -66,10 +66,10 @@ spec:
             - name: landing-page
               containerPort: {{ include "gateway-landing-page.http" . }}
               protocol: TCP
-            - name: v2-doj-bs-backend
+            - name: v2doj-backend
               containerPort: {{ include "gateway-dojima-v2-blockscout-backend.http" . }}
               protocol: TCP
-            - name: v2-doj-bs-frontend
+            - name: v2doj-frontend
               containerPort: {{ include "gateway-dojima-v2-blockscout-frontend.http" . }}
               protocol: TCP
           resources:
