@@ -59,6 +59,6 @@ dependencies:
     condition: dojima-blockscout.enabled
 
   - name: dojima-blockscout-v2
-    version: 0.1.1
+    version: 0.1.0
     repository: file://../dependency_charts/dojima-blockscout-v2
     condition: dojima-blockscout-v2.enabled

@@ -61,11 +61,14 @@ spec:
             - shared_buffers=2048MB
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - name: postgresdb
+            - name: postgredb
               mountPath: /var/lib/postgresql/data
               subPath: postgres
-            - name: postgres-cm
-              mountPath:
+              {{- range $key, $value := .Values.postgres.files.list }}
+            - mountPath: {{ $.Values.postgres.files.mountPath }}/{{ $key }}
+              name: postgres-cm
+              subPath: {{ $key }}
+              {{- end }}
           env:
             - name: POSTGRES_PASSWORD
               value: {{ .Values.env.pg_pass }}
@@ -73,8 +76,6 @@ spec:
               value: {{ .Values.env.pg_user }}
             - name: POSTGRES_HOST_AUTH_METHOD
               value: {{ .Values.env.pg_host_auth_method }}
-            - name: PGDATA
-              value: /var/lib/postgresql/data/blockscout
           ports:
             - name: postgres
               containerPort: {{ .Values.service.postgres }}
@@ -295,7 +296,7 @@ spec:
             {{ . | toYaml | nindent 12 }}
             {{- end }}
       volumes:
-        - name: data
+        - name: postgredb
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
           persistentVolumeClaim:
             claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "dojima-blockscout-v2.fullname" . }}{{- end }}

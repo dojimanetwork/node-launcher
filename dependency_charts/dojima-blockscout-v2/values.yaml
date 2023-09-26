@@ -88,7 +88,6 @@ env:
   enable_rs_verify_service: true
   rs_verify_url: http://localhost:8043
 
-
 bs_rs_env:
   server:
     enabled: true
@@ -368,6 +367,16 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+postgres:
+  files:
+    mountPath: /docker-entrypoint-initdb.d
+    list:
+      init.sql: |
+        CREATE DATABASE stats;
+        GRANT ALL PRIVILEGES ON DATABASE stats TO postgres;
+        CREATE DATABASE blockscout;
+        GRANT ALL PRIVILEGES ON DATABASE stats TO postgres;
 
 # necessary for lint
 global:
