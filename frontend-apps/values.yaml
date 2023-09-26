@@ -44,4 +44,4 @@ dojima-blockscout:
 
 dojima-blockscout-v2:
   fullnameOverride: dojima-blockscout-v2
-  enabled: true
+  enabled: false
