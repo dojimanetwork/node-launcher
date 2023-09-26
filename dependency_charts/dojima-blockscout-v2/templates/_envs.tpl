@@ -6,7 +6,7 @@
   value: {{ $value | quote }}
  {{- else }}
 - name: {{ $key }}
-  value: {{ $item | quote }}
+  value: {{ default $item._default | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
