@@ -12,9 +12,9 @@ spec:
       protocol: TCP
       name: postgres
     - port: 4002
-      targetPort: bs
+      targetPort: bs-http
       protocol: TCP
-      name: bs
+      name: bs-http
     - port: {{ .Values.service.bs_rs }}
       targetPort: bs-rs-http
       protocol: TCP
