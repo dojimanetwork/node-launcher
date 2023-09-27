@@ -27,7 +27,7 @@ image:
 frontend:
   environment:
     NEXT_PUBLIC_NETWORK_NAME:
-      _default: Dojima
+      _default: Dojima Network
     NEXT_PUBLIC_NETWORK_SHORT_NAME:
       _default: DOJ
     NEXT_PUBLIC_NETWORK_ID:
@@ -50,6 +50,14 @@ frontend:
       _default: https://stats-bex-test.dojima.network
     NEXT_PUBLIC_NETWORK_RPC_URL:
       _default: https://api-test.d11k.dojima.network
+    NEXT_PUBLIC_HOMEPAGE_CHARTS:
+      _default: ['daily_txs']
+    NEXT_PUBLIC_IS_TESTNET:
+      _default: true
+    NEXT_PUBLIC_AD_BANNER_PROVIDER:
+      _default: none
+    NEXT_PUBLIC_AD_TEXT_PROVIDER:
+      _default: none
 
 scVerifier:
   environment:
