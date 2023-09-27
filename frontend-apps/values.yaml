@@ -42,10 +42,10 @@ dojima-blockscout:
   fullnameOverride: dojima-blockscout
   enabled: true
 
-dojima-blockscout-v2:
-  fullnameOverride: dojima-blockscout-v2
+blockscout-v2-frontend:
+  fullnameOverride: blockscout-v2-frontend
   enabled: true
 
-blockscout-v2-services:
-  fullnameOverride: blockscout-v2-services
+blockscout-v2-backend:
+  fullnameOverride: blockscout-v2-backend
   enabled: true

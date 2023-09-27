@@ -69,5 +69,11 @@ spec:
       protocol: TCP
       name: v2doj-frontend
     {{- end }}
+    {{- if .Values.domain.v2_blockscout_stats.enable }}
+    - port: {{ include "gateway-dojima-v2-blockscout-stats.http" . }}
+      targetPort: v2doj-stats
+      protocol: TCP
+      name: v2doj-stats
+    {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

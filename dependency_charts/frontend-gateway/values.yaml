@@ -54,6 +54,10 @@ domain:
     testnet: v2-doj-bex-test.dojima.network
     mainnet: v2-doj-bex.dojima.network
     enable: false
+  v2_blockscout_stats:
+    testnet: stats-bex-test.dojima.network
+    mainnet: stats-bex.dojima.network
+    enable: false
 
 service:
   type: LoadBalancer
@@ -75,6 +79,7 @@ service:
     v2_bs:
       backend: 4002
       frontend: 3004
+      stats: 8053
 
 serviceAccount:
   # Specifies whether a service account should be created

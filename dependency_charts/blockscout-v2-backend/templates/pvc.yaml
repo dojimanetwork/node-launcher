@@ -2,17 +2,17 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "blockscout-v2-services.fullname" . }}
+  name: {{ template "blockscout-v2-backend.fullname" . }}
   labels:
-    {{- include "blockscout-v2-services.labels" . | nindent 4 }}
+    {{- include "blockscout-v2-backend.labels" . | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
   resources:
     requests:
-      {{- if eq (include "blockscout-v2-services.net" .) "mainnet" }}
+      {{- if eq (include "blockscout-v2-backend.net" .) "mainnet" }}
       storage: {{ .Values.persistence.size.mainnet | quote }}
-      {{- else if eq (include "blockscout-v2-services.net" .) "stagenet" }}
+      {{- else if eq (include "blockscout-v2-backend.net" .) "stagenet" }}
       storage: {{ .Values.persistence.size.stagenet | quote }}
       {{- else }}
       storage: {{ .Values.persistence.size.testnet | quote }}

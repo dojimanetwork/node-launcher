@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "blockscout-v2-services.fullname" . }}
+  name: {{ include "blockscout-v2-backend.fullname" . }}
   labels:
-    {{- include "blockscout-v2-services.labels" . | nindent 4 }}
+    {{- include "blockscout-v2-backend.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

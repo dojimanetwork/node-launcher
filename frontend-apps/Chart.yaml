@@ -58,12 +58,12 @@ dependencies:
     repository: file://../dependency_charts/dojima-blockscout
     condition: dojima-blockscout.enabled
 
-  - name: dojima-blockscout-v2
+  - name: blockscout-v2-backend
     version: 0.1.0
-    repository: file://../dependency_charts/dojima-blockscout-v2
-    condition: dojima-blockscout-v2.enabled
+    repository: file://../dependency_charts/blockscout-v2-backend
+    condition: blockscout-v2-backend.enabled
 
-  - name: blockscout-v2-services
+  - name: blockscout-v2-frontend
     version: 0.1.0
-    repository: file://../dependency_charts/blockscout-v2-services
-    condition: blockscout-v2-services.enabled
+    repository: file://../dependency_charts/blockscout-v2-frontend
+    condition: blockscout-v2-frontend.enabled

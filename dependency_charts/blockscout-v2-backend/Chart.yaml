@@ -1,5 +1,5 @@
 apiVersion: v2
-name: blockscout-v2-services
+name: blockscout-v2-backend
 description: dojima chain version2 block explorer for dojima blockchain
 version: 0.1.0
 

@@ -176,6 +176,17 @@ dojima blockscout v2  domain name
 
 
 {{/*
+dojima blockscout v2 stats  domain name
+*/}}
+{{- define "gateway-dojima-v2-blockscout-stats.domain" -}}
+{{- if eq (include "gateway.net" .) "testnet" -}}
+    {{ .Values.domain.v2_blockscout_stats.testnet }}
+{{- else if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.domain.v2_blockscout_stats.mainnet }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 kubecost domain name
 */}}
 {{- define "gateway-dojima-kubecost.domain" -}}
@@ -211,6 +222,13 @@ blockscout v2 backend Port
 */}}
 {{- define "gateway-dojima-v2-blockscout-backend.http" -}}
     {{ .Values.service.port.v2_bs.backend }}
+{{- end -}}
+
+{{/*
+blockscout v2 stats Port
+*/}}
+{{- define "gateway-dojima-v2-blockscout-stats.http" -}}
+    {{ .Values.service.port.v2_bs.stats }}
 {{- end -}}
 
 {{/*

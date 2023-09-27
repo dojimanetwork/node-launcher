@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "blockscout-v2-services.fullname" . }}
+  name: {{ include "blockscout-v2-frontend.fullname" . }}
   labels:
-    {{- include "blockscout-v2-services.labels" . | nindent 4 }}
+    {{- include "blockscout-v2-frontend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      {{- include "blockscout-v2-services.selectorLabels" . | nindent 6 }}
+      {{- include "blockscout-v2-frontend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "blockscout-v2-services.selectorLabels" . | nindent 8 }}
+        {{- include "blockscout-v2-frontend.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "blockscout-v2-services.serviceAccountName" . }}
+      serviceAccountName: {{ include "blockscout-v2-frontend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -93,7 +93,7 @@ spec:
         - name: postgredb
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
           persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "blockscout-v2-services.fullname" . }}{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "blockscout-v2-frontend.fullname" . }}{{- end }}
         {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
           hostPath:
             path: {{ .Values.persistence.hostPath }}
@@ -105,7 +105,7 @@ spec:
           emptyDir: {}
         - name: scripts
           configMap:
-            name: {{ include "blockscout-v2-services.fullname" . }}-scripts
+            name: {{ include "blockscout-v2-frontend.fullname" . }}-scripts
             defaultMode: 0777
 
       {{- with .Values.nodeSelector }}

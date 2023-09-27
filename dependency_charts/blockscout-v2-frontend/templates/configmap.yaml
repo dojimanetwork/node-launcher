@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "dojima-blockscout-v2.fullname" . }}-scripts
+  name: {{ include "blockscout-v2-frontend.fullname" . }}-scripts
 data:
   {{- range $key, $value := .Values.postgres.files.list }}
   {{ $key }}: {{ toYaml $value | indent 2 }}

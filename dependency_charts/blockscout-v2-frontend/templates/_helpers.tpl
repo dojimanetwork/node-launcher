@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "dojima-blockscout-v2.name" -}}
+{{- define "blockscout-v2-frontend.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "dojima-blockscout-v2.fullname" -}}
+{{- define "blockscout-v2-frontend.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "dojima-blockscout-v2.chart" -}}
+{{- define "blockscout-v2-frontend.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "dojima-blockscout-v2.labels" -}}
-helm.sh/chart: {{ include "dojima-blockscout-v2.chart" . }}
-{{ include "dojima-blockscout-v2.selectorLabels" . }}
+{{- define "blockscout-v2-frontend.labels" -}}
+helm.sh/chart: {{ include "blockscout-v2-frontend.chart" . }}
+{{ include "blockscout-v2-frontend.selectorLabels" . }}
 app.kubernetes.io/version: {{ include "daemon.tag" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
@@ -44,17 +44,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "dojima-blockscout-v2.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "dojima-blockscout-v2.name" . }}
+{{- define "blockscout-v2-frontend.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "blockscout-v2-frontend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "dojima-blockscout-v2.serviceAccountName" -}}
+{{- define "blockscout-v2-frontend.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "dojima-blockscout-v2.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "blockscout-v2-frontend.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
@@ -64,36 +64,29 @@ Create the name of the service account to use
 Tag
 */}}
 {{- define "daemon.tag" -}}
-    {{ .Values.image.blockscout.tag | default .Chart.AppVersion }}
+    {{  default .Chart.AppVersion }}
 {{- end -}}
 
 {{/*
 Net
 */}}
-{{- define "dojima-blockscout-v2.net" -}}
-{{- default .Values.net .Values.global.net -}}
+{{- define "blockscout-v2-frontend.net" -}}
+{{- default .Values.net -}}
 {{- end -}}
 
 
 {{/*
 Postgressql Docker image
 */}}
-{{- define "dojima-blockscout-v2-postgres.image" -}}
+{{- define "blockscout-v2-frontend-postgres.image" -}}
 {{ .Values.image.postgres.image }}
 {{- end -}}
 
-
-{{/*
-Blockscout Docker image
-*/}}
-{{- define "dojima-blockscout-v2-blockscout.image" -}}
-{{ .Values.image.blockscout.repository }}:{{ .Values.image.blockscout.tag }}
-{{- end -}}
 
 
 {{/*
 Smart contract verifier Docker image
 */}}
-{{- define "dojima-blockscout-v2-rs.image" -}}
-{{ .Values.image.smartcontract_verifier.repository }}:{{ .Values.image.smartcontract_verifier.testnet.tag }}@sha256:{{ .Values.image.smartcontract_verifier.testnet.hash}}
+{{- define "blockscout-v2-frontend-rs.image" -}}
+{{ .Values.image.smartcontract_verifier.repository }}:{{ .Values.image.smartcontract_verifier.testnet.tag }}
 {{- end -}}

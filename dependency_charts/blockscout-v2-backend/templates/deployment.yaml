@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "dojima-blockscout-v2.fullname" . }}
+  name: {{ include "blockscout-v2-backend.fullname" . }}
   labels:
-    {{- include "dojima-blockscout-v2.labels" . | nindent 4 }}
+    {{- include "blockscout-v2-backend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      {{- include "dojima-blockscout-v2.selectorLabels" . | nindent 6 }}
+      {{- include "blockscout-v2-backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "dojima-blockscout-v2.selectorLabels" . | nindent 8 }}
+        {{- include "blockscout-v2-backend.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "dojima-blockscout-v2.serviceAccountName" . }}
+      serviceAccountName: {{ include "blockscout-v2-backend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}-postgres
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "dojima-blockscout-v2-postgres.image" . }}
+          image: {{ include "blockscout-v2-backend-postgres.image" . }}
           args:
             - -c
             - max_connections=20000
@@ -71,7 +71,7 @@ spec:
           resources:
             {{- toYaml .Values.resources.postgres | nindent 12 }}
         - name: smart-contract-verifier
-          image: {{ include "dojima-blockscout-v2-rs.image" . }}
+          image: {{ include "blockscout-v2-backend-rs.image" . }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: {{ .Values.service.bs_rs }}
@@ -124,7 +124,7 @@ spec:
           resources:
             {{- toYaml .Values.resources.smart_contract_verifier | nindent 12 }}
         - name: {{ .Chart.Name }}-backend
-          image: {{ include "dojima-blockscout-v2-blockscout.image" . }}
+          image: {{ include "blockscout-v2-backend-blockscout.image" . }}
           imagePullPolicy: IfNotPresent
           resources:
             {{- toYaml .Values.resources.stats | nindent 12 }}
@@ -221,7 +221,7 @@ spec:
         - name: postgredb
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
           persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "dojima-blockscout-v2.fullname" . }}{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "blockscout-v2-backend.fullname" . }}{{- end }}
         {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
           hostPath:
             path: {{ .Values.persistence.hostPath }}
@@ -233,7 +233,7 @@ spec:
           emptyDir: {}
         - name: scripts
           configMap:
-            name: {{ include "dojima-blockscout-v2.fullname" . }}-scripts
+            name: {{ include "blockscout-v2-backend.fullname" . }}-scripts
             defaultMode: 0777
 
       {{- with .Values.nodeSelector }}

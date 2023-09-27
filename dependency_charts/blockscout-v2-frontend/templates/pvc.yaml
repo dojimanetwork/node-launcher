@@ -2,17 +2,17 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "dojima-blockscout-v2.fullname" . }}
+  name: {{ template "blockscout-v2-frontend.fullname" . }}
   labels:
-    {{- include "dojima-blockscout-v2.labels" . | nindent 4 }}
+    {{- include "blockscout-v2-frontend.labels" . | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
   resources:
     requests:
-      {{- if eq (include "dojima-blockscout-v2.net" .) "mainnet" }}
+      {{- if eq (include "blockscout-v2-frontend.net" .) "mainnet" }}
       storage: {{ .Values.persistence.size.mainnet | quote }}
-      {{- else if eq (include "dojima-blockscout-v2.net" .) "stagenet" }}
+      {{- else if eq (include "blockscout-v2-frontend.net" .) "stagenet" }}
       storage: {{ .Values.persistence.size.stagenet | quote }}
       {{- else }}
       storage: {{ .Values.persistence.size.testnet | quote }}

@@ -72,6 +72,9 @@ spec:
             - name: v2doj-frontend
               containerPort: {{ include "gateway-dojima-v2-blockscout-frontend.http" . }}
               protocol: TCP
+            - name: v2doj-stats
+              containerPort: {{ include "gateway-dojima-v2-blockscout-stats.http" . }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
