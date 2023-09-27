@@ -53,11 +53,11 @@ domain:
   v2_blockscout:
     testnet: v2-doj-bex-test.dojima.network
     mainnet: v2-doj-bex.dojima.network
-    enable: false
+    enable: true
   v2_blockscout_stats:
     testnet: stats-bex-test.dojima.network
     mainnet: stats-bex.dojima.network
-    enable: false
+    enable: true
 
 service:
   type: LoadBalancer
