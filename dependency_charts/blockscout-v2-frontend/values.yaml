@@ -6,6 +6,11 @@ net: testnet
 replicaCount: 1
 
 image:
+  blockscout:
+    repository: blockscout/blockscout
+    pullPolicy: IfNotPresent
+    tag: "latest"
+    hash: "sha256:9d76e4077c5364d2ba0a7118bd5cecb0ee152b95a501c257c3a74895a0020b9e"
   smartcontract_verifier:
     repository: ghcr.io/blockscout/smart-contract-verifier
     testnet:
