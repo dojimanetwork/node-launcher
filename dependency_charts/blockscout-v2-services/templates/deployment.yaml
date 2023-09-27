@@ -58,7 +58,7 @@ spec:
             - containerPort: {{ .Values.service.bs_rs }}
               name: bs-rs-http
               protocol: TCP
-          {{- if .Values.livenessProbe.sc.enable }}
+          {{- if .Values.livenessProbe.scVerifier.enable }}
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.scVerifier.path }}
