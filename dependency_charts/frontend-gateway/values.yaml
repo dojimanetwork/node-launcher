@@ -79,7 +79,7 @@ service:
     v2_bs:
       backend: 4002
       frontend: 3004
-      stats: 8053
+      stats: 8050
 
 serviceAccount:
   # Specifies whether a service account should be created
