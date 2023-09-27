@@ -6,7 +6,7 @@
   value: {{ $value | quote }}
 {{- else }}
 - name: {{ $key }}
-  value: {{ pluck $.Values.global.env $item | first | default $item._default | quote }}
+  value: {{ default $item._default | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -20,7 +20,7 @@
   value: {{ $value | quote }}
 {{- else }}
 - name: {{ $key }}
-  value: {{ pluck $.Values.global.env $item | first | default $item._default | quote }}
+  value: {{ default $item._default | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -34,7 +34,7 @@
   value: {{ $value | quote }}
 {{- else }}
 - name: {{ $key }}
-  value: {{ pluck $.Values.global.env $item | first | default $item._default | quote }}
+  value: {{ default $item._default | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
