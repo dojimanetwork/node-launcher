@@ -1,0 +1,166 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "blockscout-v2-services.fullname" . }}
+  labels:
+    {{- include "blockscout-v2-services.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "blockscout-v2-services.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "blockscout-v2-services.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "blockscout-v2-services.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-postgres
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ include "blockscout-v2-services-postgres.image" . }}
+          args:
+            - -c
+            - max_connections=20000
+            - -c
+            - shared_buffers=2048MB
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: postgredb
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+              {{- range $key, $value := .Values.postgres.files.list }}
+            - mountPath: {{ $.Values.postgres.files.mountPath }}/{{ $key }}
+              name: scripts
+              subPath: {{ $key }}
+              {{- end }}
+          env:
+{{- include "postgres_env" . | indent 10 }}
+          ports:
+            - name: postgres
+              containerPort: {{ .Values.service.postgres }}
+              protocol: TCP
+          {{- if .Values.readinessProbe.postgres.enable }}
+          readinessProbe:
+            exec:
+              command:
+                - psql
+                - -U
+                - {{ .Values.env.pg_user }}
+                - -d
+                - {{ .Values.env.pg_db_name }}
+                - -c
+                - "SELECT 1"
+            timeoutSeconds: 2
+            initialDelaySeconds: 10
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources.postgres | nindent 12 }}
+        - name: smart-contract-verifier
+          image: {{ include "blockscout-v2-services-rs.image" . }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.service.bs_rs }}
+              name: bs-rs-http
+              protocol: TCP
+          {{- if .Values.livenessProbe.sc.enable }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.scVerifier.path }}
+              port: bs-rs-http
+              scheme: HTTP
+            {{- with .Values.livenessProbe.scVerifier.params }}
+            {{ . | toYaml | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.readinessProbe.scVerifier.enable }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.scVerifier.enable }}
+              port: bs-rs-http
+              scheme: HTTP
+            {{- with .Values.livenessProbe.scVerifier.params }}
+            {{ . | toYaml | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          env:
+{{- include "scVerifier_env" . | indent 10 }}
+          resources:
+            {{- toYaml .Values.resources.smart_contract_verifier | nindent 12 }}
+        - name: {{ .Chart.Name }}-stats
+          image: "{{ .Values.image.stats.repository }}:{{ .Values.image.stats.tag }}"
+          resources:
+            {{- toYaml .Values.resources.stats | nindent 12 }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: stats-http
+              containerPort: {{ .Values.service.bs_stats_http }}
+              protocol: TCP
+            - name: stats-metrics
+              containerPort: {{ .Values.service.bs_stats_metrics }}
+              protocol: TCP
+          env:
+{{- include "stats_env" . | indent 10 }}
+          {{- if .Values.readinessProbe.stats.enable }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.stats.path }}
+              port: stats-http
+              scheme: HTTP
+              {{- with .Values.readinessProbe.stats.params }}
+              {{- . | toYaml | nindent 12 }}
+              {{- end }}
+          {{- end }}
+          {{- if .Values.livenessProbe.stats.enable }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.stats.path }}
+              port: stats-http
+              scheme: HTTP
+              {{- with .Values.livenessProbe.stats.params }}
+              {{- . | toYaml | nindent 12 }}
+              {{- end }}
+          {{- end }}
+      volumes:
+        - name: postgredb
+        {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "blockscout-v2-services.fullname" . }}{{- end }}
+        {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+          hostPath:
+            path: {{ .Values.persistence.hostPath }}
+            type: DirectoryOrCreate
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: entrypoint
+          emptyDir: {}
+        - name: scripts
+          configMap:
+            name: {{ include "blockscout-v2-services.fullname" . }}-scripts
+            defaultMode: 0777
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ . | toYaml | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
