@@ -64,14 +64,14 @@ Create the name of the service account to use
 Tag
 */}}
 {{- define "daemon.tag" -}}
-    {{ .Values.image.blockscout.tag | default .Chart.AppVersion }}
+    {{  default .Chart.AppVersion }}
 {{- end -}}
 
 {{/*
 Net
 */}}
 {{- define "blockscout-v2-services.net" -}}
-{{- default .Values.net .Values.global.net -}}
+{{- default .Values.net -}}
 {{- end -}}
 
 
@@ -82,13 +82,6 @@ Postgressql Docker image
 {{ .Values.image.postgres.image }}
 {{- end -}}
 
-
-{{/*
-Blockscout Docker image
-*/}}
-{{- define "blockscout-v2-services-blockscout.image" -}}
-{{ .Values.image.blockscout.repository }}:{{ .Values.image.blockscout.tag }}
-{{- end -}}
 
 
 {{/*
