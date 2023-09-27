@@ -19,17 +19,5 @@ spec:
       targetPort: bs-rs-http
       protocol: TCP
       name: bs-rs-http
-    - port: {{ .Values.service.bs_stats_http }}
-      targetPort: stats-http
-      protocol: TCP
-      name: stats-http
-    - port: {{ .Values.service.bs_stats_metrics }}
-      targetPort: stats-metrics
-      protocol: TCP
-      name: stats-metrics
-    - name: frontend-http
-      targetPort: frontend-http
-      port: 3004
-      protocol: TCP
   selector:
     {{- include "dojima-blockscout-v2.selectorLabels" . | nindent 4 }}

@@ -7,14 +7,6 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.postgres }}
-      targetPort: postgres
-      protocol: TCP
-      name: postgres
-    - port: {{ .Values.service.bs_rs }}
-      targetPort: bs-rs-http
-      protocol: TCP
-      name: bs-rs-http
     - port: {{ .Values.service.bs_stats_http }}
       targetPort: stats-http
       protocol: TCP
@@ -23,5 +15,9 @@ spec:
       targetPort: stats-metrics
       protocol: TCP
       name: stats-metrics
+    - name: frontend-http
+      targetPort: frontend-http
+      port: 3004
+      protocol: TCP
   selector:
     {{- include "blockscout-v2-services.selectorLabels" . | nindent 4 }}

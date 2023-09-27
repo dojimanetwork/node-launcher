@@ -50,7 +50,7 @@ env:
   eth_json_http: http://dojima-chain.hermes-testnet:8545
   eth_ws_url: ws://dojima-chain.hermes-testnet:8546
   eth_jsonrpc_transport: http
-  database_url: "postgresql://postgres:@blockscout-v2-services:5432/postgres?ssl=false"
+  database_url: "postgresql://postgres:@localhost:5432/postgres?ssl=false"
   secret_key: YUt2Iifi/4q7envZCRZZhyCcfgmcfGr26/Uk6Jkc/YCXPNJIORS0Wb1DaejWKaeC
   mix_env: dev
   ecto_use_ssl: false
@@ -130,8 +130,8 @@ bs_stats:
       enabled: false
       addr: 0.0.0.0:8051
   db:
-    url: postgres://postgres:@blockscout-v2-services:5432/stats
-    bs_url: postgresql://postgres:@blockscout-v2-services:5432/postgres?ssl=false
+    url: postgres://postgres:@localhost:5432/stats
+    bs_url: postgresql://postgres:@localhost:5432/postgres?ssl=false
     create_db: true
     run_migrations: true
     default_schedule: 0 0 1 * * * *
@@ -224,7 +224,7 @@ ingress:
     #     - midgard.example.com
 
 persistence:
-  enabled: false
+  enabled: true
   size:
     testnet: 50Gi
     stagenet: 150Gi

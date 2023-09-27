@@ -24,64 +24,6 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-postgres
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "blockscout-v2-services-postgres.image" . }}
-          args:
-            - -c
-            - max_connections=20000
-            - -c
-            - shared_buffers=2048MB
-          imagePullPolicy: IfNotPresent
-          volumeMounts:
-            - name: postgredb
-              mountPath: /var/lib/postgresql/data
-              subPath: postgres
-              {{- range $key, $value := .Values.postgres.files.list }}
-            - mountPath: {{ $.Values.postgres.files.mountPath }}/{{ $key }}
-              name: scripts
-              subPath: {{ $key }}
-              {{- end }}
-          env:
-{{- include "postgres_env" . | indent 10 }}
-          ports:
-            - name: postgres
-              containerPort: {{ .Values.service.postgres }}
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.resources.postgres | nindent 12 }}
-        - name: smart-contract-verifier
-          image: {{ include "blockscout-v2-services-rs.image" . }}
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: {{ .Values.service.bs_rs }}
-              name: bs-rs-http
-              protocol: TCP
-          {{- if .Values.livenessProbe.scVerifier.enable }}
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.livenessProbe.scVerifier.path }}
-              port: bs-rs-http
-              scheme: HTTP
-            {{- with .Values.livenessProbe.scVerifier.params }}
-            {{ . | toYaml | nindent 12 }}
-            {{- end }}
-          {{- end }}
-          {{- if .Values.readinessProbe.scVerifier.enable }}
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.readinessProbe.scVerifier.enable }}
-              port: bs-rs-http
-              scheme: HTTP
-            {{- with .Values.livenessProbe.scVerifier.params }}
-            {{ . | toYaml | nindent 12 }}
-            {{- end }}
-          {{- end }}
-          env:
-{{- include "scVerifier_env" . | indent 10 }}
-          resources:
-            {{- toYaml .Values.resources.smart_contract_verifier | nindent 12 }}
         - name: {{ .Chart.Name }}-stats
           image: "{{ .Values.image.stats.repository }}:{{ .Values.image.stats.tag }}"
           resources:
@@ -116,6 +58,37 @@ spec:
               {{- . | toYaml | nindent 12 }}
               {{- end }}
           {{- end }}
+        - name: {{ .Chart.Name }}-frontend
+          image: "{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
+          resources:
+            {{- toYaml .Values.resources.frontend | nindent 12 }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: frontend-http
+              containerPort: {{ .Values.service.bs_frontend }}
+              protocol: TCP
+          env:
+          {{- include "frontend_env" . | indent 10 }}
+          {{- if .Values.readinessProbe.frontend.enable }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.frontend.path }}
+              port: frontend-http
+              scheme: HTTP
+             {{- with .Values.readinessProbe.frontend.params }}
+             {{ . | toYaml | nindent 12 }}
+             {{- end }}
+             {{- end }}
+          {{- if .Values.livenessProbe.frontend.enable }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.frontend.path }}
+              port: frontend-http
+              scheme: HTTP
+              {{- with .Values.livenessProbe.frontend.params }}
+              {{ . | toYaml | nindent 12 }}
+              {{- end }}
+         {{- end }}
       volumes:
         - name: postgredb
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
