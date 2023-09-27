@@ -10,15 +10,8 @@ image:
     repository: ghcr.io/blockscout/smart-contract-verifier
     testnet:
       tag: main
-      hash: f1e91d0d25e850902b647d882271f4536596674d8de71bb649130f3188c5ff55
   stats:
     repository: ghcr.io/blockscout/stats
-    tag: main
-  visualizer:
-    repository: ghcr.io/blockscout/visualizer
-    tag: latest
-  frontend:
-    repository: ghcr.io/blockscout/frontend
     tag: main
   postgres:
     image: postgres:13.4
@@ -56,8 +49,8 @@ scVerifier:
       _default: 0.0.0.0:8052
     SMART_CONTRACT_VERIFIER__SERVER__GRPC__ADDR:
       _default: 0.0.0.0:8053
-    # SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED:
-    #   _default: 'true'
+    SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED:
+     _default: 'true'
     SMART_CONTRACT_VERIFIER__SOLIDITY__COMPILERS_DIR:
       _default: /tmp/solidity-compilers
     SMART_CONTRACT_VERIFIER__SOLIDITY__REFRESH_VERSIONS_SCHEDULE:
@@ -68,7 +61,7 @@ scVerifier:
     #SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL=https://solc-bin.ethereum.org/macosx-amd64/list.json
     #SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL=https://solc-bin.ethereum.org/windows-amd64/list.json
     SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__S3__REGION:
-      _default: ""
+      _default: "ap-south-1"
     SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__S3__ENDPOINT:
       _default: https://storage.googleapis.com
     SMART_CONTRACT_VERIFIER__SOURCIFY__ENABLED:
