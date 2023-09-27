@@ -49,20 +49,6 @@ spec:
             - name: postgres
               containerPort: {{ .Values.service.postgres }}
               protocol: TCP
-          {{- if .Values.readinessProbe.postgres.enable }}
-          readinessProbe:
-            exec:
-              command:
-                - psql
-                - -U
-                - {{ .Values.env.pg_user }}
-                - -d
-                - {{ .Values.env.pg_db_name }}
-                - -c
-                - "SELECT 1"
-            timeoutSeconds: 2
-            initialDelaySeconds: 10
-          {{- end }}
           resources:
             {{- toYaml .Values.resources.postgres | nindent 12 }}
         - name: smart-contract-verifier
