@@ -47,7 +47,7 @@ frontend:
     NEXT_PUBLIC_API_BASE_PATH:
       _default: /
     NEXT_PUBLIC_STATS_API_HOST:
-      _default: https://stats-e2e.test.aws-k8s.blockscout.com
+      _default: https://stats-bex-test.dojima.network
     NEXT_PUBLIC_NETWORK_RPC_URL:
       _default: https://api-test.d11k.dojima.network
 
@@ -100,9 +100,9 @@ stats:
     STATS__METRICS__ENABLED:
       _default: true
     STATS__BLOCKSCOUT_DB_URL:
-      _default: postgresql://postgres:@dojima-blockscout-v2:5432/postgres?ssl=false
+      _default: postgresql://postgres:@blockscout-v2-backend:5432/postgres?ssl=false
     STATS__DB_URL:
-      _default: postgres://postgres:@dojima-blockscout-v2:5432/stats
+      _default: postgres://postgres:@blockscout-v2-backend:5432/stats
 
 
 imagePullSecrets: []
