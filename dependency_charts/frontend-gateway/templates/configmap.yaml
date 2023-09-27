@@ -721,7 +721,7 @@ data:
           proxy_set_header Host $http_host;
           proxy_http_version 1.1;
           proxy_ignore_headers X-Accel-Expires Expires Cache-Control;
-          proxy_pass http://blockscout-v2-backend:{{ .Values.service.port.v2_bs.stats }};
+          proxy_pass http://blockscout-v2-frontend:{{ .Values.service.port.v2_bs.stats }};
         }
 
 
