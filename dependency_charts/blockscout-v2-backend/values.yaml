@@ -236,7 +236,7 @@ resources:
   postgres:
     limits:
       cpu: 0.5
-      memory: 10Gi
+      memory: 8Gi
     requests:
       cpu: 0.2
       memory: 8Gi
@@ -250,10 +250,10 @@ resources:
   blockscout:
     limits:
       cpu: 1
-      memory: 2Gi
+      memory: 4Gi
     requests:
       cpu: 500m
-      memory: 1Gi
+      memory: 4Gi
   stats:
     limits:
       memory: "0.5Gi"
