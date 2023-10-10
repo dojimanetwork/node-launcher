@@ -59,7 +59,7 @@ spec:
               {{- end }}
           {{- end }}
         - name: {{ .Chart.Name }}-frontend
-          image: "{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
+          image: "{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}@{{ .Values.image.frontend.hash }}"
           resources:
             {{- toYaml .Values.resources.frontend | nindent 12 }}
           imagePullPolicy: IfNotPresent

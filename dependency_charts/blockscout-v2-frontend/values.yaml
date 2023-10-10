@@ -23,6 +23,7 @@ image:
   frontend:
     repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout-v2
     tag: testnet-0.0.1-2023-10-10
+    hash: "sha256:350ffef36b90a68a3e9fd37e02894940019dfca9f1e1ddea2be42a6ed06c8532"
 
 frontend:
   environment:
