@@ -21,8 +21,8 @@ image:
   postgres:
     image: postgres:13.4
   frontend:
-    repository: ghcr.io/blockscout/frontend
-    tag: main
+    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout-v2
+    tag: testnet-0.0.1-2023-10-10
 
 frontend:
   environment:
