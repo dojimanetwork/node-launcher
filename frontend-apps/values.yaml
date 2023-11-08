@@ -24,7 +24,7 @@ landing-page:
 
 dojima-wallet:
   fullnameOverride: dojima-wallet
-  enabled: false
+  enabled: true
 
 developer-docs:
   fullnameOverride: developer-docs
@@ -32,7 +32,7 @@ developer-docs:
 
 hermes-explorer:
   fullnameOverride: hermes-explorer
-  enabled: true
+  enabled: false
 
 dojima-faas:
   fullnameOverride: dojima-faas
@@ -40,12 +40,12 @@ dojima-faas:
 
 dojima-blockscout:
   fullnameOverride: dojima-blockscout
-  enabled: true
+  enabled: false
 
 blockscout-v2-frontend:
   fullnameOverride: blockscout-v2-frontend
-  enabled: true
+  enabled: false
 
 blockscout-v2-backend:
   fullnameOverride: blockscout-v2-backend
-  enabled: true
+  enabled: false
