@@ -7,8 +7,8 @@ net: mainnet
 replicaCount: 1
 
 image:
-  name: asia.gcr.io/prod-dojima/dojima-wallet:latest
-  testnet: "testnet-0.1.35-2023-11-03"
+  name: asia.gcr.io/prod-dojima/dojima-wallet
+  testnet: "latest"
   testnet_hash: "19993713c6eab688dade488eba99bbdf27438644f4d9d43f11e06365754b612d"
   mainnet: ""
   mainnet_hash: ""
