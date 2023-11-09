@@ -7,10 +7,10 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-landing-page
+  name: asia.gcr.io/prod-dojima/landing-page-v3
   testnet: "testnet-0.1.10-2023-09-26"
   mainnet: ""
-  testnet_hash: "5bd501ce69ea4b267f569db64f8649ea8e9344cf3320cf2534c7df25a45de596"
+  testnet_hash: "d969f37cbe43bc10a5a09fd8793d068f57bf31c23af25a4b35950c007ddbed35"
   mainnet_hash: ""
 
 imagePullSecrets: []

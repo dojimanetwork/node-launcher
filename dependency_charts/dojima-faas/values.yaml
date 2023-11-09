@@ -7,10 +7,10 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-faas
+  name: asia.gcr.io/prod-dojima/dojima-faas:latest
   testnet: "master-0.1.3-2023-11-08"
   mainnet: ""
-  testnet_hash: "026f022dfa5808951aed2de802120c7cc4c1219df62d42283cd5b78a88ac5f1c"
+  testnet_hash: "f2335f45a8f5497f2b6dfb8792067387f35133f85e61166579f771de83d8dce5"
   mainnet_hash: ""
 
 imagePullSecrets: []
