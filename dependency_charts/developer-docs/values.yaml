@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: testnet
+/* net: testnet
 
 replicaCount: 1
 
@@ -103,5 +103,5 @@ global:
       hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
     busybox:
       tag: latest
-      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
+      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a */
 
