@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   name: asia.gcr.io/prod-dojima/dojima-wallet
   testnet: "latest"
-  testnet_hash: "19993713c6eab688dade488eba99bbdf27438644f4d9d43f11e06365754b612d"
+  testnet_hash: "5c14a3001cfe30e9fea626f07b6ac20057ea5fb0de0a14c2dd1f91941d0faf23"
   mainnet: ""
   mainnet_hash: ""
 
