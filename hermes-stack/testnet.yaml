@@ -45,7 +45,7 @@ gaia-daemon:
   enabled: false
 
 arweave-daemon:
-  enabled: true
+  enabled: false
 
 polkadot-daemon:
   enabled: true

@@ -52,7 +52,7 @@ gaia-daemon:
 
 arweave-daemon:
   fullnameOverride: arweave-daemon
-  enabled: true
+  enabled: false
 
 polkadot-daemon:
   fullnameOverride: polkadot-daemon
