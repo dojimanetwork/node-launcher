@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
-  tag: "testnet-1.89.0_59"
-  hash: "c3902fc7008ec884c396404919838840a3e4b24b81ece5f0524450ebf0f6c2dd"
+  tag: "testnet-1.89.0_62"
+  hash: "904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52"
   testnet: "textury/arlocal:latest"
 
 imagePullSecrets: []
@@ -17,7 +17,7 @@ nameOverride: "hello-word"
 fullnameOverride: "fhello-wordd"
 
 recoverNineRealmsSnapshot: false
-
+hermesApi: hermesnode:1318
 service:
   type: ClusterIP
   port:
@@ -71,21 +71,15 @@ serviceAccount:
 podSecurityContext:
   fsGroup: 1000
 
-securityContext:
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-   runAsUser: 1000
-   runAsGroup: 3000
+securityContext: {}
 
 resources:
   requests:
-    cpu: 1
-    memory: 2Gi
+    cpu: 0.1
+    memory: 4000Mi
   limits:
-    # cpu: 2
-    memory: 2Gi
+    cpu: 0.5
+    memory: 7500Mi
 
 nodeSelector: {}
 

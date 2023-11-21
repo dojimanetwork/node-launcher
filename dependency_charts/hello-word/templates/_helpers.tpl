@@ -84,7 +84,7 @@ Bnet
 Image
 */}}
 {{- define "hello-word.image" -}}
-  "{{ .Values.image.testnet }}"
+  "{{ .Values.image.name }}:{{.Values.image.tag}}"
 {{- end -}}
 
 {{/*
