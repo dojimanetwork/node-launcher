@@ -18,13 +18,13 @@ hermes-gateway:
   enabled: true
 
 hermesnode:
-  enabled: true
+  enabled: false
 
 narada:
-  enabled: true
+  enabled: false
 
 dojima-chain:
-  enabled: true
+  enabled: false
 
 midgard:
   blockstore:
@@ -54,4 +54,4 @@ solana-daemon:
   enabled: true
 
 hello-word:
-  enabled: false
+  enabled: true

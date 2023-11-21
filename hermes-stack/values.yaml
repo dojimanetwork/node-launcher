@@ -20,15 +20,15 @@ hermes-gateway:
 
 hermesnonde:
   fullnameOverride: hermesnode
-  enabled: true
+  enabled: false
 
 narada:
   fullnameOverride: narada
-  enabled: true
+  enabled: false
 
 dojima-chain:
   fullnameOverride: dojima-chain
-  enabled: true
+  enabled: false
 
 midgard:
   enabled: false
@@ -64,4 +64,4 @@ solana-daemon:
 
 hello-word:
   fullnameOverride: hello-word
-  enabled: false
+  enabled: true
