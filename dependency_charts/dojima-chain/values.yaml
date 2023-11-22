@@ -9,10 +9,10 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojimanetwork/dojimachain
+  repository: asia.gcr.io/prod-dojima/dojimachain
   pullPolicy: IfNotPresent
-  tag: "testnet-0.1.0-2023-03-17"
-  hash: "3f63f9ebc512e4a58834ec8a32088a36df9502d50cc7ac30d89e46107a8a0aca" # Not used for mocknet/testnet
+  tag: "testnet-0.1.0-2023-11-22"
+  hash: "b8f4bb41f1a44eb90510f551a781d824d1b46b982c650143cb227bde5fcdf45d" # Not used for mocknet/testnet
 
 chain_home_folder: "/root/.hermesnode"
 signer:
