@@ -7,9 +7,9 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: asia.gcr.io/prod-dojima/solana
-  tag: "0.1.0"
-  hash: "7cdec9083e973da9575eaf378b50c592496c6101f5a3eeb69f3cb3d106e712c4"
+  name: asia.gcr.io/prod-dojima/solana-anchor
+  tag: "0.2.0"
+  hash: "6986d3fe86b29d0635a22eb89276f7aa2f2ff8d99f49fc26936115637adb0072"
   testnet: "solanalabs/solana:stable"
 
 imagePullSecrets: []
