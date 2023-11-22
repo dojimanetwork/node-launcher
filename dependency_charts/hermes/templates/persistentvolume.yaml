@@ -4,12 +4,13 @@ metadata:
   name: hermesnode-pv
 spec:
   capacity:
-    storage: 300Gi
+    storage: 200Gi
   accessModes:
   - ReadWriteOnce
-  awsElasticBlockStore:
-    volumeID: aws://ap-south-1c/vol-0e802d85a1c4816cb
+  csi:
+    driver: pd.csi.storage.gke.io
     fsType: ext4
+    volumeHandle: projects/prod-dojima/regions/asia-south1/disks/hermes-disk
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
   volumeMode: Filesystem

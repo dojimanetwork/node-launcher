@@ -54,4 +54,4 @@ solana-daemon:
   enabled: true
 
 hello-word:
-  enabled: true
+  enabled: false
