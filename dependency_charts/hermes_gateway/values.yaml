@@ -4,15 +4,15 @@
 
 net: testnet
 
-validator: false
+validator: true
 midgard: false
-grpc: false
+grpc: true
 rpc:
-  enabled: false
+  enabled: true
   limited: false
-api: false
+api: true
 arweave: true
-solana: true
+solana: false
 polkadot: true
 dojima_chain: false
 faucet: false
