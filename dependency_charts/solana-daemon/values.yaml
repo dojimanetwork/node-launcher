@@ -7,9 +7,9 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/solana-anchor
-  tag: "mainnet-0.1.0-2022-12-16"
-  hash: "99a9a9a79d61b5424a1ae605b12eb4e5bafd098713ad18c1d252c523cb04e4c1"
+  name: asia.gcr.io/prod-env/solana
+  tag: "0.1.0"
+  hash: "7cdec9083e973da9575eaf378b50c592496c6101f5a3eeb69f3cb3d106e712c4"
   testnet: "solanalabs/solana:stable"
 
 imagePullSecrets: []
