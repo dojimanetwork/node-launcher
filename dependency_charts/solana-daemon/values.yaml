@@ -7,7 +7,7 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: asia.gcr.io/prod-env/solana
+  name: asia.gcr.io/prod-dojima/solana
   tag: "0.1.0"
   hash: "7cdec9083e973da9575eaf378b50c592496c6101f5a3eeb69f3cb3d106e712c4"
   testnet: "solanalabs/solana:stable"
