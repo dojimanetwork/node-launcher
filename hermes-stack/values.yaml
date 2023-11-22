@@ -24,7 +24,7 @@ hermesnonde:
 
 narada:
   fullnameOverride: narada
-  enabled: true
+  enabled: false
 
 dojima-chain:
   fullnameOverride: dojima-chain
