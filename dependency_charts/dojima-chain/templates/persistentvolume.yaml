@@ -7,9 +7,10 @@ spec:
     storage: 50Gi
   accessModes:
   - ReadWriteOnce
-  awsElasticBlockStore:
-    volumeID: aws://ap-south-1c/vol-016b6f9e552a3fc7f
+  csi:
+    driver: pd.csi.storage.gke.io
     fsType: ext4
+    volumeHandle: projects/prod-dojima/regions/asia-south1/disks/dojima-chain-pv
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
   volumeMode: Filesystem
