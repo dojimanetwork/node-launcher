@@ -7,7 +7,7 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
+  name: asia.gcr.io/prod-dojima/hermes
   tag: "testnet-1.89.0_62"
   hash: "904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52"
   testnet: "textury/arlocal:latest"
