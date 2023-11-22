@@ -30,7 +30,7 @@ chains:
   include_eth_chain: "true"
   include_ar_chain: "true"
   include_dot_chain: "true"
-  include_sol_chain: "true"
+  include_sol_chain: "false"
   include_gaia_chain: "false"
 
 # use in multi nodes envs
@@ -121,10 +121,10 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
+  repository: asia.gcr.io/prod-dojima/hermes
   pullPolicy: IfNotPresent
   tag: testnet-1.89.0_62
-  hash: "sha256:92d84bedcd92961c217f16c4f9a0137b4c114709d4de675f68b756469d1845ad" # Not used for mocknet/testnet
+  hash: "sha256:904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52" # Not used for mocknet/testnet
 
 imagePullSecrets: []
 nameOverride: "hermesnode-narada"
@@ -139,7 +139,7 @@ persistence:
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
-  storageClass: gp2
+#  storageClass: gp2
   # hostPath: /host-path
 
 service:

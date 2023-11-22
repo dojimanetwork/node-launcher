@@ -21,7 +21,7 @@ hermesnode:
   enabled: true
 
 narada:
-  enabled: false
+  enabled: true
 
 dojima-chain:
   enabled: false
@@ -51,7 +51,7 @@ polkadot-daemon:
   enabled: true
 
 solana-daemon:
-  enabled: true
+  enabled: false
 
 hello-word:
   enabled: false
