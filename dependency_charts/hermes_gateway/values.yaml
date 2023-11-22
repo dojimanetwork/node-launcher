@@ -31,7 +31,7 @@ domain:
     testnet:
       api: api-test.h4s.dojima.network
       rpc: rpc-test.h4s.dojima.network
-      ar: ar-test.h4s.dojima.network
+      ar: gcp-ar-test.h4s.dojima.network
       dot: dot-test.h4s.dojima.network
       dot_ws: dotws-test.h4s.dojima.network
       sol: sol-test.h4s.dojima.network
