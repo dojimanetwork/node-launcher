@@ -8,8 +8,6 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
-  volumeName: narada-pv
-  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "narada.net" .) "mainnet" }}
