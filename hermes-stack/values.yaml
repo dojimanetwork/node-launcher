@@ -16,7 +16,7 @@ global:
 
 hermes-gateway:
   fullnameOverride: hermes-gateway
-  enabled: true
+  enabled: false
 
 hermesnonde:
   fullnameOverride: hermesnode
