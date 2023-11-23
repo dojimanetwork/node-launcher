@@ -42,7 +42,7 @@ env:
   eth_json_var: geth
   coin: DOJ
   chain_id: 1001
-  account_enabled: true
+  account_enabled: false
   show_testnet_label: true
   api_v2_enable: true
   port_network_http: 8545
