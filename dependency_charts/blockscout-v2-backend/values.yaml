@@ -14,7 +14,7 @@ image:
   smartcontract_verifier:
     repository: ghcr.io/blockscout/smart-contract-verifier
     testnet:
-      tag: v1.4.0
+      tag: v1.0.0
       hash: f1e91d0d25e850902b647d882271f4536596674d8de71bb649130f3188c5ff55
   stats:
     repository: ghcr.io/blockscout/stats
