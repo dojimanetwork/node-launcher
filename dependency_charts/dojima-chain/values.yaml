@@ -11,8 +11,8 @@ strategyType: Recreate
 image:
   repository: asia.gcr.io/prod-dojima/dojimachain
   pullPolicy: IfNotPresent
-  tag: "testnet-0.1.0-2023-11-22"
-  hash: "b8f4bb41f1a44eb90510f551a781d824d1b46b982c650143cb227bde5fcdf45d" # Not used for mocknet/testnet
+  tag: "testnet-23-11-23"
+  hash: "cad3975a2ece8b7d08477aaf80a20098ad409fd197145145177cc22c9ad838a" # Not used for mocknet/testnet
 
 chain_home_folder: "/root/.hermesnode"
 signer:
