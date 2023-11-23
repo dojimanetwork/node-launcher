@@ -7,10 +7,10 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-block-explorer
-  testnet: "testnet-0.1.29-2023-07-12"
+  name: asia.gcr.io/prod-dojima/hermes-explorer
+  testnet: "v0.1.0"
   mainnet: ""
-  testnet_hash: "076d3909d852f259b38f6059f47c2ceba70f7b64949378013c8414654d8cff46"
+  testnet_hash: "673f7dae2d012b8003b271e25f76edd29fbf4d457351c518b6f87c29397e54aa"
   mainnet_hash: ""
 
 imagePullSecrets: []
