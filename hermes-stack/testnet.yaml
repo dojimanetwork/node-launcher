@@ -24,7 +24,7 @@ narada:
   enabled: true
 
 dojima-chain:
-  enabled: false
+  enabled: true
 
 midgard:
   blockstore:
@@ -54,4 +54,4 @@ solana-daemon:
   enabled: false
 
 hello-word:
-  enabled: true
+  enabled: false
