@@ -12,7 +12,7 @@ image:
   repository: asia.gcr.io/prod-dojima/dojimachain
   pullPolicy: IfNotPresent
   tag: "testnet-23-11-23"
-  hash: "cad3975a2ece8b7d08477aaf80a20098ad409fd197145145177cc22c9ad838a" # Not used for mocknet/testnet
+  hash: "cad3975a2ece8b7d08477aaf80a20098ad409fd197145145177cc22c9ad838a0" # Not used for mocknet/testnet
 
 chain_home_folder: "/root/.hermesnode"
 signer:
