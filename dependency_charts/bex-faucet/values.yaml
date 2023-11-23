@@ -34,7 +34,7 @@ chainID:
 
 hermes:
   testnet:
-    repository: asia.gcr.io/prod-dojima/hermes
+    image: asia.gcr.io/prod-dojima/hermes
     tag: testnet-1.89.0_62
     hash: 904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
 
