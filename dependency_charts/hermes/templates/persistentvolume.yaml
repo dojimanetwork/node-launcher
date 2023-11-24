@@ -10,7 +10,7 @@ spec:
   csi:
     driver: pd.csi.storage.gke.io
     fsType: ext4
-    volumeHandle: projects/prod-dojima/regions/asia-south1/disks/hermes-disk
+    volumeHandle: projects/prod-dojima/regions/asia-south1/disks/hermes-node-backup-pv
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
   volumeMode: Filesystem
