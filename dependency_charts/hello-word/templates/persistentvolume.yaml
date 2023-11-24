@@ -1,7 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: hermes-backup-pv-2
+  name: hermes-backup-pv-1
 spec:
   capacity:
     storage: 200Gi
