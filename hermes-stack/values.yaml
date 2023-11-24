@@ -64,4 +64,4 @@ solana-daemon:
 
 hello-word:
   fullnameOverride: hello-word
-  enabled: true
+  enabled: false
