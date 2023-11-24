@@ -6,19 +6,19 @@ metadata:
     {{- include "gateway.labels" . | nindent 4 }}
   annotations:
     # AWS
-    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
-    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    service.beta.kubernetes.io/aws-load-balancer-type: nlb
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:576263512135:certificate/36a81c43-d2f2-4d33-8ff6-cbb564684ba3
-    service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-03585604fa1ea7eba,eipalloc-0467abb2d11250e82,eipalloc-0016cbf203672fd0d
+    #service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    #service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    #service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    #service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    #service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:576263512135:certificate/36a81c43-d2f2-4d33-8ff6-cbb564684ba3
+    #service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-03585604fa1ea7eba,eipalloc-0467abb2d11250e82,eipalloc-0016cbf203672fd0d
     # Only run SSL on the port named "https" below.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: hermes-grpc,solana-rpc,polkadot-wss,eth-api,dc-rpc,polkadot-http,https,dc-http,bnb-rpc,solana-wss,arweave-api,bex-fiber,api,rpc
+    #service.beta.kubernetes.io/aws-load-balancer-ssl-ports: hermes-grpc,solana-rpc,polkadot-wss,eth-api,dc-rpc,polkadot-http,https,dc-http,bnb-rpc,solana-wss,arweave-api,bex-fiber,api,rpc
     # hcloud
-    load-balancer.hetzner.cloud/location: nbg1
-    load-balancer.hetzner.cloud/use-private-ip: "true"
-    load-balancer.hetzner.cloud/disable-private-ingress: "true"
-    load-balancer.hetzner.cloud/type: lb11
+    #load-balancer.hetzner.cloud/location: nbg1
+    #load-balancer.hetzner.cloud/use-private-ip: "true"
+    #load-balancer.hetzner.cloud/disable-private-ingress: "true"
+    #load-balancer.hetzner.cloud/type: lb11
 spec:
   type: {{ .Values.service.type }}
   externalTrafficPolicy: Local
