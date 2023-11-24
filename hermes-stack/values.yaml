@@ -28,7 +28,7 @@ narada:
 
 dojima-chain:
   fullnameOverride: dojima-chain
-  enabled: false
+  enabled: true
 
 midgard:
   enabled: false

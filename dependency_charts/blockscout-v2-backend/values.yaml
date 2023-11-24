@@ -12,9 +12,9 @@ image:
     tag: "latest"
     hash: "sha256:9d76e4077c5364d2ba0a7118bd5cecb0ee152b95a501c257c3a74895a0020b9e"
   smartcontract_verifier:
-    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/blockscout-rs
+    repository: ghcr.io/blockscout/smart-contract-verifier
     testnet:
-      tag: testnet-0.1.0-2023-02-22
+      tag: v1.0.0
       hash: f1e91d0d25e850902b647d882271f4536596674d8de71bb649130f3188c5ff55
   stats:
     repository: ghcr.io/blockscout/stats
@@ -42,7 +42,7 @@ env:
   eth_json_var: geth
   coin: DOJ
   chain_id: 1001
-  account_enabled: true
+  account_enabled: false
   show_testnet_label: true
   api_v2_enable: true
   port_network_http: 8545

@@ -95,5 +95,5 @@ Blockscout Docker image
 Smart contract verifier Docker image
 */}}
 {{- define "blockscout-v2-backend-rs.image" -}}
-{{ .Values.image.smartcontract_verifier.repository }}:{{ .Values.image.smartcontract_verifier.testnet.tag }}@sha256:{{ .Values.image.smartcontract_verifier.testnet.hash}}
+{{ .Values.image.smartcontract_verifier.repository }}:{{ .Values.image.smartcontract_verifier.testnet.tag }}
 {{- end -}}

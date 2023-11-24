@@ -7,9 +7,9 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: asia.gcr.io/prod-dojima/hermes
-  tag: "testnet-1.89.0_62"
-  hash: "904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52"
+  name: asia.gcr.io/prod-dojima/dojimachain
+  tag: "testnet-23-11-23"
+  hash: "cad3975a2ece8b7d08477aaf80a20098ad409fd197145145177cc22c9ad838a"
   testnet: "textury/arlocal:latest"
 
 imagePullSecrets: []
@@ -52,7 +52,7 @@ ingress:
 persistence:
   enabled: true
   size:
-    testnet: 200Gi
+    testnet: 50Gi
     stagenet: 300Gi
     mainnet: 300Gi
   accessMode: ReadWriteOnce

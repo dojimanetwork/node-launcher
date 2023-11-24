@@ -21,9 +21,9 @@ image:
   postgres:
     image: postgres:13.4
   frontend:
-    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/dojima-blockscout-v2
-    tag: testnet-0.0.1-2023-10-10
-    hash: "sha256:350ffef36b90a68a3e9fd37e02894940019dfca9f1e1ddea2be42a6ed06c8532"
+    repository: asia.gcr.io/prod-dojima/v2-blockscout-frontend
+    tag: v0.1.0
+    hash: "sha256:13f0bba5dc93e06e7b884de4333040a4983b6244830fdcfc76ef23690f03c431"
 
 frontend:
   environment:
