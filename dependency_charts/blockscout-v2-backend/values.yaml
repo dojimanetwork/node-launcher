@@ -83,8 +83,8 @@ env:
   disable_exchange_rate: true
   logo: /images/doj.svg
   logo_footer: /images/doj.svg
-  api_url: https://v2-doj-bex-test.dojima.network
-  blockscout_host: v2-doj-bex-test.dojima.network
+  api_url: https://doj-bex-test.dojima.network
+  blockscout_host: doj-bex-test.dojima.network
   enable_rs_verify_service: true
   rs_verify_url: http://localhost:8043
 
