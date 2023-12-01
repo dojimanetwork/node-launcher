@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-REGISTRY="576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci"
+REGISTRY="asia.gcr.io/prod-dojima/narada-ci"
 
 #docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
 
@@ -15,7 +15,7 @@ find narada-ci/images/ -name version -printf '%h\n' | xargs basename -a | while 
 #  else
     echo "Building image $image:$version..."
     docker build -t "$REGISTRY:$image-$version" "narada-ci/images/$image"
-    if [ "$CI_COMMIT_BRANCH" = "master" ]; then
+    if [ "$CI_COMMIT_BRANCH" = "gcp_develop" ]; then
       docker push "$REGISTRY:$image-$version"
     fi
 #  fi
