@@ -6,7 +6,7 @@ net: testnet
 
 validator: true
 midgard: false
-grpc: true
+grpc: false
 rpc:
   enabled: true
   limited: false
