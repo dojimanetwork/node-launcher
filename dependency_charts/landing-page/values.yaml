@@ -8,9 +8,9 @@ replicaCount: 1
 
 image:
   name: asia.gcr.io/prod-dojima/landing-page-v3
-  testnet: "testnet-0.1.10-2023-09-26"
+  testnet: "latest"
   mainnet: ""
-  testnet_hash: "d969f37cbe43bc10a5a09fd8793d068f57bf31c23af25a4b35950c007ddbed35"
+  testnet_hash: "082004bc90e65365ee8aeed15fdc617e246172df36cd949a1c4c31c9f06daa8f"
   mainnet_hash: ""
 
 imagePullSecrets: []
