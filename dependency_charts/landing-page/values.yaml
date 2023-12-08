@@ -10,7 +10,7 @@ image:
   name: asia.gcr.io/prod-dojima/landing-page-v3
   testnet: "latest"
   mainnet: ""
-  testnet_hash: "8ae88225a0d0de0d16634a1434f02a285518029d0a5b0a53e32380f88202a5a7"
+  testnet_hash: "00cc9908fd0370a386f841503de2eeb9d42c3a1b25fed21d8f8dd5850ae161fb"
   mainnet_hash: ""
 
 imagePullSecrets: []
