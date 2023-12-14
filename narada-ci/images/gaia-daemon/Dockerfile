@@ -2,15 +2,15 @@
 # Build
 ########################################################################################
 
-FROM golang:1.18-bullseye AS build
+FROM golang:1.20-bullseye AS build
 
 WORKDIR /app
+COPY version /version
 
-ARG SRC_COMMIT=5db8fcc9a229730f5115bed82d0f85b6db7184b4
-ARG TAG=v7.1.0
+ARG SRC_COMMIT=0d9408e9169488707f1ad423e87d0df84a30431f
 RUN git init && \
   git remote add origin https://github.com/cosmos/gaia && \
-  git fetch --depth 1 origin $TAG && \
+  git fetch --depth 1 origin "v$(cat /version)" && \
   git checkout $SRC_COMMIT && \
   make build
 

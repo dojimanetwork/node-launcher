@@ -2,9 +2,9 @@
 
 source ./scripts/core.sh
 
-SEED_TESTNET=${SEED_TESTNET:=$(curl -s https://testnet.seed.thorchain.info/ | jq -r '. | join(",")' | sed "s/,/\\\,/g;s/|/,/g")}
-SEED_STAGENET=${SEED_STAGENET:="stagenet-seed.ninerealms.com"}
-SEED_MAINNET=${SEED_MAINNET:=$(curl -s https://seed.thorchain.info/ | jq -r '. | join(",")' | sed "s/,/\\\,/g;s/|/,/g")}
+SEED_TESTNET=${SEED_TESTNET:=$(curl -s https://testnet-seed.dojima.network/ | jq -r '. | join(",")' | sed "s/,/\\\,/g;s/|/,/g")}
+SEED_STAGENET=${SEED_STAGENET:="stagenet-seed.dojima.network"}
+SEED_MAINNET=${SEED_MAINNET:=$(curl -s https://mainnet-seed.dojima.network/ | jq -r '. | join(",")' | sed "s/,/\\\,/g;s/|/,/g")}
 
 # sets type, name, net variables.
 get_node_info
