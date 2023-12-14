@@ -1,20 +1,43 @@
 global:
-  tag: stagenet-1.87.1
-  hash: b260f6bac627fa18c7f42b5f314f07da20338b8bb04d15554a18071aae9c0f4d
+  tag: testnet-1.89.0_62
 
 midgard:
   image:
     tag: 2.6.7
     hash: 041825f08eaf8cb6830991819b0b21bc6430abbe36905a61fbac5eb80e740f92
 
+hermes-gateway:
+  enabled: false
+
+hermesnode:
+  enabled: false
+
+narada:
+  enabled: false
+
+dojima-chain:
+  enabled: false
+
 binance-daemon:
   enabled: true
 
 bitcoin-daemon:
-  enabled: true
+  enabled: false
 
 ethereum-daemon:
-  enabled: true
+  enabled: false
 
 gaia-daemon:
-  enabled: true
+  enabled: false
+
+arweave-daemon:
+  enabled: false
+
+polkadot-daemon:
+  enabled: false
+
+solana-daemon:
+  enabled: false
+
+hello-word:
+  enabled: false

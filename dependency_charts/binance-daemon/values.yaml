@@ -52,12 +52,13 @@ ingress:
 
 persistence:
   enabled: true
+  name: binance-daemon-testnet-pv-1
   size:
     testnet: 50Gi
     stagenet: 500Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce
-#  storageClass: gp3
+  storageClass: gp3
 
 serviceAccount:
   # Specifies whether a service account should be created

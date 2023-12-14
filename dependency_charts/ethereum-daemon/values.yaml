@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: mocknet
+net: stagenet
 
 replicaCount: 1
 
@@ -32,9 +32,9 @@ image:
     tag: v4.1.0
     hash: a84112d5e0d0baa9c07f6b31016588ab0a73d3c8ea8a999d9dbe3182d437a4fb
   scripts:
-    repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
+    repository: asia.gcr.io/prod-dojima/hermes
     pullPolicy: IfNotPresent
-    tag: testnet-1.89.0_59
+    tag: testnet-1.89.0_62
 
 chain: goerli
 sync_url: https://goerli.checkpoint-sync.ethdevops.io
@@ -95,11 +95,11 @@ persistence:
   #
 resources:
   limits:
-    cpu: 0.05
-    memory: 1500Mi
+#    cpu: 0.05
+    memory: 12Gi
   requests:
-    cpu: 0.01
-    memory: 1000Mi
+    cpu: 2
+    memory: 12Gi
 
 nodeSelector: {}
 

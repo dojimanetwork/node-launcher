@@ -7,9 +7,9 @@ net: testnet
 replicaCount: 1
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci
-  tag: gaia-daemon-7.1.0
-  hash: "77209e9c5c8e36c491e451462aa0629be5af224278ca9ef1c9c13ddfcecc9118"
+  name: asia.gcr.io/prod-dojima/narada-ci
+  tag: gaia-daemon-14.1.0
+  hash: "6257a076be8d8c174362ded541ed2e39ed72970808263e8ab2cfbdb378369cb0"
 
 imagePullSecrets: []
 nameOverride: "narada-gaiad"

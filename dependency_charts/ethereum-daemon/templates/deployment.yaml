@@ -138,7 +138,7 @@ spec:
 
         {{- if not (eq .Values.net "mocknet") }}
         - name: {{ .Chart.Name }}-beacon
-          image: {{ .Values.image.prysm.name }}:{{ .Values.image.prysm.tag }}
+          image: {{ .Values.image.prysm.name }}:{{ .Values.image.prysm.tag }}@sha256:{{ .Values.image.prysm.hash }}
           command:
             - /app/cmd/beacon-chain/beacon-chain
             - --datadir=/data/beacon
