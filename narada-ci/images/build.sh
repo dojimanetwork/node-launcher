@@ -15,7 +15,7 @@ find narada-ci/images/ -name version -printf '%h\n' | xargs basename -a | while 
 #  else
     echo "Building image $image:$version..."
     docker build -t "$REGISTRY:$image-$version" "narada-ci/images/$image"
-    if [ "$CI_COMMIT_BRANCH" = "gcp_develop" ]; then
+    if [ "$CI_COMMIT_BRANCH" = "gcp_stagenet" ]; then
       docker push "$REGISTRY:$image-$version"
     fi
 #  fi
