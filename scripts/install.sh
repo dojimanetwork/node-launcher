@@ -31,7 +31,7 @@ case $NET in
     EXTRA_ARGS="-f ./hermes-stack/chaosnet.yaml"
     ;;
   stagenet)
-    SEED=$SEED_STAGENET
+#    SEED=$SEED_STAGENET
     EXTRA_ARGS="-f ./hermes-stack/stagenet.yaml"
     ;;
   testnet)
