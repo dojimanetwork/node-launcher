@@ -6,15 +6,31 @@ net: mocknet
 
 replicaCount: 1
 
+# time for the beacon chain to a few minutes (geth may still take hours or days). One
+# provider list is found at https://eth-clients.github.io/checkpoint-sync-endpoints -
+# you may select one from there or another source if desired. If you leverage a sync
+# checkpoint it is important to note that the provider becomes a trusted party and
+# should be verified by running `make verify-ethereum` after beacon sync shows 100%.
+beaconCheckpointSyncUrl: ""
+
+# Following the release of Geth v1.13 it is recommended that all new nodes start the
+# daemon with this enabled. We are currently setting the default value to false, since
+# enabling this on an existing node will trigger a re-sync of the state, but in time we
+# intend to make this default and remove the flag. The new storage mechanism will
+# improve pruning functionality and avoid the "Head state missing, repairing chain..."
+# logs which occasionally cause significant downtime after unclean shutdown. More
+# information available in: https://blog.ethereum.org/2023/09/12/geth-v1-13-0.
+stateSchemePath: false
+
 image:
   eth:
     name: ethereum/client-go
     tag: "alltools-v1.10.26" # When tag is empty it defaults to the chart appVersion.
-    hash: 03604c12f6123fda67f534c9a68a73dbabd35d5c0a13f0c6cfcf735cfd8760c8
+    hash: eba056242c1381aef2a15ef4090d534a5f38f4d9d97fee1126950993453ef5c3
   prysm:
     name: gcr.io/prysmaticlabs/prysm/beacon-chain
-    tag: v3.1.2
-    hash: 140aa344814fee97a5ef9ee873e69f4c851972b388588f74ea7d26b4842dc9c3
+    tag: v4.1.0
+    hash: a84112d5e0d0baa9c07f6b31016588ab0a73d3c8ea8a999d9dbe3182d437a4fb
   scripts:
     repository: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/hermes/hermes-node
     pullPolicy: IfNotPresent

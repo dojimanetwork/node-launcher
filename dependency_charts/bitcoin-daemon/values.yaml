@@ -4,12 +4,12 @@
 
 replicaCount: 1
 
-net: testnet
+net: stagenet
 
 image:
-  name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci
-  tag: "bitcoin-daemon-23.0-glibc"
-  hash: "716dc8995160e29afa002e4c0b6e12f7e6d50856d97084d151ff8ba16141a139"
+  name: asia.gcr.io/prod-dojima/narada-ci
+  tag: "bitcoin-daemon-26.0"
+  hash: "8e0b23361dedc821e1ed1c857547bb3c75d62d93639de5dfb05df369f2fcdd14"
 
 imagePullSecrets: []
 nameOverride: "narada-bitcoind"

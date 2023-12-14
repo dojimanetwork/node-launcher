@@ -2,14 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: mocknet
+net: stagenet
 
 replicaCount: 1
 
 image:
-  name: registry.gitlab.com/thorchain/devops/node-launcher
-  tag: "binance-daemon-0.10.2"
-  hash: "4b680fb40522f409b69c64818908367e6db6db698fbc3ca5ca616957642d6e44"
+  name: asia.gcr.io/prod-dojima/narada-ci
+  tag: "binance-daemon-0.10.16"
+  hash: "0a9ee387d4759c47f9652cefc2f5fe6176a593afb6a9177448b2c3086161cb39"
   mocknet: registry.gitlab.com/thorchain/bepswap/mock-binance # TODO: is this still used?
 
 imagePullSecrets: []
@@ -79,11 +79,11 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 0.01
-    memory: 400Mi
+    cpu: 4
+    memory: 20Gi
   limits:
-    cpu: 0.05
-    memory: 700Mi
+#    cpu: 0.05
+    memory: 20Gi
 
 nodeSelector: {}
 
