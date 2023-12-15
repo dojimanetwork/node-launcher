@@ -1,6 +1,6 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-ARG VERSION=0.10.16
+COPY version /version
 ARG HOST_USER_UID=1000
 ARG HOST_USER_GID=1000
 
@@ -8,14 +8,17 @@ ENV BNCHOME=/opt/bnbchaind
 ENV BNET=testnet
 
 WORKDIR /release
-RUN apt-get update && apt-get install -y --no-install-recommends curl jq ca-certificates unzip && \
-  curl -LO https://github.com/bnb-chain/node/releases/download/v${VERSION}/linux_binary.zip && \
-  curl -LO https://github.com/bnb-chain/node/releases/download/v${VERSION}/mainnet_config.zip && \
-  curl -LO https://github.com/bnb-chain/node/releases/download/v${VERSION}/testnet_config.zip && \
+RUN VERSION="$(cat /version)" && \
+  apt-get update && apt-get install -y --no-install-recommends curl=7.81.0-1ubuntu1.10 jq=1.6-2.1ubuntu3 ca-certificates=20230311ubuntu0.22.04.1 unzip=6.0-26ubuntu3.1 && \
+  rm -rf /var/lib/apt/lists/* && \
+  curl -LO "https://github.com/bnb-chain/node/releases/download/v${VERSION}/linux_binary.zip" && \
+  curl -LO "https://github.com/bnb-chain/node/releases/download/v${VERSION}/mainnet_config.zip" && \
+  curl -LO "https://github.com/bnb-chain/node/releases/download/v${VERSION}/testnet_config.zip" && \
   unzip linux_binary.zip && \
   unzip mainnet_config.zip && mv asset/mainnet . && \
   unzip testnet_config.zip && mv asset/testnet . && \
-  rmdir asset && rm *.zip
+  chmod 755 linux/* && \
+  rmdir asset && rm ./*.zip
 
 COPY entrypoint.sh /usr/local/bin/
 
