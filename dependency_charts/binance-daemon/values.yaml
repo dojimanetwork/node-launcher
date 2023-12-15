@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   name: asia.gcr.io/prod-dojima/narada-ci
   tag: "binance-daemon-0.10.16"
-  hash: "159c0a484440cb454ffb8c05a814930fe33c48ebd54879d3a8e9df740aabd356"
+  hash: "139f0a7628adad9d9990a26a60c9b89df56d942e6dce7ac6759ff71600dc9ca0"
   mocknet: registry.gitlab.com/thorchain/bepswap/mock-binance # TODO: is this still used?
 
 imagePullSecrets: []
