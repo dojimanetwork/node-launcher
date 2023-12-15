@@ -25,9 +25,9 @@ sed -i "s/dex:info/dex:error/g" "${BNCHOME}/config/config.toml"
 sed -i "s/state:info/state:error/g" "${BNCHOME}/config/config.toml"
 
 # fix testnet seed
-if [ "${BNET}" == "testnet" ]; then
-  sed -i -e "s/seeds =.*/seeds = \"aea74b16d28d06cbfbb1179c177e8cd71315cce4@tcp://0.0.0.0:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@aa13359cd244f11e988520ad55ba7f5a-c3963b80c9b991b7.elb.us-east-1.amazonaws.com:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@aa13359cd244f11e988520ad55ba7f5a-c3963b80c9b991b7.elb.us-east-1.amazonaws.com:27146\"/g" "${BNCHOME}/config/config.toml"
-fi
+#if [ "${BNET}" == "testnet" ]; then
+#  sed -i -e "s/seeds =.*/seeds = \"34ac6eb6cd914014995b5929be8d7bc9c16f724d@3.84.71.211:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@3.94.13.209:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@54.158.222.212:27146\"/g" "${BNCHOME}/config/config.toml"
+#fi
 
 echo "Running $0 in $PWD"
 su bnbchaind -c "$EXE"
