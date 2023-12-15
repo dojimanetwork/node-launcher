@@ -5,6 +5,7 @@ ARG HOST_USER_UID=1000
 ARG HOST_USER_GID=1000
 
 ENV BNCHOME=/opt/bnbchaind
+ENV BNET=testnet
 
 WORKDIR /release
 RUN apt-get update && apt-get install -y --no-install-recommends curl jq ca-certificates unzip && \
