@@ -3,6 +3,7 @@
 set -ex
 
 BNET=${BNET:-testnet}
+mkdir "${BNCHOME}"
 EXE="ulimit -n 65535 && /release/linux/bnbchaind start --home ${BNCHOME}"
 
 # initialize config
