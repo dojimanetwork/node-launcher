@@ -26,7 +26,7 @@ sed -i "s/state:info/state:error/g" "${BNCHOME}/config/config.toml"
 
 # fix testnet seed
 if [ "${BNET}" == "testnet" ]; then
-  sed -i -e "s/seeds =.*/seeds = \"9612b570bffebecca4776cb4512d08e252119005@3.114.127.147:27146,8c379d4d3b9995c712665dc9a9414dbde5b30483@3.113.118.255:27146,7156d461742e2a1e569fd68426009c4194830c93@52.198.111.20:27146\"/g" "${BNCHOME}/config/config.toml"
+  sed -i -e "s/seeds =.*/seeds = \"34ac6eb6cd914014995b5929be8d7bc9c16f724d@3.84.71.211:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@3.94.13.209:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@54.158.222.212:27146\"/g" "${BNCHOME}/config/config.toml"
 fi
 
 echo "Running $0 in $PWD"
