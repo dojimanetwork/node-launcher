@@ -51,8 +51,6 @@ spec:
               value: {{ include "binance-daemon.rpc" . | quote }}
             - name: BNET
               value: {{ include "binance-daemon.bnet" . | quote }}
-            - name: BNCHOME
-              value: /opt/binance-testnet-1
           ports:
             - name: rpc
               containerPort: {{ include "binance-daemon.rpc" . }}
