@@ -74,7 +74,7 @@ Bnet
 {{- if eq (include "binance-daemon.net" .) "mainnet" -}}
     mainnet
 {{- else if eq (include "binance-daemon.net" .) "stagenet" -}}
-    mainnet
+    testnet
 {{- else -}}
     {{ include "binance-daemon.net" . }}
 {{- end -}}
