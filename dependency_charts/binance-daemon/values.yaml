@@ -55,7 +55,7 @@ persistence:
   name: binance-daemon-testnet-pv-1
   size:
     testnet: 50Gi
-    stagenet: 1000Gi
+    stagenet: 2000Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce
   storageClass: gp3
