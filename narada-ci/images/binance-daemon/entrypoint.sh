@@ -24,10 +24,5 @@ sed -i "s/dexkeeper:info/dexkeeper:error/g" "${BNCHOME}/config/config.toml"
 sed -i "s/dex:info/dex:error/g" "${BNCHOME}/config/config.toml"
 sed -i "s/state:info/state:error/g" "${BNCHOME}/config/config.toml"
 
-# fix testnet seed
-#if [ "${BNET}" == "testnet" ]; then
-#  sed -i -e "s/seeds =.*/seeds = \"34ac6eb6cd914014995b5929be8d7bc9c16f724d@3.84.71.211:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@3.94.13.209:27146,34ac6eb6cd914014995b5929be8d7bc9c16f724d@54.158.222.212:27146\"/g" "${BNCHOME}/config/config.toml"
-#fi
-
 echo "Running $0 in $PWD"
 su bnbchaind -c "$EXE"
