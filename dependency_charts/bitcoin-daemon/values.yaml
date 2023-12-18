@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-net: stagenet
+net: testnet
 
 image:
   name: asia.gcr.io/prod-dojima/narada-ci
@@ -17,12 +17,13 @@ fullnameOverride: "fnarada-bitcoind"
 
 persistence:
   enabled: true
+  name: bitcoin-testnet-pv-1
   size:
-    testnet: 200Gi
+    testnet: 1000Gi
     stagenet: 1000Gi
     mainnet: 1000Gi
   accessMode: ReadWriteOnce
-  # storageClass: "-"
+  storageClass: "gp3"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -87,6 +88,14 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - asia-south1-c
 
 global: {}

@@ -19,10 +19,10 @@ dojima-chain:
   enabled: false
 
 binance-daemon:
-  enabled: true
+  enabled: false
 
 bitcoin-daemon:
-  enabled: false
+  enabled: true
 
 ethereum-daemon:
   enabled: true
