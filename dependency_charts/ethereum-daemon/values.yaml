@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: stagenet
+net: testnet
 
 replicaCount: 1
 
@@ -20,12 +20,12 @@ beaconCheckpointSyncUrl: ""
 # improve pruning functionality and avoid the "Head state missing, repairing chain..."
 # logs which occasionally cause significant downtime after unclean shutdown. More
 # information available in: https://blog.ethereum.org/2023/09/12/geth-v1-13-0.
-stateSchemePath: false
+stateSchemePath: true
 
 image:
   eth:
     name: ethereum/client-go
-    tag: "alltools-v1.10.26" # When tag is empty it defaults to the chart appVersion.
+    tag: "v1.13.5" # When tag is empty it defaults to the chart appVersion.
     hash: eba056242c1381aef2a15ef4090d534a5f38f4d9d97fee1126950993453ef5c3
   prysm:
     name: gcr.io/prysmaticlabs/prysm/beacon-chain
@@ -37,7 +37,7 @@ image:
     tag: testnet-1.89.0_62
 
 chain: goerli
-sync_url: https://goerli.checkpoint-sync.ethdevops.io
+sync_url: https://sync-goerli.beaconcha.in
 fee_recipient: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
 
 imagePullSecrets: []
@@ -86,13 +86,14 @@ ingress:
 
 persistence:
   enabled: true
+  name: ethereum-testnet-pv-1
   size:
-    testnet: 50Gi
+    testnet: 1000Gi
     stagenet: 900Gi
     mainnet: 1228Gi
   accessMode: ReadWriteOnce
-#  storageClass: gp3
-  #
+  storageClass: gp3
+
 resources:
   limits:
 #    cpu: 0.05
@@ -105,7 +106,15 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - asia-south1-c
 
 # necessary for lint
 global:

@@ -46,7 +46,7 @@ spec:
             - name: data
               mountPath: /data
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-execution
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.eth.name }}:{{ include "daemon.tag" . }}@sha256:{{ .Values.image.eth.hash }}"
@@ -83,6 +83,7 @@ spec:
             - --authrpc.port=8551
             - --authrpc.jwtsecret=/data/jwt.hex
             - --datadir=/data/{{.Values.chain}}
+            - --state.scheme=path
           {{- else }} # mainnet / stagenet
           command: [ "sh", "-c", 'geth --syncmode snap --cache 4096 --http --http.addr 0.0.0.0 --http.port 8545 --http.api "eth,net,engine,web3,miner,personal,txpool,debug" --http.corsdomain "*" --http.vhosts="*" --authrpc.vhosts="localhost" --authrpc.jwtsecret="/data/jwt.hex"' ]
           {{- end }}
@@ -137,7 +138,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
 
         {{- if not (eq .Values.net "mocknet") }}
-        - name: {{ .Chart.Name }}-beacon
+        - name: {{ .Chart.Name }}-beacon-consensus
           image: {{ .Values.image.prysm.name }}:{{ .Values.image.prysm.tag }}@sha256:{{ .Values.image.prysm.hash }}
           command:
             - /app/cmd/beacon-chain/beacon-chain

@@ -8,6 +8,8 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
+  volumeName: {{ .Values.persistence.name }}
+  volumeMode: Filesystem
   resources:
     requests:
       {{- if eq (include "ethereum-daemon.net" .) "mainnet" }}
