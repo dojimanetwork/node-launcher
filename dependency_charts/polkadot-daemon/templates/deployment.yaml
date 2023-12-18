@@ -43,10 +43,9 @@ spec:
           command:
             - polkadot
             - --rpc-external
-            - --ws-external
             - --rpc-cors=all
             - --prometheus-external
-            - --ws-max-connections=1000000
+            - --rpc-max-connections=1000000
             - --rpc-max-subscriptions-per-connection=100000
             - --state-pruning=archive
             - --blocks-pruning=archive
