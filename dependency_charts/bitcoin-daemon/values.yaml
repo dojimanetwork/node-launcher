@@ -9,7 +9,7 @@ net: testnet
 image:
   name: asia.gcr.io/prod-dojima/narada-ci
   tag: "bitcoin-daemon-26.0"
-  hash: "8e0b23361dedc821e1ed1c857547bb3c75d62d93639de5dfb05df369f2fcdd14"
+  hash: "c1bda82d85a9e42dd04f9b475ea5f259c17f2fed5f47fd46110bd638f5b33963"
 
 imagePullSecrets: []
 nameOverride: "narada-bitcoind"
