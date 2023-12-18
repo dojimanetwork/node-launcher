@@ -73,11 +73,9 @@ spec:
             - --nodiscover
             - --password=/data/password.txt
           {{- else if eq .Values.net "testnet" }}
-            - --override.terminaltotaldifficulty=50000000000000000
             - --{{ .Values.chain }}
             - --syncmode=snap
             - --cache=4096
-            - --eth.requiredblocks=10920274=0xfd652086d220d506ae5b7cb80fde97d2f3f7028d346cc7d9d384a83d3d638532
             - --authrpc.vhosts=*
             - --authrpc.addr=0.0.0.0
             - --authrpc.port=8551
