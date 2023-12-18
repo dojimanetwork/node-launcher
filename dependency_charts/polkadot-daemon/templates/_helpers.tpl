@@ -84,11 +84,7 @@ Bnet
 Image
 */}}
 {{- define "polkadot-daemon.image" -}}
-{{- if eq (include "polkadot-daemon.net" .) "mocknet" -}}
-    "{{ .Values.image.mocknet }}:latest"
-{{- else if eq (include "polkadot-daemon.net" .) "testnet" -}}
     "{{ .Values.image.testnet }}"
-{{- end -}}
 {{- end -}}
 
 {{/*
