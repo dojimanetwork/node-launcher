@@ -120,7 +120,11 @@ P2P Port
 {{- end -}}
 
 {{- define "polkadot-daemon.ws" -}}
-{{- if eq (include "polkadot-daemon.net" .) "testnet" -}}
+{{- if eq (include "polkadot-daemon.net" .) "mainnet" -}}
+    {{ .Values.service.port.mainnet.ws}}
+{{- else if eq (include "polkadot-daemon.net" .) "stagenet" -}}
+    {{ .Values.service.port.stagenet.ws}}
+{{- else -}}
     {{ .Values.service.port.testnet.ws }}
 {{- end -}}
 {{- end -}}
