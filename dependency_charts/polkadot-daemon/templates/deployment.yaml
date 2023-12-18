@@ -46,6 +46,10 @@ spec:
             - --ws-external
             - --rpc-cors=all
             - --prometheus-external
+            - --ws-max-connections=1000000
+            - --rpc-max-subscriptions-per-connection=100000
+            - --state-pruning=archive
+            - --blocks-pruning=archive
           {{- if eq .Values.net "testnet" }}
             - --chain={{ .Values.chain.testnet }}
           {{- else if eq .Values.net "mainnet" }}
@@ -53,11 +57,7 @@ spec:
           {{- else }}
             - --dev
             - --name=dojima-polka-testnet
-            - --state-pruning=archive
-            - --blocks-pruning=archive
             - --base-path=/data/.{{ .Values.chain.devnet }}
-            - --ws-max-connections=1000000
-            - --rpc-max-subscriptions-per-connection=100000
           {{- end }}
           ports:
             - name: p2p

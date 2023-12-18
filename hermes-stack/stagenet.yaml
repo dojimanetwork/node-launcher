@@ -34,7 +34,7 @@ arweave-daemon:
   enabled: false
 
 polkadot-daemon:
-  enabled: false
+  enabled: true
 
 solana-daemon:
   enabled: false

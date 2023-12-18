@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: mocknet
+net: testnet
 chain:
   testnet: westend
   mainnet: polkadot
@@ -14,7 +14,7 @@ image:
   name: 576263512135.dkr.ecr.ap-south-1.amazonaws.com/narada-ci
   tag: "polkadot-daemon-0.1.0"
   hash: "c3902fc7008ec884c396404919838840a3e4b24b81ece5f0524450ebf0f6c2dd"
-  testnet: "parity/polkadot:v0.9.32"
+  testnet: "parity/polkadot:v0.9.43"
 
 imagePullSecrets: []
 nameOverride: "narada-polkadotd"
@@ -57,12 +57,13 @@ ingress:
 
 persistence:
   enabled: true
+  name: polkadot-testnet-pv-1
   size:
-    testnet: 50Gi
+    testnet: 1000Gi
     stagenet: 500Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce
-#  storageClass: gp3
+  storageClass: gp3
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -94,7 +95,15 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - asia-south1-c
 
 
 global:
