@@ -88,8 +88,6 @@ Image
     "{{ .Values.image.mocknet }}:latest"
 {{- else if eq (include "polkadot-daemon.net" .) "testnet" -}}
     "{{ .Values.image.testnet }}"
-{{- else -}}
-    "{{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}"
 {{- end -}}
 {{- end -}}
 
