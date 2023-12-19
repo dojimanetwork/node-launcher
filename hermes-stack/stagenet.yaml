@@ -43,4 +43,4 @@ hello-word:
   enabled: false
 
 avalanche-daemon:
-  enabled: false
+  enabled: true
