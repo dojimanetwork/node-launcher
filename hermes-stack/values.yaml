@@ -62,6 +62,10 @@ solana-daemon:
   fullnameOverride: solana-daemon
   enabled: false
 
+avalanche-daemon:
+  fullnameOverride: avalanche-daemon
+  enabled: false
+
 hello-word:
   fullnameOverride: hello-word
   enabled: false
