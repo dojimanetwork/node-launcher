@@ -41,3 +41,6 @@ solana-daemon:
 
 hello-word:
   enabled: false
+
+avalanche-daemon:
+  enabled: true
