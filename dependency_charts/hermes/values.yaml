@@ -86,6 +86,8 @@ persistence:
   name: hermes-testnet-pv-1
   size:
     testnet: 300Gi
+    stagenet: 500Gi
+    mainnet: 1000Gi
   accessMode: ReadWriteOnce
   storageClass: gp3
 
