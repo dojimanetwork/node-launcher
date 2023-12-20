@@ -441,17 +441,40 @@ display_password() {
 }
 
 display_status() {
-  local ready
-  ready=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=hermesnode -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}')
-  if [ "$ready" = "True" ]; then
-    if kubectl exec -it -n "$NAME" deploy/fhermesnode-hermes -c hermesnode -- /scripts/node-status.sh | tee /dev/tty | grep -E "^STATUS\s+Active" >/dev/null; then
-      if [ -z "$TC_NO_BACKUP" ]; then
-        echo -e "\n=> Detected ${red}active$reset validator hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-        make_backup narada
+  APP=hermesnode
+  if [ "$TYPE" = "validator" ]; then
+    APP=bifrost
+  fi
+
+  local initialized
+  initialized=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=$APP -o 'jsonpath={..status.conditions[?(@.type=="Initialized")].status}')
+  if [ "$initialized" = "True" ]; then
+    local output
+    output=$(kubectl exec -it -n "$NAME" deploy/$APP -c $APP -- /scripts/node-status.sh | tee /dev/tty)
+    NODE_ADDRESS=$(awk '$1 ~ /ADDRESS/ {match($2, /[a-z0-9]+/); print substr($2, RSTART, RLENGTH)}' <<<"$output")
+
+    if grep -E "^STATUS\s+Active" <<<"$output" >/dev/null; then
+      echo -e "\n=> Detected ${red}active$reset validator THORNode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
+
+      # prompt for missing mimir votes if mainnet
+      if [ "$NET" = "mainnet" ]; then
+        echo "=> Checking for missing mimir votes..."
+
+        # all reminder votes the node is missing
+        local missing_votes
+        missing_votes=$(kubectl exec -it -n "$NAME" deploy/thornode -c thornode -- curl -s http://localhost:1317/hermeschain/hermset/nodes_all |
+          jq -r "$(curl -s https://api.ninerealms.com/thorchain/votes | jq -c) - [.mimirs[] | select(.signer==\"$NODE_ADDRESS\") | .key] | .[]")
+
+        if [ -n "$missing_votes" ]; then
+          echo
+          echo "$red=> Please vote for the following unvoted mimir values:$reset"
+          echo "$missing_votes"
+        fi
       fi
     fi
+
   else
-    echo "hermesnode pod is not currently running, status is unavailable"
+    echo "HERMESNode pod is not currently running, status is unavailable"
   fi
   return
 }
