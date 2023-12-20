@@ -45,8 +45,8 @@ env:
   dot_host: ws://polkadot-daemon.hermes-testnet:9944
   mnemonic: "hero eagle luxury slight survey catch toy goat model general alarm inner"
   sol_host: http://solana-daemon.hermes-testnet:8899
-  hermes_grpc_host: fhermesnode-hermes.hermes-testnet:9090
-  hermes_host: http://fhermesnode-hermes.hermes-testnet:26657
+  hermes_grpc_host: hermesnode.hermes-testnet:9090
+  hermes_host: http://hermesnode.hermes-testnet:26657
   doj_host: http://dojima-chain.hermes-testnet:8545
   eth_host: http://ethereum-daemon.hermes-testnet:9545
   eth_amt: 500000000000000000

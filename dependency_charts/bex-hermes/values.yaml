@@ -40,8 +40,8 @@ hermes:
 
 env:
   mongo_uri: "mongodb+srv://dojimanetwork:gahbis-tokdyv-4xaMxe@hermes-testnet.rhjqu.mongodb.net/?retryWrites=true&w=majority"
-  hermes_grpc_host: fhermesnode-hermes.hermes-testnet:9090
-  hermes_host: http://fhermesnode-hermes.hermes-testnet:26657
+  hermes_grpc_host: hermesnode.hermes-testnet:9090
+  hermes_host: http://hermesnode.hermes-testnet:26657
   pg_pass: ""
   pg_user: postgres
   pg_host_auth_method: 'trust'

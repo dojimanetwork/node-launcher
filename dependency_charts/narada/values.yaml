@@ -42,10 +42,10 @@ debug: true
 
 dojima_chain:
   rpc_url: http://dojima-chain:8545
-  grpc_url: fhermesnode-hermes:9090
+  grpc_url: hermesnode:9090
   chain_id: 1001
 
-hermesApi: fhermesnode-hermes:1317
+hermesApi: hermesnode:1317
 chainID:
   testnet: hermes-testnet
 #  mainnet: thorchain-mainnet-v1
@@ -54,7 +54,7 @@ chainID:
 
 hermesDaemon:
 #  mainnet: hermesnode:27147
-  testnet: fhermesnode-hermes:26657
+  testnet: hermesnode:26657
 #  stagenet: hermesnode:27147
 #  mocknet: hermesnode:26657
 

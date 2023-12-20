@@ -63,8 +63,8 @@ image:
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
-nameOverride: "hermesnode-hermes"
-fullnameOverride: "fhermesnode-hermes"
+nameOverride: "hermesnode"
+fullnameOverride: "hermesnode"
 
 service:
   type: "ClusterIP"

@@ -34,9 +34,9 @@ env:
   eth_acc_pass: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
 
 h4s:
-  hermesApi: fhermesnode-hermes:1317
+  hermesApi: hermesnode:1317
   narada: http://narada:6040
-  grpc: fhermesnode-hermes:9090
+  grpc: hermesnode:9090
   eth: http://ethereum-daemon:9545
 
 hermes:
