@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   name: asia-south1-docker.pkg.dev/prod-dojima/stagenet/narada-ci
   tag: "binance-daemon-0.10.16"
-  hash: "c661e85e0da5dd31919ff0b85a324776f9265d852542f6aebf5ef211a972cfeb"
+  hash: "646b79cd921859950713d0cc6f930cec752dc6b4b8eb1ed4b4e9c804be6b8ed3"
   mocknet: registry.gitlab.com/thorchain/bepswap/mock-binance # TODO: is this still used?
 
 imagePullSecrets: []
