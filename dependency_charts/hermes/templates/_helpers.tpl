@@ -93,18 +93,14 @@ Image
 RPC Port
 */}}
 {{- define "hermesnode.rpc" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.rpc}}
-{{- end -}}
 {{- end -}}
 
 {{/*
 P2P Port
 */}}
 {{- define "hermesnode.p2p" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.p2p }}
-{{- end -}}
 {{- end -}}
 
 
@@ -112,27 +108,21 @@ P2P Port
 ABCI Port
 */}}
 {{- define "hermesnode.abci" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.abci }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Prometheus collectior Port
 */}}
 {{- define "hermesnode.prometheus_collector" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.prometheus_collector }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 GRPC Port
 */}}
 {{- define "hermesnode.grpc" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.grpc }}
-{{- end -}}
 {{- end -}}
 
 
@@ -140,43 +130,33 @@ GRPC Port
 GRPC Web Port
 */}}
 {{- define "hermesnode.grpc-web" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.grpc_web }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 PProf Port
 */}}
 {{- define "hermesnode.pprof" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.pprof }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Rosetta Port
 */}}
 {{- define "hermesnode.rosetta" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.service.port.testnet.rosetta }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 ETH Router contract
 */}}
 {{- define "hermesnode.ethRouterContract" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.ethRouterContract.testnet }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 chain id
 */}}
 {{- define "hermesnode.chainID" -}}
-{{- if eq (include "hermesnode.net" .) "testnet" -}}
     {{ .Values.chainID.testnet }}
-{{- end -}}
 {{- end -}}
