@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   name: asia-south1-docker.pkg.dev/prod-dojima/stagenet/narada-ci
   tag: "binance-daemon-0.10.16"
-  hash: "646b79cd921859950713d0cc6f930cec752dc6b4b8eb1ed4b4e9c804be6b8ed3"
+  hash: "dd777ab2dc5da2d2725fffc6f25624f8b74fecd9b82d7a357d338d6f49e319f3"
   mocknet: registry.gitlab.com/thorchain/bepswap/mock-binance # TODO: is this still used?
 
 imagePullSecrets: []
@@ -52,7 +52,7 @@ ingress:
 
 persistence:
   enabled: true
-  name: binance-daemon-testnet-pv-1
+  name: binance-testnet-pv-1
   size:
     testnet: 50Gi
     stagenet: 2000Gi

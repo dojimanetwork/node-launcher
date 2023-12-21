@@ -57,14 +57,14 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: asia.gcr.io/prod-dojima/hermes
-  tag: testnet-1.89.0_62
-  hash: sha256:904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
+  repository: asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes
+  tag: 514a5b23
+  hash: sha256:27f4a70c21c7f65e91951d66b3f9b6455322121a166993f08c7f1614d39e53da
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: "hermesnode"
-fullnameOverride: "hermesnode-test"
+fullnameOverride: "hermesnode"
 
 service:
   type: "ClusterIP"
@@ -83,10 +83,10 @@ service:
 
 persistence:
   enabled: true
-  name: hermes-testnet-pv-2
+  name: hermes-testnet-pv-1
   size:
-    testnet: 300Gi
-    stagenet: 300Gi
+    testnet: 500Gi
+    stagenet: 500Gi
     mainnet: 1000Gi
   accessMode: ReadWriteOnce
   storageClass: gp3

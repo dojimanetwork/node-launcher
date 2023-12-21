@@ -6,6 +6,8 @@ metadata:
   labels:
     {{- include "hermesnode.labels" . | nindent 4 }}
 spec:
+  volumeName: {{ .Values.persistence.name }}
+  volumeMode: Filesystem
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
   resources:
