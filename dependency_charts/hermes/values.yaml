@@ -64,7 +64,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: "hermesnode"
-fullnameOverride: "hermesnode"
+fullnameOverride: "hermesnode-test"
 
 service:
   type: "ClusterIP"
@@ -83,7 +83,7 @@ service:
 
 persistence:
   enabled: true
-  name: hermes-testnet-pv-1
+  name: hermes-testnet-pv-2
   size:
     testnet: 300Gi
     stagenet: 300Gi
