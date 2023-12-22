@@ -34,13 +34,8 @@ data:
     FILE=/root/.probe_last_height
     less -FX /data/jwt.hex
     less -FX /root/jwt.hex
-    if [ "$NET" = "testnet" ]; then
-      SYNCING=$(geth --goerli attach --exec eth.syncing) || exit 1
-      HEIGHT=$(geth --goerli attach --exec eth.blockNumber) ||  exit 1
-    else
-      SYNCING=$(geth attach --exec eth.syncing) || exit 1
-      HEIGHT=$(geth attach --exec eth.blockNumber) || exit 1
-    fi
+    SYNCING=$(geth attach --exec eth.syncing http://localhost:{{ .Values.service.port }}) || exit 1
+    HEIGHT=$(geth attach --exec eth.blockNumber http://localhost:{{ .Values.service.port }}) ||  exit 1
 
     # first time we are syncing from scratch
     if [ "$HEIGHT" = "0" ]; then
