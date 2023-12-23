@@ -64,7 +64,7 @@ Create the name of the service account to use
 Net
 */}}
 {{- define "bitcoin-daemon.net" -}}
-{{- default .Values.net .Values.global.net -}}
+{{- default .Values.net -}}
 {{- end -}}
 
 {{/*

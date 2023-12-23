@@ -66,6 +66,28 @@ imagePullSecrets: []
 nameOverride: "hermesnode"
 fullnameOverride: "hermesnode"
 
+hermesnode:
+  environment:
+    HERMESNODE_SERVICE_PORT_RPC:
+      _default: 26657
+    BINANCE_DAEMON_SERVICE_PORT_RPC:
+      _default: 26657
+    BINANCE_HOST:
+      _default: binance-daemon
+    BTC_HOST:
+      _default: bitcoin-daemon
+    ETH_HOST:
+      _default: ethereum-daemon
+    AVAX_HOST:
+      _default: avalanche-daemon
+    BITCOIN_DAEMON_SERVICE_PORT_RPC:
+      _default: 18332
+    ETHEREUM_DAEMON_SERVICE_PORT_RPC:
+      _default: 9545
+    AVALANCHE_DAEMON_SERVICE_PORT_RPC:
+      _default: 9650
+
+
 service:
   type: "ClusterIP"
   port:

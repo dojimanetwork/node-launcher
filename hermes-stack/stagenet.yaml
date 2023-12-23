@@ -19,7 +19,7 @@ dojima-chain:
   enabled: false
 
 binance-daemon:
-  enabled: true
+  enabled: false
 
 bitcoin-daemon:
   enabled: true

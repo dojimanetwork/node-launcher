@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: stagenet
+net: testnet
 
 replicaCount: 1
 
@@ -54,7 +54,7 @@ persistence:
   enabled: true
   name: binance-testnet-pv-1
   size:
-    testnet: 50Gi
+    testnet: 200Gi
     stagenet: 2000Gi
     mainnet: 500Gi
   accessMode: ReadWriteOnce

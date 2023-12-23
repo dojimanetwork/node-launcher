@@ -125,6 +125,7 @@ spec:
                value: "{{ .Values.env.faucet_amt }}"
              - name: ETH_ACC_PASS
                value: {{ .Values.env.eth_acc_pass | quote }}
+             {{- include "hermesnode_env" . | indent 10 }}
            ports: 
             - name: api 
               containerPort: {{ .Values.service.port.api }} 

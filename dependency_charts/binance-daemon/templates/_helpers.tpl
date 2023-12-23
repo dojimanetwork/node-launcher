@@ -86,6 +86,8 @@ Image
 {{- define "binance-daemon.image" -}}
 {{- if eq (include "binance-daemon.net" .) "mocknet" -}}
     "{{ .Values.image.mocknet }}:latest"
+{{- else if eq (include "binance-daemon.net" .) "testnet" -}}
+    "{{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}"
 {{- else -}}
     "{{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}"
 {{- end -}}
@@ -99,6 +101,8 @@ RPC Port
     {{ .Values.service.port.mainnet.rpc}}
 {{- else if eq (include "binance-daemon.net" .) "stagenet" -}}
     {{ .Values.service.port.stagenet.rpc}}
+{{- else if eq (include "binance-daemon.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.rpc}}
 {{- else -}}
     {{ .Values.service.port.mocknet.rpc }}
 {{- end -}}
@@ -112,6 +116,8 @@ P2P Port
     {{ .Values.service.port.mainnet.p2p}}
 {{- else if eq (include "binance-daemon.net" .) "stagenet" -}}
     {{ .Values.service.port.stagenet.p2p}}
+{{- else if eq (include "binance-daemon.net" .) "testnet" -}}
+    {{ .Values.service.port.testnet.p2p}}
 {{- else -}}
     {{ .Values.service.port.testnet.p2p }}
 {{- end -}}
