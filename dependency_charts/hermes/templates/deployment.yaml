@@ -125,7 +125,22 @@ spec:
                value: "{{ .Values.env.faucet_amt }}"
              - name: ETH_ACC_PASS
                value: {{ .Values.env.eth_acc_pass | quote }}
-             {{- include "hermesnode_env" . | indent 10 }}
+             - name: HERMESNODE_SERVICE_PORT_RPC
+               value: {{ .Values.hermesnode.environment.HERMESNODE_SERVICE_PORT_RPC._default | quote }}
+             - name: BINANCE_DAEMON_SERVICE_PORT_RPC
+               value: {{ .Values.hermesnode.environment.BINANCE_DAEMON_SERVICE_PORT_RPC._default | quote }}
+             - name: BINANCE_HOST
+               value: {{ .Values.hermesnode.environment.BINANCE_HOST._default | quote }}
+             - name: BTC_HOST
+               value: {{ .Values.hermesnode.environment.BTC_HOST._default | quote }}
+             - name: AVAX_HOST
+               value: {{ .Values.hermesnode.environment.AVAX_HOST._default | quote }}
+             - name: BITCOIN_DAEMON_SERVICE_PORT_RPC
+               value: {{ .Values.hermesnode.environment.BITCOIN_DAEMON_SERVICE_PORT_RPC._default | quote }}
+             - name: ETHEREUM_DAEMON_SERVICE_PORT_RPC
+               value: {{ .Values.hermesnode.environment.ETHEREUM_DAEMON_SERVICE_PORT_RPC._default | quote  }}
+             - name: AVALANCHE_DAEMON_SERVICE_PORT_RPC
+               value: {{ .Values.hermesnode.environment.AVALANCHE_DAEMON_SERVICE_PORT_RPC._default | quote }}
            ports: 
             - name: api 
               containerPort: {{ .Values.service.port.api }} 
