@@ -38,6 +38,10 @@ case $NET in
 #    SEED=$SEED_TESTNET
     EXTRA_ARGS="-f ./hermes-stack/testnet.yaml"
     ;;
+  devnet)
+#    SEED=$SEED_TESTNET
+    EXTRA_ARGS="-f ./hermes-stack/devnet.yaml"
+    ;;
 esac
 
 if [ -n "$HARDFORK_BLOCK_HEIGHT" ]; then

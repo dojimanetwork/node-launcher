@@ -41,13 +41,13 @@ confirm() {
 
 get_node_net() {
   if [ "$NET" != "" ]; then
-    if [ "$NET" != "mainnet" ] && [ "$NET" != "testnet" ] && [ "$NET" != "stagenet" ]; then
-      die "Error NET variable=$NET. NET variable should be either 'mainnet', 'testnet', or 'stagenet'."
+    if [ "$NET" != "mainnet" ] && [ "$NET" != "testnet" ] && [ "$NET" != "stagenet" ] && [ "$NET" != "devnet" ]; then
+      die "Error NET variable=$NET. NET variable should be either 'mainnet', 'testnet', or 'stagenet' or 'devnet'."
     fi
     return
   fi
   echo "=> Select net"
-  menu mainnet mainnet testnet stagenet
+  menu mainnet mainnet testnet stagenet devnet
   NET=$MENU_SELECTED
   echo
 }
@@ -71,6 +71,9 @@ get_node_name() {
       ;;
     "testnet")
       NAME=hermesnode-testnet
+      ;;
+    "devnet")
+      NAME=hermesnode-devnet
       ;;
   esac
   read -r -p "=> Enter hermesnode name [$NAME]: " name
@@ -483,6 +486,7 @@ deploy_genesis() {
   local args
   [ "$NET" = "mainnet" ] && args="--set global.passwordSecret=hermesnode-password"
   [ "$NET" = "stagenet" ] && args="--set global.passwordSecret=hermesnode-password"
+  [ "$NET" = "devnet" ] && args="--set global.passwordSecret=hermesnode-password"
   # shellcheck disable=SC2086
   helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
     $args $EXTRA_ARGS \
@@ -546,6 +550,7 @@ deploy_validator() {
   local args
   [ "$NET" = "mainnet" ] && args="--set global.passwordSecret=hermesnode-password"
   [ "$NET" = "stagenet" ] && args="--set global.passwordSecret=hermesnode-password"
+  [ "$NET" = "devnet" ] && args="--set global.passwordSecret=hermesnode-password"
   # shellcheck disable=SC2086
   helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
     $args $EXTRA_ARGS \
