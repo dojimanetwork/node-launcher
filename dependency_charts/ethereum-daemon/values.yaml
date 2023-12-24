@@ -36,8 +36,8 @@ image:
     pullPolicy: IfNotPresent
     tag: testnet-1.89.0_62
 
-chain: goerli
-sync_url: https://sync-goerli.beaconcha.in
+chain: holesky
+sync_url: https://holesky.beaconstate.ethstaker.cc/
 fee_recipient: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
 
 imagePullSecrets: []

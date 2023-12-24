@@ -52,7 +52,7 @@ ingress:
 
 persistence:
   enabled: true
-  name: binance-testnet-pv-1
+  name: binance-testnet-1
   size:
     testnet: 200Gi
     stagenet: 2000Gi

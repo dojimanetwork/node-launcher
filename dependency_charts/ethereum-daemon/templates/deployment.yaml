@@ -140,7 +140,7 @@ spec:
           image: {{ .Values.image.prysm.name }}:{{ .Values.image.prysm.tag }}@sha256:{{ .Values.image.prysm.hash }}
           command:
             - /app/cmd/beacon-chain/beacon-chain
-            - --datadir=/data/beacon
+            - --datadir=/data/{{.Values.chain}}
             - --execution-endpoint=http://localhost:8551
             - --accept-terms-of-use
             - --jwt-secret=/data/jwt.hex
