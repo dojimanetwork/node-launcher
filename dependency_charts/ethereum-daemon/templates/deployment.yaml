@@ -122,15 +122,7 @@ spec:
             exec:
               command:
                 - test
-                {{- if eq (include "ethereum-daemon.net" .) "mocknet" }}
-                - $(geth --dev attach --exec net.listening) == "true"
-                {{- else if eq (include "ethereum-daemon.net" .) "testnet" }}
-                - $(geth --{{ .Values.chain }} attach --exec net.listening) == "true"
-                {{- else if eq (include "ethereum-daemon.net" .) "stagenet" }}
-                - $(geth attach --exec net.listening) == "true"
-                {{- else if eq (include "ethereum-daemon.net" .) "mainnet" }}
-                - $(geth attach --exec net.listening) == "true"
-                {{- end }}
+                - $(geth attach --exec net.listening http://localhost:{{ .Values.service.port }}) == "true"
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

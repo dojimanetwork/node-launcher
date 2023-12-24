@@ -32,10 +32,9 @@ data:
     #!/bin/sh
 
     FILE=/root/.probe_last_height
-    less -FX /data/jwt.hex
-    less -FX /root/jwt.hex
     SYNCING=$(geth attach --exec eth.syncing http://localhost:{{ .Values.service.port }}) || exit 1
     HEIGHT=$(geth attach --exec eth.blockNumber http://localhost:{{ .Values.service.port }}) ||  exit 1
+    echo "query height $HEIGHT"
 
     # first time we are syncing from scratch
     if [ "$HEIGHT" = "0" ]; then
@@ -44,14 +43,15 @@ data:
 
     if [ ! -f "$FILE" ]; then
       echo "$HEIGHT" >$FILE
-      echo "Not getting new blocks"
+      echo "exit: 1 - Not getting new blocks"
       exit 1
     fi
 
     OLD=$(cat $FILE)
+    echo "old $OLD"
     echo "$HEIGHT" >$FILE
     if [ "$OLD" = "$HEIGHT" ]; then
-      echo "Not getting new blocks"
+      echo "exit: 2 - Not getting new blocks"
       exit 1
     fi
     exit 0

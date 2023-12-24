@@ -19,13 +19,13 @@ dojima-chain:
   enabled: false
 
 binance-daemon:
-  enabled: false
+  enabled: true
 
 bitcoin-daemon:
-  enabled: false
+  enabled: true
 
 ethereum-daemon:
-  enabled: false
+  enabled: true
 
 gaia-daemon:
   enabled: false
@@ -34,7 +34,7 @@ arweave-daemon:
   enabled: false
 
 polkadot-daemon:
-  enabled: false
+  enabled: true
 
 solana-daemon:
   enabled: false
@@ -43,4 +43,4 @@ hello-word:
   enabled: false
 
 avalanche-daemon:
-  enabled: false
+  enabled: true
