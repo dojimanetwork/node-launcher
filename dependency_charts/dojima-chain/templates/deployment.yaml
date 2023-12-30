@@ -56,9 +56,21 @@ spec:
           - name: SIGNER_NAME
             value: {{ .Values.signer.name }}
           - name: SIGNER_PASSWD
+             {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                key: password
+             {{- else}}
             value: {{ .Values.signer.password }}
+             {{- end }}
+          {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
           - name: SIGNER_SEED_PHRASE
-            value: "{{ .Values.signer.signer_seed_phrase }}"
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+                key: mnemonic
+          {{- end }}
           - name: CHAIN_ID
             value: "{{ include "dojima-chain.chainID" . }}"
           - name: ETH_HOST
@@ -106,11 +118,9 @@ spec:
             - dojimachain
             - --dojima-testnet={{ .Values.cmd_args.dojima_testnet_enable }}
             - --mine
-            - --unlock={{ .Values.cmd_args.unlock_addr }}
             - --password={{ .Values.cmd_args.password_path }}
-            - --allow-insecure-unlock
             - --http
-            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug,shh
+            - --http.api=personal,eth,net,web3,txpool,miner,admin,dojimachain
             - --http.addr=0.0.0.0
             - --port=30303
             - --http.port={{ .Values.service.port.testnet.http }}
@@ -120,7 +130,7 @@ spec:
             - --ws.origins="*"
             - --ws.port={{ .Values.service.port.testnet.wss }}
             - --ws.addr=0.0.0.0
-            - --ws.api="eth,net,web3,network,debug,txpool"
+            - --ws.api=personal,eth,net,web3,txpool,miner,admin,dojimachain
             - --syncmode=full
             - --gcmode=archive
           volumeMounts:

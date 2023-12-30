@@ -9,7 +9,7 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: asia.gcr.io/prod-dojima/dojimachain
+  repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/dojimachain
   pullPolicy: IfNotPresent
   tag: "testnet-23-11-23"
   hash: "cad3975a2ece8b7d08477aaf80a20098ad409fd197145145177cc22c9ad838a0" # Not used for mocknet/testnet
@@ -18,15 +18,11 @@ chain_home_folder: "/root/.hermesnode"
 signer:
   name: hermeschain
   password: password
-  mnemonicSecret: "password"
-  passwordSecret: "password"
-  #genesis phrase
-  signer_seed_phrase: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
-  # validator 1 phrase
-  # signer_seed_phrase: "pipe expire lecture state pilot latin stamp senior market much dilemma tooth airport oblige flower caught risk canoe radar gadget tag narrow inch trust"
+  mnemonicSecret: ""
+  passwordSecret: ""
 
 chainID:
-  testnet: "hermes-testnet"
+  testnet: "hermes-testnet-v2"
 
 env:
   faucet_dest: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
@@ -41,9 +37,9 @@ h4s:
 
 hermes:
   testnet:
-    image: asia.gcr.io/prod-dojima/hermes
-    tag: testnet-1.89.0_62
-    hash: 904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52
+    image: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
+    tag: 3dcb6a5a_30-12-23
+    hash: 1a6a992dc6dcc5cee01c2541a6fc8a2ee10fccfbc2b085fa865efa2a9e8be7a2
 
 cmd_args:
   dojima_testnet_enable: true
@@ -102,11 +98,10 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 0.01
-    memory: 1000Mi
+    cpu: 4
+    memory: 4Gi
   limits:
-    cpu: 0.1
-    memory: 2000Mi
+    memory: 8Gi
 
 nodeSelector: {}
 

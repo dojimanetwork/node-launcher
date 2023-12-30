@@ -7,7 +7,7 @@ net: testnet
 ethSuggestedFeeVersion:
   mainnet: 1
   stagenet: 2
-  testnet: 1
+  testnet: 2
   mocknet: 1
 
 narada_log_level: "info"
@@ -17,10 +17,6 @@ signer:
   password: password
   mnemonicSecret: ""
   passwordSecret: ""
-  #genesis phrase
-  signer_seed_phrase: "wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
-  # validator 1 phrase
-  # signer_seed_phrase: "pipe expire lecture state pilot latin stamp senior market much dilemma tooth airport oblige flower caught risk canoe radar gadget tag narrow inch trust"
 
 chain_home_folder: /root/.hermesnode
 
@@ -47,7 +43,7 @@ dojima_chain:
 
 hermesApi: hermesnode:1317
 chainID:
-  testnet: hermes-testnet
+  testnet: hermes-testnet-v2
 #  mainnet: thorchain-mainnet-v1
 #  stagenet: thorchain-stagenet-v2
 #  mocknet: hermes_mocknet
@@ -121,10 +117,10 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: asia.gcr.io/prod-dojima/hermes
+  repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
   pullPolicy: IfNotPresent
-  tag: testnet-1.89.0_62
-  hash: "sha256:904f8c6e368697039f1473e934cf7517112e6e89bdd0d558cceb5f39f7e40c52" # Not used for mocknet/testnet
+  tag: 3dcb6a5a_30-12-23
+  hash: "1a6a992dc6dcc5cee01c2541a6fc8a2ee10fccfbc2b085fa865efa2a9e8be7a2" # Not used for mocknet/testnet
 
 imagePullSecrets: []
 nameOverride: "hermesnode-narada"
@@ -133,7 +129,7 @@ fullnameOverride: "fhermesnode-narada"
 persistence:
   enabled: true
   size:
-    testnet: 1Gi
+    testnet: 10Gi
 #    mainnet: 50Gi
 #    stagenet: 10Gi
 #    mocknet: 10Gi
@@ -176,11 +172,10 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 0.25
-    memory: 1Gi
+    cpu: 4
+    memory: 3Gi
   limits:
-    cpu: 0.5
-    memory: 1.5Gi
+    memory: 16Gi
 
 nodeSelector: {}
 

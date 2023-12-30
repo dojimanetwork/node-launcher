@@ -85,6 +85,8 @@ spec:
                 configMapKeyRef:
                   name: {{ include "narada.fullname" . }}-external-ip
                   key: externalIP
+            - name: VALIDATOR
+              value: "true"
             - name: NET
               value: {{ include "narada.net" . }}
             - name: CHAIN_API
@@ -142,9 +144,21 @@ spec:
             - name: SIGNER_NAME
               value: {{ .Values.signer.name }}
             - name: SIGNER_PASSWD
+               {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                  key: password
+               {{- else}}
               value: {{ .Values.signer.password }}
+               {{- end }}
+            {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
             - name: SIGNER_SEED_PHRASE
-              value: {{ .Values.signer.signer_seed_phrase }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+                  key: mnemonic
+            {{- end }}
             - name: CHAIN_ID
               value: {{ include "narada.chainID" . }}
             - name: AR_KEY_PATH
