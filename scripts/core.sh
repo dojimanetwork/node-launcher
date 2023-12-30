@@ -404,13 +404,14 @@ make_backup() {
 
 create_mnemonic() {
   local mnemonic
+  # Do nothing if mnemonic already exists.
   if ! kubectl get -n "$NAME" secrets/hermesnode-mnemonic >/dev/null 2>&1; then
     echo "=> Generating hermesnode Mnemonic phrase"
     mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=asia.gcr.io/prod-dojima/hermes:testnet-1.89.0_62 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
-#     mnemonic="wink umbrella toss bleak patient extend palm asthma divorce quit track planet depend tenant mimic shiver girl segment lend unit body account monster lizard"
+    kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
-    echo
+    kubectl -n "$NAME" delete pod --now=true mnemonic
   fi
 }
 
@@ -572,7 +573,7 @@ deploy_validator() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
-  kubectl -n "$NAME" rollout restart deployment hermes-gateway
+  kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 
 deploy_fullnode() {
@@ -605,5 +606,5 @@ deploy_fullnode() {
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
-  kubectl -n "$NAME" rollout restart deploy hermes-gateway
+  kubectl -n "$NAME" rollout restart deploy "${HERMES_GATEWAY}"
 }
