@@ -66,7 +66,6 @@ environment:
   BINANCE_DAEMON_SERVICE_PORT_RPC: 26657
   BINANCE_HOST: binance-daemon.hermes-devnet
   BTC_HOST: bitcoin-daemon.hermes-devnet
-  ETH_HOST: ethereum-daemon.hermes-devnet
   AVAX_HOST: avalanche-daemon.hermes-devnet
   BITCOIN_DAEMON_SERVICE_PORT_RPC: 18332
   ETHEREUM_DAEMON_SERVICE_PORT_RPC: 9545
@@ -78,8 +77,9 @@ environment:
   ETH_STATE_CONTRACT: 0xFEf7f0B9d3aA549Ba3fdaBF785cd2113b631a40C
   AVAX_ROUTER_CONTRACT: 0xC78Cd21E6f6ddD848a6098a2e08d55c022cc9d0F
   AVAX_STATE_CONTRACT: 0xFEf7f0B9d3aA549Ba3fdaBF785cd2113b631a40C
-  DOJ_STATE_CONTRACT: 0000000000000000000000000000000000001100
+  DOJ_STATE_CONTRACT: 0x0000000000000000000000000000000000001100
   SOL_STATE_CONTRACT: uG2JDvtCUo3Z82CgBUU8JX5fxuxikQAaJfg2rK7d24f
+  CONF_PATH: /scripts
 
 
 
@@ -100,12 +100,12 @@ service:
 
 persistence:
   enabled: true
-  name: hermes-testnet-pv-1
+  name: hermes-devnet-genesis
   size:
     testnet: 200Gi
     stagenet: 1Ti
     mainnet: 1Ti
-  accessMode: ReadWriteMany
+  accessMode: ReadWriteOnce
   storageClass: gp3
 
 serviceAccount:
@@ -130,7 +130,16 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - asia-south1-c
+
 
 global:
   tag:

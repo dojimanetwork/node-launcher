@@ -21,18 +21,20 @@ signer:
 chain_home_folder: /root/.hermesnode
 
 chains:
-  include_binance_chain: "true"
-  include_btc_chain: "false"
+  include_binance_chain: "false"
+  include_btc_chain: "true"
   include_eth_chain: "true"
-  include_ar_chain: "true"
+  include_ar_chain: "false"
   include_dot_chain: "true"
   include_sol_chain: "false"
   include_gaia_chain: "false"
+  include_avax_chain: "true"
+  include_doj_chain: false
 
 # use in multi nodes envs
-peer: 65.1.56.77
+peer:
 
-external_ip: 52.66.103.254
+external_ip:
 
 debug: true
 
@@ -61,7 +63,7 @@ arweaveDaemon:
 
 polkaDaemmon:
   enabled: true
-  testnet: ws://polkadot-daemon:9944
+  testnet: ws://polkadot-daemon.hermes-devnet:9944
   polkaStartBlockHeight: 0
 
 solanaDaemon:
@@ -74,7 +76,7 @@ solanaDaemon:
 binanceDaemon:
   enabled: false
 #  mainnet: http://binance-daemon:27147
-  testnet: http://binance-daemon:26657
+  testnet: http://binance-daemon.hermes-devnet:26657
 #  stagenet: http://binance-daemon:27147
   mocknet: http://binance-daemon:26660
   binanceStartBlockHeight: 0
@@ -82,7 +84,7 @@ binanceDaemon:
 bitcoinDaemon:
   enabled: false
 #  mainnet: bitcoin-daemon:8332
-  testnet: bitcoin-daemon:18332
+  testnet: bitcoin-daemon.hermes-devnet:18332
 #  mocknet: bitcoin-daemon:18443
 #  stagenet: bitcoin-daemon:8332
   bitcoinStartBlockHeight: 0
@@ -90,7 +92,7 @@ bitcoinDaemon:
 ethereumDaemon:
   enabled: true
 #  mainnet: http://ethereum-daemon:8545
-  testnet: http://ethereum-daemon:9545
+  testnet: http://ethereum-daemon.hermes-devnet:9545
 #  mocknet: http://ethereum-daemon:8545
 #  stagenet: http://ethereum-daemon:8545
   ethereumStartBlockHeight: 0
@@ -106,7 +108,7 @@ gaiaDaemon:
 #    grpc: gaia-daemon:9090
 #    grpcTLS: false
   testnet:
-    rpc: http://gaia-daemon:26657
+    rpc: http://gaia-daemon.hermes-devnet:26657
     grpc: gaia-daemon:9090
   gaiaStartBlockHeight: 0
 

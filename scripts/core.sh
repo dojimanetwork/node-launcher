@@ -411,13 +411,16 @@ create_mnemonic() {
     if [ prompt_mnemonic == "" ]; then
       echo "=> Generating hermesnode Mnemonic phrase"
       mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:f45e00f8_01-01-24 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+      kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
+      [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
+      kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
+      kubectl -n "$NAME" delete pod --now=true mnemonic
+      return
     else
-      mnemonic=prompt_mnemonic
+      mnemonic=$prompt_mnemonic
     fi
-    kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
-    kubectl -n "$NAME" delete pod --now=true mnemonic
   fi
 }
 
@@ -493,7 +496,7 @@ deploy_genesis() {
   local args
   [ "$NET" = "mainnet" ] && args="--set global.passwordSecret=hermesnode-password"
   [ "$NET" = "stagenet" ] && args="--set global.passwordSecret=hermesnode-password"
-  [ "$NET" = "devnet" ] && args="--set global.passwordSecret=hermesnode-password"
+  [ "$NET" = "testnet" ] && args="--set global.passwordSecret=hermesnode-password"
   # shellcheck disable=SC2086
   helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
     $args $EXTRA_ARGS \
