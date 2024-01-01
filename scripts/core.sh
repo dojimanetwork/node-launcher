@@ -404,10 +404,16 @@ make_backup() {
 
 create_mnemonic() {
   local mnemonic
+  local prompt_mnemonic
   # Do nothing if mnemonic already exists.
   if ! kubectl get -n "$NAME" secrets/hermesnode-mnemonic >/dev/null 2>&1; then
-    echo "=> Generating hermesnode Mnemonic phrase"
-    mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=asia.gcr.io/prod-dojima/hermes:testnet-1.89.0_62 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+    read -r -s -p "Enter mnemonic seed phrase: " prompt_mnemonic
+    if [ prompt_mnemonic == "" ]; then
+      echo "=> Generating hermesnode Mnemonic phrase"
+      mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:f45e00f8_01-01-24 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+    else
+      mnemonic=prompt_mnemonic
+    fi
     kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
@@ -416,7 +422,7 @@ create_mnemonic() {
 }
 
 create_password() {
-  [ "$NET" = "testnet" ] && return
+#  [ "$NET" = "testnet" ] && return
   local pwd
   local pwdconf
   if ! kubectl get -n "$NAME" secrets/hermesnode-password >/dev/null 2>&1; then

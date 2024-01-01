@@ -22,7 +22,7 @@ env:
   faucet_amt: 1000000000000000000
   eth_acc_pass: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
 
-eth_host: http://ethereum-daemon:9545
+eth_host: http://ethereum-daemon.hermes-devnet:9545
 dojima_rpc_url: http://dojima-chain:8545
 peer:
 seeds:
@@ -53,34 +53,34 @@ strategyType: Recreate
 
 image:
   repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
-  tag: 3dcb6a5a_30-12-23
-  hash: sha256:1a6a992dc6dcc5cee01c2541a6fc8a2ee10fccfbc2b085fa865efa2a9e8be7a2
+  tag: f45e00f8_01-01-24
+  hash: sha256:62055f25b801a8a9594411ac8f57431d1a4ad4a6b6dc7cf061e04102166e611d
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: "hermesnode"
 fullnameOverride: "hermesnode"
 
-hermesnode:
-  environment:
-    HERMESNODE_SERVICE_PORT_RPC:
-      _default: 26657
-    BINANCE_DAEMON_SERVICE_PORT_RPC:
-      _default: 26657
-    BINANCE_HOST:
-      _default: binance-daemon
-    BTC_HOST:
-      _default: bitcoin-daemon
-    ETH_HOST:
-      _default: ethereum-daemon
-    AVAX_HOST:
-      _default: avalanche-daemon
-    BITCOIN_DAEMON_SERVICE_PORT_RPC:
-      _default: 18332
-    ETHEREUM_DAEMON_SERVICE_PORT_RPC:
-      _default: 9545
-    AVALANCHE_DAEMON_SERVICE_PORT_RPC:
-      _default: 9650
+environment:
+  HERMESNODE_SERVICE_PORT_RPC: 26657
+  BINANCE_DAEMON_SERVICE_PORT_RPC: 26657
+  BINANCE_HOST: binance-daemon.hermes-devnet
+  BTC_HOST: bitcoin-daemon.hermes-devnet
+  ETH_HOST: ethereum-daemon.hermes-devnet
+  AVAX_HOST: avalanche-daemon.hermes-devnet
+  BITCOIN_DAEMON_SERVICE_PORT_RPC: 18332
+  ETHEREUM_DAEMON_SERVICE_PORT_RPC: 9545
+  AVALANCHE_DAEMON_SERVICE_PORT_RPC: 9650
+  ETH_FAUCET_DEST: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+  ETH_FAUCET_AMT: 1000000000000000000
+  ETH_ACC_PASS: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
+  ETH_ROUTER_CONTRACT: 0xbd85cdd9c35Fed712c0a54E95E7c14F85aa7ceEe
+  ETH_STATE_CONTRACT: 0xFEf7f0B9d3aA549Ba3fdaBF785cd2113b631a40C
+  AVAX_ROUTER_CONTRACT: 0xC78Cd21E6f6ddD848a6098a2e08d55c022cc9d0F
+  AVAX_STATE_CONTRACT: 0xFEf7f0B9d3aA549Ba3fdaBF785cd2113b631a40C
+  DOJ_STATE_CONTRACT: 0000000000000000000000000000000000001100
+  SOL_STATE_CONTRACT: uG2JDvtCUo3Z82CgBUU8JX5fxuxikQAaJfg2rK7d24f
+
 
 
 service:
@@ -105,7 +105,7 @@ persistence:
     testnet: 200Gi
     stagenet: 1Ti
     mainnet: 1Ti
-  accessMode: ReadWriteOnce
+  accessMode: ReadWriteMany
   storageClass: gp3
 
 serviceAccount:

@@ -12,11 +12,11 @@ spec:
     storage: {{ .Values.persistence.size.testnet | quote }}
     {{- end }}
   accessModes:
-  - ReadWriteOnce
-  csi:
-    driver: pd.csi.storage.gke.io
-    fsType: ext4
-    volumeHandle: projects/prod-dojima/zones/asia-south1-c/disks/{{ .Values.persistence.name }}
+  - {{ .Values.persistence.accessMode | quote }}
+ # csi:
+  #  driver: pd.csi.storage.gke.io
+  #  fsType: ext4
+  #  volumeHandle: projects/prod-dojima/zones/asia-south1-c/disks/{{ .Values.persistence.name }}
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp3
   volumeMode: Filesystem

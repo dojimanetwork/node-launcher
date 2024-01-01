@@ -11,8 +11,8 @@ strategyType: Recreate
 image:
   repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/dojimachain
   pullPolicy: IfNotPresent
-  tag: "testnet-23-11-23"
-  hash: "cad3975a2ece8b7d08477aaf80a20098ad409fd197145145177cc22c9ad838a0" # Not used for mocknet/testnet
+  tag: "33274fe3f_01-01-24"
+  hash: "e5172954c945308063225816b869daca96a70e7f61112375cdf522b46436c7dc" # Not used for mocknet/testnet
 
 chain_home_folder: "/root/.hermesnode"
 signer:
@@ -38,8 +38,8 @@ h4s:
 hermes:
   testnet:
     image: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
-    tag: 3dcb6a5a_30-12-23
-    hash: 1a6a992dc6dcc5cee01c2541a6fc8a2ee10fccfbc2b085fa865efa2a9e8be7a2
+    tag: f45e00f8_01-01-24
+    hash: 62055f25b801a8a9594411ac8f57431d1a4ad4a6b6dc7cf061e04102166e611d
 
 cmd_args:
   dojima_testnet_enable: true

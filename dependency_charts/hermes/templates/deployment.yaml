@@ -127,7 +127,10 @@ spec:
                value: {{ .Values.signer.password }}
                {{- end }}
              - name: SIGNER_SEED_PHRASE
-               value: "{{ .Values.signer.signer_seed_phrase }}"
+               valueFrom:
+                 secretKeyRef:
+                   name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+                   key: mnemonic
              - name: CHAIN_HOME_FOLDER
                value: {{ .Values.chain_home_folder }}
              - name: CHAIN_ID
@@ -154,28 +157,10 @@ spec:
                value: "{{ .Values.eth_host }}"
              - name: DOJIMA_RPC_URL
                value: "{{ .Values.dojima_rpc_url }}"
-             - name: FAUCET_DEST
-               value: {{ .Values.env.faucet_dest | quote }}
-             - name: FAUCET_AMT
-               value: "{{ .Values.env.faucet_amt }}"
-             - name: ETH_ACC_PASS
-               value: {{ .Values.env.eth_acc_pass | quote }}
-             - name: HERMESNODE_SERVICE_PORT_RPC
-               value: {{ .Values.hermesnode.environment.HERMESNODE_SERVICE_PORT_RPC._default | quote }}
-             - name: BINANCE_DAEMON_SERVICE_PORT_RPC
-               value: {{ .Values.hermesnode.environment.BINANCE_DAEMON_SERVICE_PORT_RPC._default | quote }}
-             - name: BINANCE_HOST
-               value: {{ .Values.hermesnode.environment.BINANCE_HOST._default | quote }}
-             - name: BTC_HOST
-               value: {{ .Values.hermesnode.environment.BTC_HOST._default | quote }}
-             - name: AVAX_HOST
-               value: {{ .Values.hermesnode.environment.AVAX_HOST._default | quote }}
-             - name: BITCOIN_DAEMON_SERVICE_PORT_RPC
-               value: {{ .Values.hermesnode.environment.BITCOIN_DAEMON_SERVICE_PORT_RPC._default | quote }}
-             - name: ETHEREUM_DAEMON_SERVICE_PORT_RPC
-               value: {{ .Values.hermesnode.environment.ETHEREUM_DAEMON_SERVICE_PORT_RPC._default | quote  }}
-             - name: AVALANCHE_DAEMON_SERVICE_PORT_RPC
-               value: {{ .Values.hermesnode.environment.AVALANCHE_DAEMON_SERVICE_PORT_RPC._default | quote }}
+             {{- range $key, $value := .Values.environment }}
+             - name: {{ $key }}
+               value: {{ $value | quote }}
+             {{- end }}
            ports: 
             - name: api 
               containerPort: {{ .Values.service.port.api }} 
