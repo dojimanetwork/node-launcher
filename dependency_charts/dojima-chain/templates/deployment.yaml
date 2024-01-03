@@ -42,6 +42,16 @@ spec:
       - name: create-password-txt
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         command: [ '/scripts/password.sh', {{ .Values.global.namespace }} ]
+        env:
+          - name: SIGNER_PASSWD
+             {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                key: password
+             {{- else}}
+            value: {{ .Values.signer.password }}
+             {{- end }}
         volumeMounts:
           - name: scripts
             mountPath: /scripts
@@ -118,7 +128,10 @@ spec:
             - dojimachain
             - --dojima-testnet={{ .Values.cmd_args.dojima_testnet_enable }}
             - --mine
+            - --networkid=1001
+            - --unlock=0xcbdb8b39D8802e422cA96ACe641f5C37AE0d8797
             - --password={{ .Values.cmd_args.password_path }}
+            - --allow-insecure-unlock
             - --http
             - --http.api=personal,eth,net,web3,txpool,miner,admin,dojimachain
             - --http.addr=0.0.0.0
@@ -130,14 +143,14 @@ spec:
             - --ws.origins="*"
             - --ws.port={{ .Values.service.port.wss }}
             - --ws.addr=0.0.0.0
-            - --ws.api=personal,eth,net,web3,txpool,miner,admin,dojimachain
+            - --ws.api=personal,eth,web3
             - --syncmode=full
             - --gcmode=archive
           volumeMounts:
             - name: data
               mountPath: /root/
             - name: scripts
-              mountPath: /kube-scripts/
+              mountPath: scripts/
           env:
             - name: EXTERNAL_IP
               valueFrom:

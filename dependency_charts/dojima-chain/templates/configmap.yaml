@@ -9,9 +9,7 @@ data:
     echo "namespace :$NAME"
 
     touch /root/password.txt
-    password=$(kubectl get -n "$NAME" secrets/hermesnode-password --template='"\{\{.data.password}\}\"' | base64 --decode)
-    echo "password: $password"
-    echo $password >> /root/password.txt
+    echo $SIGNER_PASSWD >> /root/password.txt
     echo "successfully created password file"
 
   check-narada.sh: |
