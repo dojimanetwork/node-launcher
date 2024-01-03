@@ -63,13 +63,10 @@ fullnameOverride: "hermesnode"
 
 environment:
   HERMESNODE_SERVICE_PORT_RPC: 26657
-  BINANCE_DAEMON_SERVICE_PORT_RPC: 26657
-  BINANCE_HOST: binance-daemon.hermes-devnet
-  BTC_HOST: bitcoin-daemon.hermes-devnet
-  AVAX_HOST: avalanche-daemon.hermes-devnet
-  BITCOIN_DAEMON_SERVICE_PORT_RPC: 18332
-  ETHEREUM_DAEMON_SERVICE_PORT_RPC: 9545
-  AVALANCHE_DAEMON_SERVICE_PORT_RPC: 9650
+  BINANCE_HOST: http://binance-daemon.hermes-devnet:26657
+  BTC_HOST: bitcoin-daemon.hermes-devnet:18332
+  ETH_HOST: http://ethereum-daemon.hermes-devnet:9545
+  AVAX_HOST: http://avalanche-daemon.hermes-devnet:9650/ext/bc/C/rpc
   ETH_FAUCET_DEST: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
   ETH_FAUCET_AMT: 1000000000000000000
   ETH_ACC_PASS: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf

@@ -3,7 +3,6 @@
 # Declare variables to be passed into your templates.
 
 net: testnet
-data_dir: single_node_testnet
 replicaCount: 1
 
 strategyType: Recreate
@@ -11,8 +10,8 @@ strategyType: Recreate
 image:
   repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/dojimachain
   pullPolicy: IfNotPresent
-  tag: "33274fe3f_01-01-24"
-  hash: "e5172954c945308063225816b869daca96a70e7f61112375cdf522b46436c7dc" # Not used for mocknet/testnet
+  tag: "3eb90f2cc_03-01-24"
+  hash: "530c110031911b746c5887dca28ff5fd85bc7e73938258d4a5babbb53a274d7a"
 
 chain_home_folder: "/root/.hermesnode"
 signer:
@@ -33,7 +32,7 @@ h4s:
   hermesApi: hermesnode:1317
   narada: http://narada:6040
   grpc: hermesnode:9090
-  eth: http://ethereum-daemon:9545
+  eth: http://ethereum-daemon.hermes-devnet:9545
 
 hermes:
   testnet:
@@ -53,20 +52,20 @@ fullnameOverride: "fdojima-chain"
 
 persistence:
   enabled: true
+  name: dojima-devnet-genesis
   size:
     testnet: 50Gi
-#    mainnet: 50Gi
-#    stagenet: 10Gi
+    mainnet: 50Gi
+    stagenet: 10Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
-  storageClass: gp3
+#  storageClass: gp3
   # hostPath: /host-path
 
 service:
   type: ClusterIP
   port:
-    testnet:
       wss: 8546
       http: 8545
       graphql: 8547
@@ -107,15 +106,7 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: topology.kubernetes.io/zone
-              operator: In
-              values:
-                - asia-south1-c
+affinity: {}
 
 global:
   gateway:

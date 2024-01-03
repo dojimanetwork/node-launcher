@@ -175,20 +175,6 @@ spec:
               value: /var/data
             - name: PREPARAM
               value: {{ .Values.preparam }}
-            - name: INCLUDE_BINANCE_CHAIN
-              value: {{ .Values.chains.include_binance_chain | quote }}
-            - name: INCLUDE_BTC_CHAIN
-              value: {{ .Values.chains.include_btc_chain | quote }}
-            - name: INCLUDE_ETH_CHAIN
-              value: {{ .Values.chains.include_eth_chain | quote }}
-            - name: INCLUDE_AR_CHAIN
-              value: {{ .Values.chains.include_ar_chain | quote }}
-            - name: INCLUDE_DOT_CHAIN
-              value: {{ .Values.chains.include_dot_chain | quote }}
-            - name: INCLUDE_SOL_CHAIN
-              value: {{ .Values.chains.include_sol_chain | quote }}
-            - name: INCLUDE_GAIA_CHAIN
-              value: {{ .Values.chains.include_gaia_chain | quote }}
             - name: DOJIMA_CHAIN_ID
               value: {{ .Values.dojima_chain.chain_id | quote }}
             - name: DOJIMA_RPC_URL
@@ -197,6 +183,10 @@ spec:
               value: {{ .Values.dojima_chain.grpc_url | quote }}
             - name: SOL_PROGRAM
               value: "2dkwKCkTQz4xXxyjcvhUYdSb5fb3Bw15ra95o94WkyVo"
+            {{- range $key, $value := .Values.environment }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           ports:
             - name: p2p
               containerPort: {{ .Values.service.port.p2p }}

@@ -102,7 +102,6 @@ spec:
             - name: wss
               containerPort: {{ .Values.service.wss }}
               protocol: TCP
-          {{- if eq .Values.net "testnet" }}
           startupProbe:
             failureThreshold: 600
             periodSeconds: 10
@@ -123,7 +122,6 @@ spec:
               command:
                 - test
                 - $(geth attach --exec net.listening http://localhost:{{ .Values.service.port }}) == "true"
-          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 

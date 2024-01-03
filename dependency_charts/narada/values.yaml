@@ -20,16 +20,18 @@ signer:
 
 chain_home_folder: /root/.hermesnode
 
-chains:
-  include_binance_chain: "false"
-  include_btc_chain: "true"
-  include_eth_chain: "true"
-  include_ar_chain: "false"
-  include_dot_chain: "true"
-  include_sol_chain: "false"
-  include_gaia_chain: "false"
-  include_avax_chain: "true"
-  include_doj_chain: false
+environment:
+  INCLUDE_ETH_CHAIN: true
+  INCLUDE_BINANCE_CHAIN: false
+  INCLUDE_BTC_CHAIN: false
+  INCLUDE_AR_CHAIN: false
+  INCLUDE_DOT_CHAIN: true
+  INCLUDE_SOL_CHAIN: false
+  INCLUDE_GAIA_CHAIN: false
+  INCLUDE_DOJ_CHAIN: false
+  INCLUDE_AVAX_CHAIN: true
+  DOJIMA_SPAN_ENABLE: true
+  AVAX_HOST: http://avalanche-daemon.hermes-devnet:9650/ext/bc/C/rpc
 
 # use in multi nodes envs
 peer:
@@ -111,7 +113,6 @@ gaiaDaemon:
     rpc: http://gaia-daemon.hermes-devnet:26657
     grpc: gaia-daemon:9090
   gaiaStartBlockHeight: 0
-
 
 
 replicaCount: 1

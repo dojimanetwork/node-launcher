@@ -153,8 +153,6 @@ spec:
                value: "5H16DLfWFLdpm5C4f9Qr6UkADsT1PtD9jELWF9WKuiC7St1T"
              - name: KEY_PASSPHRASE
                value: {{ .Values.signer.password }}
-             - name: ETH_HOST
-               value: "{{ .Values.eth_host }}"
              - name: DOJIMA_RPC_URL
                value: "{{ .Values.dojima_rpc_url }}"
              {{- range $key, $value := .Values.environment }}

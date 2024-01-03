@@ -467,7 +467,7 @@ display_status() {
     NODE_ADDRESS=$(awk '$1 ~ /ADDRESS/ {match($2, /[a-z0-9]+/); print substr($2, RSTART, RLENGTH)}' <<<"$output")
 
     if grep -E "^STATUS\s+Active" <<<"$output" >/dev/null; then
-      echo -e "\n=> Detected ${red}active$reset validator THORNode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
+      echo -e "\n=> Detected ${red}active$reset validator Hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 
       # prompt for missing mimir votes if mainnet
       if [ "$NET" = "mainnet" ]; then
@@ -502,7 +502,9 @@ deploy_genesis() {
     $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
-    --set hermesnode.type="genesis"
+    --set hermesnode.type="genesis" \
+    --set global.namespace="$NAME"
+
   echo "args --- ${args}"
   echo "extra args ${EXTRA_ARGS}"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
@@ -512,7 +514,8 @@ deploy_genesis() {
     --create-namespace $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
-    --set hermesnode.type="genesis"
+    --set hermesnode.type="genesis" \
+    --set global.namespace="$NAME"
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 #  confirm

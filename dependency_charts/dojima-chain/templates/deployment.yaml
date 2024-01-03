@@ -41,7 +41,7 @@ spec:
           mountPath: /scripts
       - name: create-password-txt
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-        command: [ '/scripts/password.sh' ]
+        command: [ '/scripts/password.sh', {{ .Values.global.namespace }} ]
         volumeMounts:
           - name: scripts
             mountPath: /scripts
@@ -75,9 +75,9 @@ spec:
             value: "{{ include "dojima-chain.chainID" . }}"
           - name: ETH_HOST
             value: {{ .Values.h4s.eth }}
-          - name: FAUCET_DEST
+          - name: ETH_FAUCET_DEST
             value: {{ .Values.env.faucet_dest | quote }}
-          - name: FAUCET_AMT
+          - name: ETH_FAUCET_AMT
             value: {{ .Values.env.faucet_amt | quote }}
           - name: ETH_ACC_PASS
             value: {{ .Values.env.eth_acc_pass | quote }}
@@ -123,12 +123,12 @@ spec:
             - --http.api=personal,eth,net,web3,txpool,miner,admin,dojimachain
             - --http.addr=0.0.0.0
             - --port=30303
-            - --http.port={{ .Values.service.port.testnet.http }}
+            - --http.port={{ .Values.service.port.http }}
             - --http.corsdomain=*
             - --http.vhosts=*
             - --ws
             - --ws.origins="*"
-            - --ws.port={{ .Values.service.port.testnet.wss }}
+            - --ws.port={{ .Values.service.port.wss }}
             - --ws.addr=0.0.0.0
             - --ws.api=personal,eth,net,web3,txpool,miner,admin,dojimachain
             - --syncmode=full
@@ -148,18 +148,38 @@ spec:
               value: "http://{{ .Values.h4s.hermesApi }}"
             - name: DOJIMA_GRPC_URL
               value: "{{ .Values.h4s.grpc }}"
+          startupProbe:
+            failureThreshold: 600
+            periodSeconds: 10
+            timeoutSeconds: 10
+            exec:
+              command:
+                - /scripts/probe.sh
+          livenessProbe:
+            failureThreshold: 60
+            timeoutSeconds: 10
+            periodSeconds: 10
+            exec:
+              command:
+                - /scripts/probe.sh
+          readinessProbe:
+            timeoutSeconds: 10
+            exec:
+              command:
+                - test
+                - $(geth attach --exec net.listening http://localhost:{{ .Values.service.port.http }}) == "true"
           ports:
             - name: http
-              containerPort: {{ .Values.service.port.testnet.http }}
+              containerPort: {{ .Values.service.port.http }}
               protocol: TCP
             - name: wss
-              containerPort: {{ .Values.service.port.testnet.wss }}
+              containerPort: {{ .Values.service.port.wss }}
               protocol: TCP
             - name: devp2p
-              containerPort: {{ .Values.service.port.testnet.devp2p }}
+              containerPort: {{ .Values.service.port.devp2p }}
               protocol: TCP
             - name: graphql
-              containerPort: {{ .Values.service.port.testnet.graphql }}
+              containerPort: {{ .Values.service.port.graphql }}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

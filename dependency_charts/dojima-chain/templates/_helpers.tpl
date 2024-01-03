@@ -91,7 +91,7 @@ Http Rpc Port
 */}}
 {{- define "dojima-chain.http" -}}
 {{- if eq (include "dojima-chain.net" .) "testnet" -}}
-    {{ .Values.service.port.testnet.http }}
+    {{ .Values.service.port.http }}
 {{- end -}}
 {{- end -}}
 
@@ -101,7 +101,7 @@ WS Rpc Port
 */}}
 {{- define "dojima-chain.wss" -}}
 {{- if eq (include "dojima-chain.net" .) "testnet" -}}
-    {{ .Values.service.port.testnet.wss }}
+    {{ .Values.service.port.wss }}
 {{- end -}}
 {{- end -}}
 
@@ -110,7 +110,7 @@ Graphql Port
 */}}
 {{- define "dojima-chain.graphql" -}}
 {{- if eq (include "dojima-chain.net" .) "testnet" -}}
-    {{ .Values.service.port.testnet.graphql }}
+    {{ .Values.service.port.graphql }}
 {{- end -}}
 {{- end -}}
 
@@ -120,7 +120,7 @@ Devp2p Port
 */}}
 {{- define "dojima-chain.devp2p" -}}
 {{- if eq (include "dojima-chain.net" .) "testnet" -}}
-    {{ .Values.service.port.testnet.devp2p }}
+    {{ .Values.service.port.devp2p }}
 {{- end -}}
 {{- end -}}
 
