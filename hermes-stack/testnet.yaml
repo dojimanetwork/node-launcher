@@ -18,13 +18,16 @@ hermes-gateway:
   enabled: false
 
 hermesnode:
-  enabled: false
+  enabled: true
 
 narada:
-  enabled: false
+  enabled: true
+
+narada-eddsa:
+  enabled: true
 
 dojima-chain:
-  enabled: false
+  enabled: true
 
 midgard:
   blockstore:

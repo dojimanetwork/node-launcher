@@ -36,8 +36,8 @@ environment:
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
   PEER: 10.2.227.75
-  CHAIN_API: hermesnode-val-1:1317
-  CHAIN_RPC: hermesnode-cat:26657
+  CHAIN_API: hermesnode:1317
+  CHAIN_RPC: hermesnode:26657
   VALIDATOR: true
   DOJIMA_RPC_URL: http://dojima-chain:8645
 
@@ -53,7 +53,7 @@ dojima_chain:
   grpc_url: hermesnode:9090
   chain_id: 1001
 
-hermesApi: hermesnode-val-1:1317
+hermesApi: hermesnode:1317
 chainID:
   testnet: hermes-testnet-v2
 #  mainnet: thorchain-mainnet-v1
@@ -62,7 +62,7 @@ chainID:
 
 hermesDaemon:
 #  mainnet: hermesnode:27147
-  testnet: hermesnode-val-1:26657
+  testnet: hermesnode:26657
 #  stagenet: hermesnode:27147
 #  mocknet: hermesnode:26657
 

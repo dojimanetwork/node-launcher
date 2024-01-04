@@ -57,8 +57,8 @@ image:
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
-nameOverride: "hermesnode-val-1"
-fullnameOverride: "hermesnode-val-1"
+nameOverride: "hermesnode"
+fullnameOverride: "hermesnode"
 
 environment:
   HERMESNODE_SERVICE_PORT_RPC: 26657

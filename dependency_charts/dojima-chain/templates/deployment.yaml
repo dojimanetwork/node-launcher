@@ -146,7 +146,7 @@ spec:
             - --ws.api=personal,eth,web3
             - --syncmode=full
             - --gcmode=archive
-            {{if not .Values.type "genesis" -}}
+            {{if ne .Values.type "genesis" -}}
             - --bootnodes={{ .Values.enodes }}
             {{- end }}
           volumeMounts:

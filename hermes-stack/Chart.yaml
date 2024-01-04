@@ -22,6 +22,11 @@ dependencies:
     version: 0.1.0
     condition: narada.enabled
 
+  - name: narada-eddsa
+    repository: file://../dependency_charts/narada-eddsa
+    version: 0.1.0
+    condition: narada-eddsa.enabled
+
   - name: dojima-chain
     repository: file://../dependency_charts/dojima-chain
     version: 0.1.0

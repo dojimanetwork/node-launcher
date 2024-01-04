@@ -19,11 +19,15 @@ hermes-gateway:
   enabled: true
 
 hermesnonde:
-  fullnameOverride: hermesnode-val-1
+  fullnameOverride: hermesnode
   enabled: true
 
 narada:
   fullnameOverride: narada
+  enabled: true
+
+narada-eddsa:
+  fullnameOverride: narada-eddsa
   enabled: true
 
 dojima-chain:
