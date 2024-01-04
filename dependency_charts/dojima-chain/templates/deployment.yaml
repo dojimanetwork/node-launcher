@@ -129,7 +129,7 @@ spec:
             - --dojima-testnet={{ .Values.cmd_args.dojima_testnet_enable }}
             - --mine
             - --networkid=1001
-            - --unlock=0xcbdb8b39D8802e422cA96ACe641f5C37AE0d8797
+            - --unlock={{ .Values.unlock_address }}
             - --password={{ .Values.cmd_args.password_path }}
             - --allow-insecure-unlock
             - --http
@@ -146,6 +146,9 @@ spec:
             - --ws.api=personal,eth,web3
             - --syncmode=full
             - --gcmode=archive
+            {{if not .Values.type "genesis" -}}
+            - --bootnodes={{ .Values.enodes }}
+            {{- end }}
           volumeMounts:
             - name: data
               mountPath: /root/
@@ -157,10 +160,10 @@ spec:
                 configMapKeyRef:
                   name: {{ include "dojima-chain.fullname" . }}-external-ip
                   key: externalIP
-            - name: DOJIMA_RPC_URL
-              value: "http://{{ .Values.h4s.hermesApi }}"
-            - name: DOJIMA_GRPC_URL
-              value: "{{ .Values.h4s.grpc }}"
+            {{- range $key, $value := .Values.environment }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           startupProbe:
             failureThreshold: 600
             periodSeconds: 10

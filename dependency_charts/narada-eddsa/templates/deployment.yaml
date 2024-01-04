@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "narada.fullname" . }}
+  name: {{ include "narada-eddsa.fullname" . }}
   labels:
-    {{- include "narada.labels" . | nindent 4 }}
+    {{- include "narada-eddsa.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: {{ .Values.strategyType }}
   selector:
     matchLabels:
-      {{- include "narada.selectorLabels" . | nindent 6 }}
+      {{- include "narada-eddsa.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "narada.selectorLabels" . | nindent 8 }}
+        {{- include "narada-eddsa.selectorLabels" . | nindent 8 }}
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/path: '/metrics'
@@ -24,7 +24,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "narada.serviceAccountName" . }}
+      serviceAccountName: {{ include "narada-eddsa.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
@@ -36,9 +36,9 @@ spec:
       - name: init-external-ip
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
+        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
         {{- else }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ include "narada.fullname" . }}', '{{ include "narada.fullname" . }}-external-ip']
+        command: ['/scripts/external-ip.sh', 'false', '{{ include "narada-eddsa.fullname" . }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
         - name: scripts
@@ -61,12 +61,12 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "narada.image" . }}
+          image: {{ include "narada-eddsa.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/scripts/narada.sh"]
-          args: ["narada", "-c", "/etc/narada/config.json", "-l",  {{ default "info" .Values.narada_log_level }} ]
+          args: ["tss-eddsa", "-c", "/etc/narada/config.json", "-l",  {{ default "info" .Values.narada_log_level }} ]
           volumeMounts:
-            - mountPath: /var/data/narada
+            - mountPath: /var/data/narada-eddsa
               name: data
               subPath: data
             - mountPath: /root/.hermesnode
@@ -79,38 +79,44 @@ spec:
             - name: EXTERNAL_IP
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "narada.fullname" . }}-external-ip
+                  name: {{ include "narada-eddsa.fullname" . }}-external-ip
                   key: externalIP
+            - name: VALIDATOR
+              value: "true"
             - name: NET
-              value: {{ include "narada.net" . }}
+              value: {{ include "narada-eddsa.net" . }}
+            - name: CHAIN_API
+              value: {{ .Values.hermesApi }}
+            - name: CHAIN_RPC
+              value: {{ include "narada-eddsa.hermesnodeDaemon" . }}
             - name: BINANCE_HOST
-              value: {{ include "narada.binanceDaemon" . }}
+              value: {{ include "narada-eddsa.binanceDaemon" . }}
             - name: BINANCE_START_BLOCK_HEIGHT
               value: "{{ .Values.binanceDaemon.binanceStartBlockHeight }}"
             - name: BTC_HOST
-              value: {{ include "narada.bitcoinDaemon" . }}
+              value: {{ include "narada-eddsa.bitcoinDaemon" . }}
             - name: BTC_START_BLOCK_HEIGHT
               value: "{{ .Values.bitcoinDaemon.bitcoinStartBlockHeight }}"
             - name: AR_HOST
-              value: {{ include "narada.arweaveDaemon" . }}
+              value: {{ include "narada-eddsa.arweaveDaemon" . }}
             - name: AR_START_BLOCK_HEIGHT
               value: "{{ .Values.arweaveDaemon.arweaveStartBlockHeight }}"
             - name: DOT_HOST
-              value: {{ include "narada.polkaDaemon" . }}
+              value: {{ include "narada-eddsa.polkaDaemon" . }}
             - name: DOT_START_BLOCK_HEIGHT
               value: "{{ .Values.polkaDaemmon.polkaStartBlockHeight }}"
             - name: SOL_HOST
-              value: {{ include "narada.solanaDaemon" . }}
+              value: {{ include "narada-eddsa.solanaDaemon" . }}
             - name: SOL_HOST_WS
-              value: {{ include "narada.solanaWsDaemon" . }}
+              value: {{ include "narada-eddsa.solanaWsDaemon" . }}
             - name: SOL_START_BLOCK_HEIGHT
               value: "{{ .Values.solanaDaemon.solanaStartBlockHeight }}"
             - name: GAIA_HOST
-              value: {{ include "narada.gaiaDaemon" . }}
+              value: {{ include "narada-eddsa.gaiaDaemon" . }}
             - name: GAIA_GRPC_HOST
-              value: {{ include "narada.gaiaDaemonGRPC" . }}
+              value: {{ include "narada-eddsa.gaiaDaemonGRPC" . }}
             - name: GAIA_GRPC_TLS
-              value: "{{ include "narada.gaiaDaemonGRPCTLS" . }}"
+              value: "{{ include "narada-eddsa.gaiaDaemonGRPCTLS" . }}"
             - name: GAIA_START_BLOCK_HEIGHT
               value: "{{ .Values.gaiaDaemon.gaiaStartBlockHeight }}"
             - name: CHAIN_HOME_FOLDER
@@ -125,6 +131,8 @@ spec:
               value: "{{ .Values.ethereumDaemon.ethereumStartBlockHeight }}"
             - name: ETH_SUGGESTED_FEE_VERSION
               value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
+            - name: PEER
+              value: {{ .Values.peer }}
             - name: SEED
               valueFrom:
                 fieldRef:
@@ -165,6 +173,8 @@ spec:
               value: {{ .Values.preparam }}
             - name: DOJIMA_CHAIN_ID
               value: {{ .Values.dojima_chain.chain_id | quote }}
+            - name: DOJIMA_RPC_URL
+              value: {{ .Values.dojima_chain.rpc_url | quote }}
             - name: DOJIMA_GRPC_URL
               value: {{ .Values.dojima_chain.grpc_url | quote }}
             - name: SOL_PROGRAM
@@ -174,17 +184,17 @@ spec:
               value: {{ $value | quote }}
             {{- end }}
           ports:
-            - name: p2p
-              containerPort: {{ .Values.service.port.p2p }}
+            - name: tss-p2p
+              containerPort: {{ .Values.service.port.tss_p2p }}
               protocol: TCP
-            - name: http
-              containerPort: {{ .Values.service.port.http }}
+            - name: p2p-id
+              containerPort: {{ .Values.service.port.p2p_id }}
               protocol: TCP
             - name: prometheus
               containerPort: {{ .Values.service.port.prometheus}}
               protocol: TCP
-            - name: nqs
-              containerPort: {{ include "narada-nqs.port" .}}
+            - name: eddsa-http
+              containerPort: {{ include "narada-eddsa-nqs.port" .}}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -203,7 +213,7 @@ spec:
       {{- end }}
       - name: scripts
         configMap:
-          name: {{ include "narada.fullname" . }}-scripts
+          name: {{ include "narada-eddsa.fullname" . }}-scripts
           defaultMode: 0777
       {{- with .Values.nodeSelector }}
       nodeSelector:

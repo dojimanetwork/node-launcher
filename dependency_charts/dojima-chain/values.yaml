@@ -4,7 +4,9 @@
 
 net: testnet
 replicaCount: 1
-
+type: validator
+enodes: enode://8a754dac5a7d86f8faa3ac021f088e8a75e7fe202c598e5912730dd82d4b249af1bfcd1359c8008accb517fb52aa1339b4882315efaefc0b2703f5dcd930de6d@10.2.75.235:30303
+unlock_address: 0xb9cA97199b0Dd85A48387B00Fd91d4195D1D2746
 strategyType: Recreate
 
 image:
@@ -19,6 +21,10 @@ signer:
   password: password
   mnemonicSecret: ""
   passwordSecret: ""
+
+environment:
+  DOJIMA_RPC_URL: http://hermesnode-val-1:1317
+  DOJIMA_GRPC_URL: hermesnode-val-1:9090
 
 chainID:
   testnet: "hermes-testnet-v2"
