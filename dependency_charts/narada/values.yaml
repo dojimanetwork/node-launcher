@@ -35,11 +35,11 @@ environment:
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
-  PEER: 10.2.227.75
+  PEER: 10.2.253.58
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657
   VALIDATOR: true
-  DOJIMA_RPC_URL: http://dojima-chain:8645
+  DOJIMA_RPC_URL: http://dojima-chain:8545
 
 # use in multi nodes envs
 peer:

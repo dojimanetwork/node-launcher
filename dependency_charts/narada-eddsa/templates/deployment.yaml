@@ -131,8 +131,6 @@ spec:
               value: "{{ .Values.ethereumDaemon.ethereumStartBlockHeight }}"
             - name: ETH_SUGGESTED_FEE_VERSION
               value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
-            - name: PEER
-              value: {{ .Values.peer }}
             - name: SEED
               valueFrom:
                 fieldRef:
