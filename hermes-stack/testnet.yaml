@@ -21,10 +21,10 @@ hermesnode:
   enabled: true
 
 narada:
-  enabled: true
+  enabled: false
 
 dojima-chain:
-  enabled: true
+  enabled: false
 
 midgard:
   blockstore:

@@ -19,7 +19,7 @@ hermes-gateway:
   enabled: true
 
 hermesnonde:
-  fullnameOverride: hermesnode
+  fullnameOverride: hermesnode-val-1
   enabled: true
 
 narada:

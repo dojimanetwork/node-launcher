@@ -69,12 +69,12 @@ spec:
              {{- toYaml .Values.securityContext | nindent 12 }}
            image: "{{ include "hermesnode.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
-           command: ["/scripts/{{ .Values.type }}.sh", "hermesnode", "start", "--rpc.laddr", "tcp://0.0.0.0:26657"]
+           command: ["/bin/sh", "/scripts/{{ .Values.type }}.sh", "hermesnode", "start", "--rpc.laddr", "tcp://0.0.0.0:26657"]
            volumeMounts:
            - name: data
              mountPath: /root/
            - name: scripts
-             mountPath: /kube-scripts/
+             mountPath: kube-scripts/
            env:
              - name: EXTERNAL_IP
                valueFrom:
@@ -95,16 +95,6 @@ spec:
                {{- else }}
                value: {{ .Values.peer }}
                {{- end }}
-             - name: SEED
-               {{- if eq .Values.type "genesis" }}
-               valueFrom:
-                 fieldRef:
-                   fieldPath: metadata.name
-               {{- else }}
-               value: {{ .Values.peer }}
-               {{- end }}
-             - name: SEEDS
-               value: {{ .Values.seeds }}
              - name: PEER_API
                value: "{{ .Values.peerApi }}"
              - name: CONTRACT

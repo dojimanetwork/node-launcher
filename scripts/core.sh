@@ -508,7 +508,7 @@ deploy_genesis() {
   echo "args --- ${args}"
   echo "extra args ${EXTRA_ARGS}"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-#  confirm
+  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
@@ -518,7 +518,7 @@ deploy_genesis() {
     --set global.namespace="$NAME"
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-#  confirm
+  confirm
   kubectl rollout restart -n "${NAME}" deployment "${HERMES_GATEWAY}"
 }
 
@@ -531,12 +531,14 @@ deploy_frontend() {
   echo "extra args ${EXTRA_ARGS}"
     echo -e "=> Changes for a  frontend-apps on $boldgreen$FRONTEND_NET$reset named $boldgreen$FRONTEND_NAME$reset"
 
-  #  confirm
+    confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$FRONTEND_NAME" ./frontend-apps -n "$FRONTEND_NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.net="$FRONTEND_NET" \
-#  confirm
+
+  confirm
+
   kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
 }
 
@@ -563,28 +565,30 @@ deploy_validator() {
   local args
   [ "$NET" = "mainnet" ] && args="--set global.passwordSecret=hermesnode-password"
   [ "$NET" = "stagenet" ] && args="--set global.passwordSecret=hermesnode-password"
-  [ "$NET" = "devnet" ] && args="--set global.passwordSecret=hermesnode-password"
+  [ "$NET" = "testnet" ] && args="--set global.passwordSecret=hermesnode-password"
   # shellcheck disable=SC2086
   helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
     $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
     --set hermesnode.type="validator" \
-    --set narada.peer="$SEED",hermesnode.seeds="$SEED"
+    --set narada.peer="$SEED",hermesnode.seeds="$SEED" \
+    --set global.namespace="$NAME"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
     --set hermesnode.type="validator" \
-    --set narada.peer="$SEED",hermesnode.seeds="$SEED"
+    --set narada.peer="$SEED",hermesnode.seeds="$SEED" \
+    --set global.namespace="$NAME"
 
   [ "$TYPE" = "daemons" ] && return
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 

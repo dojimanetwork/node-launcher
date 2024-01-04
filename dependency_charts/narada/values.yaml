@@ -45,7 +45,7 @@ dojima_chain:
   grpc_url: hermesnode:9090
   chain_id: 1001
 
-hermesApi: hermesnode:1317
+hermesApi: hermesnode-val-1:1317
 chainID:
   testnet: hermes-testnet-v2
 #  mainnet: thorchain-mainnet-v1
@@ -54,7 +54,7 @@ chainID:
 
 hermesDaemon:
 #  mainnet: hermesnode:27147
-  testnet: hermesnode:26657
+  testnet: hermesnode-val-1:26657
 #  stagenet: hermesnode:27147
 #  mocknet: hermesnode:26657
 
@@ -122,8 +122,8 @@ strategyType: Recreate
 image:
   repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
   pullPolicy: IfNotPresent
-  tag: f45e00f8_01-01-24
-  hash: "62055f25b801a8a9594411ac8f57431d1a4ad4a6b6dc7cf061e04102166e611d" # Not used for mocknet/testnet
+  tag: a6732790_04-01-24
+  hash: "6a0cf058433f22887dd6d67732f7370495fb678d60c82ee720114a9b9a26d4f9" # Not used for mocknet/testnet
 
 imagePullSecrets: []
 nameOverride: "hermesnode-narada"
