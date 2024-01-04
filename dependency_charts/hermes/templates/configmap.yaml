@@ -11,7 +11,7 @@ data:
   retry.sh: |
     #!/bin/sh
 
-    TRY = 0
+    TRY=0
 
     while [ $TRY -lt 5 ]
     do
@@ -34,18 +34,18 @@ data:
     NODE_PUB_KEY_ED25519=$(echo "$SIGNER_PASSWD" | hermesnode ed25519 )
     VALIDATOR=$(hermesnode tendermint show-validator | hermesnode pubkey --bech cons)
     GETHADDRESS=$(hermesnode eth-ks --home "${CHAIN_HOME_FOLDER}" $CHAIN_HOME_FOLDER $SIGNER_NAME $SIGNER_PASSWD)
-    printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-node-keys "$NODE_PUB_KEY" "$NODE_PUB_KEY_ED25519" "$VALIDATOR" "$GETHADDRESS" --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:26657"
+    printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-node-keys "$NODE_PUB_KEY" "$NODE_PUB_KEY_ED25519" "$VALIDATOR" "$GETHADDRESS" --node tcp://$PEER:26657 --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
   set-ip-address.sh: |
     #!/bin/sh
 
     NODE_IP_ADDRESS=${1:-$(curl -s http://whatismyip.akamai.com)}
-    printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-ip-address "$NODE_IP_ADDRESS" --node tcp://$PEER:26657 --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:26657"
+    printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-ip-address "$NODE_IP_ADDRESS" --node tcp://$PEER:26657 --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
   set-version.sh: |
     #!/bin/sh
 
-    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-version --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:26657"
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-version --node tcp://$PEER:26657 --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
   pause.sh: |
     #!/bin/sh

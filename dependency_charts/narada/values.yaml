@@ -35,7 +35,7 @@ environment:
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
-  PEER: 10.2.253.58
+  PEER: 10.2.117.57
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657
   VALIDATOR: true
@@ -130,8 +130,8 @@ strategyType: Recreate
 image:
   repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
   pullPolicy: IfNotPresent
-  tag: a6732790_04-01-24
-  hash: "6a0cf058433f22887dd6d67732f7370495fb678d60c82ee720114a9b9a26d4f9" # Not used for mocknet/testnet
+  tag: 48856815_04-01-24
+  hash: "837fc6118830b4c0b8e29bbea6734ae312083619600d6e5c72eafdd86ed64394" # Not used for mocknet/testnet
 
 imagePullSecrets: []
 nameOverride: "hermesnode-narada"

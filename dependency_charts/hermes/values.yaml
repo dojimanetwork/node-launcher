@@ -52,8 +52,8 @@ strategyType: Recreate
 
 image:
   repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
-  tag: a6732790_04-01-24
-  hash: sha256:6a0cf058433f22887dd6d67732f7370495fb678d60c82ee720114a9b9a26d4f9
+  tag: 48856815_04-01-24
+  hash: sha256:837fc6118830b4c0b8e29bbea6734ae312083619600d6e5c72eafdd86ed64394
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

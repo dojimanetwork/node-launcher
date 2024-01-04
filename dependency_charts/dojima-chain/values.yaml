@@ -5,7 +5,7 @@
 net: testnet
 replicaCount: 1
 type: validator
-enodes: enode://7987b6d20c077493c2d3697a1e587e78f44b6853f61954e36d559ade04085d2ea3c231ba48b45d6121d8334d00eb96638e0bf07c23392203f3ca43f230fcef0c@10.2.8.7:30303
+enodes: enode://f8a9fd703bf00dcb7c2f89aa05a65afcfe45460df8b843d3773c8cf3baab8a1fe3bc81a3da85833015357b5f66acf1a5cf9c7e2d1fc97c5e36f3889708e6fa29@10.2.162.77:30303
 unlock_address: 0xb9cA97199b0Dd85A48387B00Fd91d4195D1D2746
 strategyType: Recreate
 
@@ -23,8 +23,8 @@ signer:
   passwordSecret: ""
 
 environment:
-  DOJIMA_RPC_URL: http://hermesnode-val-1:1317
-  DOJIMA_GRPC_URL: hermesnode-val-1:9090
+  DOJIMA_RPC_URL: http://hermesnode:1317
+  DOJIMA_GRPC_URL: hermesnode:9090
 
 chainID:
   testnet: "hermes-testnet-v2"
@@ -43,8 +43,8 @@ h4s:
 hermes:
   testnet:
     image: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
-    tag: f45e00f8_01-01-24
-    hash: 62055f25b801a8a9594411ac8f57431d1a4ad4a6b6dc7cf061e04102166e611d
+    tag: 48856815_04-01-24
+    hash: 837fc6118830b4c0b8e29bbea6734ae312083619600d6e5c72eafdd86ed64394
 
 cmd_args:
   dojima_testnet_enable: true
