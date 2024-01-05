@@ -22,8 +22,6 @@ env:
   faucet_amt: 1000000000000000000
   eth_acc_pass: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
 
-eth_host: http://ethereum-daemon.hermes-devnet:9545
-dojima_rpc_url: http://dojima-chain.hermes-devnet-genesis:8545
 peer: hermesnode.hermes-devnet-genesis
 peerApi:
 ethRouterContract:
@@ -77,7 +75,7 @@ environment:
   SOL_STATE_CONTRACT: uG2JDvtCUo3Z82CgBUU8JX5fxuxikQAaJfg2rK7d24f
   CONF_PATH: /scripts
   SEEDS: hermesnode.hermes-devnet-genesis
-
+  DOJIMA_RPC_URL: http://dojima-chain.hermes-devnet-genesis:8545
 
 
 service:
