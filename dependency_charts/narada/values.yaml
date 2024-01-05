@@ -35,7 +35,7 @@ environment:
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
-  PEER: 10.2.106.249
+  PEER: 10.2.60.226
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657
   VALIDATOR: true
@@ -186,7 +186,7 @@ resources:
     cpu: 4
     memory: 3Gi
   limits:
-    memory: 16Gi
+    memory: 4Gi
 
 nodeSelector: {}
 
