@@ -410,7 +410,7 @@ create_mnemonic() {
     read -r -s -p "Enter mnemonic seed phrase: " prompt_mnemonic
     if [ prompt_mnemonic == "" ]; then
       echo "=> Generating hermesnode Mnemonic phrase"
-      mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:48856815_04-01-24 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+      mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:9c6fad06_07-01-24 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
       kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
       [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
       kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"

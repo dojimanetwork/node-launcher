@@ -5,7 +5,7 @@
 net: testnet
 replicaCount: 1
 type: validator
-enodes: enode://d5cbbbfbb7e6bbac53bd227430e9ddcdbec4350fc97ad0e7c3961dee95d7904f55261584035d955951324bbced29b0ba827c9d5a794549a7e0c2039e5e2a1e91@10.2.203.53:30303
+enodes: enode://f37759d2f892d068329f5cc8be1e2bdea70f453845b0aeaa6e514b9b9e8f2bf2667570e486afad2db54d48edc37489787dae518489e2441c6820452c34fde072@10.2.192.75:30303
 unlock_address: 0xb9cA97199b0Dd85A48387B00Fd91d4195D1D2746
 strategyType: Recreate
 
@@ -43,8 +43,8 @@ h4s:
 hermes:
   testnet:
     image: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
-    tag: 48856815_04-01-24
-    hash: 837fc6118830b4c0b8e29bbea6734ae312083619600d6e5c72eafdd86ed64394
+    tag: 9c6fad06_07-01-24
+    hash: 5f39c49f2ec4a03147da06b56b4e730485b90f03ff46ec75dff89bdbacae4736
 
 cmd_args:
   dojima_testnet_enable: true
