@@ -36,7 +36,7 @@ environment:
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
   DOJ_CHAIN_ID: 1001
-  PEER: 10.2.193.157
+  PEER: 10.2.44.241
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657
   VALIDATOR: true
