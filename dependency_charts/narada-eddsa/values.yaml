@@ -127,8 +127,8 @@ strategyType: Recreate
 image:
   repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
   pullPolicy: IfNotPresent
-  tag: 9c6fad06_07-01-24
-  hash: "5f39c49f2ec4a03147da06b56b4e730485b90f03ff46ec75dff89bdbacae4736" # Not used for mocknet/testnet
+  tag: 76910312_3.0.2
+  hash: "af37838a6800e4e866c4e42e2aace980ccdd6861bd983eb94dfc015a15f8ed39" # Not used for mocknet/testnet
 
 imagePullSecrets: []
 nameOverride: "narada-eddsa"
