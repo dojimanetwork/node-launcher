@@ -1,5 +1,10 @@
 global:
-  tag: testnet-1.89.0_62
+  hermes:
+    image: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
+    tag: 76910312_3.0.2
+  dojimachain:
+    image: asia-south1-docker.pkg.dev/prod-dojima/testnet/dojimachain
+    tag: 4d617e0a0_v0.0.26
   gateway:
     enabled: false
     name: fhermesnode-gateway

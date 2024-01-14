@@ -81,12 +81,7 @@ Create the name of the service account to use
 Image
 */}}
 {{- define "hermesnode.image" -}}
-{{/* A hash is not needed for mocknet/testnet, or in the case that a node is not a validator w/ key material and autoupdate is enabled. */}}
-{{- if or (eq (include "hermesnode.net" .) "testnet") (and .Values.autoupdate.enable (eq .Values.type "fullnode")) -}}
-{{- .Values.image.repository -}}:{{ include "hermesnode.tag" .}}
-{{- else -}}
-{{- .Values.image.repository -}}:{{ include "hermesnode.tag" .}}
-{{- end -}}
+{{- .Values.global.hermes.image -}}:{{ .Values.global.hermes.tag }}
 {{- end -}}
 
 {{/*

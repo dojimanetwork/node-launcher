@@ -78,11 +78,7 @@ Tag
 Image
 */}}
 {{- define "dojima-chain.image" -}}
-{{- if or (eq (include "dojima-chain.net" .) "testnet") -}}
-{{- .Values.image.repository -}}:{{ include "dojima-chain.tag" . }}@sha256:{{ .Values.image.hash }}
-{{- else -}}
-{{- .Values.image.repository -}}:{{ include "dojima-chain.tag" . }}@sha256:{{ coalesce .Values.global.hash .Values.image.hash }}
-{{- end -}}
+{{- .Values.global.dojimachain.image -}}:{{ .Values.global.dojimachain.tag }}
 {{- end -}}
 
 

@@ -402,6 +402,16 @@ make_backup() {
   echo "Backup available in path ./backups/$NAME/$service/$day"
 }
 
+get_hermesnode_image() {
+  [ -z "$EXTRA_ARGS" ] && die "Cannot determine hermesnode image"
+  # shellcheck disable=SC2086
+  (
+    set -eo pipefail
+    net=$(get_node_net)
+    helm template ./hermes-stack $EXTRA_ARGS | grep "image:.*/${NET}/hermes" | head -n1 | awk '{print $2}'
+  )
+}
+
 create_mnemonic() {
   local mnemonic
   local prompt_mnemonic
@@ -410,7 +420,9 @@ create_mnemonic() {
     read -r -s -p "Enter mnemonic seed phrase: " prompt_mnemonic
     if [ prompt_mnemonic == "" ]; then
       echo "=> Generating hermesnode Mnemonic phrase"
-      mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image=asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:db3c24bd_3.0.0 --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+      image=$(get_hermes_image)
+      echo $image
+      mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image="$image" --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
       kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
       [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
       kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"

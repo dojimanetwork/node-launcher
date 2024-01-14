@@ -78,11 +78,7 @@ Tag
 Image
 */}}
 {{- define "narada-eddsa.image" -}}
-{{- if or (eq (include "narada-eddsa.net" .) "testnet") -}}
-{{- .Values.image.repository -}}:{{ include "narada-eddsa.tag" . }}
-{{- else -}}
-{{- .Values.image.repository -}}:{{ include "narada-eddsa.tag" . }}@sha256:{{ coalesce .Values.global.hash .Values.image.hash }}
-{{- end -}}
+{{- .Values.global.hermes.image -}}:{{ .Values.global.hermes.tag }}
 {{- end -}}
 
 {{/*
