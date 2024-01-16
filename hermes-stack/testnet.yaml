@@ -1,7 +1,7 @@
 global:
   hermes:
     image: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
-    tag: c4b45fe6_4.0.5
+    tag: efa19d37_4.0.6
   dojimachain:
     image: asia-south1-docker.pkg.dev/prod-dojima/testnet/dojimachain
     tag: 4d617e0a0_v0.0.26
