@@ -164,13 +164,6 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
-          startupProbe:
-            failureThreshold: 600
-            periodSeconds: 10
-            timeoutSeconds: 10
-            exec:
-              command:
-                - /scripts/probe.sh
           livenessProbe:
             failureThreshold: 60
             timeoutSeconds: 10
