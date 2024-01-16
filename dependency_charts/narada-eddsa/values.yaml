@@ -35,7 +35,7 @@ environment:
   TSS_P2P_PORT: 5042
   P2P_ID_PORT: 6042
   EDDSA_HTTP_PORT: 6050
-  PEER: 10.2.104.58
+  PEER: 10.2.100.248
 
 
 # use in multi nodes envs
