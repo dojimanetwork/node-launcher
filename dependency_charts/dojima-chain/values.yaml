@@ -6,7 +6,7 @@ net: testnet
 replicaCount: 1
 type: validator
 enodes: enode://556d5e8d49e93ee4222b0313f90b6b16f0c78f9e4a3778db78df9cb39329184dc2f32a2ac5bc4b89362fd9946f0803184025dbef894b6f78728226ba299701f2@10.2.205.50:30303
-unlock_address: 0xb9cA97199b0Dd85A48387B00Fd91d4195D1D2746
+unlock_address: 0xF016010CAACb9D0797633E00201407972ad58D7e
 strategyType: Recreate
 
 image:
