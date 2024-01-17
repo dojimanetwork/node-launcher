@@ -2,7 +2,9 @@
 
 source ./scripts/core.sh
 
-SEED_TESTNET=${SEED_TESTNET:=$(curl -s https://testnet-seed.dojima.network/ | jq -r '. | join(",")' | sed "s/,/\\\,/g;s/|/,/g")}
+SEED_TESTNET_ENODES=enode://7b13c0ec991d9fff9d84e2e96d271ee01597bcb5853792eb0f138f828ea5f5de109380d0eb17fc780c6806bbc93d97bd70fb0f5fcaa37bea7aec51be67041a95@10.2.20.202:30303
+SEED_TESTNET=10.2.93.80
+SEED_TESTNET_EDDSA=10.2.197.214
 SEED_STAGENET=${SEED_STAGENET:="stagenet-seed.dojima.network"}
 SEED_MAINNET=${SEED_MAINNET:=$(curl -s https://mainnet-seed.dojima.network/ | jq -r '. | join(",")' | sed "s/,/\\\,/g;s/|/,/g")}
 
@@ -31,11 +33,13 @@ case $NET in
     EXTRA_ARGS="-f ./hermes-stack/chaosnet.yaml"
     ;;
   stagenet)
-#    SEED=$SEED_STAGENET
+    SEED=$SEED_STAGENET
     EXTRA_ARGS="-f ./hermes-stack/stagenet.yaml"
     ;;
   testnet)
-#    SEED=$SEED_TESTNET
+    SEED=$SEED_TESTNET
+    SEED_EDDSA=$SEED_TESTNET_EDDSA
+    ENODES=$SEED_TESTNET_ENODES
     EXTRA_ARGS="-f ./hermes-stack/testnet.yaml"
     ;;
   devnet)

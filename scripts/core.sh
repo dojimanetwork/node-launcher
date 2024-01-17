@@ -584,7 +584,8 @@ deploy_validator() {
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
     --set hermesnode.type="validator" \
-    --set narada.peer="$SEED",hermesnode.seeds="$SEED" \
+    --set narada.peer="$SEED",hermesnode.seeds="$SEED",narada-eddsa.peer="$SEED_EDDSA" \
+    --set dojima-chain.enodes="$ENODES" \
     --set global.namespace="$NAME"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 #  confirm
