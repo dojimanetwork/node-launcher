@@ -137,9 +137,7 @@ spec:
             - --port=30303
             - --ipcpath={{.Values.doj_chf}}/data/dojimachain.ipc
             - --syncmode=full
-            {{- if eq .Values.enable.node "fullnode"  }}
             - --gcmode=archive
-            {{- end }}
             {{- if eq .Values.net "testnet" }}
             - --dojima-testnet=true
             {{- else }}
@@ -150,7 +148,6 @@ spec:
             - --unlock={{ .Values.config.unlock }}
             - --password={{ .Values.config.password }}
             - --allow-insecure-unlock
-            - --nodiscover
             {{- end }}
             {{- if .Values.service.http }}
             - --http
@@ -160,7 +157,7 @@ spec:
             - --http.corsdomain=*
             - --http.vhosts=*
             {{- end }}
-            {{- if .Values.service.ws }}
+            {{- if .Values.enable.ws }}
             - --ws
             - --ws.origins="*"
             - --ws.port={{ .Values.service.port.wss }}
