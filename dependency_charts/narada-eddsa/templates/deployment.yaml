@@ -111,14 +111,6 @@ spec:
               value: {{ include "narada-eddsa.solanaWsDaemon" . }}
             - name: SOL_START_BLOCK_HEIGHT
               value: "{{ .Values.solanaDaemon.solanaStartBlockHeight }}"
-            - name: GAIA_HOST
-              value: {{ include "narada-eddsa.gaiaDaemon" . }}
-            - name: GAIA_GRPC_HOST
-              value: {{ include "narada-eddsa.gaiaDaemonGRPC" . }}
-            - name: GAIA_GRPC_TLS
-              value: "{{ include "narada-eddsa.gaiaDaemonGRPCTLS" . }}"
-            - name: GAIA_START_BLOCK_HEIGHT
-              value: "{{ .Values.gaiaDaemon.gaiaStartBlockHeight }}"
             - name: CHAIN_HOME_FOLDER
               value: {{ .Values.chain_home_folder }}
             {{- if not .Values.gaiaDaemon.enabled }}
@@ -126,11 +118,11 @@ spec:
               value: "true"
             {{- end}}
             - name: ETH_HOST
-              value: {{ include "narada.ethereumDaemon" . }}
+              value: {{ include "narada-eddsa.ethereumDaemon" . }}
             - name: ETH_START_BLOCK_HEIGHT
               value: "{{ .Values.ethereumDaemon.ethereumStartBlockHeight }}"
             - name: ETH_SUGGESTED_FEE_VERSION
-              value: '{{ include "narada.ethSuggestedFeeVersion" . }}'
+              value: '{{ include "narada-eddsa.ethSuggestedFeeVersion" . }}'
             - name: SEED
               valueFrom:
                 fieldRef:
@@ -154,7 +146,7 @@ spec:
                   key: mnemonic
             {{- end }}
             - name: CHAIN_ID
-              value: {{ include "narada.chainID" . }}
+              value: {{ include "narada-eddsa.chainID" . }}
             - name: AR_KEY_PATH
               value: "/scripts/testnet/arweave_testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
             - name: AR_ADDRESS
@@ -203,7 +195,7 @@ spec:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
         persistentVolumeClaim:
-          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "narada.fullname" . }}{{- end }}
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "narada-eddsa.fullname" . }}{{- end }}
       {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
         hostPath:
           path: {{ .Values.persistence.hostPath }}

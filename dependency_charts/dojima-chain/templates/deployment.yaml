@@ -65,6 +65,8 @@ spec:
             value: {{ .Values.chain_home_folder }}
           - name: SIGNER_NAME
             value: {{ .Values.signer.name }}
+          - name: DOJ_CHAIN_HOME_FOLDER
+            value: {{ .Values.doj_chf }}
           - name: SIGNER_PASSWD
              {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
             valueFrom:
@@ -99,6 +101,11 @@ spec:
       - name: copy-keystore
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         command: [ '/scripts/copy-keystore.sh' ]
+        env:
+          - name: CHAIN_HOME_FOLDER
+            value: {{ .Values.chain_home_folder }}
+          - name: DOJ_CHAIN_HOME_FOLDER
+            value: {{ .Values.doj_chf }}
         volumeMounts:
           - name: scripts
             mountPath: /scripts
@@ -126,28 +133,43 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - dojimachain
-            - --dojima-testnet={{ .Values.cmd_args.dojima_testnet_enable }}
-            - --mine
-            - --networkid=1001
-            - --unlock={{ .Values.unlock_address }}
-            - --password={{ .Values.cmd_args.password_path }}
-            - --allow-insecure-unlock
-            - --http
-            - --http.api=personal,eth,net,web3,txpool,miner,admin,dojimachain
-            - --http.addr=0.0.0.0
+            - --networkid={{ .Values.global.dojimachain.chainId }}
             - --port=30303
-            - --http.port={{ .Values.service.port.http }}
+            - --ipcpath={{.Values.doj_chf}}/data/dojimachain.ipc
+            - --syncmode=full
+            {{- if eq .Values.enable.node "fullnode"  }}
+            - --gcmode=archive
+            {{- end }}
+            {{- if eq .Values.net "testnet" }}
+            - --dojima-testnet=true
+            {{- else }}
+            - --dojima-mainnet=true
+            {{- end }}
+            {{- if eq .Values.enable.node "validator" }}
+            - --mine
+            - --unlock=0xfAd68c705Bf42414b65832a100fFd3917Fab2637
+            - --password={{ .Values.config.password }}
+            - --allow-insecure-unlock
+            - --nodiscover
+            - --maxpeers=2
+            {{- end }}
+            {{- if .Values.service.http }}
+            - --http
+            - --http.api={{.Values.config.http_api}}
+            - --http.addr={{.Values.config.http_addr}}
+            - --http.port={{ .Values.config.http_port }}
             - --http.corsdomain=*
             - --http.vhosts=*
+            {{- end }}
+            {{- if .Values.service.ws }}
             - --ws
             - --ws.origins="*"
             - --ws.port={{ .Values.service.port.wss }}
             - --ws.addr=0.0.0.0
             - --ws.api=personal,eth,web3
-            - --syncmode=full
-            - --gcmode=archive
-            {{if ne .Values.type "genesis" -}}
-            - --bootnodes={{ .Values.enodes }}
+            {{- end }}
+            {{- if or .Values.enodes .Values.config.bootnodes }}
+            - --bootnodes={{ include "dojima-chain.enodes" . }}
             {{- end }}
           volumeMounts:
             - name: data

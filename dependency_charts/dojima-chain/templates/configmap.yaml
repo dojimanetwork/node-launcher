@@ -23,16 +23,9 @@ data:
 
   copy-keystore.sh: |
     #!/bin/bash
-    ls -lasrt /root
-    mkdir -p /root/.dojimachain/data/keystore
-    cp /root/.hermesnode/UTC* /root/.dojimachain/data/keystore/
-    ls -lasrt /root/.dojimachain/data/keystore/
 
-  display-address.sh: |
-    #!/bin/bash --help
-    hermesnode
-    #GETH=$(hermesnode eth-ks $CHAIN_HOME_FOLDER $SIGNER_NAME $SIGNER_PASSWD)
-    #echo $GETH
+    mkdir -p ${DOJ_CHAIN_HOME_FOLDER}/data/keystore
+    cp ${CHAIN_HOME_FOLDER}/UTC* ${DOJ_CHAIN_HOME_FOLDER}/data/keystore/
 
   external-ip.sh: |
     #!/bin/bash

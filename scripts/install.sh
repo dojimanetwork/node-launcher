@@ -2,18 +2,19 @@
 
 source ./scripts/core.sh
 
-SEED_TESTNET_ENODES=enode://7b13c0ec991d9fff9d84e2e96d271ee01597bcb5853792eb0f138f828ea5f5de109380d0eb17fc780c6806bbc93d97bd70fb0f5fcaa37bea7aec51be67041a95@10.2.20.202:30303
-SEED_TESTNET=10.2.93.80
-SEED_TESTNET_EDDSA=10.2.197.214
-SEED_STAGENET=${SEED_STAGENET:="stagenet-seed.dojima.network"}
-SEED_MAINNET=${SEED_MAINNET:=$(curl -s https://mainnet-seed.dojima.network/ | jq -r '. | join(",")' | sed "s/,/\\\,/g;s/|/,/g")}
+SEED_TESTNET_ENODES=enode://5a9ebf001eda5ed9d703f2493663de2147f4fc8503983754714859993a470b7a3fd7600f5e8a76a442646ae79d53434a9cd8dc4228fea5efcca2ffadd49d1830@10.2.19.130:30303
+SEED_TESTNET=10.2.2.218
+SEED_TESTNET_EDDSA=10.2.239.237
+SEED_STAGENET_ENODES=enode://5a9ebf001eda5ed9d703f2493663de2147f4fc8503983754714859993a470b7a3fd7600f5e8a76a442646ae79d53434a9cd8dc4228fea5efcca2ffadd49d1830@10.2.19.130:30303
+SEED_STAGENET=10.2.2.218
+SEED_STAGENET_EDDSA=10.2.239.237
 
 # sets type, name, net variables.
 get_node_info
 
 if node_exists; then
   warn "Found an existing HermesNode, make sure this is the node you want to update"
-  display_status
+  #display_status
   echo
 fi
 
@@ -34,6 +35,8 @@ case $NET in
     ;;
   stagenet)
     SEED=$SEED_STAGENET
+    SEED_EDDSA=$SEED_STAGENET_EDDSA
+    ENODES=$SEED_STAGENET_ENODES
     EXTRA_ARGS="-f ./hermes-stack/stagenet.yaml"
     ;;
   testnet)

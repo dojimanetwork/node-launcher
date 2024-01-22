@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: testnet
+net: stagenet
 
 ethSuggestedFeeVersion:
   mainnet: 1
@@ -51,7 +51,7 @@ dojima_chain:
 
 hermesApi: hermesnode:1317
 chainID:
-  testnet: hermes-testnet-v2
+  testnet: hermeschain-stagenet
 #  mainnet: thorchain-mainnet-v1
 #  stagenet: thorchain-stagenet-v2
 #  mocknet: hermes_mocknet
@@ -138,7 +138,7 @@ persistence:
   size:
     testnet: 10Gi
 #    mainnet: 50Gi
-#    stagenet: 10Gi
+    stagenet: 10Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc

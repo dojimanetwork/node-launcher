@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: testnet
+net: stagenet
 
 ethSuggestedFeeVersion:
   mainnet: 1
@@ -29,9 +29,9 @@ environment:
   INCLUDE_SOL_CHAIN: false
   INCLUDE_GAIA_CHAIN: false
   INCLUDE_DOJ_CHAIN: false
-  INCLUDE_AVAX_CHAIN: true
+  INCLUDE_AVAX_CHAIN: false
   DOJIMA_SPAN_ENABLE: true
-  AVAX_HOST: http://avalanche-daemon.hermes-devnet:9650/ext/bc/C/rpc
+  AVAX_HOST: http://avalanche-daemon.hermes-stagenet:9650/ext/bc/C/rpc
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
@@ -52,19 +52,19 @@ debug: true
 dojima_chain:
   rpc_url: http://dojima-chain:8545
   grpc_url: hermesnode:9090
-  chain_id: 1001
+  chain_id: 1401
 
 hermesApi: hermesnode:1317
 chainID:
   testnet: hermes-testnet-v2
 #  mainnet: thorchain-mainnet-v1
-#  stagenet: thorchain-stagenet-v2
+  stagenet: hermeschain-stagenet
 #  mocknet: hermes_mocknet
 
 hermesDaemon:
 #  mainnet: hermesnode:27147
   testnet: hermesnode:26657
-#  stagenet: hermesnode:27147
+  stagenet: hermesnode:26657
 #  mocknet: hermesnode:26657
 
 arweaveDaemon:
@@ -75,6 +75,7 @@ arweaveDaemon:
 polkaDaemmon:
   enabled: true
   testnet: ws://polkadot-daemon.hermes-devnet:9944
+  stagenet: ws://polkadot-daemon.hermes-stagenet:9944
   polkaStartBlockHeight: 0
 
 solanaDaemon:
@@ -88,7 +89,7 @@ binanceDaemon:
   enabled: false
 #  mainnet: http://binance-daemon:27147
   testnet: http://binance-daemon.hermes-devnet:26657
-#  stagenet: http://binance-daemon:27147
+  stagenet: http://binance-daemon.hermes-stagenet:26657
   mocknet: http://binance-daemon:26660
   binanceStartBlockHeight: 0
 
@@ -97,7 +98,7 @@ bitcoinDaemon:
 #  mainnet: bitcoin-daemon:8332
   testnet: bitcoin-daemon.hermes-devnet:18332
 #  mocknet: bitcoin-daemon:18443
-#  stagenet: bitcoin-daemon:8332
+  stagenet: bitcoin-daemon.hermes-stagenet:8332
   bitcoinStartBlockHeight: 0
 
 ethereumDaemon:
@@ -105,7 +106,7 @@ ethereumDaemon:
 #  mainnet: http://ethereum-daemon:8545
   testnet: http://ethereum-daemon.hermes-devnet:9545
 #  mocknet: http://ethereum-daemon:8545
-#  stagenet: http://ethereum-daemon:8545
+  stagenet: http://ethereum-daemon.hermes-stagenet:9545
   ethereumStartBlockHeight: 0
 
 gaiaDaemon:
@@ -114,10 +115,10 @@ gaiaDaemon:
 #    rpc: http://gaia-daemon:26657
 #    grpc: gaia-daemon:9090
 #    grpcTLS: false
-#  stagenet:
-#    rpc: http://gaia-daemon:26657
-#    grpc: gaia-daemon:9090
-#    grpcTLS: false
+  stagenet:
+    rpc: http://gaia-daemon.hermes-stagenet:26657
+    grpc: gaia-daemon:9090
+    grpcTLS: false
   testnet:
     rpc: http://gaia-daemon.hermes-devnet:26657
     grpc: gaia-daemon:9090
@@ -143,7 +144,7 @@ persistence:
   size:
     testnet: 10Gi
 #    mainnet: 50Gi
-#    stagenet: 10Gi
+    stagenet: 10Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc

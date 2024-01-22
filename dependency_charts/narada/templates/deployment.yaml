@@ -105,14 +105,6 @@ spec:
               value: {{ include "narada.solanaWsDaemon" . }}
             - name: SOL_START_BLOCK_HEIGHT
               value: "{{ .Values.solanaDaemon.solanaStartBlockHeight }}"
-            - name: GAIA_HOST
-              value: {{ include "narada.gaiaDaemon" . }}
-            - name: GAIA_GRPC_HOST
-              value: {{ include "narada.gaiaDaemonGRPC" . }}
-            - name: GAIA_GRPC_TLS
-              value: "{{ include "narada.gaiaDaemonGRPCTLS" . }}"
-            - name: GAIA_START_BLOCK_HEIGHT
-              value: "{{ .Values.gaiaDaemon.gaiaStartBlockHeight }}"
             - name: CHAIN_HOME_FOLDER
               value: {{ .Values.chain_home_folder }}
             {{- if not .Values.gaiaDaemon.enabled }}
@@ -164,7 +156,9 @@ spec:
             - name: PREPARAM
               value: {{ .Values.preparam }}
             - name: DOJIMA_CHAIN_ID
-              value: {{ .Values.dojima_chain.chain_id | quote }}
+              value: {{ .Values.global.dojimachain.chainId | quote }}
+            - name: DOJIMA_RPC_URL
+              value: {{ .Values.dojima_chain.rpc_url | quote }}
             - name: DOJIMA_GRPC_URL
               value: {{ .Values.dojima_chain.grpc_url | quote }}
             - name: SOL_PROGRAM

@@ -1,5 +1,26 @@
 global:
-  tag: testnet-1.89.0_62
+  net: stagenet
+  hermes:
+    image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes
+    tag: 0f66f34a_5.1.2
+  dojimachain:
+    image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/dojimachain
+    tag: 72e9a18c9_3.3.0
+    chainId: 1401
+  gateway:
+    enabled: false
+    name: stagenet-gateway
+  images:
+    alpine:
+      tag: latest
+      hash: 4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454
+    alpineK8s:
+      tag: 1.18.2
+      hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
+    busybox:
+      tag: latest
+      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
+
 
 midgard:
   image:
@@ -15,6 +36,9 @@ hermesnode:
 narada:
   enabled: false
 
+narada-eddsa:
+  enabled: false
+
 dojima-chain:
   enabled: false
 
@@ -22,10 +46,10 @@ binance-daemon:
   enabled: false
 
 bitcoin-daemon:
-  enabled: true
+  enabled: false
 
 ethereum-daemon:
-  enabled: true
+  enabled: false
 
 gaia-daemon:
   enabled: false
@@ -34,7 +58,7 @@ arweave-daemon:
   enabled: false
 
 polkadot-daemon:
-  enabled: true
+  enabled: false
 
 solana-daemon:
   enabled: false
@@ -43,4 +67,4 @@ hello-word:
   enabled: false
 
 avalanche-daemon:
-  enabled: true
+  enabled: false

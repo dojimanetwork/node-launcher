@@ -232,7 +232,5 @@ ethSuggestedFeeVersion
 Nqs Port
 */}}
 {{- define "narada-nqs.port" -}}
-{{- if eq (include "narada.net" .) "testnet" -}}
     {{ .Values.service.port.nqs }}
-{{- end -}}
 {{- end -}}

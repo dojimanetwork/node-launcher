@@ -125,11 +125,7 @@ Devp2p Port
 Image
 */}}
 {{- define "dojima-chain.hermesnode-image" -}}
-{{- if eq (include "dojima-chain.net" .) "testnet" -}}
-{{- .Values.hermes.testnet.image -}}:{{ .Values.hermes.testnet.tag }}
-{{- else -}}
-{{- .Values.hermes.mainnet.image -}}:{{ .Values.hermes.mainnet.tag }}@sha256:{{ .Values.hermes.mainnet.hash}}
-{{- end -}}
+{{- .Values.global.hermes.image -}}:{{ .Values.global.hermes.tag }}
 {{- end -}}
 
 
@@ -140,4 +136,9 @@ chain id
 {{- if eq (include "dojima-chain.net" .) "testnet" -}}
     {{ .Values.chainID.testnet }}
 {{- end -}}
+{{- end -}}
+
+
+{{- define "dojima-chain.enodes" -}}
+{{- default .Values.enodes .Values.config.bootnodes }}
 {{- end -}}
