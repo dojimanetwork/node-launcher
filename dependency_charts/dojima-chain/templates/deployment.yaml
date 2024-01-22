@@ -147,11 +147,10 @@ spec:
             {{- end }}
             {{- if eq .Values.enable.node "validator" }}
             - --mine
-            - --unlock=0xfAd68c705Bf42414b65832a100fFd3917Fab2637
+            - --unlock={{ .Values.config.unlock }}
             - --password={{ .Values.config.password }}
             - --allow-insecure-unlock
             - --nodiscover
-            - --maxpeers=2
             {{- end }}
             {{- if .Values.service.http }}
             - --http

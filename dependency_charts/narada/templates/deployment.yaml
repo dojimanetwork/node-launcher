@@ -157,8 +157,6 @@ spec:
               value: {{ .Values.preparam }}
             - name: DOJIMA_CHAIN_ID
               value: {{ .Values.global.dojimachain.chainId | quote }}
-            - name: DOJIMA_RPC_URL
-              value: {{ .Values.dojima_chain.rpc_url | quote }}
             - name: DOJIMA_GRPC_URL
               value: {{ .Values.dojima_chain.grpc_url | quote }}
             - name: SOL_PROGRAM
