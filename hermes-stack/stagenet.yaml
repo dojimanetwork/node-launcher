@@ -2,10 +2,10 @@ global:
   net: stagenet
   hermes:
     image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes
-    tag: dc6bcf5b_5.1.6
+    tag: 7156b5a4_5.2.0
   dojimachain:
     image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/dojimachain
-    tag: fa6d4440e_3.3.3
+    tag: b7d358ca3_3.5.0
     chainId: 1401
   gateway:
     enabled: false

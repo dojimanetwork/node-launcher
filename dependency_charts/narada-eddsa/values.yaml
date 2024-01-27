@@ -47,7 +47,7 @@ debug: true
 dojima_chain:
   rpc_url: http://dojima-chain:8545
   grpc_url: hermesnode:9090
-  chain_id: 1001
+  chain_id: 1401
 
 hermesApi: hermesnode:1317
 chainID:

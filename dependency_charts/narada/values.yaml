@@ -25,7 +25,7 @@ environment:
   INCLUDE_BINANCE_CHAIN: false
   INCLUDE_BTC_CHAIN: false
   INCLUDE_AR_CHAIN: false
-  INCLUDE_DOT_CHAIN: true
+  INCLUDE_DOT_CHAIN: false
   INCLUDE_SOL_CHAIN: false
   INCLUDE_GAIA_CHAIN: false
   INCLUDE_DOJ_CHAIN: false
@@ -35,7 +35,7 @@ environment:
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
-  DOJ_CHAIN_ID: 1001
+  DOJ_CHAIN_ID: 1401
   PEER: 10.2.93.80
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657
