@@ -38,7 +38,6 @@ environment:
   DOJ_CHAIN_ID: 1401
   DOJ_HOST: http://dojima-chain:8545
   DOJ_START_BLOCK_HEIGHT: 0
-  PEER: 10.2.93.80
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657
   VALIDATOR: true
