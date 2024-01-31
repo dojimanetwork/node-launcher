@@ -28,7 +28,7 @@ environment:
   INCLUDE_DOT_CHAIN: false
   INCLUDE_SOL_CHAIN: false
   INCLUDE_GAIA_CHAIN: false
-  INCLUDE_DOJ_CHAIN: false
+  INCLUDE_DOJ_CHAIN: true
   INCLUDE_AVAX_CHAIN: false
   DOJIMA_SPAN_ENABLE: true
   AVAX_HOST: http://avalanche-daemon.hermes-stagenet:9650/ext/bc/C/rpc
@@ -36,6 +36,8 @@ environment:
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
   DOJ_CHAIN_ID: 1401
+  DOJ_HOST: http://dojima-chain:8545
+  DOJ_START_BLOCK_HEIGHT: 0
   PEER: 10.2.93.80
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657

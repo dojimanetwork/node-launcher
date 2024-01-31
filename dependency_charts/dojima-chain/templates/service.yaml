@@ -32,5 +32,9 @@ spec:
       port: {{ .Values.service.port.graphql }}
       targetPort: graphql
       protocol: TCP
+    - name: devudp
+      port: {{ .Values.service.port.devp2p }}
+      targetPort: devudp
+      protocol: UDP
   selector:
     {{- include "dojima-chain.selectorLabels" . | nindent 4 }}

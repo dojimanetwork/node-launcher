@@ -8,7 +8,7 @@ replicaCount: 1
 enable:
   node: "validator"
   http: true
-  ws: false
+  ws: true
   pprof: true
 
 
@@ -16,12 +16,13 @@ config:
   port: 30303
   http_addr: 0.0.0.0
   http_port: 8545
-  http_api: eth,net,web3,txpool,dojimachain
+  http_api: personal,db,eth,net,web3,txpool,miner,admin,dojimachain
   unlock: 0x121bC8206b150c832c93cF84057D37b5dB912C7B
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071
   bootnodes:
+  cmd: false # enable to pass dojima-mainnet, dojima-testnet via command line
 
 
 strategyType: Recreate
@@ -36,7 +37,7 @@ chain_home_folder: "/root/.hermesnode"
 doj_chf: "/root/.dojimachain"
 signer:
   name: hermeschain
-  password: password
+  password: ""
   mnemonicSecret: ""
   passwordSecret: ""
 
@@ -57,6 +58,7 @@ h4s:
   narada: http://narada:6040
   grpc: hermesnode:9090
   eth: http://ethereum-daemon.hermes-stagenet:9545
+  removeWait: false
 
 hermes:
   testnet:
