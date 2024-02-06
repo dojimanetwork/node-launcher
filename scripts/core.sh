@@ -468,7 +468,7 @@ display_password() {
 display_status() {
   APP=hermesnode
   if [ "$TYPE" = "validator" ]; then
-    APP=bifrost
+    APP=narada
   fi
 
   local initialized
@@ -481,18 +481,18 @@ display_status() {
     if grep -E "^STATUS\s+Active" <<<"$output" >/dev/null; then
       echo -e "\n=> Detected ${red}active$reset validator Hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 
-      # prompt for missing mimir votes if mainnet
-      if [ "$NET" = "mainnet" ]; then
-        echo "=> Checking for missing mimir votes..."
+      # prompt for missing hermset votes if mainnet
+      if [ "$NET" = "mainnet" ] || [ "$NET" = "stagenet" ]; then
+        echo "=> Checking for missing hermset votes..."
 
         # all reminder votes the node is missing
         local missing_votes
-        missing_votes=$(kubectl exec -it -n "$NAME" deploy/thornode -c thornode -- curl -s http://localhost:1317/hermeschain/hermset/nodes_all |
-          jq -r "$(curl -s https://api.ninerealms.com/thorchain/votes | jq -c) - [.mimirs[] | select(.signer==\"$NODE_ADDRESS\") | .key] | .[]")
+        missing_votes=$(kubectl exec -it -n "$NAME" deploy/hermesnode -c hermesnode -- curl -s http://localhost:1317/hermeschain/hermset/nodes_all |
+          jq -r "$(curl -s https://api.h4s.dojima.network/hermeschain/votes | jq -c) - [.hermset[] | select(.signer==\"$NODE_ADDRESS\") | .key] | .[]")
 
         if [ -n "$missing_votes" ]; then
           echo
-          echo "$red=> Please vote for the following unvoted mimir values:$reset"
+          echo "$red=> Please vote for the following unvoted hermset values:$reset"
           echo "$missing_votes"
         fi
       fi

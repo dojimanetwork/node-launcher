@@ -150,7 +150,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="dev: mod: dojima-faas version change" />
-    <option name="LAST_COMMIT_MESSAGE" value="dev: mod: dojima-faas version change" />
+    <MESSAGE value="stage val-4" />
+    <option name="LAST_COMMIT_MESSAGE" value="stage val-4" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
