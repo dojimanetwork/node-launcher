@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../dojima-evm-contracts/.idea/dojima-evm-contracts.iml" filepath="$PROJECT_DIR$/../dojima-evm-contracts/.idea/dojima-evm-contracts.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/helm_charts.iml" filepath="$PROJECT_DIR$/.idea/helm_charts.iml" />
     </modules>
   </component>
