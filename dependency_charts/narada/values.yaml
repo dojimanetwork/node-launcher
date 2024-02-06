@@ -138,7 +138,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: "hermesnode-narada"
-fullnameOverride: "fhermesnode-narada"
+fullnameOverride: "hermesnode-narada"
 
 persistence:
   enabled: true

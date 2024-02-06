@@ -468,14 +468,14 @@ display_password() {
 display_status() {
   APP=hermesnode
   if [ "$TYPE" = "validator" ]; then
-    APP=narada
+    APP=hermesnode-narada
   fi
 
   local initialized
   initialized=$(kubectl get pod -n "$NAME" -l app.kubernetes.io/name=$APP -o 'jsonpath={..status.conditions[?(@.type=="Initialized")].status}')
   if [ "$initialized" = "True" ]; then
     local output
-    output=$(kubectl exec -it -n "$NAME" deploy/$APP -c $APP -- /scripts/node-status.sh | tee /dev/tty)
+    output=$(kubectl exec -it -n "$NAME" deploy/narada -c narada -- /scripts/node-status.sh | tee /dev/tty)
     NODE_ADDRESS=$(awk '$1 ~ /ADDRESS/ {match($2, /[a-z0-9]+/); print substr($2, RSTART, RLENGTH)}' <<<"$output")
 
     if grep -E "^STATUS\s+Active" <<<"$output" >/dev/null; then
