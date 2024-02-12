@@ -202,7 +202,7 @@ spec:
               value: {{ $value | quote }}
             {{- end }}
           livenessProbe:
-            failureThreshold: 10
+            failureThreshold: 120
             timeoutSeconds: 10
             periodSeconds: 10
             exec:
