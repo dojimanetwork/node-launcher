@@ -17,7 +17,7 @@ config:
   http_addr: 0.0.0.0
   http_port: 8545
   http_api: personal,db,eth,net,web3,txpool,miner,admin,dojimachain
-  unlock: 0x39b5713E6Ae6A0504D5Bce87bA2Ec5877a145485
+  unlock: 0x1a96747A7F4b311A8af41AFF125dA16f3415DBd8
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071

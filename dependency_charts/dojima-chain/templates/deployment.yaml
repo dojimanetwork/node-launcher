@@ -152,7 +152,7 @@ spec:
             - --networkid={{ .Values.global.dojimachain.chainId }}
             - --port=30303
             - --syncmode=full
-            - --verbosity=5
+            - --verbosity=3
             - --datadir={{.Values.doj_chf}}
             - --keystore={{.Values.doj_chf}}/data/keystore
             {{- if .Values.config.cmd }}
