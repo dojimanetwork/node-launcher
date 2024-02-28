@@ -5,15 +5,15 @@ source ./scripts/core.sh
 get_node_info_short
 
 if ! node_exists; then
-  die "No existing THORNode found, make sure this is the correct name"
+  die "No existing HermesNode found, make sure this is the correct name"
 fi
 
 display_status
 
-echo -e "=> Destroying a $boldgreen$TYPE$reset THORNode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
+echo -e "=> Destroying a $boldgreen$TYPE$reset HermesNode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 echo
 echo
-warn "!!! Make sure your got your BOND back before destroying your THORNode !!!"
+warn "!!! Make sure your got your BOND back before destroying your HermesNode !!!"
 confirm
 echo "=> Deleting THORNode"
 helm delete "$NAME" -n "$NAME"

@@ -4,7 +4,7 @@ source ./scripts/core.sh
 
 get_node_info_short
 
-echo "Performing snapshot and backup for THORNode and Bifrost..."
+echo "Performing snapshot and backup for Hermesnode and Narada..."
 confirm
 
 if snapshot_available; then

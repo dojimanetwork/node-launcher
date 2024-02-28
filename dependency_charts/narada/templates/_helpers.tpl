@@ -78,7 +78,11 @@ Tag
 Image
 */}}
 {{- define "narada.image" -}}
+{{- if eq .Values.global.hermes.global_enable.narada true -}}
 {{- .Values.global.hermes.image -}}:{{ .Values.global.hermes.tag }}
+{{- else -}}
+{{- .Values.image.repository -}}:{{.Values.image.tag}}
+{{- end -}}
 {{- end -}}
 
 {{/*

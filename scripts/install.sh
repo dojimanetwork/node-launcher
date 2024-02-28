@@ -14,7 +14,7 @@ get_node_info
 
 if node_exists; then
   warn "Found an existing HermesNode, make sure this is the node you want to update"
-  display_status
+  #display_status
   echo
 fi
 

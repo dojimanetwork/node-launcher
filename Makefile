@@ -47,7 +47,7 @@ mnemonic: ## Retrieve and display current mnemonic for backup from your hermesno
 password: ## Retrieve and display current password for backup from your THORNode
 	@./scripts/password.sh
 
-pods: ## Get THORNode Kubernetes pods
+pods: ## Get Hermesnodes Kubernetes pods
 	@./scripts/pods.sh
 
 install: pull update-dependencies ## Deploy a THORNode
@@ -71,19 +71,19 @@ status: ## Display current status of your THORNode
 reset: ## Reset and resync a service from scratch on your THORNode. This command can take a while to sync back to 100%.
 	@./scripts/reset.sh
 
-hard-reset-hermesnode: ## Hard reset and resync hermesnode service from scratch on your THORNode, leaving no bak/* files.
+hard-reset-hermesnode: ## Hard reset and resync hermesnode service from scratch on your HermesNode, leaving no bak/* files.
 	@./scripts/hard-reset-hermesnode.sh
 
-backup: ## Backup specific files from either hermesnode of bifrost service of a THORNode.
+backup: ## Backup specific files from either hermesnode of narada service of a hermesnode.
 	@./scripts/backup.sh
 
-full-backup: ## Create volume snapshots and backups for both hermesnode and bifrost services.
+full-backup: ## Create volume snapshots and backups for both hermesnode and narada services.
 	@./scripts/full-backup.sh
 
-restore-backup: ## Restore backup specific files from either hermesnode of bifrost service of a THORNode.
+restore-backup: ## Restore backup specific files from either hermesnode of bifrost service of a HermesNode.
 	@./scripts/restore-backup.sh
 
-snapshot: ## Snapshot a volume for a specific THORNode service.
+snapshot: ## Snapshot a volume for a specific HermesNode service.
 	@./scripts/snapshot.sh
 
 restore-snapshot: ## Restore a volume for a specific THORNode service from a snapshot.
@@ -98,11 +98,20 @@ destroy: ## Uninstall current THORNode
 export-state: ## Export chain state
 	@./scripts/export-state.sh
 
+export-state-hold: ## Used in special conditions
+	@./scripts/export-state-hold.sh
+
+export-dojima-state:
+	@./scripts/export-dojima-state.sh
+
 hard-fork: ## Hard fork chain
-	@HARDFORK_BLOCK_HEIGHT=4786559 NEW_GENESIS_TIME='2022-03-22T01:38:16.219785087Z' CHAIN_ID='thorchain-mainnet-v1' IMAGE='ghcr.io/dojimanetwork/hermes:chaosnet-multichain-0.81.4' ./scripts/hard-fork.sh
+	@HARDFORK_BLOCK_HEIGHT=382330 NEW_GENESIS_TIME='2024-02-27T19:33:52.701169335Z' CHAIN_ID='hermeschain-stagenet' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/stagenet/genesis.382330.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes:ba90ad4a_5.4.6' ./scripts/hard-fork.sh
 
 hard-fork-testnet: ## hard fork testnet
-	@HARDFORK_BLOCK_HEIGHT=1821177 NEW_GENESIS_TIME='2022-03-14T19:32:38.219785087Z' CHAIN_ID='thorchain-testnet-v2' IMAGE='ghcr.io/dojimanetwork/hermes:testnet-1.89.0' ./scripts/hard-fork.sh
+	@HARDFORK_BLOCK_HEIGHT=126728 NEW_GENESIS_TIME='2024-02-27T16:11:56.916227472Z' CHAIN_ID='hermes-testnet-v2' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/testnet/genesis_126728.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:ba90ad4a_5.4.5' ./scripts/hard-fork.sh
+
+hard-fork-testnet-hold: ## hard fork testnet
+	@HARDFORK_BLOCK_HEIGHT=126728 NEW_GENESIS_TIME='2024-02-27T16:11:56.916227472Z' CHAIN_ID='hermes-testnet-v2' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/testnet/genesis_126728.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:ba90ad4a_5.4.5' ./scripts/hard-fork-hold.sh
 
 shell: ## Open a shell for a selected THORNode service
 	@./scripts/shell.sh

@@ -107,7 +107,7 @@ ethereumDaemon:
 #  mainnet: http://ethereum-daemon:8545
   testnet: http://ethereum-daemon.hermes-devnet:9545
 #  mocknet: http://ethereum-daemon:8545
-  stagenet: https://eth-mainnet.g.alchemy.com/v2/HYvuEJkU_RaZ1rlX61up5T3dyHkwZNJk
+  stagenet: http://ethereum-daemon.hermes-stagenet:9545
   ethereumStartBlockHeight: 0
 
 gaiaDaemon:
