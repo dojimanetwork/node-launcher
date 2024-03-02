@@ -162,7 +162,7 @@ spec:
             - name: SOL_PROGRAM
               value: "2dkwKCkTQz4xXxyjcvhUYdSb5fb3Bw15ra95o94WkyVo"
             - name: PEER
-              value: {{ .Values.peer | quote }}
+              value: {{ default .Values.peer .Values.narada_peer | quote }}
             {{- range $key, $value := .Values.environment }}
             - name: {{ $key }}
               value: {{ $value | quote }}
