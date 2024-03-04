@@ -105,7 +105,7 @@ export-dojima-state:
 	@./scripts/export-dojima-state.sh
 
 hard-fork: ## Hard fork chain
-	@HARDFORK_BLOCK_HEIGHT=426250 NEW_GENESIS_TIME='2024-03-04T06:42:53.1239781Z' CHAIN_ID='hermeschain-stagenet' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/stagenet/genesis.426250.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes:03d3a6d4_5.4.11' ./scripts/hard-fork.sh
+	@HARDFORK_BLOCK_HEIGHT=426250 NEW_GENESIS_TIME='2024-03-04T06:42:53.1239781Z' CHAIN_ID='hermeschain-stagenet' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/stagenet/genesis.426250_2.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes:03d3a6d4_5.4.11' ./scripts/hard-fork.sh
 
 hard-fork-testnet: ## hard fork testnet
 	@HARDFORK_BLOCK_HEIGHT=126728 NEW_GENESIS_TIME='2024-02-27T16:11:56.916227472Z' CHAIN_ID='hermes-testnet-v2' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/testnet/genesis_126728.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:ba90ad4a_5.4.5' ./scripts/hard-fork.sh
