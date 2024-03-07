@@ -151,7 +151,7 @@ spec:
             - dojimachain
             - --networkid={{ .Values.global.dojimachain.chainId }}
             - --port=30303
-            - --syncmode=full
+            - --syncmode=snap
             - --verbosity=5
             - --datadir={{.Values.doj_chf}}
             - --keystore={{.Values.doj_chf}}/data/keystore
