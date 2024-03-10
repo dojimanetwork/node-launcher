@@ -2,7 +2,7 @@ global:
   net: stagenet
   hermes:
     image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes
-    tag: cd65acde_5.4.17
+    tag: 224232df_5.4.21
     global_enable:
       hermes: true
       narada: true
