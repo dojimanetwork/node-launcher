@@ -44,7 +44,7 @@ environment:
   DOJIMA_RPC_URL: http://dojima-chain:8545
 
 # use in multi nodes envs
-narada_peer: 10.2.106.195, 10.2.27.115, 10.2.210.173, 10.2.163.224, 10.2.10.234, 10.2.35.113, 10.2.74.247, 10.2.247.158
+narada_peer:
 
 external_ip:
 

@@ -38,7 +38,7 @@ environment:
 
 
 # use in multi nodes envs
-eddsa_peer: 10.2.92.168, 10.2.240.121, 10.2.122.239, 10.2.252.88, 10.2.232.203, 10.2.248.80, 10.2.181.7, 10.2.252.58
+eddsa_peer:
 
 external_ip:
 
