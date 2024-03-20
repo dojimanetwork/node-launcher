@@ -126,6 +126,12 @@ spec:
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.h4s.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
+      - name: wait-for-hermes-to-sync
+        image: {{ include "dojima-chain.hermesnode-image" . }}
+        command: [ '/scripts/is-catching-up.sh' ]
+        env:
+          - name: CHAIN_RPC
+            value: {{ .Values.h4s.rpc }}
       {{- end }}
       - name: init-dojima-genesis
         image: {{ include "dojima-chain.image" . }}

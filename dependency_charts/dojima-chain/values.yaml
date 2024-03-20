@@ -17,7 +17,7 @@ config:
   http_addr: 0.0.0.0
   http_port: 8545
   http_api: personal,db,eth,net,web3,txpool,miner,admin,dojimachain
-  unlock: 0x055C3A493b8ae2C0a807404959FB5a81CF52Af4f
+  unlock: 0x68844E5739Bf4A413d1Ae6c391A4aa9b9725a67E
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071
@@ -57,8 +57,9 @@ h4s:
   hermesApi: hermesnode:1317
   narada: http://narada:6040
   grpc: hermesnode:9090
+  rpc: http://hermesnode:26657
   eth: http://ethereum-daemon.hermes-stagenet:9545
-  removeWait: false
+  removeWait: true
 
 hermes:
   testnet:
