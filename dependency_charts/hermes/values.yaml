@@ -25,7 +25,7 @@ statesync:
   trustHeight: 0
   trustHash: ""
   rpcServers:
-  peer: ""
+  peer: 34.93.45.195
 
 enableApi: true
 
@@ -67,7 +67,7 @@ environment:
   CONF_PATH: /scripts
   DOJ_CHAIN_ID: 1401
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  SEEDS:
+  SEEDS: 34.93.45.195
   PORT_P2P: 26656
   PORT_RPC: 26657
 
