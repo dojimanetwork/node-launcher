@@ -44,7 +44,7 @@ environment:
   DOJIMA_RPC_URL: http://dojima-chain:8545
 
 # use in multi nodes envs
-narada_peer: 34.93.45.195
+narada_peer:
 
 external_ip:
 
@@ -76,13 +76,13 @@ arweaveDaemon:
 polkaDaemmon:
   enabled: true
   testnet: ws://polkadot-daemon.hermes-devnet:9944
-  stagenet: wss://dot-ws.h4s.dojima.network:9944
+  stagenet: wss://dotws.h4s.dojima.network:9944
   polkaStartBlockHeight: 0
 
 solanaDaemon:
   enabled: true
   testnet: http://solana-daemon:8899
-  wsTestnet: wss://sol-ws.h4s.dojima.network:8900
+  wsTestnet: wss://solws.h4s.dojima.network:8900
   solanaStartBlockHeight: 0
 
 
