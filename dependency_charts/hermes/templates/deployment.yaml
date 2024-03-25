@@ -97,8 +97,6 @@ spec:
                {{- end }}
              - name: PEER_API
                value: "{{ .Values.peerApi }}"
-             - name: CONTRACT
-               value: "{{ include "hermesnode.ethRouterContract" . }}"
              - name: DEBUG
                value: "{{ .Values.debug }}"
              - name: HARDFORK_BLOCK_HEIGHT
@@ -124,7 +122,7 @@ spec:
              - name: CHAIN_HOME_FOLDER
                value: {{ .Values.chain_home_folder }}
              - name: CHAIN_ID
-               value: {{ .Values.golbal.hermes.chainId}}
+               value: {{ .Values.global.hermes.chainId}}
              - name: HERMES_AUTO_STATE_SYNC_ENABLED
                value: "{{ .Values.statesync.auto }}"
              - name: HERMES_COSMOS_STATE_SYNC_SNAPSHOT_INTERVAL

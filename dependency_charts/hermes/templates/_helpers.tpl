@@ -142,12 +142,6 @@ Rosetta Port
     {{ .Values.service.port.testnet.rosetta }}
 {{- end -}}
 
-{{/*
-ETH Router contract
-*/}}
-{{- define "hermesnode.ethRouterContract" -}}
-    {{ .Values.ethRouterContract.testnet }}
-{{- end -}}
 
 {{/*
 chain id

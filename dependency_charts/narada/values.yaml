@@ -76,13 +76,13 @@ arweaveDaemon:
 polkaDaemmon:
   enabled: true
   testnet: ws://polkadot-daemon.hermes-devnet:9944
-  stagenet: ws://polkadot-daemon.hermes-stagenet:9944
+  stagenet: wss://dot-ws.h4s.dojima.network:9944
   polkaStartBlockHeight: 0
 
 solanaDaemon:
   enabled: true
   testnet: http://solana-daemon:8899
-  wsTestnet: ws://solana-daemon:8900
+  wsTestnet: wss://sol-ws.h4s.dojima.network:8900
   solanaStartBlockHeight: 0
 
 
@@ -107,7 +107,7 @@ ethereumDaemon:
 #  mainnet: http://ethereum-daemon:8545
   testnet: http://ethereum-daemon.hermes-devnet:9545
 #  mocknet: http://ethereum-daemon:8545
-  stagenet: http://ethereum-daemon.hermes-stagenet:9545
+  stagenet: https://eth.h4s.dojima.network:9545
   ethereumStartBlockHeight: 0
 
 gaiaDaemon:
