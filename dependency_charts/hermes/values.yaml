@@ -1,15 +1,13 @@
 # Default values for hermes node
 
 net: stagenet
-type: genesis
+type: validator # replace with "fullnode" for http services
 
 autoupdate:
   enable: false
   nodes:
 
 chain_home_folder: "/root/.hermesnode"
-ar_key_path: "/Users/luffybhaagi/dojima/ar-contracts/wallet-1.json"
-ar_address: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
 
 signer:
   name: hermeschain
@@ -17,15 +15,9 @@ signer:
   mnemonicSecret: ""
   passwordSecret: ""
 
-env:
-  faucet_dest: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
-  faucet_amt: 1000000000000000000
-  eth_acc_pass: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
 
-peer: hermesnode.hermes-stagenet-genesis
+peer:
 peerApi:
-ethRouterContract:
-  testnet: "0xefA28233838f46a80AaaC8c309077a9ba70D123A"
 
 statesync:
   enabled: false
@@ -62,7 +54,7 @@ environment:
   HERMESNODE_SERVICE_PORT_RPC: 26657
   BINANCE_HOST: http://binance-daemon.hermes-stagenet:26657
   BTC_HOST: bitcoin-daemon.hermes-stagenet:18332
-  ETH_HOST: https://eth-mainnet.g.alchemy.com/v2/HYvuEJkU_RaZ1rlX61up5T3dyHkwZNJk
+  ETH_HOST: https://ethereum-daemon.hermes-stagenet:9545
   AVAX_HOST: http://avalanche-daemon.hermes-stagenet:9650/ext/bc/C/rpc
   ETH_FAUCET_DEST: 0x265e016835494F05170E460Dad7a9380Bd3a1BFf
   ETH_FAUCET_AMT: 1000000000000000000
@@ -75,7 +67,7 @@ environment:
   CONF_PATH: /scripts
   DOJ_CHAIN_ID: 1401
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  SEEDS: hermesnode.hermes-stagenet-genesis,hermesnode.hermes-stagenet-val-1,hermesnode.hermes-stagenet-val-2,hermesnode.hermes-stagenet-val-3,hermesnode.hermes-stagenet-val-4, hermesnode.hermes-stagenet-val-5
+  SEEDS:
   PORT_P2P: 26656
   PORT_RPC: 26657
 

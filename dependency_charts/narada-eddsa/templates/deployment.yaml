@@ -89,40 +89,8 @@ spec:
               value: {{ .Values.hermesApi }}
             - name: CHAIN_RPC
               value: {{ include "narada-eddsa.hermesnodeDaemon" . }}
-            - name: BINANCE_HOST
-              value: {{ include "narada-eddsa.binanceDaemon" . }}
-            - name: BINANCE_START_BLOCK_HEIGHT
-              value: "{{ .Values.binanceDaemon.binanceStartBlockHeight }}"
-            - name: BTC_HOST
-              value: {{ include "narada-eddsa.bitcoinDaemon" . }}
-            - name: BTC_START_BLOCK_HEIGHT
-              value: "{{ .Values.bitcoinDaemon.bitcoinStartBlockHeight }}"
-            - name: AR_HOST
-              value: {{ include "narada-eddsa.arweaveDaemon" . }}
-            - name: AR_START_BLOCK_HEIGHT
-              value: "{{ .Values.arweaveDaemon.arweaveStartBlockHeight }}"
-            - name: DOT_HOST
-              value: {{ include "narada-eddsa.polkaDaemon" . }}
-            - name: DOT_START_BLOCK_HEIGHT
-              value: "{{ .Values.polkaDaemmon.polkaStartBlockHeight }}"
-            - name: SOL_HOST
-              value: {{ include "narada-eddsa.solanaDaemon" . }}
-            - name: SOL_HOST_WS
-              value: {{ include "narada-eddsa.solanaWsDaemon" . }}
-            - name: SOL_START_BLOCK_HEIGHT
-              value: "{{ .Values.solanaDaemon.solanaStartBlockHeight }}"
             - name: CHAIN_HOME_FOLDER
               value: {{ .Values.chain_home_folder }}
-            {{- if not .Values.gaiaDaemon.enabled }}
-            - name: GAIA_DISABLED
-              value: "true"
-            {{- end}}
-            - name: ETH_HOST
-              value: {{ include "narada-eddsa.ethereumDaemon" . }}
-            - name: ETH_START_BLOCK_HEIGHT
-              value: "{{ .Values.ethereumDaemon.ethereumStartBlockHeight }}"
-            - name: ETH_SUGGESTED_FEE_VERSION
-              value: '{{ include "narada-eddsa.ethSuggestedFeeVersion" . }}'
             - name: SEED
               valueFrom:
                 fieldRef:
@@ -147,28 +115,8 @@ spec:
             {{- end }}
             - name: CHAIN_ID
               value: {{ include "narada-eddsa.chainID" . }}
-            - name: AR_KEY_PATH
-              value: "/scripts/testnet/arweave_testnet/2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0.json"
-            - name: AR_ADDRESS
-              value: "2txTDSdb_RjG12uHZlVsB5jrfPzqxtzScKTtPef2KZ0"
-            - name: SOL_KEYPATH
-              value: "/scripts/testnet/solana_testnet/82iP5jLLyiuTHbQRrSwUgZ6sKycT2mjbNkncgpm7Duvg.json"
-            - name: SOL_PUBKEY
-              value: "82iP5jLLyiuTHbQRrSwUgZ6sKycT2mjbNkncgpm7Duvg"
-            - name: DOT_ADDRESS
-              value: "5H16DLfWFLdpm5C4f9Qr6UkADsT1PtD9jELWF9WKuiC7St1T"
             - name: DB_PATH
               value: /var/data
-            - name: PREPARAM
-              value: {{ .Values.preparam }}
-            - name: DOJIMA_CHAIN_ID
-              value: {{ .Values.dojima_chain.chain_id | quote }}
-            - name: DOJIMA_RPC_URL
-              value: {{ .Values.dojima_chain.rpc_url | quote }}
-            - name: DOJIMA_GRPC_URL
-              value: {{ .Values.dojima_chain.grpc_url | quote }}
-            - name: SOL_PROGRAM
-              value: "2dkwKCkTQz4xXxyjcvhUYdSb5fb3Bw15ra95o94WkyVo"
             - name: PEER
               value: {{ default .Values.peer .Values.eddsa_peer }}
             {{- range $key, $value := .Values.environment }}

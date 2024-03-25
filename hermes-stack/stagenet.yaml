@@ -2,7 +2,8 @@ global:
   net: stagenet
   hermes:
     image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes
-    tag: 224232df_5.4.21
+    tag: 15b4a2c8_5.4.28
+    chainId: hermeschain-stagenet
     global_enable:
       hermes: true
       narada: true
@@ -45,30 +46,3 @@ narada-eddsa:
 
 dojima-chain:
   enabled: true
-
-binance-daemon:
-  enabled: false
-
-bitcoin-daemon:
-  enabled: false
-
-ethereum-daemon:
-  enabled: false
-
-gaia-daemon:
-  enabled: false
-
-arweave-daemon:
-  enabled: false
-
-polkadot-daemon:
-  enabled: false
-
-solana-daemon:
-  enabled: false
-
-hello-word:
-  enabled: false
-
-avalanche-daemon:
-  enabled: false

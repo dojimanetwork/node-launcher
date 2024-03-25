@@ -7,8 +7,8 @@ replicaCount: 1
 
 enable:
   node: "validator"
-  http: true
-  ws: true
+  http: false
+  ws: false
   pprof: true
 
 
@@ -17,7 +17,7 @@ config:
   http_addr: 0.0.0.0
   http_port: 8545
   http_api: personal,db,eth,net,web3,txpool,miner,admin,dojimachain
-  unlock: 0x68844E5739Bf4A413d1Ae6c391A4aa9b9725a67E
+  unlock:
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071
@@ -28,10 +28,10 @@ config:
 strategyType: Recreate
 
 image:
-  repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/dojimachain
+  repository: asia-south1-docker.pkg.dev/prod-dojima/stagenet/dojimachain
   pullPolicy: IfNotPresent
-  tag: "4d617e0a0_v0.0.26"
-  hash: "5c17a55e253cedac78cc2a8889a0d658cb1d84d3748a5afe178a67a193d251e4"
+  tag: "63eb20a59_3.5.6"
+  hash: ""
 
 chain_home_folder: "/root/.hermesnode"
 doj_chf: "/root/.dojimachain"
@@ -64,7 +64,7 @@ h4s:
 hermes:
   testnet:
     image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes
-    tag: 76910312_3.0.2
+    tag: 224232df_5.4.21
     hash: af37838a6800e4e866c4e42e2aace980ccdd6861bd983eb94dfc015a15f8ed39
 
 cmd_args:
@@ -83,7 +83,7 @@ persistence:
   size:
     testnet: 50Gi
     mainnet: 1Ti
-    stagenet: 10Gi
+    stagenet: 100Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
@@ -92,8 +92,6 @@ persistence:
 
 service:
   type: ClusterIP
-  http: true
-  ws: false
   port:
       wss: 8546
       http: 8545

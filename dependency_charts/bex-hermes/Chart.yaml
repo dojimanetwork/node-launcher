@@ -1,7 +1,0 @@
-apiVersion: v2
-name: bex-hermes
-description: block explorer hermes daemon to read blocks and txs e.t.c for block explorer
-type: application
-version: 0.1.0
-
-appVersion: 0.1.0

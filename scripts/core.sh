@@ -89,86 +89,6 @@ get_hermes_gateway() {
     HERMES_GATEWAY=${name:-$HERMES_GATEWAY}
 }
 
-get_frontend_gateway() {
-  if [ "$FRONTEND_GATEWAY" != "" ]; then
-    return
-  fi
-  read -r -p "=> Enter frontend gateway name [$FRONTEND_GATEWAY]: " name
-  FRONTEND_GATEWAY=${name:-$FRONTEND_GATEWAY}
-}
-
-get_frontend_net() {
-    if [ "$FRONTEND_NET" != "" ]; then
-      if [ "$FRONTEND_NET" != "mainnet" ] && [ "$FRONTEND_NET" != "testnet" ] && [ "$FRONTEND_NET" != "stagenet" ]; then
-        die "Error NET variable=$FRONTEND_NET. FRONTEND_NET variable should be either 'mainnet', 'testnet', or 'stagenet'."
-      fi
-      return
-    fi
-    echo "=> Select net"
-    menu mainnet mainnet testnet stagenet
-    NET=$MENU_SELECTED
-    echo
-}
-
-get_frontend_namespace_name() {
-  [ "$FRONTEND_NAME" != "" ] && return
-  case $NET in
-    "mainnet")
-      FRONTEND_NAME=frontend-apps
-      ;;
-    "stagenet")
-      FRONTEND_NAME=frontend-apps-stagenet
-      ;;
-    "testnet")
-      FRONTEND_NAME=frontend-apps-testnet
-      ;;
-  esac
-  read -r -p "=> Enter frontend-apps name [$FRONTEND_NAME]: " name
-  FRONTEND_NAME=${name:-$FRONTEND_NAME}
-  echo
-}
-
-
-
-get_backend_gateway() {
-  if [ "$BACKEND_GATEWAY" != "" ]; then
-    return
-  fi
-  read -r -p "=> Enter backend gateway name [$BACKEND_GATEWAY]: " name
-  BACKEND_GATEWAY=${name:-$BACKEND_GATEWAY}
-}
-
-get_backend_net() {
-    if [ "$BACKEND_NET" != "" ]; then
-      if [ "$BACKEND_NET" != "mainnet" ] && [ "$BACKEND_NET" != "testnet" ] && [ "$BACKEND_NET" != "stagenet" ]; then
-        die "Error NET variable=$BACKEND_NET. $BACKEND_NET variable should be either 'mainnet', 'testnet', or 'stagenet'."
-      fi
-      return
-    fi
-    echo "=> Select net"
-    menu mainnet mainnet testnet stagenet
-    NET=$MENU_SELECTED
-    echo
-}
-
-get_backend_namespace_name() {
-  [ "$BACKEND_NAME" != "" ] && return
-  case $NET in
-    "mainnet")
-      BACKEND_NAME=backend-apps
-      ;;
-    "stagenet")
-      BACKEND_NAME=backend-apps-stagenet
-      ;;
-    "testnet")
-      BACKEND_NAME=backend-apps-testnet
-      ;;
-  esac
-  read -r -p "=> Enter frontend-apps name [$BACKEND_NAME]: " name
-  BACKEND_NAME=${name:-$BACKEND_NAME}
-  echo
-}
-
 get_discord_channel() {
   [ "$DISCORD_CHANNEL" != "" ] && unset DISCORD_CHANNEL
   echo "=> Select hermesnode relay channel: "
@@ -211,18 +131,6 @@ get_node_info() {
   get_node_name
 }
 
-get_frontend_info() {
-  get_frontend_namespace_name
-  get_frontend_net
-  get_frontend_gateway
-}
-
-get_backend_info() {
-  get_backend_namespace_name
-  get_backend_net
-  get_backend_gateway
-}
-
 get_node_info_short() {
   [ "$NAME" = "" ] && get_node_net
   get_node_name
@@ -243,22 +151,6 @@ create_namespace() {
     kubectl create ns "$NAME"
     echo
   fi
-}
-
-create_frontend_namespace(){
-    if ! kubectl get ns "$FRONTEND_NAME" >/dev/null 2>&1; then
-      echo "=> Creating frontend-apps namespace"
-      kubectl create ns "$FRONTEND_NAME"
-      echo
-    fi
-}
-
-create_backend_namespace(){
-    if ! kubectl get ns "$BACKEND_NAME" >/dev/null 2>&1; then
-      echo "=> Creating backend-apps namespace"
-      kubectl create ns "$BACKEND_NAME"
-      echo
-    fi
 }
 
 node_exists() {
@@ -532,45 +424,6 @@ deploy_genesis() {
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   kubectl rollout restart -n "${NAME}" deployment "${HERMES_GATEWAY}"
-}
-
-deploy_frontend() {
-  local args
-  # shellcheck disable=SC2086
-  helm diff upgrade -C 3 --install "$FRONTEND_NAME" ./frontend-apps -n "$FRONTEND_NAME" \
-    $args $EXTRA_ARGS \
-    --set global.net="$FRONTEND_NET"
-  echo "extra args ${EXTRA_ARGS}"
-    echo -e "=> Changes for a  frontend-apps on $boldgreen$FRONTEND_NET$reset named $boldgreen$FRONTEND_NAME$reset"
-
-    confirm
-  # shellcheck disable=SC2086
-  helm upgrade --install "$FRONTEND_NAME" ./frontend-apps -n "$FRONTEND_NAME" \
-    --create-namespace $args $EXTRA_ARGS \
-    --set global.net="$FRONTEND_NET" \
-
-  confirm
-
-  kubectl rollout restart -n "${FRONTEND_NAME}" deployment "${FRONTEND_GATEWAY}"
-}
-
-deploy_backend() {
-  local args
-  # shellcheck disable=SC2086
-  helm diff upgrade -C 3 --install "$BACKEND_NAME" ./backend-apps -n "$BACKEND_NAME" \
-    $args $EXTRA_ARGS \
-    --set global.net="$BACKEND_NET"
-  echo "extra args ${EXTRA_ARGS}"
-    echo -e "=> Changes for a  frontend-apps on $boldgreen$BACKEND_NET$reset named $boldgreen$BACKEND_NAME$reset"
-
-  #  confirm
-  # shellcheck disable=SC2086
-  helm upgrade --install "$BACKEND_NAME" ./backend-apps -n "$BACKEND_NAME" \
-    --create-namespace $args $EXTRA_ARGS \
-    --set global.net="$BACKEND_NET" \
-    --skip-crds \
-#  confirm
-  kubectl rollout restart -n "${BACKEND_NAME}" deployment "${BACKEND_GATEWAY}"
 }
 
 deploy_validator() {
