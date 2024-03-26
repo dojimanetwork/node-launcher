@@ -132,6 +132,8 @@ spec:
         env:
           - name: CHAIN_RPC
             value: {{ .Values.h4s.rpc }}
+          - name: HERMES_RPC
+            value: {{ .Values.h4s.hermes_rpc }}
       {{- end }}
       - name: init-dojima-genesis
         image: {{ include "dojima-chain.image" . }}

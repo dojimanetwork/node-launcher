@@ -58,6 +58,7 @@ h4s:
   narada: http://narada:6040
   grpc: hermesnode:9090
   rpc: http://hermesnode:26657
+  hermes_rpc: http://34.93.45.195:26657
   eth: http://ethereum-daemon.hermes-stagenet:9545
   removeWait: true
 
