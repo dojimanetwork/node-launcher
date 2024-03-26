@@ -7,8 +7,8 @@ replicaCount: 1
 
 enable:
   node: "validator"
-  http: false
-  ws: false
+  http: true
+  ws: true
   pprof: true
 
 
@@ -17,7 +17,7 @@ config:
   http_addr: 0.0.0.0
   http_port: 8545
   http_api: personal,db,eth,net,web3,txpool,miner,admin,dojimachain
-  unlock:
+  unlock: 0xA525967A67847EB6d4816762C0d4811FA47F1234
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071

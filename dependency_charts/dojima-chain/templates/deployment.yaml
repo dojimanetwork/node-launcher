@@ -176,7 +176,7 @@ spec:
             - --password={{ .Values.config.password }}
             - --allow-insecure-unlock
             {{- end }}
-            {{- if .Values.service.http }}
+            {{- if .Values.enable.http }}
             - --http
             - --http.api={{.Values.config.http_api}}
             - --http.addr={{.Values.config.http_addr}}
