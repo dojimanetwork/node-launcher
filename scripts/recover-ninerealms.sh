@@ -11,7 +11,7 @@ NET="mainnet"
 get_node_info_short
 
 if ! node_exists; then
-  die "No existing THORNode found, make sure this is the correct name"
+  die "No existing Hermesnode found, make sure this is the correct name"
 fi
 
 HEIGHTS=$(
@@ -24,7 +24,7 @@ echo "=> Select block height to recover"
 menu "$LATEST_HEIGHT" ${HEIGHTS[@]}
 HEIGHT=$MENU_SELECTED
 
-echo "=> Recovering height Nine Realms snapshot at height $HEIGHT in THORNode in $boldgreen$NAME$reset"
+echo "=> Recovering height Nine Realms snapshot at height $HEIGHT in Hermesnode in $boldgreen$NAME$reset"
 confirm
 
 # stop hermesnode

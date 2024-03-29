@@ -8,15 +8,15 @@ The __recommended__ system requirements mean the nodes are future-proof. There i
 
 ## Minimum system requirements
 
-- RAM: 4GB
-- CPU: 4 core
+- RAM: 16GB
+- CPU: 8 core
 - Storage: 1 TB SSD
 
 ## Recommended system requirements
 
-- RAM: 16GB
-- CPU: 8 core
-- Storage: 1 TB SSD
+- RAM: 32GB
+- CPU: 16 core
+- Storage: 2 TB SSD
 
 
 ## Overview 
@@ -88,3 +88,5 @@ Run make command
 ```bash
 make install
 ```
+
+# Run manually Using VM instance

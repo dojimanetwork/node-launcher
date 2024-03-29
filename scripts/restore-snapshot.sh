@@ -10,7 +10,7 @@ fi
 
 get_node_info_short
 if [ "$SERVICE" == "" ]; then
-  echo "=> Select a THORNode service to restore a snapshot"
+  echo "=> Select a Hermesnode service to restore a snapshot"
   menu hermesnode hermesnode narada midgard binance-daemon bitcoin-daemon bitcoin-cash-daemon dogecoin-daemon ethereum-daemon litecoin-daemon gaia-daemon avalanche-daemon
   SERVICE=$MENU_SELECTED
   echo
@@ -39,7 +39,7 @@ if ! kubectl -n "$NAME" get pvc "$PVC" >/dev/null 2>&1; then
   exit 0
 fi
 
-echo "=> Restoring service $boldyellow$SERVICE$reset of a THORNode named $boldyellow$NAME$reset from snapshot"
+echo "=> Restoring service $boldyellow$SERVICE$reset of a Hermesnode named $boldyellow$NAME$reset from snapshot"
 echo
 warn "Destructive command, be careful, your service data volume data will be wiped out and restarted from a snapshot"
 confirm

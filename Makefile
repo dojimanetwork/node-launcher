@@ -44,13 +44,13 @@ update-trust-state: ## Updates statesync trusted height/hash and Midgard blockst
 mnemonic: ## Retrieve and display current mnemonic for backup from your hermesnode
 	@./scripts/mnemonic.sh
 
-password: ## Retrieve and display current password for backup from your THORNode
+password: ## Retrieve and display current password for backup from your Hermesnode
 	@./scripts/password.sh
 
 pods: ## Get Hermesnodes Kubernetes pods
 	@./scripts/pods.sh
 
-install: pull update-dependencies ## Deploy a THORNode
+install: pull update-dependencies ## Deploy a Hermesnode
 	@./scripts/install.sh
 
 install-frontend: pull update-frontend-deps
@@ -59,16 +59,16 @@ install-frontend: pull update-frontend-deps
 install-backend: pull update-backend-deps
 	@./scripts/backend-install.sh
 
-recycle: pull update-dependencies ## Destroy and recreate a THORNode recycling existing daemons to avoid re-sync
+recycle: pull update-dependencies ## Destroy and recreate a Hermesnode recycling existing daemons to avoid re-sync
 	@./scripts/recycle.sh
 
-update: pull update-dependencies ## Update a THORNode to latest version
+update: pull update-dependencies ## Update a Hermesnode to latest version
 	@./scripts/update.sh
 
-status: ## Display current status of your THORNode
+status: ## Display current status of your Hermesnode
 	@./scripts/status.sh
 
-reset: ## Reset and resync a service from scratch on your THORNode. This command can take a while to sync back to 100%.
+reset: ## Reset and resync a service from scratch on your Hermesnode. This command can take a while to sync back to 100%.
 	@./scripts/reset.sh
 
 hard-reset-hermesnode: ## Hard reset and resync hermesnode service from scratch on your HermesNode, leaving no bak/* files.
@@ -86,13 +86,13 @@ restore-backup: ## Restore backup specific files from either hermesnode of bifr
 snapshot: ## Snapshot a volume for a specific HermesNode service.
 	@./scripts/snapshot.sh
 
-restore-snapshot: ## Restore a volume for a specific THORNode service from a snapshot.
+restore-snapshot: ## Restore a volume for a specific Hermesnode service from a snapshot.
 	@./scripts/restore-snapshot.sh
 
 wait-ready: ## Wait for all pods to be in Ready state
 	@./scripts/wait-ready.sh
 
-destroy: ## Uninstall current THORNode
+destroy: ## Uninstall current Hermesnode
 	@./scripts/destroy.sh
 
 export-state: ## Export chain state
@@ -113,10 +113,10 @@ hard-fork-testnet: ## hard fork testnet
 hard-fork-testnet-hold: ## hard fork testnet
 	@HARDFORK_BLOCK_HEIGHT=126728 NEW_GENESIS_TIME='2024-02-27T16:11:56.916227472Z' CHAIN_ID='hermes-testnet-v2' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/testnet/genesis_126728.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:ba90ad4a_5.4.5' ./scripts/hard-fork-hold.sh
 
-shell: ## Open a shell for a selected THORNode service
+shell: ## Open a shell for a selected Hermesnode service
 	@./scripts/shell.sh
 
-debug: ## Open a shell for THORNode service mounting volume to debug
+debug: ## Open a shell for Hermesnode service mounting volume to debug
 	@./scripts/debug.sh
 
 recover-binance:
@@ -125,25 +125,25 @@ recover-binance:
 recover-ninerealms:
 	@./scripts/recover-ninerealms.sh
 
-watch: ## Watch the THORNode pods in real time
+watch: ## Watch the Hermesnode pods in real time
 	@./scripts/watch.sh
 
-logs: ## Display logs for a selected THORNode service
+logs: ## Display logs for a selected Hermesnode service
 	@./scripts/logs.sh
 
-restart: ## Restart a selected THORNode service
+restart: ## Restart a selected Hermesnode service
 	@./scripts/restart.sh
 
-halt: ## Halt a selected THORNode service
+halt: ## Halt a selected Hermesnode service
 	@./scripts/halt.sh
 
-set-node-keys: ## Send a set-node-keys transaction to your THORNode
+set-node-keys: ## Send a set-node-keys transaction to your Hermesnode
 	@./scripts/set-node-keys.sh
 
-set-version: ## Send a set-version transaction to your THORNode
+set-version: ## Send a set-version transaction to your Hermesnode
 	@./scripts/set-version.sh
 
-set-ip-address: ## Send a set-ip-address transaction to your THORNode
+set-ip-address: ## Send a set-ip-address transaction to your Hermesnode
 	@./scripts/set-ip-address.sh
 
 relay: ## Send a message that is relayed to a public Discord channel
@@ -155,16 +155,16 @@ mimir: ## Send a mimir command to set a key/value
 ban: ## Send a ban command with a node address
 	@./scripts/ban.sh
 
-pause: ## Send a pause-chain transaction to your THORNode
+pause: ## Send a pause-chain transaction to your Hermesnode
 	@./scripts/pause.sh
 
-resume: ## Send a resume-chain transaction to your THORNode
+resume: ## Send a resume-chain transaction to your Hermesnode
 	@./scripts/resume.sh
 
-telegram-bot: ## Deploy Telegram bot to monitor THORNode
+telegram-bot: ## Deploy Telegram bot to monitor Hermesnode
 	@./scripts/telegram-bot.sh
 
-destroy-telegram-bot: ## Uninstall Telegram bot to monitor THORNode
+destroy-telegram-bot: ## Uninstall Telegram bot to monitor Hermesnode
 	@./scripts/destroy-telegram-bot.sh
 
 destroy-tools: destroy-prometheus destroy-loki destroy-dashboard ## Uninstall Prometheus/Grafana, Loki, Kubernetes dashboard

@@ -1407,7 +1407,7 @@ grafana:
                   "lineColor": "#ef843c",
                   "show": false
                 },
-                "tableColumn": "tendermint_mempool_recheck_times{chain_id=\"thorchain\", endpoint=\"prometheus\", instance=\"10.0.2.67:26660\", job=\"thornode\", namespace=\"genesis\", pod=\"thornode-55f544d977-wchd8\", service=\"thornode\"}",
+                "tableColumn": "tendermint_mempool_recheck_times{chain_id=\"thorchain\", endpoint=\"prometheus\", instance=\"10.0.2.67:26660\", job=\"hermesnode\", namespace=\"genesis\", pod=\"hermesnode-55f544d977-wchd8\", service=\"hermesnode\"}",
                 "targets": [
                   {
                     "expr": "tendermint_mempool_recheck_times{chain_id=\"$chain_id\", instance=~\"$instance\"}",
@@ -2561,7 +2561,7 @@ grafana:
                   "lineColor": "#ef843c",
                   "show": false
                 },
-                "tableColumn": "tendermint_mempool_failed_txs{chain_id=\"thorchain\", endpoint=\"prometheus\", instance=\"10.0.61.212:26660\", job=\"thornode\", namespace=\"thornode\", pod=\"thornode-7f87778897-8kvtz\", service=\"thornode\"}",
+                "tableColumn": "tendermint_mempool_failed_txs{chain_id=\"thorchain\", endpoint=\"prometheus\", instance=\"10.0.61.212:26660\", job=\"hermesnode\", namespace=\"hermesnode\", pod=\"hermesnode-7f87778897-8kvtz\", service=\"hermesnode\"}",
                 "targets": [
                   {
                     "expr": "tendermint_mempool_failed_txs{chain_id=\"$chain_id\", instance=~\"$instance\"}",
@@ -2656,7 +2656,7 @@ grafana:
                   "lineColor": "#ef843c",
                   "show": false
                 },
-                "tableColumn": "tendermint_mempool_recheck_times{chain_id=\"Binance-Chain-Nile\", endpoint=\"prometheus\", instance=\"10.0.17.250:28660\", job=\"binance-daemon\", namespace=\"thornode\", pod=\"binance-daemon-787d88ff46-475dv\", service=\"binance-daemon\"}",
+                "tableColumn": "tendermint_mempool_recheck_times{chain_id=\"Binance-Chain-Nile\", endpoint=\"prometheus\", instance=\"10.0.17.250:28660\", job=\"binance-daemon\", namespace=\"hermesnode\", pod=\"binance-daemon-787d88ff46-475dv\", service=\"binance-daemon\"}",
                 "targets": [
                   {
                     "expr": "tendermint_mempool_recheck_times{chain_id=\"$chain_id\", instance=~\"$instance\"}",
@@ -3000,11 +3000,11 @@ grafana:
               ]
             },
             "timezone": "",
-            "title": "THORNode / Binance Chain",
+            "title": "Hermesnode / Binance Chain",
             "uid": "UJyurCTWz",
             "version": 11
           }
-      bifrost_thornode_logs:
+      bifrost_hermesnode_logs:
         json: |
           {
             "annotations": {
@@ -3091,11 +3091,11 @@ grafana:
                 },
                 "targets": [
                   {
-                    "expr": "{app_kubernetes_io_name=\"thornode\"} |~ \"(?i)$search_text\" ",
+                    "expr": "{app_kubernetes_io_name=\"hermesnode\"} |~ \"(?i)$search_text\" ",
                     "refId": "A"
                   }
                 ],
-                "title": "Thornode logs",
+                "title": "Hermesnode logs",
                 "type": "logs"
               }
             ],
@@ -3134,7 +3134,7 @@ grafana:
             },
             "timepicker": {},
             "timezone": "",
-            "title": "THORNode / Thornode and Bifrost logs",
+            "title": "Hermesnode / Hermesnode and Bifrost logs",
             "uid": "uddVVg27k",
             "version": 1,
             "weekStart": ""

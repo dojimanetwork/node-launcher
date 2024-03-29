@@ -15,6 +15,6 @@ echo
 echo
 warn "!!! Make sure your got your BOND back before destroying your HermesNode !!!"
 confirm
-echo "=> Deleting THORNode"
+echo "=> Deleting HermesNode"
 helm delete "$NAME" -n "$NAME"
 kubectl delete namespace "$NAME"

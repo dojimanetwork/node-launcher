@@ -6,7 +6,7 @@ source ./scripts/core.sh
 
 get_node_info_short
 
-echo "=> Resuming node global halt from a THORNode named $boldyellow$NAME$reset"
+echo "=> Resuming node global halt from a Hermesnode named $boldyellow$NAME$reset"
 confirm
 
 kubectl exec -it -n "$NAME" -c hermesnode deploy/hermesnode -- /kube-scripts/resume.sh

@@ -5,10 +5,10 @@ source ./scripts/core.sh
 get_node_info_short
 
 if ! node_exists; then
-  die "No existing THORNode found, make sure this is the correct name"
+  die "No existing Hermesnode found, make sure this is the correct name"
 fi
 
-echo "=> Debugging THORNode in $boldgreen$NAME$reset"
+echo "=> Debugging Hermesnode in $boldgreen$NAME$reset"
 confirm
 
 IMAGE=$(kubectl -n "$NAME" get deploy/hermesnode -o jsonpath='{$.spec.template.spec.containers[:1].image}')

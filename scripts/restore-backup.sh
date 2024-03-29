@@ -72,7 +72,7 @@ else
 fi
 
 echo
-echo "=> Restoring backup service $boldgreen$SERVICE$reset from THORNode in $boldgreen$NAME$reset using backup $boldgreen$FILE$reset"
+echo "=> Restoring backup service $boldgreen$SERVICE$reset from Hermesnode in $boldgreen$NAME$reset using backup $boldgreen$FILE$reset"
 confirm
 
 POD="deploy/$SERVICE"

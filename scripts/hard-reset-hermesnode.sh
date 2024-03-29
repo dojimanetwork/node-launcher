@@ -3,17 +3,17 @@
 source ./scripts/core.sh
 
 get_node_info_short
-echo "=> Select a THORNode service to reset"
+echo "=> Select a Hermesnode service to reset"
 SERVICE=hermesnode
 
 if node_exists; then
   echo
-  warn "Found an existing THORNode, make sure this is the node you want to update:"
+  warn "Found an existing Hermesnode, make sure this is the node you want to update:"
   display_status
   echo
 fi
 
-echo "=> Resetting service $boldyellow$SERVICE$reset of a THORNode named $boldyellow$NAME$reset"
+echo "=> Resetting service $boldyellow$SERVICE$reset of a Hermesnode named $boldyellow$NAME$reset"
 echo
 warn "Destructive command, be careful, your service data volume data will be wiped out and restarted to sync from scratch"
 confirm
