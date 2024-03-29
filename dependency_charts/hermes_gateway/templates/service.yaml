@@ -19,6 +19,8 @@ metadata:
     #load-balancer.hetzner.cloud/use-private-ip: "true"
     #load-balancer.hetzner.cloud/disable-private-ingress: "true"
     #load-balancer.hetzner.cloud/type: lb11
+    # GCP
+    cloud.google.com/l4-rbs: enabled
 spec:
   type: {{ .Values.service.type }}
   externalTrafficPolicy: Local
@@ -40,6 +42,14 @@ spec:
       targetPort: narada-p2p
       protocol: TCP
       name: narada-p2p
+    - port: {{ .Values.service.port.narada_eddsa.api }}
+      targetPort: eddsa-api
+      protocol: TCP
+      name: eddsa-api
+    - port: {{ .Values.service.port.narada_eddsa.p2p }}
+      targetPort: eddsa-p2p
+      protocol: TCP
+      name: eddsa-p2p
     {{- end }}
     {{- if .Values.fiber }}
     - port: {{ .Values.service.port.fiber.testnet.api }}
@@ -106,6 +116,14 @@ spec:
       targetPort: dc-rpc
       protocol: TCP
       name: dc-rpc
+    - port: {{ include "gateway-dojima-chain.p2p" . }}
+      targetPort: dc-p2p
+      protocol: TCP
+      name: dc-p2p
+    - port: {{ include "gateway-dojima-chain.p2p" . }}
+      targetPort: dc-p2p-udp
+      protocol: UDP
+      name: dc-p2p-udp
     {{- end }}
     {{- if .Values.faucet }}
     - port: {{ include "gateway-dojima-chain.faucet" . }}

@@ -74,6 +74,8 @@ data:
       keepalive_timeout  65;
 
       proxy_cache_path  /var/cache/nginx/hermesnode levels=1:2 keys_zone=hermesnode:10m;
+      proxy_cache_path  /var/cache/nginx/narada levels=1:2 keys_zone=narada:10m;
+      proxy_cache_path  /var/cache/nginx/narada-eddsa levels=1:2 keys_zone=narada-eddsa:10m;
 
       limit_conn_zone $server_name zone=rpc_conn:10m;
       limit_req_zone $binary_remote_addr zone=rpc_req:10m rate=1r/s;
@@ -110,14 +112,17 @@ data:
 
       server {
         listen 80;
-        server_name _;
-        return 301 https://$host$request_uri;
+        server_name 10.0.0.1;
+        location /healthz {
+          access_log off;
+          return 200 "healthy\n";
+        }
       }
 
-      {{- if .Values.validator }}
+      {{- if .Values.api }}
       server {
-        listen 8443;
-        server_name {{ include "gateway-hermes-api.domain" .}};
+        listen {{ .Values.service.port.api }};
+        server_name 10.0.0.1;
 
         location /healthz {
           access_log off;
@@ -188,26 +193,71 @@ data:
       }
       {{- end }}
 
-      server {
-        listen 8443;
-        server_name _;
-        location /healthz {
-          access_log off;
-          return 200 "healthy\n";
-        }
-      }
-
       {{- if .Values.validator }}
+      limit_req_zone $binary_remote_addr zone=narada_api:10m rate=1r/s;
+      limit_req_zone $binary_remote_addr zone=narada_eddsa_api:10m rate=1r/s;
       server {
-        listen 8443;
-        server_name narada-test.h4s.dojima.network;
+        listen {{ .Values.service.port.narada.api }};
+        server_name 10.0.0.1;
 
         location / {
           proxy_set_header Host $http_host;
           proxy_http_version 1.1;
-          proxy_pass http://narada:{{ .Values.service.port.narada.api }};
+          limit_req zone=narada_api;
+          proxy_ignore_client_abort on;
+
+          proxy_cache narada;
+          proxy_cache_lock on;
+          proxy_cache_lock_timeout 1m;
+          proxy_cache_lock_age 1m;
+          proxy_cache_valid 200 1m;
+
+          location = /ping {
+            proxy_pass http://narada:{{ .Values.service.port.narada.api }};
+          }
+          location = /p2pid {
+            proxy_pass http://narada:{{ .Values.service.port.narada.api }};
+          }
+
+          location ~ ^/status/(p2p|scanner|signing)$ {
+            proxy_cache_valid any 1m;
+            add_header X-Cache-Status $upstream_cache_status always;
+            proxy_pass http://narada:{{ .Values.service.port.narada.api }};
+          }
         }
       }
+
+      server {
+        listen {{ .Values.service.port.narada_eddsa.api }};
+        server_name 10.0.0.1;
+
+        location / {
+          proxy_set_header Host $http_host;
+          proxy_http_version 1.1;
+          limit_req zone=narada_eddsa_api;
+          proxy_ignore_client_abort on;
+
+          proxy_cache narada-eddsa;
+          proxy_cache_lock on;
+          proxy_cache_lock_timeout 1m;
+          proxy_cache_lock_age 1m;
+          proxy_cache_valid 200 1m;
+
+          location = /ping {
+            proxy_pass http://narada-eddsa:{{ .Values.service.port.narada_eddsa.api }};
+          }
+          location = /p2pid {
+            proxy_pass http://narada-eddsa:{{ .Values.service.port.narada_eddsa.api }};
+          }
+
+          location ~ ^/status/(p2p|scanner|signing)$ {
+            proxy_cache_valid any 1m;
+            add_header X-Cache-Status $upstream_cache_status always;
+            proxy_pass http://narada-eddsa:{{ .Values.service.port.narada_eddsa.api }};
+          }
+        }
+      }
+
       {{- end }}
 
       {{- if .Values.midgard }}
@@ -260,8 +310,8 @@ data:
 
       {{- if .Values.rpc.enabled }}
       server {
-        listen 8443;
-        server_name {{ include "gateway-hermes-rpc.domain" .}};
+        listen {{ include "gateway.rpc" . }};
+        server_name 10.0.0.1;
 
         location /genesis {
           proxy_set_header Host $http_host;
@@ -320,7 +370,7 @@ data:
       {{ if .Values.grpc }}
       server {
         listen {{ include "gateway-hermes.grpc" . }};
-        server_name {{ include "gateway-hermes-api.domain" . }};
+        server_name 10.0.0.1;
 
         location / {
           grpc_pass grpc://hermesnode:{{ include "gateway-hermes.grpc" . }};
@@ -583,7 +633,7 @@ data:
       {{- if .Values.dojima_chain }}
       server {
         listen 8545;
-        server_name {{ include "gateway-dc-api.domain" .}};
+        server_name 10.0.0.1;
 
         location /healthz {
           access_log off;
@@ -622,8 +672,8 @@ data:
 
       server {
         listen 8546;
-        server_name {{ include "gateway-dc-rpc.domain" . }};
 
+        server_name 10.0.0.1;
         location /healthz {
           access_log off;
           return 200 "healthy\n";
@@ -828,10 +878,41 @@ data:
       }
       {{- end }}
 
+
+      {{- if .Values.validator }}
+      server {
+        listen {{ .Values.service.port.narada_eddsa.p2p }};
+        proxy_pass narada-eddsa:{{ .Values.service.port.narada_eddsa.p2p }};
+      }
+      {{- end }}
+
       {{- if .Values.validator }}
       server {
         listen {{ include "gateway.p2p" . }};
         proxy_pass hermesnode:{{ include "gateway.p2p" . }};
       }
       {{- end }}
+
+      {{- if .Values.dojima_chain }}
+
+      upstream dojima-chain-tcp {
+       server dojima-chain:{{ include "gateway-dojima-chain.p2p" . }};
+      }
+
+      server {
+        listen {{ include "gateway-dojima-chain.p2p" . }};
+        proxy_pass dojima-chain-tcp;
+      }
+
+      upstream dojima-chain-udp {
+        server dojima-chain:{{ include "gateway-dojima-chain.p2p" . }};
+      }
+
+      server {
+        listen {{ include "gateway-dojima-chain.p2p" . }} udp;
+        proxy_pass dojima-chain-udp;
+      }
+
+      {{- end }}
+
     }

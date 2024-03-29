@@ -51,6 +51,12 @@ spec:
             - name: narada-p2p
               containerPort: {{ .Values.service.port.narada.p2p }}
               protocol: TCP
+            - name: eddsa-api
+              containerPort: {{ .Values.service.port.narada_eddsa.api }}
+              protocol: TCP
+            - name: eddsa-p2p
+              containerPort: {{ .Values.service.port.narada_eddsa.p2p }}
+              protocol: TCP
             - name: bex-fiber
               containerPort: {{ include "gateway-bex-fiber.api" . }}
               protocol: TCP
@@ -93,6 +99,9 @@ spec:
             - name: dc-rpc
               containerPort: {{ include "gateway-dojima-chain.rpc" .}}
               protocol: TCP
+            - name: dc-p2p
+              containerPort: {{ include "gateway-dojima-chain.p2p" .}}
+              protocol: TCP
             - name: faucet
               containerPort: {{ include "gateway-dojima-chain.faucet" .}}
               protocol: TCP
@@ -108,14 +117,17 @@ spec:
             - name: hermes-grpc
               containerPort: {{ include "gateway-hermes.grpc" .}}
               protocol: TCP
+            - name: dc-p2p-udp
+              containerPort: {{ include "gateway-dojima-chain.p2p" .}}
+              protocol: UDP
           livenessProbe:
             httpGet:
               path: /healthz
-              port: https
+              port: http
           readinessProbe:
             httpGet:
               path: /healthz
-              port: https
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

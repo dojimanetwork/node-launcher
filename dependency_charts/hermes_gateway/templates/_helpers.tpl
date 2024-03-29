@@ -86,11 +86,7 @@ RPC Port
 Rpc port domain name
 */}}
 {{- define "gateway-hermes-rpc.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.h4s.testnet.rpc }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.h4s.mainnet.rpc }}
-{{- end -}}
 {{- end -}}
 
 
@@ -98,11 +94,7 @@ Rpc port domain name
 Api port domain name
 */}}
 {{- define "gateway-hermes-api.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.h4s.testnet.api }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.h4s.mainnet.api }}
-{{- end -}}
 {{- end -}}
 
 
@@ -192,22 +184,14 @@ ethereum port domain name
 Dojima chain api port domain name
 */}}
 {{- define "gateway-dc-api.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.d11k.testnet.api }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.d11k.mainnet.api }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Dojima chain rpc port domain name
 */}}
 {{- define "gateway-dc-rpc.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.d11k.testnet.wss }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.d11k.mainnet.wss }}
-{{- end -}}
 {{- end -}}
 
 
@@ -263,18 +247,14 @@ P2P Port
 Arweave api Port
 */}}
 {{- define "gateway-arweave-daemon.api" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.arweave.testnet.api }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Solana rpc Port
 */}}
 {{- define "gateway-solana-daemon.rpc" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.solana.testnet.rpc }}
-{{- end -}}
 {{- end -}}
 
 
@@ -282,9 +262,7 @@ Solana rpc Port
 Solana ws Port
 */}}
 {{- define "gateway-solana-daemon.wss" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.solana.testnet.wss }}
-{{- end -}}
 {{- end -}}
 
 
@@ -292,18 +270,14 @@ Solana ws Port
 Solana udp Port
 */}}
 {{- define "gateway-solana-daemon.udp" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.solana.testnet.udp }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Solana gossip Port
 */}}
 {{- define "gateway-solana-daemon.gossip" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.solana.testnet.gossip }}
-{{- end -}}
 {{- end -}}
 
 
@@ -311,18 +285,14 @@ Solana gossip Port
 Solana tpu Port
 */}}
 {{- define "gateway-solana-daemon.tpu" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.solana.testnet.tpu }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Polkadot wss Port
 */}}
 {{- define "gateway-polkadot-daemon.wss" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.polkadot.testnet.wss }}
-{{- end -}}
 {{- end -}}
 
 
@@ -330,9 +300,7 @@ Polkadot wss Port
 Polkadot http Port
 */}}
 {{- define "gateway-polkadot-daemon.http" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.polkadot.testnet.http }}
-{{- end -}}
 {{- end -}}
 
 
@@ -340,9 +308,7 @@ Polkadot http Port
 DC http Port
 */}}
 {{- define "gateway-dojima-chain.http" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
-    {{ .Values.service.port.dc.testnet.http }}
-{{- end -}}
+   {{ .Values.service.port.dc.testnet.http }}
 {{- end -}}
 
 
@@ -350,18 +316,21 @@ DC http Port
 DC wss/rpc Port
 */}}
 {{- define "gateway-dojima-chain.rpc" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.dc.testnet.wss }}
 {{- end -}}
+
+{{/*
+DC p2p Port
+*/}}
+{{- define "gateway-dojima-chain.p2p" -}}
+    {{ .Values.service.port.dc.testnet.p2p }}
 {{- end -}}
 
 {{/*
 faucet Port
 */}}
 {{- define "gateway-dojima-chain.faucet" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.faucet.testnet.api }}
-{{- end -}}
 {{- end -}}
 
 
@@ -369,9 +338,7 @@ faucet Port
 ETH wss/rpc Port
 */}}
 {{- define "gateway-eth-chain.wss" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.ethereum.testnet.wss }}
-{{- end -}}
 {{- end -}}
 
 
@@ -379,34 +346,26 @@ ETH wss/rpc Port
 ETH wss Port
 */}}
 {{- define "gateway-eth-chain.api" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.ethereum.testnet.api }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Binance rpc Port
 */}}
 {{- define "gateway-bnb-chain.rpc" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.binance.testnet.rpc }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Fiber api Port
 */}}
 {{- define "gateway-bex-fiber.api" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.fiber.testnet.api }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Hermes GRPC Port
 */}}
 {{- define "gateway-hermes.grpc" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.service.port.grpc }}
-{{- end -}}
 {{- end -}}

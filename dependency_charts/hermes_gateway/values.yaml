@@ -9,14 +9,16 @@ midgard: false
 grpc: false
 rpc:
   enabled: true
-  limited: false
+  limited: true
 api: true
-arweave: true
+arweave: false
 solana: false
-polkadot: true
+polkadot: false
 dojima_chain: true
-eth: true
-binance: true
+eth: false
+binance: false
+faucet: false
+fiber: false
 
 # whitelistIPs contains a list of allowed IP addresses or CIDRs. Defaults to allow all
 # traffic if not provided.
@@ -58,7 +60,7 @@ imagePullSecrets: []
 # used for gateway.name
 nameOverride: "hermesnode-gateway"
 # used for gateway.fullname
-fullnameOverride: "fhermesnode-gateway"
+fullnameOverride: "hermesnode-gateway"
 
 service:
   type: LoadBalancer
@@ -66,6 +68,9 @@ service:
     narada:
       p2p: 5040
       api: 6040
+    narada_eddsa:
+      p2p: 5042
+      api: 6042
     midgard: 8080
     api: 1317
     grpc: 9090
@@ -73,8 +78,8 @@ service:
       p2p: 27146
       rpc: 27147
     stagenet:
-      p2p: 27146
-      rpc: 27147
+      p2p: 26656
+      rpc: 26657
     testnet:
       p2p: 26656
       rpc: 26657
@@ -101,6 +106,7 @@ service:
         http: 8545
         wss: 8546
         graphql: 8547
+        p2p: 30303
     faucet:
       testnet:
         api: 8040

@@ -107,7 +107,7 @@ ethereumDaemon:
 #  mainnet: http://ethereum-daemon:8545
   testnet: http://ethereum-daemon.hermes-devnet:9545
 #  mocknet: http://ethereum-daemon:8545
-  stagenet: https://eth.h4s.dojima.network:9545
+  stagenet: https://eth.h4s.dojima.network
   ethereumStartBlockHeight: 0
 
 gaiaDaemon:
