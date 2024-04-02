@@ -90,3 +90,150 @@ make install
 ```
 
 # Run manually Using VM instance
+
+On GCP, Launch VM instance with below configuration
+VM machine configuration:
+machine type: e2-standard-8 ( 8CPU, 32 Gb ram )
+Image: Linux, 20.04 LTS version
+Disk: 1000 Gib = 1000 GB
+
+```terraform
+# This code is compatible with Terraform 4.25.0 and versions that are backward compatible to 4.25.0.
+# For information about validating this Terraform code, see https://developer.hashicorp.com/terraform/tutorials/gcp-get-started/google-cloud-platform-build#format-and-validate-the-configuration
+
+resource "google_compute_instance" "hermes-public-validator" {
+  boot_disk {
+    auto_delete = true
+    device_name = "hermes-public-validator"
+
+    initialize_params {
+      image = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240307b"
+      size  = 1000
+      type  = "pd-balanced"
+    }
+
+    mode = "READ_WRITE"
+  }
+
+  can_ip_forward      = false
+  deletion_protection = false
+  enable_display      = false
+
+  labels = {
+    goog-ec-src = "vm_add-tf"
+  }
+
+  machine_type = "e2-standard-8"
+  name         = "hermes-public-validator"
+
+  network_interface {
+    access_config {
+      network_tier = "PREMIUM"
+    }
+
+    queue_count = 0
+    stack_type  = "IPV4_ONLY"
+    subnetwork  = "projects/prod-dojima/regions/asia-south1/subnetworks/default"
+  }
+
+  scheduling {
+    automatic_restart   = true
+    on_host_maintenance = "MIGRATE"
+    preemptible         = false
+    provisioning_model  = "STANDARD"
+  }
+
+  service_account {
+    email  = "485544309483-compute@developer.gserviceaccount.com"
+    scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
+  }
+
+  shielded_instance_config {
+    enable_integrity_monitoring = true
+    enable_secure_boot          = false
+    enable_vtpm                 = true
+  }
+
+  zone = "asia-south1-c"
+}
+
+```
+
+```gcloud
+gcloud compute instances create hermes-public-validator --project=prod-dojima \
+--zone=asia-south1-c --machine-type=e2-standard-8 \
+--network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet=default \
+--maintenance-policy=MIGRATE --provisioning-model=STANDARD --service-account=485544309483-compute@developer.gserviceaccount.com \
+--scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append \
+--create-disk=auto-delete=yes,boot=yes,device-name=hermes-public-validator,image=projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240307b,mode=rw,size=1000,type=projects/prod-dojima/zones/asia-south1-c/diskTypes/pd-balanced \
+--no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=goog-ec-src=vm_add-gcloud --reservation-affinity=any
+```
+
+## Necessary Software Installation
+
+```shell
+sudo apt-get install build-essential make git
+```
+
+```shell
+# install go 1.18 version https://go.dev/dl/go1.18.linux-amd64.tar.gz
+
+1. wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
+2. sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz # use sudo based on situation
+3. nano ~/.bashrc and copy paste 
+`
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin` at bottom of the file.
+4. source ~/.bashrc
+5. go version should result  `go version go1.18 linux/amd64`
+```
+
+``` shell
+# install protoc, make, proto-gen-go
+1. sudo apt-get update
+2. sudo apt install -y protobuf-compiler
+3. sudo apt install make
+4. sudo apt-get install gcc
+5. sudo apt install jq
+```
+
+```shell
+clone hermes repo:
+git clone git@github.com:dojimanetwork/hermes.git
+```
+
+```shell
+cd hermes
+make protob
+make install
+```
+
+
+```shell
+export CHAIN_HOME_FOLDER=~/.hermesnode1
+export SIGNER_NAME=hermestwo
+export SIGNER_SEED_PHRASE="obvious august river model legend pipe little fossil chase chicken good math lake dash wage trim tenant ramp absorb soon network piece boil during"
+export BINANCE=localhost
+export PEER=34.93.45.195
+export SEEDS=$PEER
+export PORT_RPC=27657
+export PORT_P2P=27656
+export PORT_API=1417
+export PORT_GRPC=9190
+export PORT_GRPC_WEB=9191
+export DOJIMA_RPC_URL=http://localhost:8545
+export ETH_HOST=http://localhost:9545 # not important just declare
+export CHAIN_ID=hermeschain-stagenet
+export NET=stagenet
+```
+
+```shell
+cd build/scripts
+sh validator.sh 
+```
+
+
+
+
+
