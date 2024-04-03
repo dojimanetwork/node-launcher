@@ -171,6 +171,10 @@ gcloud compute instances create hermes-public-validator --project=prod-dojima \
 
 ## Necessary Software Installation
 
+### ___keep 4 terminals open to run hermes, narada, narada-eddsa, dojima-chain___
+
+## Running Hermes node
+
 ```shell
 sudo apt-get install build-essential make git
 ```
@@ -192,18 +196,16 @@ export PATH=$PATH:/usr/local/go/bin` at bottom of the file.
 ``` shell
 # install protoc, make, proto-gen-go
 1. sudo apt-get update
-2. sudo apt install -y protobuf-compiler
-3. sudo apt install make
-4. sudo apt-get install gcc
-5. sudo apt install jq
+2. sudo apt-get install build-essential make git jq gcc protobuf-compiler python3-dev python3-pip
 ```
 
 ```shell
-clone hermes repo:
+# clone hermes repo:
 git clone git@github.com:dojimanetwork/hermes.git
 ```
 
 ```shell
+# binary installation
 cd hermes
 make protob
 make install
@@ -211,11 +213,13 @@ make install
 
 
 ```shell
+# necesary env variables to export before starting hermes
 export CHAIN_HOME_FOLDER=~/.hermesnode1
 export SIGNER_NAME=hermestwo
-export SIGNER_SEED_PHRASE="obvious august river model legend pipe little fossil chase chicken good math lake dash wage trim tenant ramp absorb soon network piece boil during"
+export SIGNER_SEED_PHRASE="" # add your seed phrase
+export SIGNER_PASSWD= # any prompt to hermes and dojimachain use this password
 export BINANCE=localhost
-export PEER=34.93.45.195
+export PEER= # get ip addresses from discord server
 export SEEDS=$PEER
 export PORT_RPC=27657
 export PORT_P2P=27656
@@ -229,9 +233,12 @@ export NET=stagenet
 ```
 
 ```shell
+# running hermes
 cd build/scripts
-sh validator.sh 
+sh validator.sh && echo $SIGNER_PASSWD | hermesnode start --home ~/.hermesnode1 --log_level trace
 ```
+
+
 
 
 
