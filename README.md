@@ -239,6 +239,28 @@ sh validator.sh && echo $SIGNER_PASSWD | hermesnode start --home ~/.hermesnode1 
 ```
 
 
+## Running narada
+
+```shell
+# export variables
+export PEER="34.93.45.195,34.93.113.63"
+export CONFIG_PATH=/etc/val-narada
+export CHAIN_HOME_FOLDER=~/.hermesnode1
+export SIGNER_NAME=hermestwo
+export DB_PATH=/var/data/val-1-narada
+export CHAIN_API=127.0.0.1:1417
+export CHAIN_RPC=127.0.0.1:27657
+export EXTERNAL_IP=0.0.0.0
+export TSS_P2P_PORT=5140
+export P2P_ID_PORT=6140
+export EDDSA_HTTP_PORT=6150
+export EDDSA_HOST=127.0.0.1:6150
+```
+
+```shell
+sudo -SE bash narada.sh
+```
+
 
 
 
