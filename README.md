@@ -315,6 +315,8 @@ CHAIN_RPC=127.0.0.1:26657
 EXTERNAL_IP=0.0.0.0
 TSS_P2P_PORT=5140
 P2P_ID_PORT=6140
+EDDSA_P2P_PORT=5142
+EDDSA_P2P_ID_PORT=6142
 EDDSA_HTTP_PORT=6150
 EDDSA_HOST=127.0.0.1:6150
 CHAIN_ID=hermeschain-stagenet
@@ -364,6 +366,8 @@ export CHAIN_RPC=127.0.0.1:26657
 export EXTERNAL_IP=0.0.0.0
 export TSS_P2P_PORT=5140
 export P2P_ID_PORT=6140
+export EDDSA_P2P_PORT=5142
+export EDDSA_P2P_ID_PORT=6142
 export EDDSA_HTTP_PORT=6150
 export EDDSA_HOST=127.0.0.1:6150
 export CHAIN_ID=hermeschain-stagenet
@@ -414,7 +418,7 @@ After=network-online.target
 [Service]
 User=$USER
 EnvironmentFile=/etc/default/narada.env
-ExecStart=/usr/bin/narada -c /etc/val-narada/config.json -l debug -t /etc/val-narada/preparam.data
+ExecStart=sudo -SE /usr/bin/narada -c /etc/val-narada/config.json -l debug -t /etc/val-narada/preparam.data
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
@@ -433,6 +437,78 @@ EOF
 
 ## Running narada eddsa
 
+```shell
+# create narada-eddsa service
+
+sudo tee <<EOF >/dev/null /etc/systemd/system/narada-eddsad.service
+[Unit]
+Description=Narada Eddsad service daemon
+After=network-online.target
+
+[Service]
+User=$USER
+EnvironmentFile=/etc/default/narada.env
+ExecStart=sudo -SE /usr/bin/tss-eddsa -c /etc/val-narada/eddsa.json -l debug -t /etc/val-narada/preparam.data
+Restart=always
+RestartSec=3
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+2. cat /etc/systemd/system/narada-eddsad.service
+3. sudo systemctl enable narada-eddsad
+4. sudo systemctl daemon-reload
+5. sudo systemctl restart narada-eddsad
+6. check for narada logs:- journalctl -u narada-eddsad.service -f -n 100
+```
+
+## Run Dojima-chain
+```shell
+# clone dojima chain repo:
+1. cd ~
+2. git clone git@github.com:dojimanetwork/dojima-chain.git
+3. cd dojimachain
+4. make dc-all
+```
+
+```shell
+# init dojimachain 
+1. dojimachain init builder/files/mainnet.json --datadir ~/.dojimachain
+2. sudo nano /etc/default/dojimachain.env
+3. copy, paste and assign proper values to variables.
+DOJIMA_RPC_URL=http://localhost:1417
+DOJIMA_GRPC_URL=localhost:9190
+4. 
+```
+
+```shell
+# create narada-eddsa service
+
+sudo tee <<EOF >/dev/null /etc/systemd/system/dojimachaind.service
+[Unit]
+Description=Dojima Chaind service daemon
+After=network-online.target
+
+[Service]
+User=$USER
+EnvironmentFile=/etc/default/dojima-chain.env
+ExecStart=dojimachain --networkid=1401 --port=30303 --syncmode=snap --verbosity=3 --datadir=$HOME/.dojimachain --keystore=$HOME/data/keystore --mine --unlock=0xA525967A67847EB6d4816762C0d4811FA47F1234 --password=/root/password.txt --allow-insecure-unlock --http --http.api=personal,db,eth,net,web3,txpool,miner,admin,dojimachain --http.addr=0.0.0.0 --http.port=8545 --http.corsdomain=* --http.vhosts=* --ws --ws.origins=* --ws.port=8546 --ws.addr=0.0.0.0 --ws.api=personal,eth,web3 --bootnodes=enode://03734b8d2d0b40b0d51297101b82e0d5576f1e2c72890d01060d742d5c6e016edafceaab53658038fa44d52989454d7f9984d22eb2fb1b06be9bcbb23c91e63a@34.93.45.195:30303
+Restart=always
+RestartSec=3
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+2. cat /etc/systemd/system/narada-eddsad.service
+3. sudo systemctl enable narada-eddsad
+4. sudo systemctl daemon-reload
+5. sudo systemctl restart narada-eddsad
+6. check for narada logs:- journalctl -u narada-eddsad.service -f -n 100
+```
 
 
 
