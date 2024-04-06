@@ -491,7 +491,7 @@ DOJIMA_GRPC_URL=localhost:9190
 ```
 
 ```shell
-# create narada-eddsa service
+# create dojimachain service
 
 sudo tee <<EOF >/dev/null /etc/systemd/system/dojimachaind.service
 [Unit]
