@@ -214,7 +214,7 @@ make install
 ls $HOME/go/bin
 
 # move go binaries from $HOME/go/bin to /usr/bin.
-sudo $HOME/go/bin/* /usr/bin
+sudo cp $HOME/go/bin/* /usr/bin
 ```
 
 
@@ -223,6 +223,7 @@ sudo $HOME/go/bin/* /usr/bin
 1. sudo nano /etc/default/hermesnode.env
 2. copy, paste and assign proper values to variables.
 CHAIN_HOME_FOLDER=~/.hermesnode1
+DOJ_CHAIN_HOME_FOLDER=~/.dojimachain
 SIGNER_NAME=hermestwo
 SIGNER_PASSWD=password # any prompt to hermes and dojimachain use this password
 BINANCE=localhost
@@ -243,6 +244,7 @@ SIGNER_SEED_PHRASE="obvious august river model legend pipe little fossil chase c
 3. sudo nano $HOME/.bashrc
 4. copy, paste and assign proper values to variables.
 export CHAIN_HOME_FOLDER=~/.hermesnode1
+export DOJ_CHAIN_HOME_FOLDER=~/.dojimachain
 export SIGNER_NAME=hermestwo
 export SIGNER_PASSWD=password # any prompt to hermes and dojimachain use this password
 export BINANCE=localhost
@@ -471,6 +473,7 @@ EOF
 2. git clone git@github.com:dojimanetwork/dojima-chain.git
 3. cd dojimachain
 4. make dc-all
+5. sudo cp $HOME/go/bin/* /usr/bin
 ```
 
 ```shell
@@ -480,7 +483,11 @@ EOF
 3. copy, paste and assign proper values to variables.
 DOJIMA_RPC_URL=http://localhost:1417
 DOJIMA_GRPC_URL=localhost:9190
-4. 
+4. touch $HOME/password.txt
+5. echo $SIGNER_PASSWD >> $HOME/password.txt
+6. hermesnode eth-ks --home "${CHAIN_HOME_FOLDER}" $CHAIN_HOME_FOLDER $SIGNER_NAME $SIGNER_PASSWD
+7. Use the output of above command in --unlock param of dojimachain command in the next step.
+
 ```
 
 ```shell
@@ -494,7 +501,7 @@ After=network-online.target
 [Service]
 User=$USER
 EnvironmentFile=/etc/default/dojima-chain.env
-ExecStart=dojimachain --networkid=1401 --port=30303 --syncmode=snap --verbosity=3 --datadir=$HOME/.dojimachain --keystore=$HOME/data/keystore --mine --unlock=0xA525967A67847EB6d4816762C0d4811FA47F1234 --password=/root/password.txt --allow-insecure-unlock --http --http.api=personal,db,eth,net,web3,txpool,miner,admin,dojimachain --http.addr=0.0.0.0 --http.port=8545 --http.corsdomain=* --http.vhosts=* --ws --ws.origins=* --ws.port=8546 --ws.addr=0.0.0.0 --ws.api=personal,eth,web3 --bootnodes=enode://03734b8d2d0b40b0d51297101b82e0d5576f1e2c72890d01060d742d5c6e016edafceaab53658038fa44d52989454d7f9984d22eb2fb1b06be9bcbb23c91e63a@34.93.45.195:30303
+ExecStart=dojimachain --networkid=1401 --port=30303 --syncmode=snap --verbosity=3 --datadir=$HOME/.dojimachain --keystore=$HOME/.dojimachain/data/keystore --mine --unlock=0xA525967A67847EB6d4816762C0d4811FA47F1234 --password=$HOME/password.txt --allow-insecure-unlock --http --http.api=personal,db,eth,net,web3,txpool,miner,admin,dojimachain --http.addr=0.0.0.0 --http.port=8545 --http.corsdomain=* --http.vhosts=* --ws --ws.origins=* --ws.port=8546 --ws.addr=0.0.0.0 --ws.api=personal,eth,web3 --bootnodes=enode://03734b8d2d0b40b0d51297101b82e0d5576f1e2c72890d01060d742d5c6e016edafceaab53658038fa44d52989454d7f9984d22eb2fb1b06be9bcbb23c91e63a@34.93.45.195:30303
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
@@ -503,11 +510,11 @@ LimitNOFILE=4096
 WantedBy=multi-user.target
 EOF
 
-2. cat /etc/systemd/system/narada-eddsad.service
-3. sudo systemctl enable narada-eddsad
+2. cat /etc/systemd/system/dojimachaind.service
+3. sudo systemctl enable dojimachaind
 4. sudo systemctl daemon-reload
-5. sudo systemctl restart narada-eddsad
-6. check for narada logs:- journalctl -u narada-eddsad.service -f -n 100
+5. sudo systemctl restart dojimachaind
+6. check for narada logs:- journalctl -u dojimachaind.service -f -n 100
 ```
 
 
