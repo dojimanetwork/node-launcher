@@ -470,7 +470,7 @@ EOF
 ```shell
 # clone dojima chain repo:
 1. cd ~
-2. git clone git@github.com:dojimanetwork/dojima-chain.git
+2. git clone git@github.com:dojimanetwork/dojimachain.git
 3. cd dojimachain
 4. make dc-all
 5. sudo cp $HOME/go/bin/* /usr/bin
