@@ -176,7 +176,9 @@ gcloud compute instances create hermes-public-validator --project=prod-dojima \
 ## Running Hermes node
 
 ```shell
-sudo apt-get install build-essential make git
+# install protoc, make, proto-gen-go
+1. sudo apt-get update
+2. sudo apt-get install build-essential make git jq gcc protobuf-compiler python3-dev python3-pip nano
 ```
 
 ```shell
@@ -191,12 +193,6 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin` at bottom of the file.
 4. source ~/.bashrc
 5. go version should result  `go version go1.18 linux/amd64`
-```
-
-``` shell
-# install protoc, make, proto-gen-go
-1. sudo apt-get update
-2. sudo apt-get install build-essential make git jq gcc protobuf-compiler python3-dev python3-pip nano
 ```
 
 ```shell
