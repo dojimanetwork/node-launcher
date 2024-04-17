@@ -154,7 +154,7 @@ resource "google_compute_instance" "hermes-public-validator" {
     enable_vtpm                 = true
   }
 
-  zone = "asia-south1-c"
+  zone = "asia-south1-c" # Replace zone with your ideal location
 }
 
 ```
