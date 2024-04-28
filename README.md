@@ -148,7 +148,7 @@ resource "google_compute_instance" "hermes-public-validator" {
   }
 
   service_account {
-    email  = "485544309483-compute@developer.gserviceaccount.com"
+    email  = "485XXX-compute@developer.gserviceaccount.com" # Replace this with your service account email
     scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
   }
 
@@ -158,7 +158,7 @@ resource "google_compute_instance" "hermes-public-validator" {
     enable_vtpm                 = true
   }
 
-  zone = "asia-south1-c"
+  zone = "asia-south1-c" # Replace zone with your ideal location
 }
 
 ```
