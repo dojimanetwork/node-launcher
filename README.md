@@ -46,13 +46,17 @@ Now you have a Kubernetes cluster ready to use, you can install the DojimaChain 
 - Running Kubernetes cluster
 - Kubectl configured, ready and connected to running cluster
 
+
 # Steps
 
-GCP
+## Running on GCP
 1. Go to `kubernetes-engine -> clusters` from the menu
 2. Click on `connect` from the created cluster.
-3. Clone the `node-launcher` repo. All commands in this section are to be run inside of this repo.
-
+3. Run `gcloud projects list` to get list of projects.
+4. Copy project id of project name into the below step.
+5. Run `gcloud config set project [PROJECT_ID]` to set the required project.
+6. Run `gcloud container clusters get-credentials [PROJECT_ID]-cluster --region [REGION] --project [PROJECT_ID]`
+7. Clone the `node-launcher` repo. All commands in this section are to be run inside of this repo.
 ```
 git clone git@github.com:dojimanetwork/node-launcher.git
 cd node-launcher
@@ -68,7 +72,7 @@ make helm-plugins
 ```
 # Tools
 To deploy all tools, metrics, logs management, Kubernetes Dashboard, run the command below.
-
+`info: Below command might take some time. Please have patience!!!`
 ```
 make tools
 ```
@@ -78,7 +82,7 @@ make tools
 ## Add environment variables.
 
 `Linux`
-Add below variables to .bashrc file located at ~/.bashrc or /your_home/.basrhc
+Add below variables to .bashrc file located at `~/.bashrc` or `/your_home/.basrhc`
 
 ```bash
 export NET=stagenet
@@ -90,8 +94,15 @@ export HERMES_GATEWAY=hermes-gateway
 Run make command 
 
 ```bash
-make install
+source ~/.bashrc && make install
 ```
+
+## Status Check
+
+1. go to Kubernetes-engine -> clusters
+2. select namespace dropdown -> hermes-validator
+
+
 
 # Run manually Using VM instance
 
