@@ -9,8 +9,8 @@ global:
       narada: true
       narada_eddsa: true
   dojimachain:
-    image: asia-south1-docker.pkg.dev/prod-dojima/stagenet/dojimachain
-    tag: 63eb20a59_3.5.6
+    image: dojimanetwork1401/dojimachain
+    tag: 34b9e6d61_3.5.11
     chainId: 1401
   gateway:
     enabled: false
