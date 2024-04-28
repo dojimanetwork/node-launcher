@@ -47,12 +47,16 @@ Now you have a Kubernetes cluster ready to use, you can install the DojimaChain 
 - Kubectl configured, ready and connected to running cluster
 
 # Steps
-Clone the `dojima-chain-launcher` repo. All commands in this section are to be run inside of this repo.
+
+GCP
+1. Go to `kubernetes-engine -> clusters` from the menu
+2. Click on `connect` from the created cluster.
+3. Clone the `node-launcher` repo. All commands in this section are to be run inside of this repo.
 
 ```
-git clone git@github.com:dojimanetwork/dojima-chain-launcher.git
-cd dojima-chain-launcher
-git checkout master
+git clone git@github.com:dojimanetwork/node-launcher.git
+cd node-launcher
+git checkout gcp_stagenet_public_validator
 ```
 
 # Install Helm 3

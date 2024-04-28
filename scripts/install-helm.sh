@@ -9,7 +9,7 @@ INSTALLER="/tmp/get-helm-3"
 curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 >$INSTALLER
 SHA256=$(sha256sum $INSTALLER | awk '{print $1}')
 echo $SHA256
-if [ "$SHA256" != "f29d8f3cc0f26dcbaf9dc67f815224d2a1a074e0cb1c6e79d9eb8600c98ab682" ]; then
+if [ "$SHA256" != "6701e269a95eec0a5f67067f504f43ad94e9b4a52ec1205d26b3973d6f5cb3dc" ]; then
   cat <<EOF
 Upstream contents of Helm installer script have changed.
 Please verify the new script is safe, then update the hash here.
