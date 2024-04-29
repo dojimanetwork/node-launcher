@@ -102,6 +102,19 @@ source ~/.bashrc && make install
 1. go to Kubernetes-engine -> clusters
 2. select namespace dropdown -> hermes-validator
 
+## Change dojima chain unlock param value
+Before hermesnode is synced 100%, we need to change dojima chain param value.
+
+```shell
+1. Get pod name -> kubectl get pods -n hermes-validator
+2. Copy hermesnode-xxxx value and paste it in the below command
+3. Run to exec into hermesnode pod -> kubectl exec -i -t hermesnode-xxxx -n hermes-validator -- /bin/sh
+4. Run cmd to get geth address -> hermesnode eth-ks --home "${CHAIN_HOME_FOLDER}" $CHAIN_HOME_FOLDER $SIGNER_NAME $SIGNER_PASSWD
+5. Replace above cmd output in the file path. dependency_charts -> dojima-chain -> value.yaml [ config -> unlock: replace_value ]
+```
+
+                                        `     THE END
+----------------------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-------------------------------------------
 
 
 # Run manually Using VM instance
