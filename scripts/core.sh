@@ -309,21 +309,24 @@ create_mnemonic() {
   local prompt_mnemonic
   # Do nothing if mnemonic already exists.
   if ! kubectl get -n "$NAME" secrets/hermesnode-mnemonic >/dev/null 2>&1; then
-    read -r -s -p "Enter mnemonic seed phrase: " prompt_mnemonic
-    if [ prompt_mnemonic == "" ]; then
-      echo "=> Generating hermesnode Mnemonic phrase"
-      image=$(get_hermes_image)
-      echo $image
-      mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image="$image" --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
-      kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
-      [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
-      kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
-      kubectl -n "$NAME" delete pod --now=true mnemonic
-      return
-    elif [ "$MNEMONIC" != "" ]; then
-      mnemonic="$MNEMONIC"
+
+    if [ "$MNEMONIC" == "" ]; then
+      read -r -s -p "Enter mnemonic seed phrase: " prompt_mnemonic
+      if [ prompt_mnemonic == "" ]; then
+        echo "=> Generating hermesnode Mnemonic phrase"
+        image=$(get_hermes_image)
+        echo $image
+        mnemonic=$(kubectl run -n "$NAME" -it --rm mnemonic --image="$image" --restart=Never --command -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
+        kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
+        [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
+        kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
+        kubectl -n "$NAME" delete pod --now=true mnemonic
+        return
+      else
+        mnemonic=$prompt_mnemonic
+      fi
     else
-      mnemonic=$prompt_mnemonic
+      mnemonic=$MNEMONIC
     fi
 
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
