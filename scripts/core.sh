@@ -341,7 +341,7 @@ create_password() {
   local pwd
   local pwdconf
   if ! kubectl get -n "$NAME" secrets/hermesnode-password >/dev/null 2>&1; then
-    if [ "$PASSWD" = "" ]; then
+    if [ "$PASSWD" != "" ]; then
       pwd=$PASSWD
     else
       echo "=> Creating hermesnode Password"
