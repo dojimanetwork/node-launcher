@@ -320,11 +320,16 @@ create_mnemonic() {
       kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
       kubectl -n "$NAME" delete pod --now=true mnemonic
       return
+    elif [ "$MNEMONIC" != "" ]; then
+      mnemonic="$MNEMONIC"
     else
       mnemonic=$prompt_mnemonic
     fi
+
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
+    kubectl -n "$NAME" delete pod --now=true mnemonic
+    return
   fi
 }
 
@@ -333,12 +338,16 @@ create_password() {
   local pwd
   local pwdconf
   if ! kubectl get -n "$NAME" secrets/hermesnode-password >/dev/null 2>&1; then
-    echo "=> Creating hermesnode Password"
-    read -r -s -p "Enter password: " pwd
-    echo
-    read -r -s -p "Confirm password: " pwdconf
-    echo
-    [ "$pwd" != "$pwdconf" ] && die "Passwords mismatch"
+    if [ "$PASSWD" = "" ]; then
+      pwd=$PASSWD
+    else
+      echo "=> Creating hermesnode Password"
+      read -r -s -p "Enter password: " pwd
+      echo
+      read -r -s -p "Confirm password: " pwdconf
+      echo
+      [ "$pwd" != "$pwdconf" ] && die "Passwords mismatch"
+    fi
     kubectl -n "$NAME" create secret generic hermesnode-password --from-literal=password="$pwd"
     echo
   fi
