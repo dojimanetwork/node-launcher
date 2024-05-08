@@ -331,7 +331,7 @@ create_mnemonic() {
 
     [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
     kubectl -n "$NAME" create secret generic hermesnode-mnemonic --from-literal=mnemonic="$mnemonic"
-    kubectl -n "$NAME" delete pod --now=true mnemonic
+#    kubectl -n "$NAME" delete pod --now=true mnemonic
     return
   fi
 }
