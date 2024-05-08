@@ -26,6 +26,7 @@ if [ "$FILE" == "" ]; then
 fi
 
 if [ "$SERVICE" = "narada" ]; then
+  path=/root/.hermesnode/ecdsa
   SPEC="
   {
     \"apiVersion\": \"v1\",
@@ -48,7 +49,32 @@ if [ "$SERVICE" = "narada" ]; then
       \"volumes\": [{\"name\": \"data\", \"persistentVolumeClaim\": {\"claimName\": \"$SERVICE\"}}]
     }
   }"
+ elif [ "$SERVICE" = "narada-eddsa" ]; then
+   path=/root/.hermesnode/eddsa
+      spec="
+      {
+        \"apiVersion\": \"v1\",
+        \"spec\": {
+          \"containers\": [
+            {
+              \"command\": [
+                \"sh\",
+                \"-c\",
+                \"sleep 300\"
+              ],
+              \"name\": \"$SERVICE\",
+              \"image\": \"busybox:1.33\",
+              \"volumeMounts\": [
+                {\"mountPath\": \"/root/.hermesnode\", \"name\": \"data\", \"subPath\": \"hermesnode\"},
+                {\"mountPath\": \"/var/data/narada-eddsa\", \"name\": \"data\", \"subPath\": \"data\"}
+              ]
+            }
+          ],
+          \"volumes\": [{\"name\": \"data\", \"persistentVolumeClaim\": {\"claimName\": \"$SERVICE\"}}]
+        }
+      }"
 else
+  path=/root/.hermesnode
   SPEC="
   {
     \"apiVersion\": \"v1\",
@@ -68,7 +94,6 @@ else
       \"volumes\": [{\"name\": \"data\", \"persistentVolumeClaim\": {\"claimName\": \"$SERVICE\"}}]
     }
   }"
-
 fi
 
 echo
@@ -82,9 +107,9 @@ if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$SERVICE" 2>&1 | grep 
   POD="pod/backup-$SERVICE"
 fi
 
-tar -C "$PWD/backups/$SERVICE" -cf - "$FILE" | kubectl exec -i -n "$NAME" "$POD" -c "$SERVICE" -- tar xf - -C /root/.hermesnode
+tar -C "$PWD/backups/$SERVICE" -cf - "$FILE" | kubectl exec -i -n "$NAME" "$POD" -c "$SERVICE" -- tar xf - -C $path
 
-kubectl exec -it -n "$NAME" "$POD" -c "$SERVICE" -- sh -c "cd /root/.hermesnode && tar xf \"$FILE\""
+kubectl exec -it -n "$NAME" "$POD" -c "$SERVICE" -- sh -c "cd $path && tar xf \"$FILE\""
 
 if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$SERVICE" 2>&1 | grep "No resources found") >/dev/null 2>&1; then
   kubectl delete pod --now=true -n "$NAME" "backup-$SERVICE"
