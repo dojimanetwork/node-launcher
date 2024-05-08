@@ -202,6 +202,7 @@ make_snapshot() {
     metadata:
       name: $snapshot
     spec:
+      volumeSnapshotClassName: csi-hostpath-snapclass
       source:
         persistentVolumeClaimName: $pvc
 EOF
@@ -212,55 +213,143 @@ EOF
   echo
 }
 
+
+make_gcp_snapshot() {
+  local pvc
+  local service
+  local snapshot
+  service=$1
+  snapshot=$1
+
+  if [[ -n $SNAPSHOT_SUFFIX ]]; then
+    snapshot=$snapshot-$SNAPSHOT_SUFFIX
+  fi
+
+  if [ "$service" == "hermesgard" ]; then
+    pvc="data-hermesgard-timescaledb-0"
+  else
+    pvc=$service
+  fi
+
+  if ! kubectl -n "$NAME" get pvc "$pvc" >/dev/null 2>&1; then
+    warn "Volume $pvc not found"
+    echo
+    exit 0
+  fi
+
+  disk_name=$(kubectl -n "$NAME" get pvc "$pvc" | grep "$pvc" | awk '{print $3}' | tr -d '\r')
+#  echo "pv name: ${disk_name}"
+#  PV_INFO=$(kubectl describe pv "$disk_name" -n "$NAME")
+#  echo "pvc info $PV_INFO"
+
+  disk_zone=$(get_disk_zone "$disk_name")
+
+  echo "=> Snapshotting service $boldgreen$service$reset of a HermesNode named $boldgreen$NAME$reset"
+  if [ -z "$TC_NO_CONFIRM" ]; then
+    echo -n "$boldyellow:: Are you sure? Confirm [y/n]: $reset" && read -r ans && [ "${ans:-N}" != y ] && return
+  fi
+  echo
+
+  if kubectl -n "$NAME" get volumesnapshot "$snapshot" >/dev/null 2>&1; then
+    echo "Existing snapshot $boldgreen$snapshot$reset exists, ${boldyellow}continuing will overwrite${reset}"
+    confirm
+    kubectl -n "$NAME" delete volumesnapshot "$snapshot" >/dev/null 2>&1 || true
+  fi
+
+  read -r -p "=> Enter snapshot name to store " backup_snap_name
+#  read -r -p "=> Enter region" backup_region
+  menu STANDARD STANDARD ARCHIVE
+  snap_name="${backup_snap_name}-$(date +"%Y%m%d%H%M%S")"
+
+
+
+  echo "=> Waiting for $boldgreen$service$reset snapshot $boldyellow$snapshot$reset to be ready to use (can take up to an hour depending on service and provider)"
+  gcloud compute snapshots create "${snap_name}" \
+      --source-disk-zone="${disk_zone}" \
+      --source-disk="${disk_name}" \
+      --snapshot-type="${MENU_SELECTED}"
+
+  echo "Snapshot $boldyellow$snapshot$reset for $boldgreen$service$reset created"
+  echo
+}
+
 make_backup() {
   local service
   local spec
   service=$1
 
   if [ "$service" = "narada" ]; then
-    spec="
+    spec=$(
+      cat <<EOF
     {
-      \"apiVersion\": \"v1\",
-      \"spec\": {
-        \"containers\": [
+      "apiVersion": "v1",
+      "spec": {
+        "containers": [
           {
-            \"command\": [
-              \"sh\",
-              \"-c\",
-              \"sleep 300\"
+            "command": [
+              "sh",
+              "-c",
+              "sleep 300"
             ],
-            \"name\": \"$service\",
-            \"image\": \"busybox:1.33\",
-            \"volumeMounts\": [
-              {\"mountPath\": \"/root/.hermesnode\", \"name\": \"data\", \"subPath\": \"hermesnode\"},
-              {\"mountPath\": \"/var/data/narada\", \"name\": \"data\", \"subPath\": \"data\"}
+            "name": "$service",
+            "image": "busybox:1.33",
+            "volumeMounts": [
+              {"mountPath": "/root/.hermesnode", "name": "data", "subPath": "hermesnode"},
+              {"mountPath": "/var/data/narada", "name": "data", "subPath": "data"}
             ]
           }
         ],
-        \"volumes\": [{\"name\": \"data\", \"persistentVolumeClaim\": {\"claimName\": \"$service\"}}]
+        "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "$service"}}]
       }
-    }"
+    }
+EOF
+    )
+    elif [ "$service" = "narada-eddsa" ]; then
+      spec="
+      {
+        \"apiVersion\": \"v1\",
+        \"spec\": {
+          \"containers\": [
+            {
+              \"command\": [
+                \"sh\",
+                \"-c\",
+                \"sleep 300\"
+              ],
+              \"name\": \"$service\",
+              \"image\": \"busybox:1.33\",
+              \"volumeMounts\": [
+                {\"mountPath\": \"/root/.hermesnode\", \"name\": \"data\", \"subPath\": \"hermesnode\"},
+                {\"mountPath\": \"/var/data/narada-eddsa\", \"name\": \"data\", \"subPath\": \"data\"}
+              ]
+            }
+          ],
+          \"volumes\": [{\"name\": \"data\", \"persistentVolumeClaim\": {\"claimName\": \"$service\"}}]
+        }
+      }"
   else
-    spec="
+    spec=$(
+      cat <<EOF
     {
-      \"apiVersion\": \"v1\",
-      \"spec\": {
-        \"containers\": [
+      "apiVersion": "v1",
+      "spec": {
+        "containers": [
           {
-            \"command\": [
-              \"sh\",
-              \"-c\",
-              \"sleep 300\"
+            "command": [
+              "sh",
+              "-c",
+              "sleep 300"
             ],
-            \"name\": \"$service\",
-            \"image\": \"busybox:1.33\",
-            \"volumeMounts\": [{\"mountPath\": \"/root\", \"name\":\"data\"}]
+            "name": "$service",
+            "image": "busybox:1.33",
+            "volumeMounts": [{"mountPath": "/root", "name":"data"}]
           }
         ],
-        \"volumes\": [{\"name\": \"data\", \"persistentVolumeClaim\": {\"claimName\": \"$service\"}}]
+        "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "$service"}}]
       }
-    }"
-
+    }
+EOF
+  )
   fi
 
   echo
@@ -277,15 +366,23 @@ make_backup() {
 
   local seconds
   local day
+  local path
   seconds=$(date +%s)
   day=$(date +%Y-%m-%d)
   mkdir -p "backups/$NAME/$service/$day"
+
   if [ "$service" = "narada" ]; then
-    kubectl exec -it -n "$NAME" "$pod" -c "$service" -- sh -c "cd /root/.hermesnode && tar cfz \"$service-$seconds.tar.gz\" localstate-*.json"
+    path=/root/.hermesnode/ecdsa
+    kubectl exec -it -n "$NAME" "$pod" -c "$service" -- sh -c "cd $path && tar cfz \"$service-$seconds.tar.gz\" localstate-*.json"
+  elif [ "$service" = "narada-eddsa" ]; then
+      path=/root/.hermesnode/eddsa
+      kubectl exec -it -n "$NAME" "$pod" -c "$service" -- sh -c "cd $path && tar cfz \"$service-$seconds.tar.gz\" localstate-*.json"
   else
-    kubectl exec -it -n "$NAME" "$pod" -c "$service" -- sh -c "cd /root/.hermesnode && tar cfz \"$service-$seconds.tar.gz\" config/"
+      path=/root/.hermesnode
+    kubectl exec -it -n "$NAME" "$pod" -c "$service" -- sh -c "cd $path && tar cfz \"$service-$seconds.tar.gz\" config/"
   fi
-  kubectl exec -n "$NAME" "$pod" -c "$service" -- sh -c "cd /root/.hermesnode && tar cfz - \"$service-$seconds.tar.gz\"" | tar xfz - -C "$PWD/backups/$NAME/$service/$day"
+  echo $path
+  kubectl exec -n "$NAME" "$pod" -c "$service" -- sh -c "cd $path && tar cfz - \"$service-$seconds.tar.gz\"" | tar xfz - -C "$PWD/backups/$NAME/$service/$day"
 
   if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$service" 2>&1 | grep "No resources found") >/dev/null 2>&1; then
     kubectl delete pod --now=true -n "$NAME" "backup-$service"
@@ -502,4 +599,71 @@ deploy_fullnode() {
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   kubectl -n "$NAME" rollout restart deploy "${HERMES_GATEWAY}"
+}
+
+
+## GCP
+
+gcp_init() {
+  gcloud init
+}
+
+gcp_set_project() {
+  # Display a list of projects and prompt the user to select one
+  echo "Available projects:"
+  gcloud projects list --format="value(projectId)" | nl
+  read -p "Enter the number of the project to select: " PROJECT_NUMBER
+
+  # Get the project ID corresponding to the selected number
+  PROJECT_ID=$(gcloud projects list --format="value(projectId)" | sed -n "${PROJECT_NUMBER}p")
+
+  # Set the selected project as the default
+  gcloud config set project "$PROJECT_ID"
+
+  echo "Selected project: $PROJECT_ID"
+
+}
+
+gcp_set_region() {
+  #!/bin/bash
+
+  # Display a list of regions and prompt the user to select one
+  echo "Available regions:"
+  gcloud compute regions list --format="value(name)" | nl
+  read -p "Enter the number of the region to select: " REGION_NUMBER
+
+  # Get the region corresponding to the selected number
+  REGION=$(gcloud compute regions list --format="value(name)" | sed -n "${REGION_NUMBER}p")
+
+  # Set the selected region as the default
+  gcloud config set compute/region "$REGION"
+
+  echo "Selected region: $REGION"
+}
+
+gcp_set_zone() {
+  # Display a list of zones and prompt the user to select one
+  echo "Available zones:"
+  gcloud compute zones list --format="value(name)" | nl
+  read -p "Enter the number of the zone to select: " ZONE_NUMBER
+
+  # Get the zone corresponding to the selected number
+  ZONE=$(gcloud compute zones list --format="value(name)" | sed -n "${ZONE_NUMBER}p")
+
+  # Set the selected zone as the default
+  gcloud config set compute/zone "$ZONE"
+
+  echo "Selected zone: $ZONE"
+}
+
+get_disk_zone() {
+  pvc=$1
+
+  # Get detailed information about the PV associated with the volume
+  PV_INFO=$(kubectl describe pv "$pvc")
+
+  # Extract the zone from the PVC description using sed
+  ZONE=$(echo "$PV_INFO" | awk '/topology\.gke\.io\/zone/ {split($0, arr, "in"); gsub(/\[|\]/, "", arr[2]); gsub(/^[[:space:]]+|[[:space:]]+$/, "", arr[2]); print arr[2]}' )
+
+  echo "$ZONE"
 }

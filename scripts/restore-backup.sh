@@ -9,7 +9,7 @@ if ! node_exists; then
 fi
 
 echo "=> Select a HermesNode service to restore a backup from"
-menu hermesnode hermesnode narada
+menu hermesnode hermesnode narada narada-eddsa dojimachain
 SERVICE=$MENU_SELECTED
 
 if ! kubectl -n "$NAME" get pvc "$SERVICE" >/dev/null 2>&1; then

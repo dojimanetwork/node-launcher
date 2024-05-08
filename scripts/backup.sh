@@ -10,7 +10,7 @@ fi
 
 if [ "$SERVICE" = "" ]; then
   echo "=> Select a HermesNode service to backup"
-  menu hermesnode hermesnode narada
+  menu hermesnode hermesnode narada narada-eddsa dojimachain
   SERVICE=$MENU_SELECTED
 fi
 
