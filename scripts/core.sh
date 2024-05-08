@@ -270,7 +270,6 @@ make_gcp_snapshot() {
       --snapshot-type="${MENU_SELECTED}"
 
   echo "Snapshot $boldyellow$snapshot$reset for $boldgreen$service$reset created"
-  echo
 }
 
 make_backup() {

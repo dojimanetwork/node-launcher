@@ -11,7 +11,7 @@ fi
 get_node_info_short
 if [ "$SERVICE" == "" ]; then
   echo "=> Select a HermesNode service to snapshot"
-  menu hermesnode hermesnode narada dojima-chain midgard binance-daemon bitcoin-daemon bitcoin-cash-daemon dogecoin-daemon ethereum-daemon litecoin-daemon gaia-daemon avalanche-daemon
+  menu hermesnode hermesnode narada narada-eddsa dojima-chain midgard binance-daemon bitcoin-daemon bitcoin-cash-daemon dogecoin-daemon ethereum-daemon litecoin-daemon gaia-daemon avalanche-daemon
   SERVICE=$MENU_SELECTED
 fi
 
