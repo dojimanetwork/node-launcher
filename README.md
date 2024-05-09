@@ -35,7 +35,7 @@ To set up a node, you have two choices:
 
 # Cluster Launcher
 - GCP
-- Aws
+- AWS
 
 # Deploying
 Deploying a DojimaChain and its associated services.
@@ -48,6 +48,13 @@ Now you have a Kubernetes cluster ready to use, you can install the DojimaChain 
 
 
 # Steps
+Ubuntu 20.04.6 LTS
+
+### Prerequisites:
+1. kubectl tool [Kubectl Install steps](#kubectl-install-steps)
+2. gcloud (https://cloud.google.com/sdk/docs/install#deb)
+3. make ( sudo apt install make )
+4. aria2c ( sudo apt install aria2 )
 
 ## Running on GCP
 1. Go to `kubernetes-engine -> clusters` from the menu
@@ -113,7 +120,7 @@ Before hermesnode is synced 100%, we need to change dojima chain param value.
 5. Replace above cmd output in the file path. dependency_charts -> dojima-chain -> value.yaml [ config -> unlock: replace_value ]
 ```
 
-                                        `     THE END
+                                             THE END
 ----------------------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-------------------------------------------
 
 
@@ -542,6 +549,20 @@ EOF
 ```
 
 
+
+
+# Tool setup
+
+### Kubectl Install Steps
+
+```shell
+sudo apt update
+sudo apt install -y snapd
+sudo snap install kubectl --classic
+
+verify:
+kubectl version --client
+```
 
 
 
