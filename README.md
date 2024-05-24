@@ -36,6 +36,7 @@ To set up a node, you have two choices:
 # Cluster Launcher
 - GCP
 - AWS
+- Azure
 
 # Deploying
 Deploying a DojimaChain and its associated services.
@@ -564,8 +565,13 @@ verify:
 kubectl version --client
 ```
 
+### Azure cli installation
 
-
-
+```shell
+ Macos
+  brew update && brew install azure-cli
+  
+  1. login to azure -> az login
+```
 
 
