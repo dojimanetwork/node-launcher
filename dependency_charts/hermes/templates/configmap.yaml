@@ -40,6 +40,7 @@ data:
     #!/bin/sh
 
     NODE_IP_ADDRESS=${1:-$(curl -s http://whatismyip.akamai.com)}
+    echo "Node ip address : $NODE_IP_ADDRESS"
     printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-ip-address "$NODE_IP_ADDRESS" --node tcp://$PEER:26657 --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
   set-version.sh: |
