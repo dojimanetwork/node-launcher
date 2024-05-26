@@ -38,7 +38,7 @@ To set up a node, you have two choices:
 - AWS
 - Azure
 
-# Deploying
+# Deployment
 Deploying a DojimaChain and its associated services.
 
 Now you have a Kubernetes cluster ready to use, you can install the DojimaChain services.
@@ -550,8 +550,6 @@ EOF
 ```
 
 
-
-
 # Tool setup
 
 ### Kubectl Install Steps
@@ -572,6 +570,32 @@ kubectl version --client
   brew update && brew install azure-cli
   
   1. login to azure -> az login
+```
+
+
+
+
+
+# Run full node
+
+## Using kubernetes
+ - GCP
+ - AZURE
+ - AWS
+
+
+## Deployment
+
+## Add environment variables.
+
+`Linux`
+Add below variables to .bashrc file located at `~/.bashrc` or `/your_home/.basrhc`
+
+```bash
+export NET=stagenet
+export TYPE=fullnode
+export NAME=stagenet-fullnode-1
+export HERMES_GATEWAY=hermes-gateway
 ```
 
 

@@ -546,7 +546,7 @@ deploy_validator() {
     --set global.net="$NET" \
     --set hermesnode.type="validator" \
     --set narada.peer="$SEED",hermesnode.seeds="$SEED",narada-eddsa.peer="$SEED_EDDSA" \
-    --set dojima-chain.enodes="$ENODES" \
+    --set dojima-chain.enodes="$ENODES",--set dojima-chain.enable.node="validator" \
     --set global.namespace="$NAME"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
 #  confirm
@@ -557,7 +557,7 @@ deploy_validator() {
     --set global.net="$NET" \
     --set hermesnode.type="validator" \
     --set narada.peer="$SEED",hermesnode.seeds="$SEED",narada-eddsa.peer="$SEED_EDDSA" \
-    --set dojima-chain.enodes="$ENODES" \
+    --set dojima-chain.enodes="$ENODES",--set dojima-chain.enable.node="validator" \
     --set global.namespace="$NAME"
 
   [ "$TYPE" = "daemons" ] && return
@@ -570,16 +570,19 @@ deploy_validator() {
 deploy_fullnode() {
   # shellcheck disable=SC2086
   helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
-    $args $EXTRA_ARGS \
+    $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
     --set hermesnode.seeds="$SEED" \
-    --set midgard.enabled=true,narada.enabled=false,binance-daemon.enabled=false \
+    --set midgard.enabled=true,narada.enabled=false,narada-eddsa.enabled=false,binance-daemon.enabled=false \
     --set bitcoin-daemon.enabled=false,bitcoin-cash-daemon.enabled=false \
     --set litecoin-daemon.enabled=false,ethereum-daemon.enabled=false \
     --set dogecoin-daemon.enabled=false,gaia-daemon.enabled=false \
     --set avalanche-daemon.enabled=false \
+    --set dojima-chain.enodes="$ENODES" \
+    --set dojima-chain.enable.node="fullnode" \
     --set hermesnode.type="fullnode",gateway.validator=false,gateway.midgard=true,gateway.rpc.limited=false,gateway.api=true
+
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   # shellcheck disable=SC2086
@@ -588,11 +591,13 @@ deploy_fullnode() {
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
     --set hermesnode.seeds="$SEED" \
-    --set midgard.enabled=true,narada.enabled=false,binance-daemon.enabled=false \
+    --set midgard.enabled=true,narada.enabled=false,narada-eddsa.enabled=false,binance-daemon.enabled=false \
     --set bitcoin-daemon.enabled=false,bitcoin-cash-daemon.enabled=false \
     --set litecoin-daemon.enabled=false,ethereum-daemon.enabled=false \
     --set dogecoin-daemon.enabled=false,gaia-daemon.enabled=false \
     --set avalanche-daemon.enabled=false \
+    --set dojima-chain.enodes="$ENODES" \
+    --set dojima-chain.enable.node="fullnode" \
     --set hermesnode.type="fullnode",gateway.validator=false,gateway.midgard=true,gateway.rpc.limited=false,gateway.api=true
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"

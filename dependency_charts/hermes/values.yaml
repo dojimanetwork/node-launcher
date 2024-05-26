@@ -67,7 +67,7 @@ environment:
   CONF_PATH: /scripts
   DOJ_CHAIN_ID: 1401
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  SEEDS: 34.93.45.195
+  SEEDS: 34.93.45.195,34.93.113.63
   PORT_P2P: 26656
   PORT_RPC: 26657
 
