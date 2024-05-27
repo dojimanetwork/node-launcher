@@ -2,7 +2,7 @@ global:
   net: stagenet
   hermes:
     image: dojimanetwork1401/hermes
-    tag: 27a46242_5.4.35
+    tag: 0d884023_5.4.35
     chainId: hermeschain-stagenet
     global_enable:
       hermes: true
