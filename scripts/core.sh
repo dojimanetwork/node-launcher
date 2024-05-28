@@ -581,7 +581,7 @@ deploy_fullnode() {
     --set avalanche-daemon.enabled=false \
     --set dojima-chain.enodes="$ENODES" \
     --set dojima-chain.enable.node="fullnode" \
-    --set hermesnode.type="fullnode",gateway.validator=false,gateway.midgard=true,gateway.rpc.limited=false,gateway.api=true
+    --set hermesnode.type="fullnode",hermes-gateway.validator=false,hermes-gateway.rpc.limited=false,hermes-gateway.api=true
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
@@ -598,7 +598,7 @@ deploy_fullnode() {
     --set avalanche-daemon.enabled=false \
     --set dojima-chain.enodes="$ENODES" \
     --set dojima-chain.enable.node="fullnode" \
-    --set hermesnode.type="fullnode",gateway.validator=false,gateway.midgard=true,gateway.rpc.limited=false,gateway.api=true
+    --set hermesnode.type="fullnode",hermes-gateway.validator=false,hermes-gateway.rpc.limited=false,hermes-gateway.api=true
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm

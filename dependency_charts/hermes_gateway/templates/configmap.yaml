@@ -876,22 +876,17 @@ data:
         listen {{ .Values.service.port.narada.p2p }};
         proxy_pass narada:{{ .Values.service.port.narada.p2p }};
       }
-      {{- end }}
 
-
-      {{- if .Values.validator }}
       server {
         listen {{ .Values.service.port.narada_eddsa.p2p }};
         proxy_pass narada-eddsa:{{ .Values.service.port.narada_eddsa.p2p }};
       }
       {{- end }}
 
-      {{- if .Values.validator }}
       server {
         listen {{ include "gateway.p2p" . }};
         proxy_pass hermesnode:{{ include "gateway.p2p" . }};
       }
-      {{- end }}
 
       {{- if .Values.dojima_chain }}
 
