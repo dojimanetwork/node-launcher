@@ -202,6 +202,12 @@ destroy-dashboard: ## Uninstall Kubernetes dashboard
 	@helm delete kubernetes-dashboard -n kube-system
 	@echo
 
+install-provider: ## Install dojima-chain provider
+	@scripts/install-provider.sh
+
+destroy-provider: ## Uninstall dojima-chain provider
+	@scripts/destroy-provider.sh
+
 grafana: ## Access Grafana UI through port-forward locally
 	@echo User: admin
 	@echo Password: thorchain

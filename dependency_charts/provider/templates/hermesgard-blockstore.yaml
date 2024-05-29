@@ -1,0 +1,132 @@
+{{- if .Values.hermesgardBlockstore.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hermesgard-blockstore
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.hermesgardBlockstore.pvc.size }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hermesgard-blockstore
+data:
+  dump.sh: |
+    #!/bin/sh
+    set -euo pipefail
+
+    {{ if .Values.hermesgardBlockstore.readyEndpoint }}
+    # wait for mesh to be ready
+    while ! wget -qO- "{{ .Values.hermesgardBlockstore.readyEndpoint }}";
+      do sleep 1;
+    done
+    {{- end }}
+
+    # mark dump as complete
+    trap "touch /blockstore/dump-complete" EXIT
+
+    # mark dump failed if any command fail or job terminated
+    trap "touch /blockstore/dump-fail" ERR INT TERM
+
+    # dump blockstore
+    /dump /config.json
+
+    # remove partial files
+    rm -f /blockstore/*.tmp
+
+    # recreate hashes file
+    cd /blockstore
+    rm -f hashes
+    find . -maxdepth 1 -type f -not -name 'lost+found' -not -name 'hashes' \
+      | sort \
+      | sed 's|^\./||' \
+      | xargs sha256sum > hashes
+  sync.sh: |
+    #!/bin/sh
+    set -euo pipefail
+
+    cleanup() {
+      {{- if .Values.hermesgardBlockstore.quitEndpoint }}
+      # quit mesh container
+      curl -sX POST "{{ .Values.hermesgardBlockstore.quitEndpoint }}"
+      {{- end }}
+
+      # clear dump status files
+      rm -f /blockstore/dump-*
+    }
+
+    # wait for dump to complete
+    while [ ! -f /blockstore/dump-complete ]; do sleep 1; done
+
+    # cleanup on exit
+    trap cleanup EXIT
+
+    # exit if dump failed
+    if [ -f /blockstore/dump-fail ]; then
+      exit 1
+    fi
+
+    # remove dump magic files for next run
+    rm -f /blockstore/dump-*
+
+    # upload to minio
+    mc config host add minio http://minio:9000 minio minio123
+    mc mb minio/snapshots || true
+    mc anonymous set download minio/snapshots/hermesgard-blockstore/
+    mc mirror --remove --overwrite /blockstore minio/snapshots/hermesgard-blockstore/
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hermesgard-blockstore
+spec:
+  schedule: {{ .Values.hermesgardBlockstore.schedule }}
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          activeDeadlineSeconds: 21600 # 6 hours
+          containers:
+            - name: dump
+              image: {{ .Values.hermesgardBlockstore.image.name }}:{{ .Values.hermesgardBlockstore.image.tag }}@sha256:{{ .Values.hermesgardBlockstore.image.hash }}
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: HERMESGARD_BLOCKSTORE_LOCAL
+                  value: /blockstore
+                {{- range $key, $value := .Values.hermesgardBlockstore.env }}
+                - name: {{ $key }}
+                  value: {{ $value | quote }}
+                {{- end }}
+              command:
+                - /config/dump.sh
+              volumeMounts:
+                - name: blockstore
+                  mountPath: /blockstore
+                - name: config
+                  mountPath: /config
+            - name: sync
+              image: {{ .Values.minio.image.name }}:{{ .Values.minio.image.tag }}@sha256:{{ .Values.minio.image.hash }}
+              imagePullPolicy: IfNotPresent
+              command:
+              - /config/sync.sh
+              volumeMounts:
+                - name: blockstore
+                  mountPath: /blockstore
+                - name: config
+                  mountPath: /config
+          volumes:
+            - name: config
+              configMap:
+                name: hermesgard-blockstore
+                defaultMode: 0755
+            - name: blockstore
+              persistentVolumeClaim:
+                claimName: hermesgard-blockstore
+{{- end }}
