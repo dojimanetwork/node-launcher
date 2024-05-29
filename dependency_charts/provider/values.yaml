@@ -29,6 +29,7 @@ dojimaSnapshot:
   env:
     # there must be at least 2 used for statesync rpc servers
     HERMESNODE_RPC_SERVERS: http://34.93.45.195:26657,http://34.100.220.47:26657
+    SEEDS: http://34.93.45.195:26657,http://34.100.220.47:26657
 
     # the PVC size must be at least 2x the current snapshot size
     PVC_SIZE: 300Gi
