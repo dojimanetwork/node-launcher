@@ -107,6 +107,9 @@ if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$SERVICE" 2>&1 | grep 
   POD="pod/backup-$SERVICE"
 fi
 
+# creates directory if not exists
+kubectl exec -i -n "$NAME" "$POD" -c "$SERVICE" -- sh -c "mkdir -p $path"
+
 tar -C "$PWD/backups/$SERVICE" -cf - "$FILE" | kubectl exec -i -n "$NAME" "$POD" -c "$SERVICE" -- tar xf - -C $path
 
 kubectl exec -it -n "$NAME" "$POD" -c "$SERVICE" -- sh -c "cd $path && tar xf \"$FILE\""
