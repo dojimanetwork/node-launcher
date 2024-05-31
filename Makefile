@@ -119,6 +119,9 @@ shell: ## Open a shell for a selected Hermesnode service
 debug: ## Open a shell for Hermesnode service mounting volume to debug
 	@./scripts/debug.sh
 
+restore-external-snapshot: ## Restore Hermesnode from external snapshot.
+	@./scripts/restore-external-snapshot.sh
+
 recover-binance:
 	@./scripts/recover-binance.sh
 
