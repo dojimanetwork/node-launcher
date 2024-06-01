@@ -16,11 +16,11 @@ get_node_info_short
 
 # trunk-ignore(shellcheck/SC2310)
 if ! node_exists; then
-  die "No existing THORNode found, make sure this is the correct name"
+  die "No existing HERMESNode found, make sure this is the correct name"
 fi
 
 # select snapshot provider
-PROVIDER="https://dojimachain1401.blob.core.windows.net/2024-05-30/hermesnode-1717096395.tar.gz"
+PROVIDER="https://dojimachain1401.blob.core.windows.net/2024-05-30/hermesnode-1717177969.tar.gz"
 #read -r -p "=> Enter provider [${PROVIDER}]: " provider
 #PROVIDER=${provider:-${PROVIDER}}
 #echo
