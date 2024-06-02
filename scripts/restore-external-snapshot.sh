@@ -93,6 +93,7 @@ kubectl exec -n "${NAME}" -it restore-external-hermesnode -- aria2c \
 echo "extracting snapshot..."
 kubectl exec -n "${NAME}" -it restore-external-hermesnode -- sh -c "mkdir -p /root/.hermesnode/"
 kubectl exec -n "${NAME}" -it restore-external-hermesnode -- sh -c "pv \"/root/hermesnode.tar.gz\" | tar xzf - -C /root/.hermesnode/"
+kubectl exec -n "${NAME}" -it restore-external-hermesnode -- sh -c "ls -lsart /root/.hermesnode && ls -lsart /root/.hermesnode/data/"
 
 echo "removing snapshot..."
 kubectl exec -n "${NAME}" -it restore-external-hermesnode -- rm -rf "/root/hermesnode.tar.gz"
