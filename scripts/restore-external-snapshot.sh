@@ -20,7 +20,7 @@ if ! node_exists; then
 fi
 
 # select snapshot provider
-PROVIDER="https://dojimachain1401.blob.core.windows.net/2024-05-30/hermesnode-1717483344.tar.gz"
+PROVIDER="https://dojimachain1401.blob.core.windows.net/2024-05-30/hermesnode-1717489517.tar.gz"
 #read -r -p "=> Enter provider [${PROVIDER}]: " provider
 #PROVIDER=${provider:-${PROVIDER}}
 #echo
