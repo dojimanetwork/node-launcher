@@ -67,7 +67,7 @@ environment:
   CONF_PATH: /scripts
   DOJ_CHAIN_ID: 1401
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  SEEDS: hermesnode.hermes-stagenet-val-8,hermesnode.hermes-stagenet-val-6,hermesnode.hermes-stagenet-val-5, hermesnode.stagenet-fullnode-1
+  SEEDS: hermesnode.hermes-stagenet-genesis
   PORT_P2P: 26656
   PORT_RPC: 26657
 
