@@ -390,68 +390,6 @@ EOF
   echo "Backup available in path ./backups/$NAME/$service/$day"
 }
 
-make_data_backup() {
-  local service
-  local spec
-  service=$1
-
-  spec=$(
-    cat <<EOF
-  {
-    "apiVersion": "v1",
-    "spec": {
-      "containers": [
-        {
-          "command": [
-            "sh",
-            "-c",
-            "sleep 300"
-          ],
-          "name": "$service",
-          "image": "busybox:1.33",
-          "volumeMounts": [{"mountPath": "/root", "name":"data"}]
-        }
-      ],
-      "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "$service"}}]
-    }
-  }
-EOF
-)
-
-  echo
-  echo "=> Backing up service $boldgreen$service$reset from hermesnode in $boldgreen$NAME$reset"
-  confirm
-
-  backupPodName="data-backup-$service"
-
-  local pod
-  pod="deploy/$service"
-  if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$service" 2>&1 | grep "No resources found") >/dev/null 2>&1; then
-    kubectl run -n "$NAME" "$backupPodName" --restart=Never --image="busybox:1.33" --overrides="$spec"
-    kubectl wait --for=condition=ready pods "$backupPodName" -n "$NAME" --timeout=5m >/dev/null 2>&1
-    pod="pod/"$backupPodName""
-  fi
-
-  local seconds
-  local day
-  local path
-  seconds=$(date +%s)
-  day=$(date +%Y-%m-%d)
-
-  if [ "$service" = "dojima-chain" ]; then
-    path=/root/.dojimachain
-    kubectl exec -it -n "$NAME" "$pod" -c "$service" -- sh -c "cd $path && tar cfz \"$service-$seconds.tar.gz\" dojimachain/ --verbose"
-  else
-    path=/root/.hermesnode
-    kubectl exec -it -n "$NAME" "$pod" -c "$service" -- sh -c "cd $path && tar cfz \"$service-$seconds.tar.gz\" data/ --verbose"
-  fi
-
-  if (kubectl get pod -n "$NAME" -l "app.kubernetes.io/name=$service" 2>&1 | grep "No resources found") >/dev/null 2>&1; then
-    kubectl delete pod --now=true -n "$NAME" "backup-$service"
-  fi
-
-  echo "data backup tar file done inside pod. Please use cloud tool to upload by exec into pod"
-}
 
 get_hermesnode_image() {
   [ -z "$EXTRA_ARGS" ] && die "Cannot determine hermesnode image"
@@ -647,7 +585,7 @@ deploy_fullnode() {
     --set hermesnode.type="fullnode",hermes-gateway.validator=false,hermes-gateway.rpc.limited=false,hermes-gateway.api=true
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $EXTRA_ARGS \
@@ -664,7 +602,7 @@ deploy_fullnode() {
     --set hermesnode.type="fullnode",hermes-gateway.validator=false,hermes-gateway.rpc.limited=false,hermes-gateway.api=true
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   kubectl -n "$NAME" rollout restart deploy "${HERMES_GATEWAY}"
 }
 
