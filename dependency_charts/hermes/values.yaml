@@ -25,7 +25,7 @@ statesync:
   trustHeight: 0
   trustHash: ""
   rpcServers:
-  peer: 34.93.45.195
+  peer: hermesnode.hermes-duplicate-genesis
 
 enableApi: true
 
@@ -67,7 +67,7 @@ environment:
   CONF_PATH: /scripts
   DOJ_CHAIN_ID: 1401
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  SEEDS: hermesnode.hermes-stagenet-genesis
+  SEEDS: hermesnode.hermes-duplicate-genesis
   PORT_P2P: 26656
   PORT_RPC: 26657
 
