@@ -16,12 +16,12 @@ config:
   port: 30303
   http_addr: 0.0.0.0
   http_port: 8545
-  http_api: personal,db,eth,net,web3,txpool,miner,admin,dojimachain
+  http_api: eth,net,web3,txpool,dojimachain
   unlock: 0x0aAc3A39eBebA0D08E5A600D079e71bED430712F
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071
-  bootnodes: enode://7be2006732680aeac14d383250468588f5904627148d3bb57319eb4149239f1a52626f0d1d1d81f9e74b55ef5d948c57931c70689598a3ed890421c617dd40d0@4.213.45.97:30303
+  bootnodes: enode://bca13451e95a9105ed9e9099e44b3e76e0933347ba3d56619a42639265a1853a3cc882b5e7c1a5f2af417b3566ec40b571b10c9e6dda333dd3179de175c8f434@4.213.194.232:30303,enode://9ef64e51197fcd49ee8a3928137cd4ebff0538ebd876445201aef16f277c2a2b976ecf704be2c78af3adebb376bae58827a494c834fcbe6cfc2f3ccba8ae17d9@4.213.195.140:30303,enode://e0b704d798d2be30f42e47f9378ae76af075bec638fcec31b575127be339b33998d501efc6fd1e3ff439c0393297b20717f3af825782272bc00d4f602ff0c80e@4.213.200.84:30303
   cmd: false # enable to pass dojima-mainnet, dojima-testnet via command line
 
 
@@ -58,8 +58,8 @@ h4s:
   narada: http://narada:6040
   grpc: hermesnode:9090
   rpc: http://hermesnode:26657
-  hermes_rpc: http://34.93.45.195:26657
-  eth: http://ethereum-daemon.hermes-stagenet:9545
+  hermes_rpc: http://4.213.194.232:26657
+  eth: http://4.213.194.232:8545
   removeWait: true
 
 hermes:
@@ -83,8 +83,8 @@ persistence:
   name: dojima-stagenet-genesis
   size:
     testnet: 50Gi
-    mainnet: 1Ti
-    stagenet: 100Gi
+    mainnet: 50Gi
+    stagenet: 10Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
@@ -93,6 +93,8 @@ persistence:
 
 service:
   type: ClusterIP
+  http: true
+  ws: false
   port:
       wss: 8546
       http: 8545
@@ -129,6 +131,7 @@ resources:
     cpu: 4
     memory: 4Gi
   limits:
+    cpu: 4
     memory: 4Gi
 
 nodeSelector: {}

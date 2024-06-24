@@ -142,10 +142,18 @@ Rosetta Port
     {{ .Values.service.port.testnet.rosetta }}
 {{- end -}}
 
+{{/*
+ETH Router contract
+*/}}
+{{- define "hermesnode.ethRouterContract" -}}
+{{- if eq (include "hermesnode.net" .) "testnet" -}}
+    {{ .Values.ethRouterContract.testnet }}
+{{- end -}}
+{{- end -}}
 
 {{/*
 chain id
 */}}
 {{- define "hermesnode.chainID" -}}
-    {{ .Values.chainID.testnet }}
+    {{ default .Values.global.hermes.chainId .Values.chainID.testnet }}
 {{- end -}}

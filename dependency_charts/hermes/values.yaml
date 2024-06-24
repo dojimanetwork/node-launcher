@@ -16,8 +16,10 @@ signer:
   passwordSecret: ""
 
 
-peer:
+peer: hermesnode.hermes-devnet-genesis
 peerApi:
+ethRouterContract:
+  testnet: "0xefA28233838f46a80AaaC8c309077a9ba70D123A"
 
 statesync:
   enabled: false
@@ -25,7 +27,7 @@ statesync:
   trustHeight: 0
   trustHash: ""
   rpcServers:
-  peer: hermesnode.hermes-duplicate-genesis
+  peer: ""
 
 enableApi: true
 
@@ -65,9 +67,9 @@ environment:
   AVAX_STATE_CONTRACT: 0xFEf7f0B9d3aA549Ba3fdaBF785cd2113b631a40C
   SOL_STATE_CONTRACT: uG2JDvtCUo3Z82CgBUU8JX5fxuxikQAaJfg2rK7d24f
   CONF_PATH: /scripts
-  DOJ_CHAIN_ID: 1401
+  DOJ_CHAIN_ID: 184
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  SEEDS: hermesnode.hermes-duplicate-genesis
+  SEEDS: hermesnode.hermes-devnet-genesis,hermesnode.hermes-devnet-val-1,hermesnode.hermes-devnet-val-2
   PORT_P2P: 26656
   PORT_RPC: 26657
 

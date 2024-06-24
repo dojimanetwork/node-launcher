@@ -126,6 +126,7 @@ spec:
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.h4s.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
+      {{- if ne .Values.global.hermes.type "genesis" }}
       - name: wait-for-hermes-to-sync
         image: {{ include "dojima-chain.hermesnode-image" . }}
         command: [ '/scripts/is-catching-up.sh' ]
@@ -135,15 +136,16 @@ spec:
           - name: HERMES_RPC
             value: {{ .Values.h4s.hermes_rpc }}
       {{- end }}
+      {{- end }}
       - name: init-dojima-genesis
         image: {{ include "dojima-chain.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - dojimachain
-          - init
-          - /scripts/genesis.json
           - --datadir
           - {{ .Values.doj_chf }}
+          - init
+          - /scripts/genesis.json
         volumeMounts:
           - name: scripts
             mountPath: /scripts
@@ -159,10 +161,12 @@ spec:
             - dojimachain
             - --networkid={{ .Values.global.dojimachain.chainId }}
             - --port=30303
-            - --syncmode=snap
+            - --syncmode=full
             - --verbosity=3
             - --datadir={{.Values.doj_chf}}
             - --keystore={{.Values.doj_chf}}/data/keystore
+            - --genesisfile=/scripts/genesis.json
+            - --maxpeers=20
             {{- if .Values.config.cmd }}
             {{- if eq .Values.net "testnet" }}
             - --dojima-testnet=true
@@ -173,6 +177,7 @@ spec:
             {{- if eq .Values.enable.node "validator" }}
             - --mine
             - --unlock={{ .Values.config.unlock }}
+            - --miner.etherbase={{ .Values.config.unlock }}
             - --password={{ .Values.config.password }}
             - --allow-insecure-unlock
             {{- end }}

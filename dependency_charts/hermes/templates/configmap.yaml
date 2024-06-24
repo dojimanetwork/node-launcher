@@ -40,14 +40,13 @@ data:
   set-ip-address.sh: |
     #!/bin/sh
 
-    NODE_IP_ADDRESS=$(curl -s http://whatismyip.akamai.com)
-    echo "Node ip address : $NODE_IP_ADDRESS"
+    NODE_IP_ADDRESS=${1:-$(curl -s http://whatismyip.akamai.com)}
     printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-ip-address "$NODE_IP_ADDRESS" --node tcp://$PEER:26657 --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
   set-version.sh: |
     #!/bin/sh
 
-    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-version --node tcp://$PEER:26657 --home "${CHAIN_HOME_FOLDER}" --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-version --node tcp://$PEER:26657 --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
   pause.sh: |
     #!/bin/sh

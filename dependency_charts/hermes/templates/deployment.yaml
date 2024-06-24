@@ -69,12 +69,12 @@ spec:
              {{- toYaml .Values.securityContext | nindent 12 }}
            image: "{{ include "hermesnode.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
-           command: ["/bin/sh", "/scripts/{{ .Values.type }}.sh", "hermesnode", "start", "--rpc.laddr", "tcp://0.0.0.0:26657", "--log_level", "debug", "--trace"]
+           command: ["/scripts/{{ default .Values.global.hermes.type .Values.type }}.sh", "hermesnode", "start", "--rpc.laddr", "tcp://0.0.0.0:26657", "--log_level", "trace", "--p2p.laddr", "tcp://0.0.0.0:26656"]
            volumeMounts:
            - name: data
              mountPath: /root/
            - name: scripts
-             mountPath: kube-scripts/
+             mountPath: /kube-scripts/
            env:
              - name: EXTERNAL_IP
                valueFrom:
@@ -97,6 +97,8 @@ spec:
                {{- end }}
              - name: PEER_API
                value: "{{ .Values.peerApi }}"
+             - name: CONTRACT
+               value: "{{ include "hermesnode.ethRouterContract" . }}"
              - name: DEBUG
                value: "{{ .Values.debug }}"
              - name: HARDFORK_BLOCK_HEIGHT
@@ -122,7 +124,7 @@ spec:
              - name: CHAIN_HOME_FOLDER
                value: {{ .Values.chain_home_folder }}
              - name: CHAIN_ID
-               value: {{ .Values.global.hermes.chainId}}
+               value: "{{ .Values.global.hermes.chainId }}"
              - name: HERMES_AUTO_STATE_SYNC_ENABLED
                value: "{{ .Values.statesync.auto }}"
              - name: HERMES_COSMOS_STATE_SYNC_SNAPSHOT_INTERVAL

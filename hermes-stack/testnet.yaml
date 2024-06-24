@@ -1,13 +1,21 @@
 global:
+  net: testnet
   hermes:
-    image: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
-    tag: efa19d37_4.0.6
+    image: testnet1.azurecr.io/hermes
+    tag: 29e156ad_5.4.37
+    chainId: h4s-184-d11k
+    type: fullnode
+    global_enable:
+      hermes: true
+      narada: true
+      narada_eddsa: true
   dojimachain:
-    image: asia-south1-docker.pkg.dev/prod-dojima/testnet/dojimachain
-    tag: 4d617e0a0_v0.0.26
+    image: testnet1.azurecr.io/dojimachain
+    tag: bcb959b01_2.0.1
+    chainId: 184
   gateway:
     enabled: false
-    name: fhermesnode-gateway
+    name: hermesnode-gateway
   images:
     alpine:
       tag: latest
