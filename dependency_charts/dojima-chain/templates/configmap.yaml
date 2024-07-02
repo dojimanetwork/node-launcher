@@ -3,6 +3,72 @@ kind: ConfigMap
 metadata:
   name: {{ include "dojima-chain.fullname" . }}-scripts
 data:
+  UNLOCK-ADDRESS: "" # empty value initially
+  generate-unlock-adress.sh: |
+    #!/bin/sh
+
+    rm /root/unlock.txt
+
+    touch /root/unlock.txt
+    unlock_addr=$(hermesnode eth-ks --home "${CHAIN_HOME_FOLDER}" $CHAIN_HOME_FOLDER $SIGNER_NAME $SIGNER_PASSWD)
+    echo $unlock_addr >> /root/unlock.txt
+    cat /root/unlock.txt
+    echo "succesfully unlock adderss is generated $unlock_addr"
+
+  run-command.sh: |
+    #!/bin/bash
+
+    is_validator={{ .Values.enable.node }}
+    is_http={{ .Values.enable.http }}
+    enable_ws={{.Values.enable.ws}}
+    global_enodes={{ .Values.enodes }}
+    unlock_address=$(cat /root/unlock.txt)
+
+    unlock_option="--unlock=${unlock_address}"
+    miner_option="--miner.etherbase=${unlock_address}"
+
+    args=()
+    args+=('--networkid={{ .Values.global.dojimachain.chainId }}')
+    args+=('--port=30303')
+    args+=('--syncmode=full')
+    args+=('--verbosity=3')
+    args+=('--datadir={{.Values.doj_chf}}')
+    args+=('--keystore={{.Values.doj_chf}}/data/keystore')
+    args+=('--genesisfile=/scripts/genesis.json')
+    args+=('--maxpeers=20')
+    if [ "$is_validator" == "validator" ]; then
+      args+=('--mine')
+      args+=($unlock_option)
+      args+=($miner_option)
+      args+=('--password={{ .Values.config.password }}')
+      args+=('--allow-insecure-unlock')
+    fi
+
+    if [ "$is_http" == "true" ]; then
+      args+=('--http')
+      args+=('--http.api={{.Values.config.http_api}}')
+      args+=('--http.addr={{.Values.config.http_addr}}')
+      args+=('--http.port={{ .Values.config.http_port }}')
+      args+=('--http.vhosts=*')
+      args+=('--http.corsdomain=*')
+    fi
+
+    if [ "$enable_ws" == "true" ]; then
+      args+=('--ws')
+      args+=('--ws.origins=*')
+      args+=('--ws.port={{ .Values.service.port.wss }}')
+      args+=('--ws.addr=0.0.0.0')
+      args+=('--ws.api=personal,eth,web3')
+    fi
+
+    if [ "$global_enodes" != "" ]; then
+      args+=('--bootnodes={{ .Values.enodes }}')
+    else
+      args+=('--bootnodes={{ .Values.config.bootnodes }}')
+    fi
+
+    dojimachain "${args[@]}"
+
   password.sh: |
     #!/bin/bash
     NAME=$1
