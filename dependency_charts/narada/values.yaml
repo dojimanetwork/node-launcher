@@ -186,10 +186,10 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 0.5
+    cpu: 100m
     memory: 0.5Gi
   limits:
-    cpu: 1
+    cpu: 200m
     memory: 1Gi
 
 nodeSelector: {}
