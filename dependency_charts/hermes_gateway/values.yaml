@@ -58,9 +58,9 @@ image:
 
 imagePullSecrets: []
 # used for gateway.name
-nameOverride: "hermesnode-gateway"
+nameOverride: "hermes-gateway"
 # used for gateway.fullname
-fullnameOverride: "hermesnode-gateway"
+fullnameOverride: "hermes-gateway"
 
 service:
   type: LoadBalancer

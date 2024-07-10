@@ -1,20 +1,21 @@
 global:
   net: stagenet
   hermes:
-    image: dojimanetwork1401/hermes
-    tag: 0d884023_5.4.35
-    chainId: hermeschain-stagenet
+    image: stagenet.azurecr.io/hermes
+    tag: 940c22a4_1.0.0
+    chainId: h4s-187-d11k
+    type: fullnode
     global_enable:
       hermes: true
       narada: true
       narada_eddsa: true
   dojimachain:
-    image: dojimanetwork1401/dojimachain
-    tag: 34b9e6d61_3.5.11
-    chainId: 1401
+    image: stagenet.azurecr.io/dojimachain
+    tag: 9657bdbca_3.5.15
+    chainId: 187
   gateway:
     enabled: false
-    name: stagenet-gateway
+    name: hermes-gateway
   images:
     alpine:
       tag: latest

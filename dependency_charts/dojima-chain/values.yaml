@@ -21,7 +21,7 @@ config:
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071
-  bootnodes: enode://7be2006732680aeac14d383250468588f5904627148d3bb57319eb4149239f1a52626f0d1d1d81f9e74b55ef5d948c57931c70689598a3ed890421c617dd40d0@4.213.45.97:30303
+  bootnodes:
   cmd: false # enable to pass dojima-mainnet, dojima-testnet via command line
 
 
@@ -58,7 +58,7 @@ h4s:
   narada: http://narada:6040
   grpc: hermesnode:9090
   rpc: http://hermesnode:26657
-  hermes_rpc: http://34.93.45.195:26657
+  hermes_rpc: http://4.213.201.230:26657
   eth: http://ethereum-daemon.hermes-stagenet:9545
   removeWait: true
 
@@ -83,8 +83,8 @@ persistence:
   name: dojima-stagenet-genesis
   size:
     testnet: 50Gi
-    mainnet: 1Ti
-    stagenet: 100Gi
+    mainnet: 50Gi
+    stagenet: 10Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
@@ -93,6 +93,8 @@ persistence:
 
 service:
   type: ClusterIP
+  http: true
+  ws: false
   port:
       wss: 8546
       http: 8545
@@ -126,10 +128,10 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 1
+    cpu: 100m
     memory: 1Gi
   limits:
-    cpu: 2
+    cpu: 200m
     memory: 2Gi
 
 nodeSelector: {}

@@ -133,9 +133,7 @@ Image
 chain id
 */}}
 {{- define "dojima-chain.chainID" -}}
-{{- if eq (include "dojima-chain.net" .) "testnet" -}}
-    {{ .Values.chainID.testnet }}
-{{- end -}}
+    {{ default .Values.global.hermes.chainId .Values.chainID.testnet }}
 {{- end -}}
 
 

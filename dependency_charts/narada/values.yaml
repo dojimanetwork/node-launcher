@@ -21,7 +21,7 @@ signer:
 chain_home_folder: /root/.hermesnode
 
 environment:
-  INCLUDE_ETH_CHAIN: true
+  INCLUDE_ETH_CHAIN: false
   INCLUDE_BINANCE_CHAIN: false
   INCLUDE_BTC_CHAIN: false
   INCLUDE_AR_CHAIN: false
@@ -186,10 +186,10 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 0.5
+    cpu: 100m
     memory: 0.5Gi
   limits:
-    cpu: 1
+    cpu: 200m
     memory: 1Gi
 
 nodeSelector: {}
