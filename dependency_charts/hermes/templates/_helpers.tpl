@@ -155,5 +155,5 @@ ETH Router contract
 chain id
 */}}
 {{- define "hermesnode.chainID" -}}
-{{- default .Values.global.hermes.chainId .Values.chainID.testnet -}}
+    {{ default .Values.global.hermes.chainId .Values.chainID.testnet }}
 {{- end -}}
