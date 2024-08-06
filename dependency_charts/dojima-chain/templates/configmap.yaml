@@ -30,7 +30,7 @@ data:
     args=()
     args+=('--networkid={{ .Values.global.dojimachain.chainId }}')
     args+=('--port=30303')
-    args+=('--syncmode=full')
+    args+=('--syncmode=snap')
     args+=('--verbosity=3')
     args+=('--datadir={{.Values.doj_chf}}')
     args+=('--keystore={{.Values.doj_chf}}/data/keystore')
