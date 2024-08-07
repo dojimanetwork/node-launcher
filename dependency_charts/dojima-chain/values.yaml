@@ -21,7 +21,7 @@ config:
   password: /root/password.txt
   pprof.address: 0.0.0.0
   pprof.port: 7071
-  bootnodes:
+  bootnodes: enode://c61ef5b86edffdcf227fb4fe9f28b1b9b1816eb2575e141e417b7ce06fb70b5baae293cbc6e61167d5b29f56b3707c34d7661306b7606f1f71b2048bc801bd9c@4.213.201.230:30303,enode://4745f6a0d8e36a0aa5593174d5effff6fd56814e01e780125658e33949c87cfac1c1d620afcddbd56a0099f5d65342850fd06482f820cd5492a7548014d7d2d6@4.213.41.144:30303
   cmd: false # enable to pass dojima-mainnet, dojima-testnet via command line
 
 

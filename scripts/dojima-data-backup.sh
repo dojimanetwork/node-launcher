@@ -61,7 +61,7 @@ echo "installing dependencies..."
 kubectl exec -n "${NAME}" -it "${backup_pod}" -- sh -c 'apk update && apk add aria2 pv'
 
 echo "creating tar file..."
-kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && tar cfz \"$service-$seconds.tar.gz\" dojimachain/ -v"
+kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && du -h dojimachain && tar cfz \"$service-$seconds.tar.gz\" dojimachain/ -v"
 
 echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart dojima chain node${reset}"
 confirm
@@ -70,4 +70,4 @@ echo "cleaning up recover pod"
 kubectl -n "${NAME}" delete pod/"${backup_pod}"
 
 # start hermesnode
-kubectl scale -n "${NAME}" --replicas=1 deploy/hermesnode --timeout=5m
+kubectl scale -n "${NAME}" --replicas=1 deploy/dojima-chain --timeout=5m

@@ -80,6 +80,9 @@ backup: ## Backup specific files from either hermesnode of narada service of a 
 data-backup:
 	@./scripts/data-backup.sh
 
+dojima-data-backup:
+	@./scripts/dojima-data-backup.sh
+
 full-backup: ## Create volume snapshots and backups for both hermesnode and narada services.
 	@./scripts/full-backup.sh
 

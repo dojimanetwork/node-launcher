@@ -36,6 +36,9 @@ data:
     args+=('--keystore={{.Values.doj_chf}}/data/keystore')
     args+=('--genesisfile=/scripts/genesis.json')
     args+=('--maxpeers=20')
+    args+=('--state.scheme=hash')
+    args+=('--gcmode=archive')
+
     if [ "$is_validator" == "validator" ]; then
       args+=('--mine')
       args+=($unlock_option)
