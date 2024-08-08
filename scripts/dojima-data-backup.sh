@@ -53,6 +53,8 @@ spec:
       claimName: dojima-chain
 EOF
 
+mkdir -p "backups/$NAME/$service/$day"
+
 # reset node state
 echo "waiting for recover pod to be ready..."
 kubectl wait --for=condition=ready pods/"${backup_pod}" -n "${NAME}" --timeout=5m >/dev/null 2>&1
@@ -61,7 +63,10 @@ echo "installing dependencies..."
 kubectl exec -n "${NAME}" -it "${backup_pod}" -- sh -c 'apk update && apk add aria2 pv'
 
 echo "creating tar file..."
-kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && du -h dojimachain && tar cfz \"$service-$seconds.tar.gz\" dojimachain/ -v"
+kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && du -h . && tar cfz \"$service-$seconds.tar.gz\" dojimachain/ -v"
+
+# copy tar file to local path
+#kubectl exec  -n "$NAME" "${backup_pod}" -c recover -- sh -c "cd $path && tar cfz - \"$service-$seconds.tar.gz\"" | tar xfzv - -C "$PWD/backups/$NAME/$service/$day"
 
 echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart dojima chain node${reset}"
 confirm
