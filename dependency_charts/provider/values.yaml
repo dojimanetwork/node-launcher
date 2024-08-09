@@ -28,22 +28,22 @@ dojimaSnapshot:
   # environment variable overrides for thornode-snapshot config
   env:
     # there must be at least 2 used for statesync rpc servers
-    HERMESNODE_RPC_SERVERS: http://34.93.45.195:26657,http://34.100.220.47:26657
-    SEEDS: http://34.93.45.195:26657,http://34.100.220.47:26657
+    HERMESNODE_RPC_SERVERS: http://4.213.201.230:26657,http://4.213.41.144:26657
+    SEEDS: http://4.213.201.230:26657,http://4.213.41.144:26657
 
     # the PVC size must be at least 2x the current snapshot size
-    PVC_SIZE: 300Gi
+    PVC_SIZE: 50Gi
 
     # state sync pod requires high memory - this increases over the course of the fork
     STATE_SYNC_CPU: "2"
-    STATE_SYNC_MEMORY: "128Gi"
+    STATE_SYNC_MEMORY: "2Gi"
 
     # ignore NoSchedule taints on tolerations (allows special node pool for statesync)
-    # STATE_SYNC_TOLERATIONS: "xl"
+    STATE_SYNC_TOLERATIONS: "xl"
 
     # set these for service mesh with sidecars that require manual exit
-    # READY_ENDPOINT: http://localhost:15000/ready
-    # QUIT_ENDPOINT: http://localhost:15020/quitquitquit
+    READY_ENDPOINT: http://localhost:15000/ready
+    QUIT_ENDPOINT: http://localhost:15020/quitquitquit
 
   # mappings for environment variable to the secret key in the "provider" secret
   secretEnv:
