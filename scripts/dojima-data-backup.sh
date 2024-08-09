@@ -63,7 +63,7 @@ echo "installing dependencies..."
 kubectl exec -n "${NAME}" -it "${backup_pod}" -- sh -c 'apk update && apk add aria2 pv'
 
 echo "creating tar file..."
-kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && du -h . && tar cfz \"$service-$seconds.tar.gz\" dojimachain/ -v"
+kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && du -h . && tar cfz \"$service-$seconds.tar.gz\" dojimachain/chaindata -v"
 
 # copy tar file to local path
 #kubectl exec  -n "$NAME" "${backup_pod}" -c recover -- sh -c "cd $path && tar cfz - \"$service-$seconds.tar.gz\"" | tar xfzv - -C "$PWD/backups/$NAME/$service/$day"

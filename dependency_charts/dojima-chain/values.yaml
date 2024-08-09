@@ -61,6 +61,7 @@ h4s:
   hermes_rpc: http://4.213.201.230:26657
   eth: http://ethereum-daemon.hermes-stagenet:9545
   removeWait: true
+  restore_external_snapshot: true
 
 hermes:
   testnet:

@@ -3,6 +3,19 @@ kind: ConfigMap
 metadata:
   name: {{ include "hermesnode.fullname" . }}-scripts
 data:
+  restore-external-snapshot.sh: |
+    #!/bin/sh
+    apk update && apk add aria2 pv
+
+    provider=https://dojimachain1401.blob.core.windows.net/2024-08-09/hermesnode-1723189109.tar.gz
+    aria2c --split=16 --max-concurrent-downloads=16 --max-connection-per-server=16 \
+    --continue --min-split-size=100M --out="/root/hermesnode.tar.gz" "${provider}"
+
+    mkdir -p /root/.hermesnode/
+
+    pv "/root/hermesnode.tar.gz" | tar xzf - -C /root/.hermesnode/
+
+    rm -rf "/root/hermesnode.tar.gz"
 
   genesis.sh: |
     #!/bin/sh

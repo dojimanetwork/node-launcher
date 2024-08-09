@@ -16,11 +16,11 @@ get_node_info_short
 
 # trunk-ignore(shellcheck/SC2310)
 if ! node_exists; then
-  die "No existing HERMESNode found, make sure this is the correct name"
+  die "No existing Dojima Chain found, make sure this is the correct name"
 fi
 
 # select snapshot provider
-PROVIDER="https://dojimachain1401.blob.core.windows.net/2024-08-09/hermesnode-1723189109.tar.gz"
+PROVIDER="https://dojimachain1401.blob.core.windows.net/2024-08-08/dojima-chain-1723121837.tar.gz"
 #read -r -p "=> Enter provider [${PROVIDER}]: " provider
 #PROVIDER=${provider:-${PROVIDER}}
 #echo
@@ -45,9 +45,9 @@ PROVIDER="https://dojimachain1401.blob.core.windows.net/2024-08-09/hermesnode-17
 #confirm
 
 # stop hermesnode
-echo "stopping hermesnode..."
-kubectl scale -n "${NAME}" --replicas=0 deploy/hermesnode --timeout=5m
-kubectl wait --for=delete pods -l app.kubernetes.io/name=hermesnode -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
+echo "stopping Dojima chain node..."
+kubectl scale -n "${NAME}" --replicas=0 deploy/dojima-chain --timeout=5m
+kubectl wait --for=delete pods -l app.kubernetes.io/name=dojima-chain -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
 
 # create recover pod
 echo "creating recover pod"
@@ -55,7 +55,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
-  name: restore-external-hermesnode
+  name: restore-external-dojima-chain
   namespace: ${NAME}
 spec:
   containers:
@@ -71,38 +71,38 @@ spec:
   volumes:
   - name: data
     persistentVolumeClaim:
-      claimName: hermesnode
+      claimName: dojima-chain
 EOF
 
 # reset node state
 echo "waiting for recover pod to be ready..."
-kubectl wait --for=condition=ready pods/restore-external-hermesnode -n "${NAME}" --timeout=5m >/dev/null 2>&1
+kubectl wait --for=condition=ready pods/restore-external-dojima-chain -n "${NAME}" --timeout=5m >/dev/null 2>&1
 
 echo "clearing existing data directory..."
-kubectl exec -n "${NAME}" -it restore-external-hermesnode -- rm -rf /root/.hermesnode/data/
+kubectl exec -n "${NAME}" -it restore-external-dojima-chain -- rm -rf /root/.dojimachain/dojimachain/
 
 echo "installing dependencies..."
-kubectl exec -n "${NAME}" -it restore-external-hermesnode -- sh -c 'apk update && apk add aria2 pv'
+kubectl exec -n "${NAME}" -it restore-external-dojima-chain -- sh -c 'apk update && apk add aria2 pv'
 
 echo "pulling snapshot..."
-kubectl exec -n "${NAME}" -it restore-external-hermesnode -- aria2c \
+kubectl exec -n "${NAME}" -it restore-external-dojima-chain -- aria2c \
   --split=16 --max-concurrent-downloads=16 --max-connection-per-server=16 \
-  --continue --min-split-size=100M --out="/root/hermesnode.tar.gz" \
+  --continue --min-split-size=100M --out="/root/dojima-chain.tar.gz" \
   "${PROVIDER}"
 
 echo "extracting snapshot..."
-kubectl exec -n "${NAME}" -it restore-external-hermesnode -- sh -c "mkdir -p /root/.hermesnode/"
-kubectl exec -n "${NAME}" -it restore-external-hermesnode -- sh -c "pv \"/root/hermesnode.tar.gz\" | tar xzf - -C /root/.hermesnode/"
-kubectl exec -n "${NAME}" -it restore-external-hermesnode -- sh -c "ls -lsart /root/.hermesnode && ls -lsart /root/.hermesnode/data/"
+kubectl exec -n "${NAME}" -it restore-external-dojima-chain -- sh -c "mkdir -p /root/.dojimachain/"
+kubectl exec -n "${NAME}" -it restore-external-dojima-chain -- sh -c "pv \"/root/dojima-chain.tar.gz\" | tar xzf - -C /root/.dojimachain/"
+kubectl exec -n "${NAME}" -it restore-external-dojima-chain -- sh -c "ls -lsart /root/.dojimachain && ls -lsart /root/.dojimachain/dojimachain/"
 
 echo "removing snapshot..."
-kubectl exec -n "${NAME}" -it restore-external-hermesnode -- rm -rf "/root/hermesnode.tar.gz"
+kubectl exec -n "${NAME}" -it restore-external-dojima-chain -- rm -rf "/root/dojima-chain.tar.gz"
 
-echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart hermesnode${reset}"
+echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart dojima-chain${reset}"
 confirm
 
 echo "cleaning up recover pod"
-kubectl -n "${NAME}" delete pod/restore-external-hermesnode
+kubectl -n "${NAME}" delete pod/restore-external-dojima-chain
 
 # start thornode
-kubectl scale -n "${NAME}" --replicas=1 deploy/hermesnode --timeout=5m
+kubectl scale -n "${NAME}" --replicas=1 deploy/dojima-chain --timeout=5m
