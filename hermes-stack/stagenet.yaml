@@ -2,7 +2,7 @@ global:
   net: stagenet
   hermes:
     image: stagenet.azurecr.io/hermes
-    tag: 8acada5c_1.0.0
+    tag: 75b32edc_1.0.0
     chainId: h4s-187-d11k
     type: fullnode
     global_enable:
