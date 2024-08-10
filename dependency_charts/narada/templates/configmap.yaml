@@ -3,6 +3,12 @@ kind: ConfigMap
 metadata:
   name: {{ include "narada.fullname" . }}-scripts
 data:
+  generate-preparm.sh: |
+    #!/bin/bash
+
+    PREPARAM=$(hermesnode preparm)
+    echo "$PREPARAM" >"${CONFIG_PATH}"/preparam.data
+
   external-ip.sh: |
     #!/bin/bash
     # ./external-ip.sh <host_network> <service_name> <config_map>
