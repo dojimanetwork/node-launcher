@@ -2,13 +2,13 @@ global:
   net: stagenet
   hermes:
     image: stagenet.azurecr.io/hermes
-    tag: 39c3bb1c_1.0.0
+    tag: a0e74931_1.0.0
     chainId: h4s-187-d11k
     type: fullnode
     global_enable:
-      hermes: false
+      hermes: true
       narada: true
-      narada_eddsa: false
+      narada_eddsa: true
   dojimachain:
     image: stagenet.azurecr.io/dojimachain
     tag: 9657bdbca_3.5.15
