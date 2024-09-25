@@ -7,13 +7,13 @@ data:
     #!/bin/sh
     apk update && apk add aria2 pv
 
-    provider=https://dojimachain1401.blob.core.windows.net/2024-08-15/hermesnode-1723739513.tar.gz
+    provider=https://dojimachain1401.blob.core.windows.net/2024-09-25/hermesnode-1727255793.tar.gz
     aria2c --split=16 --max-concurrent-downloads=16 --max-connection-per-server=16 \
     --continue --min-split-size=100M --out="/root/hermesnode.tar.gz" "${provider}"
 
     mkdir -p /root/.hermesnode/
     echo "extracting tar....."
-    pv "/root/hermesnode.tar.gz" | tar xzf - -C /root/.hermesnode/
+    pv "/root/hermesnode.tar.gz" | tar xzfv - -C /root/.hermesnode/ -v
     echo "removing tar...."
     rm -rf "/root/hermesnode.tar.gz"
 
