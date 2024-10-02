@@ -57,6 +57,21 @@ spec:
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
+      - name: generate-preparm
+        image: {{ include "narada.image" . }}
+        command: [/scripts/generate-preparm.sh]
+        volumeMounts:
+          - mountPath: /var/data/narada
+            name: data
+            subPath: data
+          - mountPath: /root/.hermesnode
+            name: data
+            subPath: hermesnode
+          - mountPath: /etc/narada
+            name: data
+            subPath: etc
+        resources:
+          {{- toYaml .Values.init_resources | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

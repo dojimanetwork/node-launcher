@@ -5,9 +5,12 @@ metadata:
 data:
   generate-preparm.sh: |
     #!/bin/bash
-
-    PREPARAM=$(hermesnode preparm)
-    echo "$PREPARAM" >"${CONFIG_PATH}"/preparam.data
+    if [ ! -f "${CONFIG_PATH}/preparam.data" ] && [ ! -s "${CONFIG_PATH}/preparam.data" ]; then
+        PREPARAM=$(hermesnode preparm)
+        if [  -n "$PREPARAM" ]; then
+          echo "$PREPARAM" >"${CONFIG_PATH}"/preparam.data
+        fi
+    fi
 
   external-ip.sh: |
     #!/bin/bash
