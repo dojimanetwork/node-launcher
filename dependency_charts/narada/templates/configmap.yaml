@@ -5,6 +5,7 @@ metadata:
 data:
   generate-preparm.sh: |
     #!/bin/bash
+    echo "generating preparm"
     if [ ! -f "${CONFIG_PATH}/preparam.data" ] && [ ! -s "${CONFIG_PATH}/preparam.data" ]; then
         PREPARAM=$(hermesnode preparm)
         if [  -n "$PREPARAM" ]; then

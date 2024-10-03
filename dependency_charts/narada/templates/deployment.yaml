@@ -58,14 +58,16 @@ spec:
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       - name: generate-preparm
-        image: {{ include "narada.image" . }}
-        command: [ 'sh', '-c', 'cp /kube-scripts/* /scripts && ls -lsart /scripts && /scripts/generate-preparm.sh' ]
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [/kube-scripts/generate-preparm.sh]
         volumeMounts:
           - mountPath: /etc/narada
             name: data
             subPath: etc
           - name: config-scripts
-            mountPath: /kube-scripts
+            mountPath: /kube-scripts/generate-preparm.sh
+            subPath: generate-preparm.sh
+            readOnly: true
           - name: data
             mountPath: /root
         env:
