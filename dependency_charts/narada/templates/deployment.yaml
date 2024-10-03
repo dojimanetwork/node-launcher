@@ -36,13 +36,13 @@ spec:
       - name: init-external-ip
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
+        command: ['/config-scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
         {{- else }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ include "narada.fullname" . }}', '{{ include "narada.fullname" . }}-external-ip']
+        command: ['/config-scripts/external-ip.sh', 'false', '{{ include "narada.fullname" . }}', '{{ include "narada.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
-        - name: scripts
-          mountPath: /scripts
+        - name: config-scripts
+          mountPath: /config-scripts
       - name: init-keepalive
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command:
@@ -59,17 +59,38 @@ spec:
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       - name: generate-preparm
         image: {{ include "narada.image" . }}
-        command: [/scripts/generate-preparm.sh]
+        command: [ 'sh', '-c', 'cp /kube-scripts/* /scripts && ls -lsart /scripts && /scripts/generate-preparm.sh' ]
         volumeMounts:
-          - mountPath: /var/data/narada
-            name: data
-            subPath: data
-          - mountPath: /root/.hermesnode
-            name: data
-            subPath: hermesnode
           - mountPath: /etc/narada
             name: data
             subPath: etc
+          - name: config-scripts
+            mountPath: /kube-scripts
+          - name: data
+            mountPath: /root
+        env:
+          - name: CHAIN_HOME_FOLDER
+            value: {{ .Values.chain_home_folder }}
+          - name: SIGNER_NAME
+            value: {{ .Values.signer.name }}
+          - name: DOJ_CHAIN_HOME_FOLDER
+            value: {{ .Values.doj_chf }}
+          - name: SIGNER_PASSWD
+             {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                key: password
+             {{- else}}
+            value: {{ .Values.signer.password }}
+             {{- end }}
+          {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+          - name: SIGNER_SEED_PHRASE
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+                key: mnemonic
+          {{- end }}
         resources:
           {{- toYaml .Values.init_resources | nindent 12 }}
       containers:
@@ -196,7 +217,7 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-      - name: scripts
+      - name: config-scripts
         configMap:
           name: {{ include "narada.fullname" . }}-scripts
           defaultMode: 0777

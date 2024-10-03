@@ -19,6 +19,7 @@ signer:
   passwordSecret: ""
 
 chain_home_folder: /root/.hermesnode
+doj_chf: "/root/.dojimachain"
 
 environment:
   INCLUDE_ETH_CHAIN: false

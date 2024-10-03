@@ -58,7 +58,7 @@ spec:
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       - name: generate-preparm
-        image: {{ include "narada.image" . }}
+        image: {{ include "narada-eddsa.image" . }}
         command: [ /scripts/generate-preparm.sh ]
         volumeMounts:
           - mountPath: /var/data/narada

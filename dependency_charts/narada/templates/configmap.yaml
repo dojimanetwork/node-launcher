@@ -11,7 +11,6 @@ data:
           echo "$PREPARAM" >"${CONFIG_PATH}"/preparam.data
         fi
     fi
-
   external-ip.sh: |
     #!/bin/bash
     # ./external-ip.sh <host_network> <service_name> <config_map>
