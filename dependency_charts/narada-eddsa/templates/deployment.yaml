@@ -41,7 +41,7 @@ spec:
         command: ['/scripts/external-ip.sh', 'false', '{{ include "narada-eddsa.fullname" . }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
-        - name: scripts
+        - name: config-scripts
           mountPath: /scripts
       - name: init-keepalive
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
@@ -58,18 +58,19 @@ spec:
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       - name: generate-preparm
-        image: {{ include "narada-eddsa.image" . }}
-        command: [ /scripts/generate-preparm.sh ]
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [/scripts/generate-preparm.sh]
         volumeMounts:
-          - mountPath: /var/data/narada
-            name: data
-            subPath: data
-          - mountPath: /root/.hermesnode
-            name: data
-            subPath: hermesnode
           - mountPath: /etc/narada
             name: data
             subPath: etc
+          - name: data
+            mountPath: /root
+          - name: config-scripts
+            mountPath: /scripts
+        env:
+          - name: CONFIG_PATH
+            value: /etc/narada
         resources:
           {{- toYaml .Values.init_resources | nindent 12 }}
       containers:
@@ -166,7 +167,7 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-      - name: scripts
+      - name: config-scripts
         configMap:
           name: {{ include "narada-eddsa.fullname" . }}-scripts
           defaultMode: 0777

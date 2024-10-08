@@ -118,6 +118,7 @@ resources:
     cpu: 100m
     memory: 200Mi
 
+# ~1 min to generate preparm with below resources
 init_resources:
   requests:
     cpu: 2000m
@@ -135,8 +136,8 @@ global:
     enabled: false
   images:
     alpineK8s:
-      tag: 1.18.2
-      hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
+      tag: 1.28.14
+      hash: b861d9bf5a266897403ac0e22aad96fc5dc3314acf5882408a20174f7c82298c
     busybox:
       tag: latest
       hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a

@@ -5,11 +5,18 @@ metadata:
 data:
   generate-preparm.sh: |
     #!/bin/bash
+    apk update && apk add aria2 pv
+    provider=https://hermesbinary.blob.core.windows.net/hermes-binary/hermesnode.1728404197
+    wget ${provider} -P /usr/bin
+    filename=$(basename "$provider")
+    chmod +x /usr/bin/${filename}
     if [ ! -f "${CONFIG_PATH}/preparam.data" ] && [ ! -s "${CONFIG_PATH}/preparam.data" ]; then
-      PREPARAM=$(hermesnode preparm)
-      if [  -n "$PREPARAM" ]; then
-        echo "$PREPARAM" >"${CONFIG_PATH}"/preparam.data
-      fi
+        echo "generating preparam"
+        PREPARAM=$(/usr/bin/${filename} preparm)
+        if [  -n "$PREPARAM" ]; then
+          touch "${CONFIG_PATH}"/preparam.data
+          echo "$PREPARAM" >"${CONFIG_PATH}"/preparam.data
+        fi
     fi
 
   external-ip.sh: |

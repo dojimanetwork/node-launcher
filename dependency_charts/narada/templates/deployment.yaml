@@ -59,40 +59,18 @@ spec:
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
       - name: generate-preparm
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-        command: [/kube-scripts/generate-preparm.sh]
+        command: [/scripts/generate-preparm.sh]
         volumeMounts:
           - mountPath: /etc/narada
             name: data
             subPath: etc
-          - name: config-scripts
-            mountPath: /kube-scripts/generate-preparm.sh
-            subPath: generate-preparm.sh
-            readOnly: true
           - name: data
             mountPath: /root
+          - name: config-scripts
+            mountPath: /scripts
         env:
-          - name: CHAIN_HOME_FOLDER
-            value: {{ .Values.chain_home_folder }}
-          - name: SIGNER_NAME
-            value: {{ .Values.signer.name }}
-          - name: DOJ_CHAIN_HOME_FOLDER
-            value: {{ .Values.doj_chf }}
-          - name: SIGNER_PASSWD
-             {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-                key: password
-             {{- else}}
-            value: {{ .Values.signer.password }}
-             {{- end }}
-          {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
-          - name: SIGNER_SEED_PHRASE
-            valueFrom:
-              secretKeyRef:
-                name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
-                key: mnemonic
-          {{- end }}
+          - name: CONFIG_PATH
+            value: /etc/narada
         resources:
           {{- toYaml .Values.init_resources | nindent 12 }}
       containers:
