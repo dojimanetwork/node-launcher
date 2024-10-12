@@ -41,7 +41,7 @@ spec:
         command: ['/scripts/external-ip.sh', 'false', '{{ include "narada-eddsa.fullname" . }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
-        - name: config-scripts
+        - name: scripts
           mountPath: /scripts
       - name: init-keepalive
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
@@ -66,7 +66,7 @@ spec:
             subPath: etc
           - name: data
             mountPath: /root
-          - name: config-scripts
+          - name: scripts
             mountPath: /scripts
         env:
           - name: CONFIG_PATH
@@ -167,7 +167,7 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-      - name: config-scripts
+      - name: scripts
         configMap:
           name: {{ include "narada-eddsa.fullname" . }}-scripts
           defaultMode: 0777

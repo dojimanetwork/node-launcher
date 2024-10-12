@@ -13,6 +13,7 @@ data:
     # in bytes
     if [ "$dir_size" -gt 1073741824 ]; then
       echo "Directory size is greater than 0MB."
+      return
     else
       echo "Directory size is 0MB."
     fi
