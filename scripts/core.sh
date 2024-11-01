@@ -121,6 +121,14 @@ get_l2_deployer_priv_key_name() {
     DEPLOYER_PRIVKEY_NAME=${l2_privkey_name:-$DEPLOYER_PRIVKEY_NAME}
 }
 
+get_l2_sequencer_priv_key_name() {
+  if [ "$SEQUENCER_PRIVKEY_NAME" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 sequencer private key secret var name [$SEQUENCER_PRIVKEY_NAME]: " l2_privkey_name
+    SEQUENCER_PRIVKEY_NAME=${l2_privkey_name:-$SEQUENCER_PRIVKEY_NAME}
+}
+
 get_redis_signing_key_name() {
   if [ "$REDIS_SIGNER_KEY_NAME" != "" ]; then
       return
@@ -145,6 +153,14 @@ get_l2_deployer_priv_key() {
     DEPLOYER_PRIVKEY=${l2_privkey:-$DEPLOYER_PRIVKEY}
 }
 
+get_l2_sequencer_priv_key() {
+  if [ "$SEQUENCER_PRIVKEY" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 sequencer private key [$SEQUENCER_PRIVKEY]: " l2_privkey
+    SEQUENCER_PRIVKEY=${l2_privkey:-$SEQUENCER_PRIVKEY}
+}
+
 get_l2_chain_name() {
   if [ "$L2_CHAIN_NAME" != "" ]; then
       return
@@ -163,6 +179,20 @@ store_l2_owner_priv_key() {
       priv_key=$DEPLOYER_PRIVKEY
       [ "$priv_key" = "" ] && die "L2 private key is empty. Please try again."
         kubectl -n "$NAME" create secret generic "$DEPLOYER_PRIVKEY" --from-literal=deployer_priv_key="$priv_key"
+      return
+    fi
+}
+
+store_l2_sequencer_priv_key() {
+    local priv_key
+    # Do nothing if private_key already exists.
+    if ! kubectl get -n "$NAME" secrets/"$SEQUENCER_PRIVKEY_NAME" >/dev/null 2>&1; then
+      if [ "$SEQUENCER_PRIVKEY" == "" ]; then
+        get_l2_sequencer_priv_key
+      fi
+      priv_key=$SEQUENCER_PRIVKEY
+      [ "$priv_key" = "" ] && die "L2 sequncer private key is empty. Please try again."
+        kubectl -n "$NAME" create secret generic "$SEQUENCER_PRIVKEY_NAME" --from-literal=sequencer_priv_key="$priv_key"
       return
     fi
 }
@@ -633,7 +663,7 @@ deploy_arbitrum_rollup() {
 
   # shellcheck disable=SC2086
   helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
-    $args $EXTRA_ARGS \
+    $EXTRA_ARGS \
     --set arbitrum-stack.l2_chain_id=$L2_CHAIN_ID \
     --set arbitrum-stack.l2_owner=$L2_OWNER \
     --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
@@ -643,11 +673,11 @@ deploy_arbitrum_rollup() {
     --set narada.enabled=false,narada-eddsa.enabled=false \
     --set hermesnode.enabled=false,dojima-chain.enabled=false
 
-  echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
+  echo -e "=> Changes for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
-    --create-namespace $args $EXTRA_ARGS \
+    --create-namespace $EXTRA_ARGS \
     --set arbitrum-stack.l2_chain_id=$L2_CHAIN_ID \
     --set arbitrum-stack.l2_owner=$L2_OWNER \
     --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
@@ -657,7 +687,7 @@ deploy_arbitrum_rollup() {
     --set narada.enabled=false,narada-eddsa.enabled=false \
     --set hermesnode.enabled=false,dojima-chain.enabled=false
 
-  echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
+  echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }

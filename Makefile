@@ -53,6 +53,9 @@ pods: ## Get Hermesnodes Kubernetes pods
 install: pull update-dependencies ## Deploy a Hermesnode
 	@./scripts/install.sh
 
+install: pull update-dependencies ## Deploy a Arbitrum stack
+	@./scripts/install-arbitrum.sh
+
 install-frontend: pull update-frontend-deps
 	@./scripts/frontend-install.sh
 
