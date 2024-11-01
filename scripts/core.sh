@@ -89,6 +89,98 @@ get_hermes_gateway() {
     HERMES_GATEWAY=${name:-$HERMES_GATEWAY}
 }
 
+get_l2_chain_id() {
+  if [ "$L2_CHAIN_ID" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 chain id [$L2_CHAIN_ID]: " chainId
+    L2_CHAIN_ID=${chainId:-$L2_CHAIN_ID}
+}
+
+get_l2_owner() {
+  if [ "$L2_OWNER" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 owner address [$L2_OWNER]: " l2_owner
+    L2_OWNER=${l2_owner:-$L2_OWNER}
+}
+
+get_sequencer_address() {
+  if [ "$SEQUENCER_ADDRESS" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 sequencer address [$SEQUENCER_ADDRESS]: " sequencer_address
+    SEQUENCER_ADDRESS=${sequencer_address:-$SEQUENCER_ADDRESS}
+}
+
+get_l2_deployer_priv_key_name() {
+  if [ "$DEPLOYER_PRIVKEY_NAME" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 deploy private key secret var name [$DEPLOYER_PRIVKEY_NAME]: " l2_privkey_name
+    DEPLOYER_PRIVKEY_NAME=${l2_privkey_name:-$DEPLOYER_PRIVKEY_NAME}
+}
+
+get_redis_signing_key_name() {
+  if [ "$REDIS_SIGNER_KEY_NAME" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter redis signing secret key name [$REDIS_SIGNER_KEY_NAME]: " redis_privkey_name
+    REDIS_SIGNER_KEY_NAME=${redis_privkey_name:-$REDIS_SIGNER_KEY_NAME}
+}
+
+get_redis_signing_key() {
+  if [ "$REDIS_SIGNER_KEY" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter redis signing key [$REDIS_SIGNER_KEY]: " redis_privkey
+    REDIS_SIGNER_KEY=${redis_privkey:-$REDIS_SIGNER_KEY}
+}
+
+get_l2_deployer_priv_key() {
+  if [ "$DEPLOYER_PRIVKEY" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 deploy private key [$DEPLOYER_PRIVKEY]: " l2_privkey
+    DEPLOYER_PRIVKEY=${l2_privkey:-$DEPLOYER_PRIVKEY}
+}
+
+get_l2_chain_name() {
+  if [ "$L2_CHAIN_NAME" != "" ]; then
+      return
+    fi
+    read -r -p "=> Enter l2 chain name [$L2_CHAIN_NAME]: " l2_chain_name
+    L2_CHAIN_NAME=${l2_chain_name:-$L2_CHAIN_NAME}
+}
+
+store_l2_owner_priv_key() {
+    local priv_key
+    # Do nothing if private_key already exists.
+    if ! kubectl get -n "$NAME" secrets/"$DEPLOYER_PRIVKEY_NAME" >/dev/null 2>&1; then
+      if [ "$DEPLOYER_PRIVKEY" == "" ]; then
+        get_l2_deployer_priv_key
+      fi
+      priv_key=$DEPLOYER_PRIVKEY
+      [ "$priv_key" = "" ] && die "L2 private key is empty. Please try again."
+        kubectl -n "$NAME" create secret generic "$DEPLOYER_PRIVKEY" --from-literal=deployer_priv_key="$priv_key"
+      return
+    fi
+}
+
+store_redis_signing_key() {
+    local signing_key
+    # Do nothing if private_key already exists.
+    if ! kubectl get -n "$NAME" secrets/"$REDIS_SIGNER_KEY_NAME" >/dev/null 2>&1; then
+      if [ "$REDIS_SIGNER_KEY" == "" ]; then
+        get_redis_signing_key
+      fi
+      priv_key=$REDIS_SIGNER_KEY
+      [ "$priv_key" = "" ] && die "L2 private key is empty. Please try again."
+        kubectl -n "$NAME" create secret generic "$REDIS_SIGNER_KEY_NAME" --from-literal=redis_signing_key="$signing_key"
+      return
+    fi
+}
+
 get_discord_channel() {
   [ "$DISCORD_CHANNEL" != "" ] && unset DISCORD_CHANNEL
   echo "=> Select hermesnode relay channel: "
@@ -535,6 +627,39 @@ deploy_genesis() {
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
   kubectl rollout restart -n "${NAME}" deployment "${HERMES_GATEWAY}"
+}
+
+deploy_arbitrum_rollup() {
+
+  # shellcheck disable=SC2086
+  helm diff upgrade -C 3 --install "$NAME" ./hermes-stack -n "$NAME" \
+    $args $EXTRA_ARGS \
+    --set arbitrum-stack.l2_chain_id=$L2_CHAIN_ID \
+    --set arbitrum-stack.l2_owner=$L2_OWNER \
+    --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
+    --set arbitrum-stack.l2_chain_name=$L2_CHAIN_NAME \
+    --set arbitrum-stack.sequencer_address=$SEQUENCER_ADDRESS \
+    --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
+    --set narada.enabled=false,narada-eddsa.enabled=false \
+    --set hermesnode.enabled=false,dojima-chain.enabled=false
+
+  echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
+  confirm
+  # shellcheck disable=SC2086
+  helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
+    --create-namespace $args $EXTRA_ARGS \
+    --set arbitrum-stack.l2_chain_id=$L2_CHAIN_ID \
+    --set arbitrum-stack.l2_owner=$L2_OWNER \
+    --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
+    --set arbitrum-stack.l2_chain_name=$L2_CHAIN_NAME \
+    --set arbitrum-stack.sequencer_address=$SEQUENCER_ADDRESS \
+    --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
+    --set narada.enabled=false,narada-eddsa.enabled=false \
+    --set hermesnode.enabled=false,dojima-chain.enabled=false
+
+  echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
+  confirm
+  kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 
 deploy_validator() {

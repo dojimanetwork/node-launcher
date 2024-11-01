@@ -1,0 +1,215 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "arbitrum_stack.fullname" . }}-scripts
+data:
+  write_l2_chain_config.sh: |
+    #!/bin/bash
+
+    # Define the JSON configuration as a single variable
+    l2ChainConfigJSON=$(cat <<EOF
+    {
+      "chainId": $L2_CHAIN_ID,
+      "homesteadBlock": 0,
+      "daoForkSupport": true,
+      "eip150Block": 0,
+      "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "eip155Block": 0,
+      "eip158Block": 0,
+      "byzantiumBlock": 0,
+      "constantinopleBlock": 0,
+      "petersburgBlock": 0,
+      "istanbulBlock": 0,
+      "muirGlacierBlock": 0,
+      "berlinBlock": 0,
+      "londonBlock": 0,
+      "clique": {
+        "period": 0,
+        "epoch": 0
+      },
+      "arbitrum": {
+        "EnableArbOS": true,
+        "AllowDebugPrecompiles": true,
+        "DataAvailabilityCommittee": false,
+        "InitialArbOSVersion": 32,
+        "InitialChainOwner": "$L2_OWNER",  # Replace with shell variable
+        "GenesisBlockNum": 0
+      }
+    }
+    EOF
+    )
+
+    cp $l2ChainConfigJSON /root/l2_config/l2_chain_config.json
+
+
+  sequencer_configs.sh: |
+    #!/bin/bash
+
+    # Define file paths
+    CONFIG_PATH="/root/l2_config/" # Update with the correct path
+
+    # Define the JSON configuration as a single variable
+    baseConfig=$(cat <<EOF
+    {
+        "parent-chain": {
+          "connection": {
+            "url": $PARENT_CHAIN_RPC
+          }
+        },
+        "chain": {
+          "id": $L2_CHAIN_ID,
+          "info-files": [
+            "$CONFIG_PATH/l2_chain_info.json"
+          ]
+        },
+        "node": {
+          "staker": {
+            "dangerous": {
+              "without-block-validator": false
+            },
+            "parent-chain-wallet": {
+              "account": $L2_OWNER,
+              "password": $PARENT_PASSPHRASE,
+              "pathname": "$CONFIG_PATH/l1keystore"
+            },
+            "disable-challenge": false,
+            "enable": false,
+            "staker-interval": "10s",
+            "make-assertion-interval": "10s",
+            "strategy": "MakeNodes"
+          },
+          "sequencer": true,
+          "dangerous": {
+            "no-sequencer-coordinator": false,
+            "disable-blob-reader": true
+          },
+          "delayed-sequencer": {
+            "enable": true
+          },
+          "seq-coordinator": {
+            "enable": true,
+            "redis-url": "redis://127.0.0.1:6379",
+            "lockout-duration": "30s",
+            "lockout-spare": "1s",
+            "my-url": "",
+            "retry-interval": "0.5s",
+            "seq-num-duration": "24h0m0s",
+            "update-interval": "3s"
+          },
+          "batch-poster": {
+            "enable": false,
+            "redis-url": "redis://127.0.0.1:6379",
+            "max-delay": "30s",
+            "l1-block-bound": "ignore",
+            "parent-chain-wallet": {
+              "account": $SEQUENCER_ADDRESS,
+              "password": $PARENT_PASSPHRASE,
+              "pathname": "$CONFIG_PATH/l1keystore"
+            },
+            "data-poster": {
+              "redis-signer": {
+                "signing-key": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+              },
+              "wait-for-l1-finality": false
+            }
+          },
+          "block-validator": {
+            "validation-server": {
+              "url": "ws://127.0.0.1:8549",
+              "jwtsecret": "$CONFIG_PATH/val_jwt.hex"
+            }
+          }
+        },
+        "execution": {
+          "sequencer": {
+            "enable": true
+          },
+          "forwarding-target": "null"
+        },
+        "persistent": {
+          "chain": "local"
+        },
+        "ws": {
+          "addr": "0.0.0.0"
+        },
+        "http": {
+          "addr": "0.0.0.0",
+          "vhosts": "*",
+          "corsdomain": "*"
+        }
+      }
+      EOF
+    )
+
+    # Write base configuration to file
+    echo "$baseConfig" | jq '.' > "$CONFIG_PATH/base_config.json"
+
+    # validator config
+    validatorConfig=$(echo "$baseConfig" | jq '
+    .node.staker.enable = true |
+    .node.staker["use-smart-contract-wallet"] = true
+    ')
+
+    echo "$validatorConfig" | jq '.' > "$CONFIG_PATH/validator_config.json"
+
+    # unsafe staker config
+    unsafeStakerConfig=$(echo "$validatorConfig" | jq '
+    .node.staker.dangerous["without-block-validator"] = true
+    ')
+
+    echo "$unsafeStakerConfig" | jq '.' > "$CONFIG_PATH/unsafe_staker_config.json"
+
+    # sequencer config
+    sequencerConfig=$(echo "$baseConfig" | jq '
+    .node.sequencer = true |
+    .node["seq-coordinator"].enable = true |
+    .execution.sequencer.enable = true |
+    .node["delayed-sequencer"].enable = true
+    ')
+    echo "$sequencerConfig" | jq '.' > "$CONFIG_PATH/sequencer_config.json"
+
+    # poster config
+    posterConfig=$(echo "$baseConfig" | jq '
+    .node["seq-coordinator"].enable = true |
+    .node["batch-poster"].enable = true
+    ')
+    echo "$posterConfig" | jq '.' > "$CONFIG_PATH/poster_config.json"
+
+  deploy_rollup_contracts.sh: |
+    #!/bin/bash
+
+    # Update and install dependencies
+      apt-get update && \
+      apt-get install -y git docker.io python3 build-essential curl jq
+
+      # Set up working directory
+      mkdir -p /workspace
+      cd /workspace
+
+      # Clone the repository
+      git clone --no-checkout https://github.com/dojimanetwork/nitro-contracts.git ./
+
+      # Checkout specified branch
+      git checkout "$NITRO_CONTRACTS_BRANCH"
+
+      # Install Foundry
+      curl -L https://foundry.paradigm.xyz | bash
+      export PATH="${PATH}:/root/.foundry/bin"
+
+      # Update Foundry tools
+      foundryup
+
+      # Create a config file
+      touch scripts/config.ts
+
+      # Install Yarn dependencies and build
+      yarn install
+      yarn build:all
+
+      yarn run create-rollup-testnode
+
+
+
+
+
+

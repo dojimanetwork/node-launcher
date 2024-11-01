@@ -1,0 +1,110 @@
+# Default values for hermes node
+replicaCount: 1
+
+strategyType: Recreate
+
+image:
+  repository: offchainlabs/nitro-node
+  tag: v3.2.1-d81324d
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: "hermesnode"
+fullnameOverride: "hermesnode"
+
+arbitrum_stack:
+  environment:
+    # needs to come dynamically from global values else take from here
+    L2_CHAIN_ID: "{{ .Values.l2_chain_id }}"
+    L2_OWNER: "{{ .Values.l2_owner }}"
+    # DEPLOYER_PRIVKEY: "{{ .Values.deployer_private_key }}"
+    CHILD_CHAIN_NAME: "{{ .Values.l2_chain_name }}"
+    WASM_MODULE_ROOT: "{{ .Values.global.wasm_module_root }}"
+    SEQUENCER_ADDRESS: "{{ .Values.sequencer_address }}"
+    OWNER_ADDRESS: "{{ .Values.l2_owner }}"
+    PARENT_PASSPHRASE: "{{ .Values.parent_passphrase }}"
+    #REDIS_SIGNER_KEY: # still not clear what value to provide.
+    # static
+    PARENT_CHAIN_RPC: https://rpc-d11k.dojima.network
+    PARENT_CHAIN_ID: 187
+    CHILD_CHAIN_CONFIG_PATH: /root/l2_config/l2_chain_config.json
+    AUTHORIZE_VALIDATORS: 1
+
+service:
+  type: "ClusterIP"
+  port:
+    feed_output: 9642
+    ws: 8548
+    redis: 6349
+    http: 8547
+    val_port: 8549
+
+persistence:
+  enabled: true
+  name: hermes-stagenet-genesis
+  size:
+    testnet: 10Gi
+    stagenet: 10Gi
+    mainnet: 10Gi
+  accessMode: ReadWriteOnce
+#  storageClass: gp3
+
+serviceAccount:
+  create: true
+  name: "serv-node-hermes"
+
+priorityClassName: ""
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources:
+    sequencer:
+      requests:
+        cpu: 1
+        memory: 1Gi
+      limits:
+        cpu: 2
+        memory: 2Gi
+    validation_node:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 200m
+        memory: 200Mi
+    poster:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 200m
+        memory: 200Mi
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+global:
+  tag:
+  net: stagenet
+  peer:
+  passwordSecret:
+  mnemonicSecret:
+  gateway:
+    enabled: false
+    name: "hermesnode-gateway"
+  images:
+    alpineK8s:
+      tag: 1.18.2
+      hash: 768491682ca99e14498ddb62973a95a664a0525ca18e7ad0eaab2621d3124f5b
+    busybox:
+      tag: latest
+      hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
+
+
