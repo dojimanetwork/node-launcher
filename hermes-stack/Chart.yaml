@@ -31,3 +31,8 @@ dependencies:
     repository: file://../dependency_charts/dojima-chain
     version: 0.1.0
     condition: dojima-chain.enabled
+
+  - name: arbitrum-stack
+    repository: file://../dependency_charts/arbitrum-stack
+    version: 0.1.0
+    condition: arbitrum-stack.enabled

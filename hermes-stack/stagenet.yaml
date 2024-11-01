@@ -13,6 +13,10 @@ global:
     image: stagenet.azurecr.io/dojimachain
     tag: 9657bdbca_3.5.15
     chainId: 187
+  arbitrum_stack:
+    image:
+    tag:
+    wasm_module_root:
   gateway:
     enabled: false
     name: hermes-gateway
@@ -46,4 +50,7 @@ narada-eddsa:
   enabled: true
 
 dojima-chain:
+  enabled: true
+
+arbitrum-stack:
   enabled: true

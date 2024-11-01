@@ -73,3 +73,6 @@ avalanche-daemon:
 hello-word:
   fullnameOverride: hello-word
   enabled: false
+
+arbitrum-stack:
+  enabled: true
