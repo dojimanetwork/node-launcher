@@ -9,26 +9,30 @@ image:
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
-nameOverride: "hermesnode"
-fullnameOverride: "hermesnode"
+nameOverride: "arbitrum"
+fullnameOverride: "arbitrum"
+
+autoupdate:
+  enable: false
 
 arbitrum_stack:
   environment:
     # needs to come dynamically from global values else take from here
-    L2_CHAIN_ID: "{{ .Values.l2_chain_id }}"
-    L2_OWNER: "{{ .Values.l2_owner }}"
-    # DEPLOYER_PRIVKEY: "{{ .Values.deployer_private_key }}"
-    CHILD_CHAIN_NAME: "{{ .Values.l2_chain_name }}"
-    WASM_MODULE_ROOT: "{{ .Values.global.wasm_module_root }}"
-    SEQUENCER_ADDRESS: "{{ .Values.sequencer_address }}"
-    OWNER_ADDRESS: "{{ .Values.l2_owner }}"
-    PARENT_PASSPHRASE: "{{ .Values.parent_passphrase }}"
-    #REDIS_SIGNER_KEY: # still not clear what value to provide.
+#    L2_CHAIN_ID: {{ .Values.l2_chain_id }}
+#    L2_OWNER: "{{ .Values.l2_owner }}"
+#    # DEPLOYER_PRIVKEY: "{{ .Values.deployer_private_key }}"
+#    CHILD_CHAIN_NAME: "{{ .Values.l2_chain_name }}"
+#    WASM_MODULE_ROOT: "{{ .Values.global.wasm_module_root }}"
+#    SEQUENCER_ADDRESS: "{{ .Values.sequencer_address }}"
+#    OWNER_ADDRESS: "{{ .Values.l2_owner }}"
+#    PARENT_PASSPHRASE: "{{ .Values.parent_passphrase }}"
+#    #REDIS_SIGNER_KEY: # still not clear what value to provide.
     # static
     PARENT_CHAIN_RPC: https://rpc-d11k.dojima.network
     PARENT_CHAIN_ID: 187
     CHILD_CHAIN_CONFIG_PATH: /root/l2_config/l2_chain_config.json
     AUTHORIZE_VALIDATORS: 1
+    NITRO_CONTRACTS_BRANCH: 586acde4c151fa01dae0a44ba03685fe68d8ae2a
 
 service:
   type: "ClusterIP"

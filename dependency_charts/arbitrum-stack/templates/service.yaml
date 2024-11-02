@@ -20,25 +20,5 @@ spec:
       port: {{ .Values.service.port.http }}
       targetPort: api
       protocol: TCP
-    - name: p2p
-      port: {{ include "arbitrum_stack.p2p" . }}
-      targetPort: p2p
-      protocol: TCP
-    - name: rpc
-      port: {{ include "arbitrum_stack.rpc" . }}
-      targetPort: rpc
-      protocol: TCP
-    - name: grpc
-      port: {{ include "arbitrum_stack.grpc" . }}
-      targetPort: grpc
-      protocol: TCP
-    - name: abci
-      port: {{ include "arbitrum_stack.abci" . }}
-      protocol: TCP
-      targetPort: abci
-    - name: prom-collector
-      port: {{ include "arbitrum_stack.prometheus_collector" . }}
-      targetPort: prom-collector
-      protocol: TCP
   selector:
     {{- include "arbitrum_stack.selectorLabels" . | nindent 4 }}

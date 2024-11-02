@@ -178,7 +178,7 @@ store_l2_owner_priv_key() {
       fi
       priv_key=$DEPLOYER_PRIVKEY
       [ "$priv_key" = "" ] && die "L2 private key is empty. Please try again."
-        kubectl -n "$NAME" create secret generic "$DEPLOYER_PRIVKEY" --from-literal=deployer_priv_key="$priv_key"
+        kubectl -n "$NAME" create secret generic "$DEPLOYER_PRIVKEY_NAME" --from-literal=deployer_priv_key="$priv_key"
       return
     fi
 }
@@ -269,7 +269,7 @@ get_node_service() {
 
 create_namespace() {
   if ! kubectl get ns "$NAME" >/dev/null 2>&1; then
-    echo "=> Creating hermesnode namespace"
+    echo "=> Creating namespace"
     kubectl create ns "$NAME"
     echo
   fi
@@ -667,9 +667,11 @@ deploy_arbitrum_rollup() {
     --set arbitrum-stack.l2_chain_id=$L2_CHAIN_ID \
     --set arbitrum-stack.l2_owner=$L2_OWNER \
     --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
+    --set arbitrum-stack.sequencer_privkey_secret_name=$SEQUENCER_PRIVKEY_NAME \
     --set arbitrum-stack.l2_chain_name=$L2_CHAIN_NAME \
     --set arbitrum-stack.sequencer_address=$SEQUENCER_ADDRESS \
     --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
+    --set arbitrum-stack.parent_passphrase=passphrase \
     --set narada.enabled=false,narada-eddsa.enabled=false \
     --set hermesnode.enabled=false,dojima-chain.enabled=false
 
@@ -681,8 +683,10 @@ deploy_arbitrum_rollup() {
     --set arbitrum-stack.l2_chain_id=$L2_CHAIN_ID \
     --set arbitrum-stack.l2_owner=$L2_OWNER \
     --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
+    --set arbitrum-stack.sequencer_privkey_secret_name=$SEQUENCER_PRIVKEY_NAME \
     --set arbitrum-stack.l2_chain_name=$L2_CHAIN_NAME \
     --set arbitrum-stack.sequencer_address=$SEQUENCER_ADDRESS \
+    --set arbitrum-stack.parent_passphrase=passphrase \
     --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
     --set narada.enabled=false,narada-eddsa.enabled=false \
     --set hermesnode.enabled=false,dojima-chain.enabled=false

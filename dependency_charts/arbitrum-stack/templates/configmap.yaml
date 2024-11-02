@@ -3,13 +3,37 @@ kind: ConfigMap
 metadata:
   name: {{ include "arbitrum_stack.fullname" . }}-scripts
 data:
+  generate_l1keystore.sh: |
+    #!/bin/bash
+
+    # Update and install dependencies
+    apt-get update && \
+      apt-get install -y git docker.io python3 build-essential curl jq
+
+    # Set up working directory
+    mkdir -p /workspace
+    cd /workspace
+
+    # Clone the repository
+    git clone --no-checkout git@github.com:dojimanetwork/nitro-testnode.git ./
+    cd scripts
+
+    # Install Yarn dependencies and build
+    yarn install
+    mv /scripts/generate_l1keystore.js .
+
+    node generate_l1keystore.js
+
   write_l2_chain_config.sh: |
     #!/bin/bash
 
+    CONFIG_PATH="/root/l2_config/"
+    mkdir /root/l2_config
+    touch /root/l2_config/l2_chain_config.json
     # Define the JSON configuration as a single variable
     l2ChainConfigJSON=$(cat <<EOF
     {
-      "chainId": $L2_CHAIN_ID,
+      "chainId": {{ .Values.l2_chain_id }},
       "homesteadBlock": 0,
       "daoForkSupport": true,
       "eip150Block": 0,
@@ -32,32 +56,35 @@ data:
         "AllowDebugPrecompiles": true,
         "DataAvailabilityCommittee": false,
         "InitialArbOSVersion": 32,
-        "InitialChainOwner": "$L2_OWNER",  # Replace with shell variable
+        "InitialChainOwner": {{ .Values.l2_owner | quote }},
         "GenesisBlockNum": 0
       }
     }
     EOF
     )
 
-    cp $l2ChainConfigJSON /root/l2_config/l2_chain_config.json
-
+    echo "$l2ChainConfigJSON" | jq '.' > "$CONFIG_PATH/l2_chain_config.json"
 
   sequencer_configs.sh: |
     #!/bin/bash
-
+    set -euo pipefail
+    apk add openssl
     # Define file paths
     CONFIG_PATH="/root/l2_config/" # Update with the correct path
 
+    openssl rand -hex 32 | tr -d "\n" > $CONFIG_PATH/val_jwt.hex
+    echo $REDIS_SIGNER_KEY
+    REDIS_KEY=$REDIS_SIGNER_KEY
     # Define the JSON configuration as a single variable
     baseConfig=$(cat <<EOF
     {
         "parent-chain": {
           "connection": {
-            "url": $PARENT_CHAIN_RPC
+            "url": {{ .Values.arbitrum_stack.environment.PARENT_CHAIN_RPC }}
           }
         },
         "chain": {
-          "id": $L2_CHAIN_ID,
+          "id": {{ .Values.l2_chain_id }},
           "info-files": [
             "$CONFIG_PATH/l2_chain_info.json"
           ]
@@ -68,8 +95,8 @@ data:
               "without-block-validator": false
             },
             "parent-chain-wallet": {
-              "account": $L2_OWNER,
-              "password": $PARENT_PASSPHRASE,
+              "account": {{ .Values.l2_owner | quote }},
+              "password": {{ .Values.parent_passphrase | quote }},
               "pathname": "$CONFIG_PATH/l1keystore"
             },
             "disable-challenge": false,
@@ -102,13 +129,13 @@ data:
             "max-delay": "30s",
             "l1-block-bound": "ignore",
             "parent-chain-wallet": {
-              "account": $SEQUENCER_ADDRESS,
-              "password": $PARENT_PASSPHRASE,
+              "account": {{ .Values.sequencer_address | quote}},
+              "password": {{ .Values.parent_passphrase | quote }},
               "pathname": "$CONFIG_PATH/l1keystore"
             },
             "data-poster": {
               "redis-signer": {
-                "signing-key": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                "signing-key": "$REDIS_KEY"
               },
               "wait-for-l1-finality": false
             }
@@ -208,8 +235,65 @@ data:
 
       yarn run create-rollup-testnode
 
+  external-ip.sh: |
+    #!/bin/bash
+    # ./external-ip.sh <host_network> <service_name> <config_map>
+    #
+    # Script to extract external ip from a service:
+    # If host network returns public ip of the node
+    # If LoadBalancer returns external IP either directly or from hostname
+    # If ClusterIP return service IP
+    # If NodePort returns node IP
+
+    apk add bind-tools
+
+    HOST_NETWORK=$1
+    SERVICE=$2
+    CONFIGMAP=$3
+
+    if [ "$HOST_NETWORK" = "true" ]; then
+      external_ip=$(curl -s http://whatismyip.akamai.com)
+    else
+      type=$(kubectl get svc "$SERVICE" -o jsonpath='{.spec.type}')
+      external_ip=""
+
+      if [ "$type" = "ClusterIP" ]; then
+        external_ip=$(kubectl get svc "$SERVICE" -o jsonpath='{.spec.clusterIP}')
+      elif [ "$type" = "NodePort" ]; then
+        external_ip=$(kubectl get nodes --selector=kubernetes.io/role!=master -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}')
+      elif [ "$type" = "LoadBalancer" ]; then
+        # Hack TODO remove when this is fixed here https://github.com/kubernetes/kubernetes/issues/82595
+        kubectl annotate svc "$SERVICE" service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled=false --overwrite
+        sleep 5
+        kubectl annotate svc "$SERVICE" service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled=true --overwrite
+
+        while [ -z "$external_ip" ]; do
+          echo "Waiting for load balancer external endpoint..."
+          external_ip=$(kubectl get svc "$SERVICE" -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          if [ -z "$external_ip" ]; then
+            hostname=$(kubectl get svc "$SERVICE" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+            [ -n "$hostname" ] && external_ip=$(dig +short "$hostname" | sort | head -1)
+          fi
+          [ -z "$external_ip" ] && sleep 10
+        done
+      fi
+    fi
+
+    kubectl create configmap "$CONFIGMAP" --from-literal=externalIP="$external_ip" --dry-run=client -o yaml | kubectl apply -f -
 
 
+  generate_l1keystore.js: |
+     import { ethers } from "ethers";
+     import * as fs from "fs";
+     const path = require("path");
+     const config_path = "/root/l2_config/l1keystore"
 
-
-
+     const accounts = [ $DEPLOYER_PRIVKEY, $SEQUENCER_PRIVKEY ]
+     for (let i = 0; i < 2; i++) {
+         const wallet = new ethers.Wallet(accounts[i])
+         let walletJSON = await wallet.encrypt({{ .Values.parent_passphrase }});
+         fs.writeFileSync(
+             path.join(config_path, wallet.address + ".key"),
+             walletJSON
+         );
+     }

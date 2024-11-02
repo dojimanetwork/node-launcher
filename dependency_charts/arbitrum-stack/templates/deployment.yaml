@@ -18,7 +18,6 @@ spec:
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/path: '/metrics'
-        prometheus.io/port: '{{ .Values.service.port.testnet.prometheus_collector }}'
     spec:
       {{- with .Values.imagePullSecrets }} 
       imagePullSecrets: 
@@ -44,7 +43,61 @@ spec:
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         command: [ '/scripts/write_l2_chain_config.sh' ]
         env:
-          {{ include "arbitrum_stack_env" . }}
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
+      - name: generate-l1keystore
+        image: "node:18-bullseye-slim"
+        command: ['/scripts/generate_l1keystore.sh' ]
+        env:
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          - name: SEQUENCER_PRIVKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.sequencer_privkey_secret_name }}
+                key: sequencer_priv_key
+          - name: DEPLOYER_PRIVKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.deployer_privkey_secret_name }}
+                key: deployer_priv_key
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
         volumeMounts:
           - name: scripts
             mountPath: /scripts
@@ -54,7 +107,24 @@ spec:
         image: "node:18-bullseye-slim"
         command: [ '/scripts/deploy_rollup_contracts.sh' ]
         env:
-          {{ include "arbitrum_stack_env" . }}
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
           - name: DEPLOYER_PRIVKEY
             valueFrom:
               secretKeyRef:
@@ -70,7 +140,24 @@ spec:
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         command: [ '/scripts/sequencer_configs.sh' ]
         env:
-          {{ include "arbitrum_stack_env" . }}
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
           - name: REDIS_SIGNER_KEY
             valueFrom:
               secretKeyRef:
@@ -112,7 +199,7 @@ spec:
            - name: scripts
              mountPath: /scripts
            ports: 
-            - name: feed_port
+            - name: feed-port
               containerPort: {{ .Values.service.port.feed_output }}
               protocol: TCP
             - name: ws
@@ -136,7 +223,7 @@ spec:
              - name: scripts
                mountPath: /scripts
            ports:
-             - name: val_port
+             - name: val-port
                containerPort: {{ .Values.service.port.val_port }}
                protocol: TCP
            resources:
@@ -166,7 +253,7 @@ spec:
         - name: data 
           {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }} 
           persistentVolumeClaim: 
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "hermesnode.fullname" . }}{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "arbitrum_stack.fullname" . }}{{- end }}
           {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }} 
           hostPath: 
             path: {{ .Values.persistence.hostPath }} 
@@ -180,7 +267,7 @@ spec:
             defaultMode: 0777
         - name: configs
           configMap:
-            name: "{{ include "arbitrum_stack .fullname" . }}-configs"
+            name: "{{ include "arbitrum_stack.fullname" . }}-configs"
             defaultMode: 0666
       {{- with .Values.nodeSelector }} 
       nodeSelector: 
