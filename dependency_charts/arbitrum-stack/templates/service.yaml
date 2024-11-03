@@ -16,9 +16,18 @@ spec:
   externalTrafficPolicy: Local
   {{- end }}
   ports:
-    - name: api
-      port: {{ .Values.service.port.http }}
-      targetPort: api
+    - name: feed-port
+      targetPort: feed-port
+      port: {{ .Values.service.port.feed_output }}
       protocol: TCP
+    - name: ws
+      port: {{ .Values.service.port.ws }}
+      targetPort: ws
+      protocol: TCP
+    - name: http
+      port: {{ .Values.service.port.http }}
+      targetPort: http
+      protocol: TCP
+
   selector:
     {{- include "arbitrum_stack.selectorLabels" . | nindent 4 }}

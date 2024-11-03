@@ -171,24 +171,67 @@ spec:
       containers:
          - name: redis
            image: redis:6.2.6
+           command: ["redis-server", "--appendonly", "yes"]
            ports:
              - name: redis
                containerPort: {{ .Values.service.port.redis }}
                protocol: TCP
+           volumeMounts:
+             - name: scripts
+               mountPath: /scripts
+             - name: data
+               mountPath: /root
+         - name: set-redis-priorities
+           image: "node:18-bullseye-slim"
+           command: [ '/scripts/set_redis_prorities.sh' ]
+           env:
+             - name: L2_CHAIN_ID
+               value: {{ .Values.l2_chain_id | quote }}
+             - name: L2_OWNER
+               value: {{ .Values.l2_owner }}
+             - name: CHILD_CHAIN_NAME
+               value: {{ .Values.l2_chain_name }}
+             - name: WASM_MODULE_ROOT
+               value: {{ .Values.global.arbitrum.wasm_module_root }}
+             - name: SEQUENCER_ADDRESS
+               value: {{ .Values.sequencer_address }}
+             - name: OWNER_ADDRESS
+               value: {{ .Values.l2_owner }}
+             - name: PARENT_PASSPHRASE
+               value: {{ .Values.parent_passphrase }}
+             - name: SEQUENCER_PRIVKEY
+               valueFrom:
+                 secretKeyRef:
+                   name: {{ default .Values.sequencer_privkey_secret_name }}
+                   key: sequencer_priv_key
+             - name: DEPLOYER_PRIVKEY
+               valueFrom:
+                 secretKeyRef:
+                   name: {{ default .Values.deployer_privkey_secret_name }}
+                   key: deployer_priv_key
+             {{- range $key, $value := .Values.arbitrum_stack.environment }}
+             - name: {{ $key }}
+               value: {{ $value | quote }}
+             {{- end }}
+           volumeMounts:
+             - name: scripts
+               mountPath: /scripts
+             - name: data
+               mountPath: /root
          - name: {{ .Chart.Name }}-sequencer
            securityContext:
              {{- toYaml .Values.securityContext | nindent 12 }}
            image: "{{ include "arbitrum_stack.image" . }}"
            imagePullPolicy: {{ .Values.image.pullPolicy }}
            command:
+             - /usr/local/bin/nitro
+           args:
            - --conf.file=/root/l2_config/sequencer_config.json
+           - --chain.info-files="/root/l2_config/l2_chain_info.json"
            - --node.feed.output.enable
            - --node.feed.output.port=9642
            - --http.api=net,web3,eth,txpool,debug
            - --node.seq-coordinator.my-url=ws://localhost:8548
-           - --graphql.enable
-           - --graphql.vhosts *
-           - --graphql.corsdomain *
            - --ws.port=8548
            - --http.port=8547
            - --ws.addr=0.0.0.0
@@ -210,45 +253,6 @@ spec:
               protocol: TCP
            resources:
              {{- toYaml .Values.resources.sequencer | nindent 12 }}
-         - name: {{ .Chart.Name }}-validator
-           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-           image: "{{ include "arbitrum_stack.image" . }}"
-           imagePullPolicy: {{ .Values.image.pullPolicy }}
-           command: [ /user/local/bin/nitro-val ]
-           args: [ --conf.file=/root/l2_config/poster_config.json ]
-           volumeMounts:
-             - name: data
-               mountPath: /root/
-             - name: scripts
-               mountPath: /scripts
-           ports:
-             - name: val-port
-               containerPort: {{ .Values.service.port.val_port }}
-               protocol: TCP
-           resources:
-            {{- toYaml .Values.resources.validation_node | nindent 12 }}
-         - name: {{ .Chart.Name }}-poster
-           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-           image: "{{ include "arbitrum_stack.image" . }}"
-           imagePullPolicy: {{ .Values.image.pullPolicy }}
-           command: [ /user/local/bin/nitro ]
-           args: [ --conf.file=/root/l2_config/poster_config.json ]
-           volumeMounts:
-             - name: data
-               mountPath: /root/
-             - name: scripts
-               mountPath: /scripts
-           ports:
-             - name: ws
-               containerPort: {{ .Values.service.port.ws }}
-               protocol: TCP
-             - name: http
-               containerPort: {{ .Values.service.port.http }}
-               protocol: TCP
-           resources:
-            {{- toYaml .Values.resources.poster | nindent 12 }}
       volumes: 
         - name: data 
           {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }} 

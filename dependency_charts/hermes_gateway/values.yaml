@@ -4,6 +4,11 @@
 
 net: testnet
 
+
+arbitrum_stack: false
+hermes_stack: true
+
+
 validator: true
 midgard: false
 grpc: false
@@ -116,6 +121,10 @@ service:
     binance:
       testnet:
         rpc: 26660
+    arbitrum:
+      http: 8547
+      ws: 8548
+      feed: 9642
 
 serviceAccount:
   # Specifies whether a service account should be created

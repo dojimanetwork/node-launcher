@@ -673,10 +673,11 @@ deploy_arbitrum_rollup() {
     --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
     --set arbitrum-stack.parent_passphrase=passphrase \
     --set narada.enabled=false,narada-eddsa.enabled=false \
-    --set hermesnode.enabled=false,dojima-chain.enabled=false
+    --set hermesnode.enabled=false,dojima-chain.enabled=false \
+    --set hermes-gateway.arbitrum_stack=true,hermes-gateway.hermes_stack=false
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $EXTRA_ARGS \
@@ -689,10 +690,11 @@ deploy_arbitrum_rollup() {
     --set arbitrum-stack.parent_passphrase=passphrase \
     --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
     --set narada.enabled=false,narada-eddsa.enabled=false \
-    --set hermesnode.enabled=false,dojima-chain.enabled=false
+    --set hermesnode.enabled=false,dojima-chain.enabled=false \
+    --set hermes-gateway.arbitrum_stack=true,hermes-gateway.hermes_stack=false
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 

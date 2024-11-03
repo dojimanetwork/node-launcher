@@ -311,12 +311,26 @@ DC http Port
    {{ .Values.service.port.dc.testnet.http }}
 {{- end -}}
 
+{{/*
+DC http Port
+*/}}
+{{- define "gateway-arbitrum.http" -}}
+   {{ .Values.service.port.arbitrum.http }}
+{{- end -}}
+
 
 {{/*
 DC wss/rpc Port
 */}}
 {{- define "gateway-dojima-chain.rpc" -}}
     {{ .Values.service.port.dc.testnet.wss }}
+{{- end -}}
+
+{{/*
+DC wss/rpc Port
+*/}}
+{{- define "gateway-arbitrum.rpc" -}}
+    {{ .Values.service.port.arbitrum.ws }}
 {{- end -}}
 
 {{/*

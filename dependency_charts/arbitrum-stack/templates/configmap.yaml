@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "arbitrum_stack.fullname" . }}-scripts
 data:
-  generate_l1keystore.sh: |
+  init_testnode.sh: |
     #!/bin/bash
 
     # Update and install dependencies
@@ -13,16 +13,34 @@ data:
     # Set up working directory
     mkdir -p /workspace
     cd /workspace
-
+    mkdir /root/l2_config/l1keystore
     # Clone the repository
-    git clone --no-checkout git@github.com:dojimanetwork/nitro-testnode.git ./
-    cd scripts
+    git clone --no-checkout https://github.com/dojimanetwork/nitro-testnode.git ./
+
+    git checkout 3086f241adf803367c3a0d03f2019330c3f484c7
+
+    ls -lsart /workspace
+    cd /workspace/scripts
 
     # Install Yarn dependencies and build
     yarn install
-    mv /scripts/generate_l1keystore.js .
 
+  generate_l1keystore.sh: |
+    #!/bin/bash
+    /scripts/init_testnode.sh
+    cp /scripts/generate_l1keystore.js /workspace/scripts
+    cd /workspace/scripts
+    pwd
     node generate_l1keystore.js
+
+  set_redis_prorities.sh: |
+    #!/bin/bash
+    /scripts/init_testnode.sh
+    cp /scripts/write_redis_properties.js /workspace/scripts
+    cd /workspace/scripts
+    pwd
+    node write_redis_properties.js
+    exit 0
 
   write_l2_chain_config.sh: |
     #!/bin/bash
@@ -64,176 +82,227 @@ data:
     )
 
     echo "$l2ChainConfigJSON" | jq '.' > "$CONFIG_PATH/l2_chain_config.json"
-
+    ls -lsart $CONFIG_PATH
   sequencer_configs.sh: |
     #!/bin/bash
-    set -euo pipefail
-    apk add openssl
-    # Define file paths
-    CONFIG_PATH="/root/l2_config/" # Update with the correct path
+      set -euo pipefail
+      apk add openssl jq
 
-    openssl rand -hex 32 | tr -d "\n" > $CONFIG_PATH/val_jwt.hex
-    echo $REDIS_SIGNER_KEY
-    REDIS_KEY=$REDIS_SIGNER_KEY
-    # Define the JSON configuration as a single variable
-    baseConfig=$(cat <<EOF
-    {
-        "parent-chain": {
-          "connection": {
-            "url": {{ .Values.arbitrum_stack.environment.PARENT_CHAIN_RPC }}
-          }
-        },
-        "chain": {
-          "id": {{ .Values.l2_chain_id }},
-          "info-files": [
-            "$CONFIG_PATH/l2_chain_info.json"
-          ]
-        },
-        "node": {
-          "staker": {
-            "dangerous": {
-              "without-block-validator": false
-            },
-            "parent-chain-wallet": {
-              "account": {{ .Values.l2_owner | quote }},
-              "password": {{ .Values.parent_passphrase | quote }},
-              "pathname": "$CONFIG_PATH/l1keystore"
-            },
-            "disable-challenge": false,
-            "enable": false,
-            "staker-interval": "10s",
-            "make-assertion-interval": "10s",
-            "strategy": "MakeNodes"
-          },
-          "sequencer": true,
-          "dangerous": {
-            "no-sequencer-coordinator": false,
-            "disable-blob-reader": true
-          },
-          "delayed-sequencer": {
-            "enable": true
-          },
-          "seq-coordinator": {
-            "enable": true,
-            "redis-url": "redis://127.0.0.1:6379",
-            "lockout-duration": "30s",
-            "lockout-spare": "1s",
-            "my-url": "",
-            "retry-interval": "0.5s",
-            "seq-num-duration": "24h0m0s",
-            "update-interval": "3s"
-          },
-          "batch-poster": {
-            "enable": false,
-            "redis-url": "redis://127.0.0.1:6379",
-            "max-delay": "30s",
-            "l1-block-bound": "ignore",
-            "parent-chain-wallet": {
-              "account": {{ .Values.sequencer_address | quote}},
-              "password": {{ .Values.parent_passphrase | quote }},
-              "pathname": "$CONFIG_PATH/l1keystore"
-            },
-            "data-poster": {
-              "redis-signer": {
-                "signing-key": "$REDIS_KEY"
-              },
-              "wait-for-l1-finality": false
-            }
-          },
-          "block-validator": {
-            "validation-server": {
-              "url": "ws://127.0.0.1:8549",
-              "jwtsecret": "$CONFIG_PATH/val_jwt.hex"
-            }
-          }
-        },
-        "execution": {
-          "sequencer": {
-            "enable": true
-          },
-          "forwarding-target": "null"
-        },
-        "persistent": {
-          "chain": "local"
-        },
-        "ws": {
-          "addr": "0.0.0.0"
-        },
-        "http": {
-          "addr": "0.0.0.0",
-          "vhosts": "*",
-          "corsdomain": "*"
+      # Define file paths
+      CONFIG_PATH="/root/l2_config" # Update with the correct path
+      REDIS_KEY=$REDIS_SIGNER_KEY # Assuming this variable is set
+
+      # Generate a JWT secret file
+      openssl rand -hex 32 | tr -d "\n" > "$CONFIG_PATH/val_jwt.hex"
+
+      # Base configuration as JSON object
+      baseConfig=$(jq -n \
+      --arg url "{{ .Values.arbitrum_stack.environment.PARENT_CHAIN_RPC }}" \
+      --argjson chain_id "{{ .Values.l2_chain_id }}" \
+      --arg account "{{ .Values.l2_owner }}" \
+      --arg password "{{ .Values.parent_passphrase }}" \
+      --arg config_path "$CONFIG_PATH/l1keystore" \
+      --arg sequencer_account "{{ .Values.sequencer_address }}" \
+      --arg redis_signing_key "$REDIS_KEY" \
+      --arg jwt_secret "$CONFIG_PATH/val_jwt.hex" \
+      '{
+      "parent-chain": {
+        "connection": {
+          "url": $url
         }
+      },
+      "chain": {
+        "id": $chain_id,
+        "info-files": [
+          "\($config_path)/l2_chain_info.json"
+        ]
+      },
+      "node": {
+        "staker": {
+          "dangerous": {
+            "without-block-validator": false
+          },
+          "parent-chain-wallet": {
+            "account": $account,
+            "password": $password,
+            "pathname": $config_path
+          },
+          "disable-challenge": false,
+          "enable": false,
+          "staker-interval": "10s",
+          "make-assertion-interval": "10s",
+          "strategy": "MakeNodes"
+        },
+        "sequencer": true,
+        "dangerous": {
+          "no-sequencer-coordinator": false,
+          "disable-blob-reader": true
+        },
+        "delayed-sequencer": {
+          "enable": true
+        },
+        "seq-coordinator": {
+          "enable": true,
+          "redis-url": "redis://127.0.0.1:6379",
+          "lockout-duration": "30s",
+          "lockout-spare": "1s",
+          "my-url": "",
+          "retry-interval": "0.5s",
+          "seq-num-duration": "24h0m0s",
+          "update-interval": "3s"
+        },
+        "batch-poster": {
+          "enable": false,
+          "redis-url": "redis://127.0.0.1:6379",
+          "max-delay": "30s",
+          "l1-block-bound": "ignore",
+          "parent-chain-wallet": {
+            "account": $sequencer_account,
+            "password": $password,
+            "pathname": $config_path
+          },
+          "data-poster": {
+            "redis-signer": {
+              "signing-key": $redis_signing_key
+            },
+            "wait-for-l1-finality": false
+          }
+        },
+        "block-validator": {
+          "validation-server": {
+            "url": "ws://127.0.0.1:8549",
+            "jwtsecret": $jwt_secret
+          }
+        }
+      },
+      "execution": {
+        "sequencer": {
+          "enable": true
+        },
+        "forwarding-target": "null"
+      },
+      "persistent": {
+        "chain": "local"
+      },
+      "ws": {
+        "addr": "0.0.0.0"
+      },
+      "http": {
+        "addr": "0.0.0.0",
+        "vhosts": "*",
+        "corsdomain": "*"
       }
-      EOF
-    )
+    }')
 
-    # Write base configuration to file
-    echo "$baseConfig" | jq '.' > "$CONFIG_PATH/base_config.json"
+      # Write to the config files
+      echo "$baseConfig" | jq '.' > "$CONFIG_PATH/base_config.json"
 
-    # validator config
-    validatorConfig=$(echo "$baseConfig" | jq '
-    .node.staker.enable = true |
-    .node.staker["use-smart-contract-wallet"] = true
-    ')
+      # Derived configurations
+      validatorConfig=$(echo "$baseConfig" | jq '
+      .node.staker.enable = true |
+      .node.staker["use-smart-contract-wallet"] = true
+      ')
+      echo "$validatorConfig" > "$CONFIG_PATH/validator_config.json"
 
-    echo "$validatorConfig" | jq '.' > "$CONFIG_PATH/validator_config.json"
-
-    # unsafe staker config
     unsafeStakerConfig=$(echo "$validatorConfig" | jq '
-    .node.staker.dangerous["without-block-validator"] = true
-    ')
+      .node.staker.dangerous["without-block-validator"] = true
+      ')
+    echo "$unsafeStakerConfig" > "$CONFIG_PATH/unsafe_staker_config.json"
 
-    echo "$unsafeStakerConfig" | jq '.' > "$CONFIG_PATH/unsafe_staker_config.json"
-
-    # sequencer config
     sequencerConfig=$(echo "$baseConfig" | jq '
-    .node.sequencer = true |
-    .node["seq-coordinator"].enable = true |
-    .execution.sequencer.enable = true |
-    .node["delayed-sequencer"].enable = true
-    ')
-    echo "$sequencerConfig" | jq '.' > "$CONFIG_PATH/sequencer_config.json"
+      .node.sequencer = true |
+      .node["seq-coordinator"].enable = true |
+      .execution.sequencer.enable = true |
+      .node["delayed-sequencer"].enable = true
+      ')
+    echo "$sequencerConfig" > "$CONFIG_PATH/sequencer_config.json"
 
-    # poster config
     posterConfig=$(echo "$baseConfig" | jq '
-    .node["seq-coordinator"].enable = true |
-    .node["batch-poster"].enable = true
-    ')
-    echo "$posterConfig" | jq '.' > "$CONFIG_PATH/poster_config.json"
+      .node["seq-coordinator"].enable = true |
+      .node["batch-poster"].enable = true
+      ')
+    echo "$posterConfig" > "$CONFIG_PATH/poster_config.json"
+
+    ls -lsart $CONFIG_PATH
 
   deploy_rollup_contracts.sh: |
-    #!/bin/bash
+      #!/bin/bash
 
-    # Update and install dependencies
-      apt-get update && \
+      set -euo pipefail
+
+      # Install necessary dependencies
+       apt-get update && \
       apt-get install -y git docker.io python3 build-essential curl jq
 
-      # Set up working directory
-      mkdir -p /workspace
-      cd /workspace
+      # Define file paths
+      CONFIG_PATH="/root/l2_config"
+      DEVELOPMENT_JSON="$CONFIG_PATH/deployment.json"
 
-      # Clone the repository
+      # Ensure the CONFIG_PATH directory exists
+      mkdir -p "$CONFIG_PATH"
+
+      # Generate a JWT secret file
+      openssl rand -hex 32 | tr -d "\n" > "$CONFIG_PATH/val_jwt.hex"
+
+      # Check if deployment.json exists
+      if [ -f "$DEVELOPMENT_JSON" ]; then
+        echo "deployment.json exists. Checking for null values..."
+
+        # Check if any values in the JSON are null
+        null_values=$(jq 'to_entries | map(select(.value == null)) | .[] | .key' "$DEVELOPMENT_JSON" || true)
+
+        if [ -z "$null_values" ]; then
+          echo "Contracts are already deployed, so skipping the setup."
+          cat "$DEVELOPMENT_JSON"
+          exit 0 # Exit with success
+        else
+          echo "Some values in deployment.json are null. Proceeding with deployment."
+          echo "Keys with null values:"
+          echo "$null_values"
+        fi
+      else
+        echo "deployment.json does not exist. Proceeding with deployment."
+      fi
+
+      # Set up working directory
+      WORKSPACE_DIR="/workspace"
+      mkdir -p "$WORKSPACE_DIR"
+      cd "$WORKSPACE_DIR"
+
+      # Clone the repository without checking out any files
       git clone --no-checkout https://github.com/dojimanetwork/nitro-contracts.git ./
 
-      # Checkout specified branch
+      # Checkout the specified branch
+      if [ -z "${NITRO_CONTRACTS_BRANCH:-}" ]; then
+        echo "Error: NITRO_CONTRACTS_BRANCH environment variable is not set."
+        exit 1
+      fi
+
       git checkout "$NITRO_CONTRACTS_BRANCH"
 
       # Install Foundry
       curl -L https://foundry.paradigm.xyz | bash
+
+      # Add Foundry to PATH
       export PATH="${PATH}:/root/.foundry/bin"
 
       # Update Foundry tools
       foundryup
 
-      # Create a config file
+      # Ensure scripts directory exists and create config.ts
+      mkdir -p scripts
       touch scripts/config.ts
 
       # Install Yarn dependencies and build
       yarn install
       yarn build:all
 
+      # Run the create-rollup-testnode script
       yarn run create-rollup-testnode
+
+      # List files for verification
+      ls -lsart
+
 
   external-ip.sh: |
     #!/bin/bash
@@ -283,17 +352,64 @@ data:
 
 
   generate_l1keystore.js: |
-     import { ethers } from "ethers";
-     import * as fs from "fs";
-     const path = require("path");
-     const config_path = "/root/l2_config/l1keystore"
+    const { ethers } = require("ethers");
+    const fs = require("fs");
+    const path = require("path");
 
-     const accounts = [ $DEPLOYER_PRIVKEY, $SEQUENCER_PRIVKEY ]
-     for (let i = 0; i < 2; i++) {
-         const wallet = new ethers.Wallet(accounts[i])
-         let walletJSON = await wallet.encrypt({{ .Values.parent_passphrase }});
-         fs.writeFileSync(
-             path.join(config_path, wallet.address + ".key"),
-             walletJSON
-         );
-     }
+    const configPath = "/root/l2_config/l1keystore";
+
+    async function create() {
+      try {
+      // Ensure the directory exists
+        if (!fs.existsSync(configPath)) {
+            fs.mkdirSync(configPath, { recursive: true, mode: 0o755 });
+            console.log(`Directory created: ${configPath} with permissions 755`);
+        }
+
+        const accounts = [process.env.DEPLOYER_PRIVKEY, process.env.SEQUENCER_PRIVKEY];
+        const passphrase = process.env.PARENT_PASSPHRASE;
+
+        for (let i = 0; i < accounts.length; i++) {
+            const wallet = new ethers.Wallet(accounts[i]);
+            const walletJSON = await wallet.encrypt(passphrase);
+            try{
+              fs.writeFileSync(
+                path.join(configPath, `${wallet.address}.key`),
+                walletJSON
+              );
+            }catch (error) {
+                console.error("Error creating file:", error);
+            }
+            console.log(`Wallet for ${wallet.address} saved.`);
+          }
+        } catch (error) {
+            console.error("Error creating wallets:", error);
+        }
+    }
+
+    create();
+  write_redis_properties.js: |
+    const {
+      createClient,
+    } = require("@node-redis/client")
+
+    async function getAndPrint(
+      redis,
+      key
+      ) {
+      const val = await redis.get(key);
+      console.log("redis[%s]:%s", key, val);
+    }
+
+    async function writeRedisPriorities(redisUrl = "redis://localhost:6379") {
+      const redis = createClient({ url: redisUrl });
+      let priostring = "ws://localhost:8548";
+      await redis.connect();
+
+      await redis.set("coordinator.priorities", priostring);
+
+      await getAndPrint(redis, "coordinator.priorities");
+    }
+
+    writeRedisPriorities("redis://localhost:6379")
+

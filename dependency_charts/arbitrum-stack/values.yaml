@@ -33,6 +33,8 @@ arbitrum_stack:
     CHILD_CHAIN_CONFIG_PATH: /root/l2_config/l2_chain_config.json
     AUTHORIZE_VALIDATORS: 1
     NITRO_CONTRACTS_BRANCH: 586acde4c151fa01dae0a44ba03685fe68d8ae2a
+    CHAIN_DEPLOYMENT_INFO: /root/l2_config/deployment.json
+    CHILD_CHAIN_INFO: /root/l2_config/l2_chain_info.json
 
 service:
   type: "ClusterIP"
