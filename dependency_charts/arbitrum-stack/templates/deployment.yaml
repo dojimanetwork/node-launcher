@@ -262,8 +262,8 @@ spec:
              - /usr/local/bin/nitro
            args:
              - --conf.file=/root/l2_config/poster_config.json
-             - --http.port=9547
-             - --ws.port=9548
+             - --http.port={{ .Values.service.port.poster_http }}
+             - --ws.port={{ .Values.service.port.poster_ws }}
            volumeMounts:
              - name: data
                mountPath: /root/
@@ -278,6 +278,27 @@ spec:
                protocol: TCP
            resources:
              {{- toYaml .Values.resources.poster | nindent 12 }}
+         - name: {{ .Chart.Name }}-validation-node
+           securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "arbitrum_stack.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - /usr/local/bin/nitro-val
+           args:
+             - --conf.file=/root/l2_config/validation_node_config.json
+             - --auth.port={{ .Values.service.port.validation_auth }}
+           volumeMounts:
+             - name: data
+               mountPath: /root/
+             - name: scripts
+               mountPath: /scripts
+           ports:
+             - name: auth
+               containerPort: {{ .Values.service.port.validation_auth }}
+               protocol: TCP
+           resources:
+            {{- toYaml .Values.resources.poster | nindent 12 }}
       volumes: 
         - name: data 
           {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }} 

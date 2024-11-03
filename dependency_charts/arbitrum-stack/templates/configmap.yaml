@@ -223,6 +223,29 @@ data:
       ')
     echo "$posterConfig" > "$CONFIG_PATH/poster_config.json"
 
+    validationNodeConfig=$(jq -n \
+    --arg jwtsecret "$CONFIG_PATH/val_jwt.hex" \
+    '{
+        "persistent": {
+            "chain": "local"
+        },
+        "ws": {
+            "addr": ""
+        },
+        "http": {
+            "addr": ""
+        },
+        "validation": {
+            "api-auth": true,
+            "api-public": false
+        },
+        "auth": {
+            "jwtsecret": $jwtsecret,
+            "addr": "0.0.0.0"
+        }
+    }')
+
+    echo "$validationNodeConfig" > "$CONFIG_PATH/validation_node_config.json"
     ls -lsart $CONFIG_PATH
 
   deploy_rollup_contracts.sh: |
