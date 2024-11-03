@@ -47,6 +47,8 @@ service:
     poster_http: 9547
     poster_ws: 9548
     validation_auth: 9549
+    validator_http: 7547
+    validator_ws: 7548
 
 persistence:
   enabled: true
@@ -69,6 +71,13 @@ podSecurityContext: {}
 securityContext: {}
 
 resources:
+    redis:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
     sequencer:
       requests:
         cpu: 1
@@ -90,6 +99,13 @@ resources:
       limits:
         cpu: 200m
         memory: 200Mi
+    validator:
+      requests:
+        cpu: 100m
+        memory: 500Mi
+      limits:
+        cpu: 200m
+        memory: 1Gi
 
 
 nodeSelector: {}

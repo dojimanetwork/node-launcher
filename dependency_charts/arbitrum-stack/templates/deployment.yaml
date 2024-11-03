@@ -172,6 +172,8 @@ spec:
          - name: redis
            image: redis:6.2.6
            command: ["redis-server", "--appendonly", "yes"]
+           resources:
+           {{- toYaml .Values.resources.redis | nindent 12 }}
            ports:
              - name: redis
                containerPort: {{ .Values.service.port.redis }}
@@ -236,6 +238,7 @@ spec:
            - --http.port=8547
            - --ws.addr=0.0.0.0
            - --ws.origins=*
+           - --auth.port={{ .Values.service.port.validation_auth }}
            volumeMounts:
            - name: data
              mountPath: /root/
@@ -250,6 +253,9 @@ spec:
               protocol: TCP
             - name: http
               containerPort: {{ .Values.service.port.http }}
+              protocol: TCP
+            - name: val-port
+              containerPort: {{ .Values.service.port.validation_auth }}
               protocol: TCP
            resources:
              {{- toYaml .Values.resources.sequencer | nindent 12 }}
@@ -287,7 +293,7 @@ spec:
              - /usr/local/bin/nitro-val
            args:
              - --conf.file=/root/l2_config/validation_node_config.json
-             - --auth.port={{ .Values.service.port.validation_auth }}
+             - --auth.port={{ .Values.service.port.val_port }}
            volumeMounts:
              - name: data
                mountPath: /root/
@@ -295,10 +301,36 @@ spec:
                mountPath: /scripts
            ports:
              - name: auth
-               containerPort: {{ .Values.service.port.validation_auth }}
+               containerPort: {{ .Values.service.port.val_port }}
                protocol: TCP
            resources:
             {{- toYaml .Values.resources.poster | nindent 12 }}
+         - name: {{ .Chart.Name }}-validator
+           securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "arbitrum_stack.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - /usr/local/bin/nitro
+           args:
+             - --conf.file=/root/l2_config/validator_config.json
+             - --http.port={{ .Values.service.port.validator_http }}
+             - --ws.port={{ .Values.service.port.validator_ws }}
+             - --http.api=net,web3,arb,debug
+           volumeMounts:
+             - name: data
+               mountPath: /root/
+             - name: scripts
+               mountPath: /scripts
+           ports:
+             - name: ws
+               containerPort: {{ .Values.service.port.validator_ws }}
+               protocol: TCP
+             - name: http
+               containerPort: {{ .Values.service.port.validator_http }}
+               protocol: TCP
+           resources:
+            {{- toYaml .Values.resources.validator | nindent 12 }}
       volumes: 
         - name: data 
           {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }} 
