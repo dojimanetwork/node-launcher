@@ -44,6 +44,8 @@ service:
     redis: 6349
     http: 8547
     val_port: 8549
+    poster_http: 9547
+    poster_ws: 9548
 
 persistence:
   enabled: true

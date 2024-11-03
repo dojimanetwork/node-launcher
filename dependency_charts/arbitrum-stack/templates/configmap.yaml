@@ -91,7 +91,7 @@ data:
       # Define file paths
       CONFIG_PATH="/root/l2_config" # Update with the correct path
       REDIS_KEY=$REDIS_SIGNER_KEY # Assuming this variable is set
-
+      echo "redis"
       # Generate a JWT secret file
       openssl rand -hex 32 | tr -d "\n" > "$CONFIG_PATH/val_jwt.hex"
 
@@ -101,7 +101,7 @@ data:
       --argjson chain_id "{{ .Values.l2_chain_id }}" \
       --arg account "{{ .Values.l2_owner }}" \
       --arg password "{{ .Values.parent_passphrase }}" \
-      --arg config_path "$CONFIG_PATH/l1keystore" \
+      --arg config_path "$CONFIG_PATH" \
       --arg sequencer_account "{{ .Values.sequencer_address }}" \
       --arg redis_signing_key "$REDIS_KEY" \
       --arg jwt_secret "$CONFIG_PATH/val_jwt.hex" \
@@ -125,7 +125,7 @@ data:
           "parent-chain-wallet": {
             "account": $account,
             "password": $password,
-            "pathname": $config_path
+            "pathname": "\($config_path)/l1keystore"
           },
           "disable-challenge": false,
           "enable": false,
@@ -159,7 +159,7 @@ data:
           "parent-chain-wallet": {
             "account": $sequencer_account,
             "password": $password,
-            "pathname": $config_path
+            "pathname": "\($config_path)/l1keystore"
           },
           "data-poster": {
             "redis-signer": {

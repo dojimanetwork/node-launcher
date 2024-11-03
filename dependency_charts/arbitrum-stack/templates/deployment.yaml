@@ -253,6 +253,31 @@ spec:
               protocol: TCP
            resources:
              {{- toYaml .Values.resources.sequencer | nindent 12 }}
+         - name: {{ .Chart.Name }}-poster
+           securityContext:
+             {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "arbitrum_stack.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - /usr/local/bin/nitro
+           args:
+             - --conf.file=/root/l2_config/poster_config.json
+             - --http.port=9547
+             - --ws.port=9548
+           volumeMounts:
+             - name: data
+               mountPath: /root/
+             - name: scripts
+               mountPath: /scripts
+           ports:
+             - name: ws
+               containerPort: {{ .Values.service.port.poster_ws }}
+               protocol: TCP
+             - name: http
+               containerPort: {{ .Values.service.port.poster_http }}
+               protocol: TCP
+           resources:
+             {{- toYaml .Values.resources.poster | nindent 12 }}
       volumes: 
         - name: data 
           {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }} 

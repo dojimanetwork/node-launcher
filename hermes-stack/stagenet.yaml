@@ -16,7 +16,7 @@ global:
   arbitrum:
     image: offchainlabs/nitro-node
     tag: v3.2.1-d81324d
-    wasm_module_root: 0x72840597da3368592963481cf305d9a7571b97844338f703a2db15c856c96811
+    wasm_module_root: 0xb0de9cb89e4d944ae6023a3b62276e54804c242fd8c4c2d8e6cc4450f5fa8b1b
   gateway:
     enabled: false
     name: hermes-gateway

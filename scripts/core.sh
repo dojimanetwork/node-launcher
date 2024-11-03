@@ -199,13 +199,13 @@ store_l2_sequencer_priv_key() {
 
 store_redis_signing_key() {
     local signing_key
-    # Do nothing if private_key already exists.
+    # Do nothing if signer private key already exists.
     if ! kubectl get -n "$NAME" secrets/"$REDIS_SIGNER_KEY_NAME" >/dev/null 2>&1; then
       if [ "$REDIS_SIGNER_KEY" == "" ]; then
         get_redis_signing_key
       fi
-      priv_key=$REDIS_SIGNER_KEY
-      [ "$priv_key" = "" ] && die "L2 private key is empty. Please try again."
+      signing_key=$REDIS_SIGNER_KEY
+      [ "$signing_key" = "" ] && die "L2 redis signing key is empty. Please try again."
         kubectl -n "$NAME" create secret generic "$REDIS_SIGNER_KEY_NAME" --from-literal=redis_signing_key="$signing_key"
       return
     fi
