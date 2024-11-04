@@ -45,6 +45,7 @@ spec:
             - name: https
               containerPort: 8443
               protocol: TCP
+            {{- if .Values.hermes_stack }}
             - name: narada-api
               containerPort: {{ .Values.service.port.narada.api }}
               protocol: TCP
@@ -120,6 +121,15 @@ spec:
             - name: dc-p2p-udp
               containerPort: {{ include "gateway-dojima-chain.p2p" .}}
               protocol: UDP
+            {{- end }}
+            {{- if .Values.arbitrum_stack }}
+            - name: arb-http
+              containerPort: {{ include "gateway-arbitrum.http" . }}
+              protocol: TCP
+            - name: arb-ws
+              containerPort: {{ include "gateway-arbitrum.rpc" . }}
+              protocol: TCP
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /healthz

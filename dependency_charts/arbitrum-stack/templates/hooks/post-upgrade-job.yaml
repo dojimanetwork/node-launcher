@@ -1,0 +1,78 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "arbitrum_stack.fullname" . }}-post-upgrade"
+  labels:
+    {{- include "arbitrum_stack.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ include "arbitrum_stack.fullname" . }}-post-upgrade"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: set-redis-priorities-post-install
+          image: "node:18-bullseye-slim"
+          command: [ '/scripts/set_redis_prorities.sh' ]
+          env:
+            - name: L2_CHAIN_ID
+              value: {{ .Values.l2_chain_id | quote }}
+            - name: L2_OWNER
+              value: {{ .Values.l2_owner }}
+            - name: CHILD_CHAIN_NAME
+              value: {{ .Values.l2_chain_name }}
+            - name: WASM_MODULE_ROOT
+              value: {{ .Values.global.arbitrum.wasm_module_root }}
+            - name: SEQUENCER_ADDRESS
+              value: {{ .Values.sequencer_address }}
+            - name: OWNER_ADDRESS
+              value: {{ .Values.l2_owner }}
+            - name: PARENT_PASSPHRASE
+              value: {{ .Values.parent_passphrase }}
+            - name: SEQUENCER_PRIVKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.sequencer_privkey_secret_name }}
+                  key: sequencer_priv_key
+            - name: DEPLOYER_PRIVKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.deployer_privkey_secret_name }}
+                  key: deployer_priv_key
+                  {{- range $key, $value := .Values.arbitrum_stack.environment }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+                  {{- end }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+      volumes:
+        - name: scripts
+          configMap:
+            name: "{{ include "arbitrum_stack.fullname" . }}-scripts"
+            defaultMode: 0777
+        - name: configs
+          configMap:
+            name: "{{ include "arbitrum_stack.fullname" . }}-configs"
+            defaultMode: 0666
+        {{- with .Values.nodeSelector }}
+      nodeSelector:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.affinity }}
+      affinity:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.tolerations }}
+      tolerations:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+

@@ -33,6 +33,7 @@ spec:
       targetPort: https
       protocol: TCP
       name: https
+    {{- if .Values.hermes_stack }}
     {{- if .Values.validator }}
     - port: {{ .Values.service.port.narada.api }}
       targetPort: narada-api
@@ -152,6 +153,17 @@ spec:
       targetPort: hermes-grpc
       protocol: TCP
       name: hermes-grpc
+    {{- end }}
+    {{- end }}
+    {{- if .Values.arbitrum_stack }}
+    - name: arb-http
+      port: {{ include "gateway-arbitrum.http" . }}
+      protocol: TCP
+      targetPort: arb-http
+    - name: arb-ws
+      port: {{ include "gateway-arbitrum.rpc" . }}
+      protocol: TCP
+      targetPort: arb-ws
     {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

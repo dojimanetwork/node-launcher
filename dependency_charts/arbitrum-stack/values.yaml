@@ -95,10 +95,10 @@ resources:
     poster:
       requests:
         cpu: 100m
-        memory: 100Mi
+        memory: 512Mi
       limits:
         cpu: 200m
-        memory: 200Mi
+        memory: 512Mi
     validator:
       requests:
         cpu: 100m
