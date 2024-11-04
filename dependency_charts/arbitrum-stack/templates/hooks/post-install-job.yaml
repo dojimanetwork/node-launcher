@@ -20,7 +20,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: set-redis-priorities-post-install
-          image: "node:18-bullseye-slim"
+          image: "bitnami/kubectl:latest"
           command: [ '/scripts/set_redis_prorities.sh' ]
           env:
             - name: L2_CHAIN_ID
