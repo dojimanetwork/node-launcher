@@ -1,0 +1,10 @@
+# Redis image configuration
+image:
+  repository: redis
+  tag: "6.2"
+  pullPolicy: IfNotPresent
+
+# Post-install/upgrade job configuration
+hook:
+  sleepyTime: 10
+
