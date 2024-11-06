@@ -668,7 +668,7 @@ deploy_arbitrum_rollup() {
     --set arbitrum-stack.l2_owner=$L2_OWNER \
     --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
     --set arbitrum-stack.sequencer_privkey_secret_name=$SEQUENCER_PRIVKEY_NAME \
-    --set arbitrum-stack.l2_chain_name=$L2_CHAIN_NAME \
+    --set arbitrum-stack.l2_chain_name="$L2_CHAIN_NAME" \
     --set arbitrum-stack.sequencer_address=$SEQUENCER_ADDRESS \
     --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
     --set arbitrum-stack.parent_passphrase=passphrase \
@@ -685,7 +685,7 @@ deploy_arbitrum_rollup() {
     --set arbitrum-stack.l2_owner=$L2_OWNER \
     --set arbitrum-stack.deployer_privkey_secret_name=$DEPLOYER_PRIVKEY_NAME \
     --set arbitrum-stack.sequencer_privkey_secret_name=$SEQUENCER_PRIVKEY_NAME \
-    --set arbitrum-stack.l2_chain_name=$L2_CHAIN_NAME \
+    --set arbitrum-stack.l2_chain_name="$L2_CHAIN_NAME" \
     --set arbitrum-stack.sequencer_address=$SEQUENCER_ADDRESS \
     --set arbitrum-stack.parent_passphrase=passphrase \
     --set arbitrum-stack.redis_signer_key_name=$REDIS_SIGNER_KEY_NAME \
