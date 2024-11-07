@@ -213,7 +213,14 @@ data:
       .node.sequencer = true |
       .node["seq-coordinator"].enable = true |
       .execution.sequencer.enable = true |
-      .node["delayed-sequencer"].enable = true
+      .node["delayed-sequencer"].enable = true |
+      .node.staker.dangerous["without-block-validator"] = true |
+      .node.staker.enable = true |
+      .node.staker["use-smart-contract-wallet"] = true |
+      .node["batch-poster"].enable = true |
+      .node.dangerous["no-sequencer-coordinator"] = true |
+      .node["seq-coordinator"].enable = false |
+      .node["batch-poster"].enable = true
       ')
     echo "$sequencerConfig" > "$CONFIG_PATH/sequencer_config.json"
 
