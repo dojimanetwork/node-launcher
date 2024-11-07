@@ -35,7 +35,6 @@ data:
 
   set_redis_prorities.sh: |
     #!/bin/bash
-    kubectl wait --for=condition=ready pod -l app=arbitrum-stack --timeout=300s;
     /scripts/init_testnode.sh
     cp /scripts/write_redis_properties.js /workspace/scripts
     cd /workspace/scripts
