@@ -31,3 +31,13 @@ dependencies:
     repository: file://../dependency_charts/dojima-chain
     version: 0.1.0
     condition: dojima-chain.enabled
+
+  - name: operator-gateway
+    repository: file://../dependency_charts/operator-gateway
+    version: 0.1.0
+    condition: operator-gateway.enabled
+
+  - name: crawler
+    repository: file://../dependency_charts/crawler
+    version: 0.1.0
+    condition: crawler.enabled

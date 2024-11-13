@@ -2,20 +2,28 @@ global:
   net: testnet
   hermes:
     image: testnet1.azurecr.io/hermes
-    tag: 29e156ad_5.4.37
+    tag: 9099bc74_1.0.0
     chainId: h4s-184-d11k
     type: fullnode
     global_enable:
       hermes: true
       narada: true
       narada_eddsa: true
+  crawler:
+    image: testnet1.azurecr.io/crawler
+    tag: bd207f3_..1
+    global_enable: true
+  operator_gateway:
+    image: testnet1.azurecr.io/operator-gateway
+    tag: b77c0e9_1.0.0
+    global_enable: true
   dojimachain:
     image: testnet1.azurecr.io/dojimachain
     tag: bcb959b01_2.0.1
     chainId: 184
   gateway:
     enabled: false
-    name: hermesnode-gateway
+    name: hermes-gateway
   images:
     alpine:
       tag: latest
@@ -71,3 +79,9 @@ solana-daemon:
 
 hello-word:
   enabled: false
+
+operator-gateway:
+  enabled: true
+
+crawler:
+  enabled: true

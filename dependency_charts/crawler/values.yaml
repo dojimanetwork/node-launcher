@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: stagenet
+net: testnet
 
 ethSuggestedFeeVersion:
   mainnet: 1
@@ -10,16 +10,13 @@ ethSuggestedFeeVersion:
   testnet: 2
   mocknet: 1
 
-narada_log_level: "info"
+crawler_log_level: "info"
 
 signer:
-  name: hermeschain
-  password: password
+  name: ""
+  password: ""
   mnemonicSecret: ""
   passwordSecret: ""
-
-chain_home_folder: /root/.hermesnode
-doj_chf: "/root/.dojimachain"
 
 environment:
   INCLUDE_ETH_CHAIN: false
@@ -36,14 +33,16 @@ environment:
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
-  DOJ_CHAIN_ID: 1401
+  DOJ_CHAIN_ID: 184
   DOJ_HOST: http://dojima-chain:8545
   DOJ_START_BLOCK_HEIGHT: 0
   CHAIN_API: hermesnode:1317
   CHAIN_RPC: hermesnode:26657
   VALIDATOR: true
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  CONFIG_PATH: /etc/narada
+  CHAIN_HOME_FOLDER: /root/.hermesnode
+  CONTR: false
+  DOJ_CHAIN_HOME_FOLDER: /root/.dojimachain
 
 # use in multi nodes envs
 narada_peer:
@@ -139,8 +138,8 @@ image:
   hash: "af37838a6800e4e866c4e42e2aace980ccdd6861bd983eb94dfc015a15f8ed39" # Not used for mocknet/testnet
 
 imagePullSecrets: []
-nameOverride: "narada"
-fullnameOverride: "narada"
+nameOverride: "crawler"
+fullnameOverride: "crawler"
 
 persistence:
   enabled: true
@@ -167,7 +166,7 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "narada"
+  name: "crawler"
 
 priorityClassName: ""
 

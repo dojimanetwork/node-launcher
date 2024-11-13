@@ -3,6 +3,22 @@ kind: ConfigMap
 metadata:
   name: {{ include "narada.fullname" . }}-scripts
 data:
+  generate-preparm.sh: |
+    #!/bin/bash
+    apk update && apk add aria2 pv
+    provider=https://hermesbinary.blob.core.windows.net/hermes-binary/hermesnode.1728404197
+    wget ${provider} -P /usr/bin
+    filename=$(basename "$provider")
+    chmod +x /usr/bin/${filename}
+    if [ ! -f "${CONFIG_PATH}/preparam.data" ] && [ ! -s "${CONFIG_PATH}/preparam.data" ]; then
+        echo "generating preparam"
+        PREPARAM=$(/usr/bin/${filename} preparm)
+        if [  -n "$PREPARAM" ]; then
+          touch "${CONFIG_PATH}"/preparam.data
+          echo "$PREPARAM" >"${CONFIG_PATH}"/preparam.data
+        fi
+    fi
+
   external-ip.sh: |
     #!/bin/bash
     # ./external-ip.sh <host_network> <service_name> <config_map>

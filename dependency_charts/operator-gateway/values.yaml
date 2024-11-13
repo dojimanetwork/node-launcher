@@ -1,56 +1,18 @@
-# Default values for narada-eddsa.
+# Default values for narada.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-net: stagenet
+net: testnet
 
-ethSuggestedFeeVersion:
-  mainnet: 1
-  stagenet: 2
-  testnet: 2
-  mocknet: 1
-
-narada_log_level: "info"
+crawler_log_level: "info"
 
 signer:
-  name: hermeschain
+  name: ""
   password: ""
   mnemonicSecret: ""
   passwordSecret: ""
 
-chain_home_folder: /root/.hermesnode
-
 environment:
-  TSS_P2P_PORT: 5042
-  P2P_ID_PORT: 6042
-  EDDSA_HTTP_PORT: 6050
-
-
-# use in multi nodes envs
-eddsa_peer:
-
-external_ip:
-
-debug: true
-
-dojima_chain:
-  rpc_url: http://dojima-chain:8545
-  grpc_url: hermesnode:9090
-  chain_id: 1401
-
-hermesApi: hermesnode:1317
-chainID:
-  testnet: hermeschain-stagenet
-#  mainnet: thorchain-mainnet-v1
-#  stagenet: thorchain-stagenet-v2
-#  mocknet: hermes_mocknet
-
-hermesDaemon:
-#  mainnet: hermesnode:27147
-  testnet: hermesnode:26657
-#  stagenet: hermesnode:27147
-#  mocknet: hermesnode:26657
-
 
 replicaCount: 1
 
@@ -63,15 +25,15 @@ image:
   hash: "af37838a6800e4e866c4e42e2aace980ccdd6861bd983eb94dfc015a15f8ed39" # Not used for mocknet/testnet
 
 imagePullSecrets: []
-nameOverride: "narada-eddsa"
-fullnameOverride: "narada-eddsa"
+nameOverride: "operator-gateway"
+fullnameOverride: "operator-gateway"
 
 persistence:
-  enabled: true
+  enabled: false
   size:
     testnet: 10Gi
 #    mainnet: 50Gi
-    stagenet: 1Gi
+    stagenet: 10Gi
 #    mocknet: 10Gi
   accessMode: ReadWriteOnce
   # existingClaim: your-pvc
@@ -81,17 +43,14 @@ persistence:
 service:
   type: ClusterIP
   port:
-    tss_p2p: 5042
-    p2p_id: 6042
-    eddsa_http: 6050
-    prometheus: 9000
+    http: 8081
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "narada-eddsa"
+  name: "operator-gateway"
 
 priorityClassName: ""
 
@@ -112,18 +71,11 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 100m # 30m should be set but preparm generation requires min of 100m in < 5 mins
-    memory: 100Mi
-  limits:
     cpu: 100m
-    memory: 200Mi
-
-# ~1 min to generate preparm with below resources
-init_resources:
-  requests:
-    cpu: 2000m
+    memory: 0.5Gi
   limits:
-    cpu: 2000m
+    cpu: 200m
+    memory: 1Gi
 
 nodeSelector: {}
 
@@ -141,6 +93,3 @@ global:
     busybox:
       tag: latest
       hash: caa382c432891547782ce7140fb3b7304613d3b0438834dce1cad68896ab110a
-
-
-preparam: ""

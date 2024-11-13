@@ -36,13 +36,13 @@ spec:
       - name: init-external-ip
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
+        command: ['/config-scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada.fullname" . }}-external-ip']
         {{- else }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ include "narada.fullname" . }}', '{{ include "narada.fullname" . }}-external-ip']
+        command: ['/config-scripts/external-ip.sh', 'false', '{{ include "narada.fullname" . }}', '{{ include "narada.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
         - name: scripts
-          mountPath: /scripts
+          mountPath: /config-scripts
       - name: init-keepalive
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command:
@@ -57,6 +57,22 @@ spec:
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
+      - name: generate-preparm
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [/scripts/generate-preparm.sh]
+        volumeMounts:
+          - mountPath: /etc/narada
+            name: data
+            subPath: etc
+          - name: data
+            mountPath: /root
+          - name: scripts
+            mountPath: /scripts
+        env:
+          - name: CONFIG_PATH
+            value: /etc/narada
+        resources:
+          {{- toYaml .Values.init_resources | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

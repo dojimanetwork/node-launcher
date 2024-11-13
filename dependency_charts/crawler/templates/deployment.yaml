@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "narada-eddsa.fullname" . }}
+  name: {{ include "crawler.fullname" . }}
   labels:
-    {{- include "narada-eddsa.labels" . | nindent 4 }}
+    {{- include "crawler.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: {{ .Values.strategyType }}
   selector:
     matchLabels:
-      {{- include "narada-eddsa.selectorLabels" . | nindent 6 }}
+      {{- include "crawler.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "narada-eddsa.selectorLabels" . | nindent 8 }}
+        {{- include "crawler.selectorLabels" . | nindent 8 }}
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/path: '/metrics'
@@ -24,7 +24,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "narada-eddsa.serviceAccountName" . }}
+      serviceAccountName: {{ include "crawler.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
@@ -36,9 +36,9 @@ spec:
       - name: init-external-ip
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
+        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "crawler.fullname" . }}-external-ip']
         {{- else }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ include "narada-eddsa.fullname" . }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
+        command: ['/scripts/external-ip.sh', 'false', '{{ include "crawler.fullname" . }}', '{{ include "crawler.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
         - name: scripts
@@ -54,59 +54,95 @@ spec:
           sysctl -w net.ipv4.tcp_keepalive_probes=3
         securityContext:
           privileged: true
+      - name: generate-keystore
+        image: {{ include "crawler.hermesnode-image" . }}
+        command: [ 'sh', '-c', '/scripts/genesis.sh' ]
+        env:
+          - name: SIGNER_NAME
+            value: {{ .Values.signer.name }}
+          - name: SIGNER_PASSWD
+             {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                key: password
+             {{- else}}
+            value: {{ .Values.signer.password }}
+             {{- end }}
+          {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+          - name: SIGNER_SEED_PHRASE
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
+                key: mnemonic
+          {{- end }}
+          - name: CHAIN_ID
+            value: "{{ include "crawler.chainID" . }}"
+          {{- range $key, $value := .Values.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
-      - name: generate-preparm
-        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-        command: [/scripts/generate-preparm.sh]
-        volumeMounts:
-          - mountPath: /etc/narada
-            name: data
-            subPath: etc
-          - name: data
-            mountPath: /root
-          - name: scripts
-            mountPath: /scripts
-        env:
-          - name: CONFIG_PATH
-            value: /etc/narada
-        resources:
-          {{- toYaml .Values.init_resources | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "narada-eddsa.image" . }}
+          image: {{ include "crawler.image" . }}
+          command:
+            - ls -lasrt /root/.hermesnode
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/scripts/narada.sh"]
-          args: ["tss-eddsa", "-c", "/etc/narada/config.json", "-l",  {{ default "info" .Values.narada_log_level }} ]
           volumeMounts:
-            - mountPath: /var/data/narada-eddsa
+            - mountPath: /var/data/crawler
               name: data
               subPath: data
             - mountPath: /root/.hermesnode
               name: data
               subPath: hermesnode
-            - mountPath: /etc/narada
+            - mountPath: /etc/crawler
               name: data
               subPath: etc
           env:
             - name: EXTERNAL_IP
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "narada-eddsa.fullname" . }}-external-ip
+                  name: {{ include "crawler.fullname" . }}-external-ip
                   key: externalIP
-            - name: VALIDATOR
-              value: "true"
             - name: NET
-              value: {{ include "narada-eddsa.net" . }}
-            - name: CHAIN_API
-              value: {{ .Values.hermesApi }}
-            - name: CHAIN_RPC
-              value: {{ include "narada-eddsa.hermesnodeDaemon" . }}
-            - name: CHAIN_HOME_FOLDER
-              value: {{ .Values.chain_home_folder }}
+              value: {{ include "crawler.net" . }}
+            - name: BINANCE_HOST
+              value: {{ include "crawler.binanceDaemon" . }}
+            - name: BINANCE_START_BLOCK_HEIGHT
+              value: "{{ .Values.binanceDaemon.binanceStartBlockHeight }}"
+            - name: BTC_HOST
+              value: {{ include "crawler.bitcoinDaemon" . }}
+            - name: BTC_START_BLOCK_HEIGHT
+              value: "{{ .Values.bitcoinDaemon.bitcoinStartBlockHeight }}"
+            - name: AR_HOST
+              value: {{ include "crawler.arweaveDaemon" . }}
+            - name: AR_START_BLOCK_HEIGHT
+              value: "{{ .Values.arweaveDaemon.arweaveStartBlockHeight }}"
+            - name: DOT_HOST
+              value: {{ include "crawler.polkaDaemon" . }}
+            - name: DOT_START_BLOCK_HEIGHT
+              value: "{{ .Values.polkaDaemmon.polkaStartBlockHeight }}"
+            - name: SOL_HOST
+              value: {{ include "crawler.solanaDaemon" . }}
+            - name: SOL_HOST_WS
+              value: {{ include "crawler.solanaWsDaemon" . }}
+            - name: SOL_START_BLOCK_HEIGHT
+              value: "{{ .Values.solanaDaemon.solanaStartBlockHeight }}"
+            {{- if not .Values.gaiaDaemon.enabled }}
+            - name: GAIA_DISABLED
+              value: "true"
+            {{- end}}
+            - name: ETH_HOST
+              value: {{ include "crawler.ethereumDaemon" . }}
+            - name: ETH_START_BLOCK_HEIGHT
+              value: "{{ .Values.ethereumDaemon.ethereumStartBlockHeight }}"
+            - name: ETH_SUGGESTED_FEE_VERSION
+              value: '{{ include "crawler.ethSuggestedFeeVersion" . }}'
             - name: SEED
               valueFrom:
                 fieldRef:
@@ -130,27 +166,31 @@ spec:
                   key: mnemonic
             {{- end }}
             - name: CHAIN_ID
-              value: {{ include "narada-eddsa.chainID" . }}
+              value: {{ .Values.global.hermes.chainId }}
             - name: DB_PATH
               value: /var/data
+            - name: DOJIMA_CHAIN_ID
+              value: {{ .Values.global.dojimachain.chainId | quote }}
+            - name: DOJIMA_GRPC_URL
+              value: {{ .Values.dojima_chain.grpc_url | quote }}
             - name: PEER
-              value: {{ default .Values.peer .Values.eddsa_peer }}
+              value: {{ default .Values.peer .Values.crawler_peer | quote }}
             {{- range $key, $value := .Values.environment }}
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
           ports:
-            - name: tss-p2p
-              containerPort: {{ .Values.service.port.tss_p2p }}
+            - name: p2p
+              containerPort: {{ .Values.service.port.p2p }}
               protocol: TCP
-            - name: p2p-id
-              containerPort: {{ .Values.service.port.p2p_id }}
+            - name: http
+              containerPort: {{ .Values.service.port.http }}
               protocol: TCP
             - name: prometheus
               containerPort: {{ .Values.service.port.prometheus}}
               protocol: TCP
-            - name: eddsa-http
-              containerPort: {{ include "narada-eddsa-nqs.port" .}}
+            - name: nqs
+              containerPort: {{ include "crawler-nqs.port" .}}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -159,7 +199,7 @@ spec:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
         persistentVolumeClaim:
-          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "narada-eddsa.fullname" . }}{{- end }}
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "crawler.fullname" . }}{{- end }}
       {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
         hostPath:
           path: {{ .Values.persistence.hostPath }}
@@ -169,7 +209,7 @@ spec:
       {{- end }}
       - name: scripts
         configMap:
-          name: {{ include "narada-eddsa.fullname" . }}-scripts
+          name: {{ include "crawler.fullname" . }}-scripts
           defaultMode: 0777
       {{- with .Values.nodeSelector }}
       nodeSelector:

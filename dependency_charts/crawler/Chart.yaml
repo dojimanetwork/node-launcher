@@ -1,0 +1,7 @@
+apiVersion: v2
+name: crawler
+description: A service to observe l1 chain transactions.
+type: application
+version: 0.1.0
+
+appVersion: 0.1.0

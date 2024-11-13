@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "narada-eddsa.fullname" . }}
+  name: {{ include "operator-gateway.fullname" . }}
   labels:
-    {{- include "narada-eddsa.labels" . | nindent 4 }}
+    {{- include "operator-gateway.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: {{ .Values.strategyType }}
   selector:
     matchLabels:
-      {{- include "narada-eddsa.selectorLabels" . | nindent 6 }}
+      {{- include "operator-gateway.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "narada-eddsa.selectorLabels" . | nindent 8 }}
+        {{- include "operator-gateway.selectorLabels" . | nindent 8 }}
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/path: '/metrics'
@@ -24,7 +24,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "narada-eddsa.serviceAccountName" . }}
+      serviceAccountName: {{ include "operator-gateway.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
@@ -36,9 +36,9 @@ spec:
       - name: init-external-ip
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
         {{- if .Values.global.gateway.enabled }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
+        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "operator-gateway.fullname" . }}-external-ip']
         {{- else }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ include "narada-eddsa.fullname" . }}', '{{ include "narada-eddsa.fullname" . }}-external-ip']
+        command: ['/scripts/external-ip.sh', 'false', '{{ include "operator-gateway.fullname" . }}', '{{ include "operator-gateway.fullname" . }}-external-ip']
         {{- end }}
         volumeMounts:
         - name: scripts
@@ -54,59 +54,28 @@ spec:
           sysctl -w net.ipv4.tcp_keepalive_probes=3
         securityContext:
           privileged: true
-      - name: init-hermeschain
-        image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
-        command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
-      - name: generate-preparm
-        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-        command: [/scripts/generate-preparm.sh]
-        volumeMounts:
-          - mountPath: /etc/narada
-            name: data
-            subPath: etc
-          - name: data
-            mountPath: /root
-          - name: scripts
-            mountPath: /scripts
-        env:
-          - name: CONFIG_PATH
-            value: /etc/narada
-        resources:
-          {{- toYaml .Values.init_resources | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ include "narada-eddsa.image" . }}
+          image: {{ include "operator-gateway.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/scripts/narada.sh"]
-          args: ["tss-eddsa", "-c", "/etc/narada/config.json", "-l",  {{ default "info" .Values.narada_log_level }} ]
           volumeMounts:
-            - mountPath: /var/data/narada-eddsa
+            - mountPath: /var/data/operator-gateway
               name: data
               subPath: data
             - mountPath: /root/.hermesnode
               name: data
               subPath: hermesnode
-            - mountPath: /etc/narada
+            - mountPath: /etc/operator-gateway
               name: data
               subPath: etc
           env:
             - name: EXTERNAL_IP
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "narada-eddsa.fullname" . }}-external-ip
+                  name: {{ include "operator-gateway.fullname" . }}-external-ip
                   key: externalIP
-            - name: VALIDATOR
-              value: "true"
-            - name: NET
-              value: {{ include "narada-eddsa.net" . }}
-            - name: CHAIN_API
-              value: {{ .Values.hermesApi }}
-            - name: CHAIN_RPC
-              value: {{ include "narada-eddsa.hermesnodeDaemon" . }}
-            - name: CHAIN_HOME_FOLDER
-              value: {{ .Values.chain_home_folder }}
             - name: SEED
               valueFrom:
                 fieldRef:
@@ -123,34 +92,19 @@ spec:
               value: {{ .Values.signer.password }}
                {{- end }}
             {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
-            - name: SIGNER_SEED_PHRASE
+            - name: MNEMONIC
               valueFrom:
                 secretKeyRef:
                   name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
                   key: mnemonic
             {{- end }}
-            - name: CHAIN_ID
-              value: {{ include "narada-eddsa.chainID" . }}
-            - name: DB_PATH
-              value: /var/data
-            - name: PEER
-              value: {{ default .Values.peer .Values.eddsa_peer }}
             {{- range $key, $value := .Values.environment }}
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
           ports:
-            - name: tss-p2p
-              containerPort: {{ .Values.service.port.tss_p2p }}
-              protocol: TCP
-            - name: p2p-id
-              containerPort: {{ .Values.service.port.p2p_id }}
-              protocol: TCP
-            - name: prometheus
-              containerPort: {{ .Values.service.port.prometheus}}
-              protocol: TCP
-            - name: eddsa-http
-              containerPort: {{ include "narada-eddsa-nqs.port" .}}
+            - name: http
+              containerPort: {{ .Values.service.port.http }}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -159,7 +113,7 @@ spec:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
         persistentVolumeClaim:
-          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "narada-eddsa.fullname" . }}{{- end }}
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "operator-gateway.fullname" . }}{{- end }}
       {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
         hostPath:
           path: {{ .Values.persistence.hostPath }}
@@ -169,7 +123,7 @@ spec:
       {{- end }}
       - name: scripts
         configMap:
-          name: {{ include "narada-eddsa.fullname" . }}-scripts
+          name: {{ include "operator-gateway.fullname" . }}-scripts
           defaultMode: 0777
       {{- with .Values.nodeSelector }}
       nodeSelector:

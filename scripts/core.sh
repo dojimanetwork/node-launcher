@@ -516,22 +516,24 @@ deploy_genesis() {
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
     --set hermesnode.type="genesis" \
+    --set global.hermes.type="genesis" \
     --set global.namespace="$NAME"
 
   echo "args --- ${args}"
   echo "extra args ${EXTRA_ARGS}"
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
+    --set global.hermes.type="genesis" \
     --set hermesnode.type="genesis" \
     --set global.namespace="$NAME"
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   kubectl rollout restart -n "${NAME}" deployment "${HERMES_GATEWAY}"
 }
 
@@ -545,6 +547,7 @@ deploy_validator() {
     $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
+    --set global.hermes.type="validator" \
     --set hermesnode.type="validator" \
     --set narada.peer="$SEED",hermesnode.seeds="$SEED",narada-eddsa.peer="$SEED_EDDSA" \
     --set dojima-chain.enodes="$ENODES" \
@@ -556,6 +559,7 @@ deploy_validator() {
     --create-namespace $args $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
+    --set global.hermes.type="validator" \
     --set hermesnode.type="validator" \
     --set narada.peer="$SEED",hermesnode.seeds="$SEED",narada-eddsa.peer="$SEED_EDDSA" \
     --set dojima-chain.enodes="$ENODES" \
@@ -574,6 +578,7 @@ deploy_fullnode() {
     $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
+    --set global.hermes.type="fullnode" \
     --set hermesnode.seeds="$SEED" \
     --set midgard.enabled=true,narada.enabled=false,narada-eddsa.enabled=false,binance-daemon.enabled=false \
     --set bitcoin-daemon.enabled=false,bitcoin-cash-daemon.enabled=false \
@@ -591,6 +596,7 @@ deploy_fullnode() {
     --create-namespace $EXTRA_ARGS \
     --set global.mnemonicSecret=hermesnode-mnemonic \
     --set global.net="$NET" \
+    --set global.hermes.type="fullnode" \
     --set hermesnode.seeds="$SEED" \
     --set midgard.enabled=true,narada.enabled=false,narada-eddsa.enabled=false,binance-daemon.enabled=false \
     --set bitcoin-daemon.enabled=false,bitcoin-cash-daemon.enabled=false \

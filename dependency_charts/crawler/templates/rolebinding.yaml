@@ -1,0 +1,16 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "crawler.fullname" . }}
+  labels:
+{{ include "crawler.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "crawler.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "crawler.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end -}}

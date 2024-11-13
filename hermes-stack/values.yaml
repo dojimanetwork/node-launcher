@@ -73,3 +73,9 @@ avalanche-daemon:
 hello-word:
   fullnameOverride: hello-word
   enabled: false
+
+operator-gateway:
+  enabled: true
+
+crawler:
+  enabled: true

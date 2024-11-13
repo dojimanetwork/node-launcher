@@ -1,0 +1,7 @@
+apiVersion: v2
+name: operator-gateway
+description: A service to operate as gateway to crawler
+type: application
+version: 0.1.0
+
+appVersion: 0.1.0
