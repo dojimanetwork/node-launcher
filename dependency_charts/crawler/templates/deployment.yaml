@@ -82,6 +82,11 @@ spec:
           - name: {{ $key }}
             value: {{ $value | quote }}
           {{- end }}
+        volumeMounts:
+          - name: data
+            mountPath: /root
+          - name: scripts
+            mountPath: /kube-scripts/
       - name: init-hermeschain
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command: ['sh', '-c', 'until nc -zv {{ .Values.hermesApi }}; do echo waiting for hermesnode; sleep 2; done']
@@ -90,16 +95,14 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "crawler.image" . }}
-          command:
-            - ls -lasrt /root/.hermesnode
+          command: ["/scripts/crawler.sh", "crawler", "-c", "/etc/crawler/config.json"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - mountPath: /var/data/crawler
               name: data
               subPath: data
-            - mountPath: /root/.hermesnode
+            - mountPath: /root
               name: data
-              subPath: hermesnode
             - mountPath: /etc/crawler
               name: data
               subPath: etc

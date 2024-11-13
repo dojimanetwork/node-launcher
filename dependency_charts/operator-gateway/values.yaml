@@ -13,6 +13,18 @@ signer:
   passwordSecret: ""
 
 environment:
+  DOJ_CHAIN_ID: 187
+  HERMES_API: hermesnode:1317
+  HERMES_GRPC: hermesnode:9090
+  HERMES_TENDERMINT_URL: hermesnode:26657
+  HTTP_AUTH_HANDLER_PORT: "0.0.0.0:1219"
+  PORT: "0.0.0.0:8090"
+  HTTP_AUTH_HOST: 0.0.0.0
+  HTTP_AUTH_PORT: 1219
+  DOT_HOST: polkdot-daemon.operator-gateway-1
+  SOL_HOST: 4.186.24.152
+  ETH_HOST: ethereum-daemon.operator-gateway-1
+
 
 replicaCount: 1
 
@@ -23,6 +35,10 @@ image:
   pullPolicy: IfNotPresent
   tag: 76910312_3.0.2
   hash: "af37838a6800e4e866c4e42e2aace980ccdd6861bd983eb94dfc015a15f8ed39" # Not used for mocknet/testnet
+
+nginx:
+  name: testnet1.azurecr.io/operator-gateway-nginx
+  tag: 82c36df_1.0.0
 
 imagePullSecrets: []
 nameOverride: "operator-gateway"
@@ -43,7 +59,11 @@ persistence:
 service:
   type: ClusterIP
   port:
-    http: 8081
+    http: 1219
+    grpc: 8090
+    sol: 9002
+    eth: 9003
+    dot: 9004
 
 serviceAccount:
   # Specifies whether a service account should be created

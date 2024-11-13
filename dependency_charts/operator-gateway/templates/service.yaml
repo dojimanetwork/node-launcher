@@ -20,5 +20,21 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.service.port.grpc }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+    - port: {{ .Values.service.port.sol }}
+      targetPort: sol
+      protocol: TCP
+      name: sol
+    - port: {{ .Values.service.port.dot }}
+      targetPort: dot
+      protocol: TCP
+      name: dot
+    - port: {{ .Values.service.port.eth }}
+      targetPort: eth
+      protocol: TCP
+      name: eth
   selector:
     {{- include "operator-gateway.selectorLabels" . | nindent 4 }}

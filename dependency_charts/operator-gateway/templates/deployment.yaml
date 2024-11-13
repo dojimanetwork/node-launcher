@@ -92,7 +92,7 @@ spec:
               value: {{ .Values.signer.password }}
                {{- end }}
             {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
-            - name: MNEMONIC
+            - name: SIGNER_SEED_PHRASE
               valueFrom:
                 secretKeyRef:
                   name: {{ default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
@@ -106,9 +106,34 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port.http }}
               protocol: TCP
+            - name: grpc
+              containerPort: {{ .Values.service.port.grpc }}
+              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-
+          name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.nginx.name }}:{{ .Values.nginx.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          {{- range $key, $value := .Values.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          ports:
+            - name: http-nginx
+              containerPort: 80
+              protocol: TCP
+            - name: sol
+              containerPort: {{ .Values.service.port.sol }}
+              protocol: TCP
+            - name: eth
+              containerPort: {{ .Values.service.port.eth }}
+              protocol: TCP
+            - name: dot
+              containerPort: {{ .Values.service.port.dot }}
+              protocol: TCP
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
