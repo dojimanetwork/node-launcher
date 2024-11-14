@@ -38,7 +38,7 @@ image:
 
 nginx:
   name: testnet1.azurecr.io/operator-gateway-nginx
-  tag: 830550a_1.0.0
+  tag: fbc95c2_1.0.0
 
 imagePullSecrets: []
 nameOverride: "operator-gateway"

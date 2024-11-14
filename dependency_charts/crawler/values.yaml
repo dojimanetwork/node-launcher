@@ -23,7 +23,7 @@ environment:
   INCLUDE_BINANCE_CHAIN: false
   INCLUDE_BTC_CHAIN: false
   INCLUDE_AR_CHAIN: false
-  INCLUDE_DOT_CHAIN: false
+  INCLUDE_DOT_CHAIN: true
   INCLUDE_SOL_CHAIN: true
   INCLUDE_GAIA_CHAIN: false
   INCLUDE_DOJ_CHAIN: false
@@ -77,8 +77,8 @@ arweaveDaemon:
 
 polkaDaemmon:
   enabled: true
-  testnet: ws://polkadot-daemon.hermes-devnet:9944
-  stagenet: wss://dotws.h4s.dojima.network:9944
+  testnet: ws://polkadot-daemon.operator-gateway-1:9944
+  stagenet: ws://polkadot-daemon.operator-gateway-1:9944
   polkaStartBlockHeight: 0
 
 solanaDaemon:
