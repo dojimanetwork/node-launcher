@@ -2,7 +2,7 @@ global:
   net: testnet
   hermes:
     image: testnet1.azurecr.io/hermes
-    tag: 6fe30dd0_1.0.0
+    tag: c3e3234a_1.0.0
     chainId: h4s-184-d11k
     type: fullnode
     global_enable:
@@ -11,11 +11,11 @@ global:
       narada_eddsa: true
   crawler:
     image: testnet1.azurecr.io/crawler
-    tag: 795d571_1.0.0
+    tag: 4601f4a_1.0.0
     global_enable: true
   operator_gateway:
     image: testnet1.azurecr.io/operator-gateway
-    tag: 17d9785_1.0.0
+    tag: b142b03_1.0.0
     global_enable: true
   dojimachain:
     image: testnet1.azurecr.io/dojimachain

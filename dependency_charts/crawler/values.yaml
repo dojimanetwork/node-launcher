@@ -43,7 +43,7 @@ environment:
   CHAIN_HOME_FOLDER: /root/.hermesnode
   CONTR: false
   DOJ_CHAIN_HOME_FOLDER: /root/.dojimachain
-  SOL_START_BLOCK_HEIGHT: "339989980"
+  SOL_START_BLOCK_HEIGHT: "340022085"
 
 # use in multi nodes envs
 narada_peer:
@@ -188,11 +188,11 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 100m
-    memory: 0.5Gi
+    cpu: 2
+    memory: 4Gi
   limits:
-    cpu: 200m
-    memory: 1Gi
+    cpu: 2
+    memory: 4Gi
 
 nodeSelector: {}
 
