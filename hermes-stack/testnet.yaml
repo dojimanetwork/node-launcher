@@ -15,7 +15,7 @@ global:
     global_enable: true
   operator_gateway:
     image: testnet1.azurecr.io/operator-gateway
-    tag: fd63d97_1.0.0
+    tag: 4f9fc80_1.0.0
     global_enable: true
   dojimachain:
     image: testnet1.azurecr.io/dojimachain
