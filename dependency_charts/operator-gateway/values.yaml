@@ -57,7 +57,7 @@ persistence:
   # hostPath: /host-path
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port:
     http: 1219
     grpc: 8090

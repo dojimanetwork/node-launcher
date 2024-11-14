@@ -35,14 +35,10 @@ spec:
       initContainers:
       - name: init-external-ip
         image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
-        {{- if .Values.global.gateway.enabled }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "operator-gateway.fullname" . }}-external-ip']
-        {{- else }}
-        command: ['/scripts/external-ip.sh', 'false', '{{ include "operator-gateway.fullname" . }}', '{{ include "operator-gateway.fullname" . }}-external-ip']
-        {{- end }}
+        command: ['/scripts/external-ip.sh', 'false', '{{ include "gateway.fullname" . }}', '{{ include "gateway.fullname" . }}-external-ip']
         volumeMounts:
-        - name: scripts
-          mountPath: /scripts
+          - name: scripts
+            mountPath: /scripts
       - name: init-keepalive
         image: "busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}"
         command:
@@ -55,7 +51,7 @@ spec:
         securityContext:
           privileged: true
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-process
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "operator-gateway.image" . }}
@@ -111,7 +107,7 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-nginx
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.nginx.name }}:{{ .Values.nginx.tag }}"
