@@ -43,7 +43,7 @@ environment:
   CHAIN_HOME_FOLDER: /root/.hermesnode
   CONTR: false
   DOJ_CHAIN_HOME_FOLDER: /root/.dojimachain
-  SOL_START_BLOCK_HEIGHT: "340022085"
+  SOL_START_BLOCK_HEIGHT: "340027950"
 
 # use in multi nodes envs
 narada_peer:
