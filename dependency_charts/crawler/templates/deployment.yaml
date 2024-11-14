@@ -134,8 +134,6 @@ spec:
               value: {{ include "crawler.solanaDaemon" . }}
             - name: SOL_HOST_WS
               value: {{ include "crawler.solanaWsDaemon" . }}
-            - name: SOL_START_BLOCK_HEIGHT
-              value: "{{ .Values.solanaDaemon.solanaStartBlockHeight }}"
             {{- if not .Values.gaiaDaemon.enabled }}
             - name: GAIA_DISABLED
               value: "true"

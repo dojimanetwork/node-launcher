@@ -11,15 +11,15 @@ global:
       narada_eddsa: true
   crawler:
     image: testnet1.azurecr.io/crawler
-    tag: cfe400c_1.0.0
+    tag: 795d571_1.0.0
     global_enable: true
   operator_gateway:
     image: testnet1.azurecr.io/operator-gateway
-    tag: 4f9fc80_1.0.0
+    tag: 17d9785_1.0.0
     global_enable: true
   dojimachain:
     image: testnet1.azurecr.io/dojimachain
-    tag: bcb959b01_2.0.1
+    tag: 17d9785_1.0.0
     chainId: 184
   gateway:
     enabled: false
