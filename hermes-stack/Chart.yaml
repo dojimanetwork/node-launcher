@@ -41,3 +41,13 @@ dependencies:
     repository: file://../dependency_charts/crawler
     version: 0.1.0
     condition: crawler.enabled
+
+  - name: arbitrum-stack
+    repository: file://../dependency_charts/arbitrum-stack
+    version: 0.1.0
+    condition: arbitrum-stack.enabled
+
+  - name: blockscout-v2-backend
+    version: 0.1.0
+    repository: file://../dependency_charts/blockscout-v2-backend
+    condition: blockscout-v2-backend.enabled

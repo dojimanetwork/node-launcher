@@ -11,7 +11,7 @@ SEED_STAGENET_EDDSA=10.2.3.248
 
 # sets type, name, net variables.
 get_node_info
-echo "entered"
+
 if node_exists; then
   warn "Found an existing HermesNode, make sure this is the node you want to update"
   #display_status
@@ -59,6 +59,8 @@ create_namespace
 if [ "$TYPE" != "daemons" ]; then
   create_password
   create_mnemonic
+  get_voting_priv_key_name
+  store_voting_priv_key
 fi
 
 # check to ensure required CRDs are created before deploying
@@ -82,5 +84,8 @@ case $TYPE in
     EXTRA_ARGS="$EXTRA_ARGS --set narada.enabled=false"
     EXTRA_ARGS="$EXTRA_ARGS --set gateway.enabled=false"
     deploy_validator
+    ;;
+  operator)
+    deploy_operator_nodes
     ;;
 esac

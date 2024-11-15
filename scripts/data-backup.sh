@@ -28,8 +28,8 @@ day=$(date +%Y-%m-%d)
 backup_pod="backup-hermesnode"
 service="hermesnode"
 path="/root/.hermesnode/"
-# create recover pod
-echo "creating recover pod"
+# create data backup pod
+echo "creating data backup pod"
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
@@ -61,7 +61,7 @@ echo "installing dependencies..."
 kubectl exec -n "${NAME}" -it "${backup_pod}" -- sh -c 'apk update && apk add aria2 pv'
 
 echo "creating tar file..."
-kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && tar cfz \"$service-$seconds.tar.gz\" data/ -v"
+kubectl exec  -n "$NAME" -it "${backup_pod}" -- sh -c "cd $path && du -h . && tar cfz \"$service-$seconds.tar.gz\" data/ -v"
 
 echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart hermesnode${reset}"
 confirm

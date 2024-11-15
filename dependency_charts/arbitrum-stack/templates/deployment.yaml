@@ -84,7 +84,7 @@ spec:
             value: {{ .Values.l2_owner }}
           - name: PARENT_PASSPHRASE
             value: {{ .Values.parent_passphrase }}
-          - name: SEQUENCER_PRIVKEY
+          - name: VOTING_PRIV_KEY
             valueFrom:
               secretKeyRef:
                 name: {{ default .Values.sequencer_privkey_secret_name }}

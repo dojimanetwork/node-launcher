@@ -36,7 +36,7 @@ environment:
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
   EDDSA_HOST: narada-eddsa:6050
-  DOJ_CHAIN_ID: 1401
+  DOJ_CHAIN_ID: 184
   DOJ_HOST: http://dojima-chain:8545
   DOJ_START_BLOCK_HEIGHT: 0
   CHAIN_API: hermesnode:1317

@@ -13,7 +13,7 @@ signer:
   passwordSecret: ""
 
 environment:
-  DOJ_CHAIN_ID: 187
+  DOJ_CHAIN_ID: 184
   HERMES_API: hermesnode:1317
   HERMES_GRPC: hermesnode:9090
   HERMES_TENDERMINT_URL: hermesnode:26657
