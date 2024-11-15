@@ -1,0 +1,503 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+net: testnet
+
+replicaCount: 1
+
+image:
+  blockscout:
+    repository: blockscout/blockscout
+    pullPolicy: IfNotPresent
+    tag: "latest"
+    hash: "sha256:9d76e4077c5364d2ba0a7118bd5cecb0ee152b95a501c257c3a74895a0020b9e"
+  smartcontract_verifier:
+    repository: ghcr.io/blockscout/smart-contract-verifier
+    testnet:
+      tag: latest
+      hash: f1e91d0d25e850902b647d882271f4536596674d8de71bb649130f3188c5ff55
+  stats:
+    repository: ghcr.io/blockscout/stats
+    tag: latest
+  visualizer:
+    repository: ghcr.io/blockscout/visualizer
+    tag: latest
+  frontend:
+    repository: ghcr.io/blockscout/frontend
+    tag: main
+  postgres:
+    image: postgres:14
+
+# You need to provide some config file. For example, just copy `example_config.toml`
+config: "config.toml"
+
+env:
+  pg_port: 5432
+  pg_pass: ""
+  pg_user: postgres
+  pg_host_auth_method: 'trust'
+  pg_db_name: postgres
+  ETHEREUM_JSONRPC_VARIANT: geth
+  ETHEREUM_JSONRPC_HTTP_URL: http://arbitrum:8547/
+  DATABASE_URL: postgresql://postgres:@localhost:5432/postgres?ssl=false
+  ETHEREUM_JSONRPC_TRACE_URL: ws://arbitrum:8548/
+  NETWORK:
+  SUBNETWORK: Arbitrum Local
+  LOGO: /images/blockscout_logo.svg
+  LOGO_FOOTER: /images/blockscout_logo.svg
+  # ETHEREUM_JSONRPC_WS_URL:
+  ETHEREUM_JSONRPC_TRANSPORT: http
+  IPC_PATH:
+  NETWORK_PATH: /
+  API_PATH: /
+  SOCKET_ROOT: /
+  BLOCKSCOUT_HOST:
+  BLOCKSCOUT_PROTOCOL:
+  # SECRET_KEY_BASE:
+  # CHECK_ORIGIN:
+  PORT: 4002
+  # COIN:
+  # COIN_NAME:
+  # COINGECKO_COIN_ID:
+  # METADATA_CONTRACT:
+  # VALIDATORS_CONTRACT:
+  # KEYS_MANAGER_CONTRACT:
+  # REWARDS_CONTRACT:
+  # TOKEN_BRIDGE_CONTRACT:
+  EMISSION_FORMAT: DEFAULT
+  # CHAIN_SPEC_PATH:
+  # SUPPLY_MODULE:
+  # SOURCE_MODULE:
+  POOL_SIZE: 40
+  POOL_SIZE_API: 10
+  ECTO_USE_SSL: false
+  # DATADOG_HOST:
+  # DATADOG_PORT:
+  # SPANDEX_BATCH_SIZE:
+  # SPANDEX_SYNC_THRESHOLD:
+  HEART_BEAT_TIMEOUT: 30
+  # HEART_COMMAND:
+  BLOCKSCOUT_VERSION: Arbitrum 0.0.1
+  RELEASE_LINK:
+  BLOCK_TRANSFORMER: base
+  # GRAPHIQL_TRANSACTION:
+  # FIRST_BLOCK:
+  # LAST_BLOCK:
+  # TRACE_FIRST_BLOCK:
+  # TRACE_LAST_BLOCK:
+  LINK_TO_OTHER_EXPLORERS: false
+  OTHER_EXPLORERS: {}
+  SUPPORTED_CHAINS: {}
+  BLOCK_COUNT_CACHE_PERIOD: 7200
+  TXS_COUNT_CACHE_PERIOD: 7200
+  ADDRESS_COUNT_CACHE_PERIOD: 7200
+  ADDRESS_SUM_CACHE_PERIOD: 3600
+  TOTAL_GAS_USAGE_CACHE_PERIOD: 3600
+  ADDRESS_TRANSACTIONS_GAS_USAGE_COUNTER_CACHE_PERIOD: 1800
+  TOKEN_HOLDERS_COUNTER_CACHE_PERIOD: 3600
+  TOKEN_TRANSFERS_COUNTER_CACHE_PERIOD: 3600
+  ADDRESS_WITH_BALANCES_UPDATE_INTERVAL: 1800
+  TOKEN_METADATA_UPDATE_INTERVAL: 172800
+  AVERAGE_BLOCK_CACHE_PERIOD: 1800
+  MARKET_HISTORY_CACHE_PERIOD: 21600
+  ADDRESS_TRANSACTIONS_CACHE_PERIOD: 1800
+  ADDRESS_TOKENS_USD_SUM_CACHE_PERIOD: 1800
+  ADDRESS_TOKEN_TRANSFERS_COUNTER_CACHE_PERIOD: 1800
+  BRIDGE_MARKET_CAP_UPDATE_INTERVAL: 1800
+  TOKEN_EXCHANGE_RATE_CACHE_PERIOD: 1800
+  ALLOWED_EVM_VERSIONS: homestead,tangerineWhistle,spuriousDragon,byzantium,constantinople,petersburg,istanbul,berlin,london,default
+  UNCLES_IN_AVERAGE_BLOCK_TIME: false
+  DISABLE_WEBAPP: false
+  DISABLE_READ_API: false
+  DISABLE_WRITE_API: false
+  DISABLE_INDEXER: false
+  INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER: false
+  INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER: false
+  # WEBAPP_URL:
+  # API_URL:
+  WOBSERVER_ENABLED: false
+  SHOW_ADDRESS_MARKETCAP_PERCENTAGE: true
+  CHECKSUM_ADDRESS_HASHES: true
+  CHECKSUM_FUNCTION: eth
+  DISABLE_EXCHANGE_RATES: true
+  DISABLE_KNOWN_TOKENS: false
+  ENABLE_TXS_STATS: true
+  SHOW_PRICE_CHART: false
+  SHOW_TXS_CHART: true
+  HISTORY_FETCH_INTERVAL: 30
+  TXS_HISTORIAN_INIT_LAG: 0
+  TXS_STATS_DAYS_TO_COMPILE_AT_INIT: 10
+  COIN_BALANCE_HISTORY_DAYS: 90
+  APPS_MENU: false
+  EXTERNAL_APPS: []
+  # ETH_OMNI_BRIDGE_MEDIATOR:
+  # BSC_OMNI_BRIDGE_MEDIATOR:
+  # AMB_BRIDGE_MEDIATORS:
+  # GAS_PRICE:
+  # FOREIGN_JSON_RPC:
+  # RESTRICTED_LIST:
+  # RESTRICTED_LIST_KEY:
+  DISABLE_BRIDGE_MARKET_CAP_UPDATER: true
+  # POS_STAKING_CONTRACT:
+  ENABLE_POS_STAKING_IN_MENU: false
+  SHOW_MAINTENANCE_ALERT: false
+  MAINTENANCE_ALERT_MESSAGE:
+  SHOW_STAKING_WARNING: false
+  STAKING_WARNING_MESSAGE:
+  CUSTOM_CONTRACT_ADDRESSES_TEST_TOKEN:
+  ENABLE_SOURCIFY_INTEGRATION: false
+  SOURCIFY_SERVER_URL:
+  SOURCIFY_REPO_URL:
+  # CHAIN_ID:
+  MAX_SIZE_UNLESS_HIDE_ARRAY: 50
+  HIDE_BLOCK_MINER: false
+  DISPLAY_TOKEN_ICONS: false
+  SHOW_TENDERLY_LINK: false
+  TENDERLY_CHAIN_PATH:
+  MAX_STRING_LENGTH_WITHOUT_TRIMMING: 2040
+  RE_CAPTCHA_SECRET_KEY:
+  RE_CAPTCHA_CLIENT_KEY:
+  # JSON_RPC:
+  API_RATE_LIMIT: 50
+  API_RATE_LIMIT_BY_KEY: 50
+  API_RATE_LIMIT_BY_IP: 50
+  API_RATE_LIMIT_WHITELISTED_IPS:
+  API_RATE_LIMIT_STATIC_API_KEY:
+
+#  api_url: https://explorer.dojima.network
+#  blockscout_host: explorer.dojima.network
+
+blockscout:
+  API_V1_READ_METHODS_DISABLED: false
+  API_V1_WRITE_METHODS_DISABLED: false
+  MICROSERVICE_SC_VERIFIER_ENABLED: true
+  MICROSERVICE_SC_VERIFIER_URL: https://eth-bytecode-db.services.blockscout.com/
+  MICROSERVICE_SC_VERIFIER_TYPE: eth_bytecode_db
+  MICROSERVICE_ETH_BYTECODE_DB_INTERVAL_BETWEEN_LOOKUPS: 10m
+  MICROSERVICE_ETH_BYTECODE_DB_MAX_LOOKUPS_CONCURRENCY: 10
+  CONTRACT_VERIFICATION_ALLOWED_SOLIDITY_EVM_VERSIONS: homestead,tangerineWhistle,spuriousDragon,byzantium,constantinople,petersburg,istanbul,berlin,london,paris,shanghai,cancun,default
+  CONTRACT_VERIFICATION_ALLOWED_VYPER_EVM_VERSIONS: byzantium,constantinople,petersburg,istanbul,berlin,paris,shanghai,cancun,default
+  CONTRACT_MAX_STRING_LENGTH_WITHOUT_TRIMMING: 2040
+  API_V2_ENABLED: true
+  DECODE_NOT_A_CONTRACT_CALLS: true
+  APPLICATION_MODE: all
+  BLOCKSCOUT_HOST: explorer.dojima.network
+  BLOCKSCOUT_PROTOCOL: https
+
+
+bs_rs_env:
+  SMART_CONTRACT_VERIFIER__SERVER__HTTP__ENABLED: true
+  SMART_CONTRACT_VERIFIER__SERVER__HTTP__ADDR: 0.0.0.0:8043
+  SMART_CONTRACT_VERIFIER__SERVER__HTTP__MAX_BODY_SIZE: "2097152"
+
+  SMART_CONTRACT_VERIFIER__SERVER__GRPC__ENABLED: false
+  SMART_CONTRACT_VERIFIER__SERVER__GRPC__ADDR: 0.0.0.0:8051
+
+  SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED: true
+  SMART_CONTRACT_VERIFIER__SOLIDITY__COMPILERS_DIR: /tmp/solidity-compilers
+  SMART_CONTRACT_VERIFIER__SOLIDITY__REFRESH_VERSIONS_SCHEDULE: 0 0 * * * * *
+
+  # It depends on the OS you are running the service on
+  SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/linux-amd64/list.json
+  #SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/macosx-amd64/list.json
+  #SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/windows-amd64/list.json
+
+  SMART_CONTRACT_VERIFIER__VYPER__ENABLED: true
+  SMART_CONTRACT_VERIFIER__VYPER__COMPILERS_DIR: /tmp/vyper-compilers
+  SMART_CONTRACT_VERIFIER__VYPER__REFRESH_VERSIONS_SCHEDULE: 0 0 * * * * *
+
+  # It depends on the OS you are running the service on
+  SMART_CONTRACT_VERIFIER__VYPER__FETCHER__LIST__LIST_URL: https://raw.githubusercontent.com/blockscout/solc-bin/main/vyper.list.json
+  #SMART_CONTRACT_VERIFIER__VYPER__FETCHER__LIST__LIST_URL: https://raw.githubusercontent.com/blockscout/solc-bin/main/vyper.macos.list.json
+
+  SMART_CONTRACT_VERIFIER__SOURCIFY__ENABLED: true
+  SMART_CONTRACT_VERIFIER__SOURCIFY__API_URL: https://sourcify.dev/server/
+  SMART_CONTRACT_VERIFIER__SOURCIFY__VERIFICATION_ATTEMPTS: 3
+  SMART_CONTRACT_VERIFIER__SOURCIFY__REQUEST_TIMEOUT: 10
+
+  SMART_CONTRACT_VERIFIER__METRICS__ENABLED: false
+  SMART_CONTRACT_VERIFIER__METRICS__ADDR: 0.0.0.0:6060
+  SMART_CONTRACT_VERIFIER__METRICS__ROUTE: /metrics
+
+  SMART_CONTRACT_VERIFIER__JAEGER__ENABLED: false
+  SMART_CONTRACT_VERIFIER__JAEGER__AGENT_ENDPOINT: localhost:6831
+
+bs_stats:
+  server:
+    http:
+      enabled: true
+      addr: 0.0.0.0:8050
+      max_body_size: 2097152
+    grpc:
+      enabled: false
+      addr: 0.0.0.0:8051
+  db:
+    url: postgres://postgres:@localhost:5432/stats
+    bs_url: postgresql://postgres:@localhost:5432/postgres?ssl=false
+    create_db: true
+    run_migrations: true
+    default_schedule: 0 0 1 * * * *
+    force_update_on_start: false
+  metrics:
+    enabled: false
+    addr: 0.0.0.0:6060
+    route: /metrics
+  jaeger:
+    enabled: false
+    agent_endpoint: localhost:6831
+  tracing:
+    enabled: true
+    format: default
+
+
+imagePullSecrets: []
+nameOverride: "blockscout-v2-backend"
+fullnameOverride: "blockscout-v2-backend"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "v2-serv-blockscout-backend"
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+terminationGracePeriodSeconds: 300
+service:
+  type: ClusterIP
+  postgres: 5432
+  bs: 4002
+  bs_rs: 8043
+  bs_stats_http: 8050
+  bs_stats_metrics: 6060
+  bs_frontend: 3000
+
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts: []
+    # - host: midgard.example.com
+    #   paths:
+    #   - path: /
+    #     backend:
+    #       serviceName: gateway
+    #       servicePort: midgard
+  tls: []
+    # - secretName: midgard-tls
+    #   hosts:
+    #     - midgard.example.com
+
+persistence:
+  enabled: true
+  size:
+    testnet: 50Gi
+    stagenet: 150Gi
+    mainnet: 200Gi
+  accessMode: ReadWriteOnce
+#  storageClass: gp3
+
+resources:
+  postgres:
+    limits:
+      cpu: 0.2
+      memory: 8Gi
+    requests:
+      cpu: 0.1
+      memory: 4Gi
+  smart_contract_verifier:
+    limits:
+      cpu: 0.05
+      memory: 50Mi
+    requests:
+      cpu: 0.01
+      memory: 20Mi
+  blockscout:
+    limits:
+      cpu: 650m
+      memory: 650Mi
+    requests:
+      cpu: 512m
+      memory: 512Mi
+  stats:
+    limits:
+      memory: "0.5Gi"
+      cpu: "0.25"
+    requests:
+      memory: "0.5Gi"
+      cpu: "0.25"
+  visualizer:
+    limits:
+      memory: 0.05Gi
+      cpu: 0.05
+    requests:
+      memory: 0.05Gi
+      cpu: 0.05
+  frontend:
+    limits:
+      memory: "0.3Gi"
+      cpu: "0.4"
+    requests:
+      memory: "0.3Gi"
+      cpu: "0.2"
+
+commands:
+  init:
+    command:
+      - /bin/sh
+    args:
+      - -c
+      - bin/blockscout eval "Elixir.Explorer.ReleaseTasks.create_and_migrate()"
+  blockscout:
+    command:
+      - /bin/sh
+    args:
+      - -c
+      - bin/blockscout eval "Elixir.Explorer.ReleaseTasks.create_and_migrate()" && bin/blockscout start
+
+
+readinessProbe:
+  postgres:
+    enable: true
+  sc:
+    enable: false
+  blockscout:
+    path: /api/v1/health/readiness
+    enable: false
+    params:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 60
+  stats:
+    path: /health
+    enable: false
+    params:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 60
+  frontend:
+    enable: false
+    path: /api/healthz
+    params:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 30
+
+
+livenessProbe:
+  postgres:
+    enable: true
+  sc:
+    enable: false
+  blockscout:
+    path: /api/v1/health/liveness
+    enable: false
+    params:
+      initialDelaySeconds: 100
+      periodSeconds: 100
+      timeoutSeconds: 30
+  stats:
+    path: /health
+    enable: false
+    params:
+      initialDelaySeconds: 100
+      periodSeconds: 100
+      timeoutSeconds: 30
+  frontend:
+    path: /api/healthz
+    enable: false
+    params:
+      initialDelaySeconds: 100
+      periodSeconds: 100
+      timeoutSeconds: 30
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+postgres:
+  files:
+    mountPath: /docker-entrypoint-initdb.d
+    list:
+      init.sql: |
+        CREATE DATABASE stats;
+        GRANT ALL PRIVILEGES ON DATABASE stats TO postgres;
+        CREATE DATABASE blockscout;
+        GRANT ALL PRIVILEGES ON DATABASE stats TO postgres;
+      config.toml: |-
+        [server]
+        addr = "0.0.0.0:8043"
+    
+        [compilers]
+        # if omitted, number of CPU cores would be used
+        max_threads = 8
+    
+        [solidity]
+        enabled = true
+        compilers_dir = "/tmp/solidity-compilers"
+        refresh_versions_schedule = "0 0 * * * * *"
+        [solidity.fetcher.list]
+        # It depends on the OS you are running the service on
+        list_url = "https://solc-bin.ethereum.org/linux-amd64/list.json"
+        # list_url = "https://solc-bin.ethereum.org/macosx-amd64/list.json"
+        # list_url = "https://solc-bin.ethereum.org/windows-amd64/list.json"
+    
+        #[solidity.fetcher.s3]
+        #access_key = "access_key"
+        #secret_key = "secret_key"
+        #region = "region"
+        #endpoint = "endpoint"
+        ## The only required field for the s3 fetcher
+        #bucket = "bucket"
+    
+        [vyper]
+        enabled = true
+        compilers_dir = "/tmp/vyper-compilers"
+        refresh_versions_schedule = "0 0 * * * * *"
+        [vyper.fetcher.list]
+        list_url = "https://raw.githubusercontent.com/blockscout/solc-bin/main/vyper.list.json"
+        # list_url = "https://raw.githubusercontent.com/blockscout/solc-bin/main/vyper.macos.list.json"
+    
+        [sourcify]
+        enabled = true
+        api_url = "https://sourcify.dev/server/"
+        verification_attempts = 3
+        request_timeout = 10
+    
+        # [extensions.solidity.sig_provider]
+        # url = "http://127.0.0.1:8051/"
+    
+        # [extensions.vyper.sig_provider]
+        # url = "http://127.0.0.1:8051/"
+    
+        # [extensions.sourcify.sig_provider]
+        # url = "http://127.0.0.1:8051/"
+    
+        [metrics]
+        enabled = false
+        addr = "0.0.0.0:6060"
+        route = "/metrics"
+    
+        [jaeger]
+        enabled = false
+        agent_endpoint = "localhost:6831"
+
+# necessary for lint
+global:
+  images:
+    alpine:
+      tag: foo
+      hash: bar

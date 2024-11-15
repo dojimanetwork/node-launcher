@@ -1,0 +1,365 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "arbitrum_stack.fullname" . }}
+  labels:
+    {{- include "arbitrum_stack.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.strategyType }}
+  selector:
+    matchLabels:
+      {{- include "arbitrum_stack.selectorLabels" . | nindent 6 }}
+  template: 
+    metadata: 
+      labels:
+        {{- include "arbitrum_stack.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/metrics'
+    spec:
+      {{- with .Values.imagePullSecrets }} 
+      imagePullSecrets: 
+	{{- toYaml . | nindent 8 }} 
+      {{- end }} 
+      serviceAccountName: {{ include "arbitrum_stack.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }} 
+      {{- if .Values.priorityClassName }} 
+      priorityClassName: {{ .Values.priorityClassName }} {{- end }}
+      initContainers:
+      - name: init-external-ip
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        {{- if .Values.global.gateway.enabled }}
+        command: ['/scripts/external-ip.sh', 'false', '{{ .Values.global.gateway.name }}', '{{ include "arbitrum_stack.fullname" . }}-external-ip']
+        {{- else }}
+        command: ['/scripts/external-ip.sh', 'false', '{{ include "arbitrum_stack.fullname" . }}', '{{ include "arbitrum_stack.fullname" . }}-external-ip']
+        {{- end }}
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+      - name: generate-l2-chain-config
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [ '/scripts/write_l2_chain_config.sh' ]
+        env:
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
+      - name: generate-l1keystore
+        image: "node:18-bullseye-slim"
+        command: ['/scripts/generate_l1keystore.sh' ]
+        env:
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          - name: SEQUENCER_PRIVKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.sequencer_privkey_secret_name }}
+                key: sequencer_priv_key
+          - name: DEPLOYER_PRIVKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.deployer_privkey_secret_name }}
+                key: deployer_priv_key
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
+      - name: deploy-rollup-contracts
+        image: "node:18-bullseye-slim"
+        command: [ '/scripts/deploy_rollup_contracts.sh' ]
+        env:
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          - name: DEPLOYER_PRIVKEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.deployer_privkey_secret_name }}
+                key: deployer_priv_key
+
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
+      - name: generate-sequencer-configs
+        image: "alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}"
+        command: [ '/scripts/sequencer_configs.sh' ]
+        env:
+          - name: L2_CHAIN_ID
+            value: {{ .Values.l2_chain_id | quote }}
+          - name: L2_OWNER
+            value: {{ .Values.l2_owner }}
+          - name: CHILD_CHAIN_NAME
+            value: {{ .Values.l2_chain_name }}
+          - name: WASM_MODULE_ROOT
+            value: {{ .Values.global.arbitrum.wasm_module_root }}
+          - name: SEQUENCER_ADDRESS
+            value: {{ .Values.sequencer_address }}
+          - name: OWNER_ADDRESS
+            value: {{ .Values.l2_owner }}
+          - name: PARENT_PASSPHRASE
+            value: {{ .Values.parent_passphrase }}
+          {{- range $key, $value := .Values.arbitrum_stack.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          - name: REDIS_SIGNER_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ default .Values.redis_signer_key_name }}
+                key: redis_signing_key
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /root
+      containers:
+         - name: redis
+           image: redis:6.2.6
+           command: ["redis-server", "--appendonly", "yes"]
+           resources:
+           {{- toYaml .Values.resources.redis | nindent 12 }}
+           ports:
+             - name: redis
+               containerPort: {{ .Values.service.port.redis }}
+               protocol: TCP
+           volumeMounts:
+             - name: scripts
+               mountPath: /scripts
+             - name: data
+               mountPath: /root
+         - name: set-redis-priorities
+           image: "node:18-bullseye-slim"
+           command: [ '/scripts/set_redis_prorities.sh' ]
+           env:
+             - name: L2_CHAIN_ID
+               value: {{ .Values.l2_chain_id | quote }}
+             - name: L2_OWNER
+               value: {{ .Values.l2_owner }}
+             - name: CHILD_CHAIN_NAME
+               value: {{ .Values.l2_chain_name }}
+             - name: WASM_MODULE_ROOT
+               value: {{ .Values.global.arbitrum.wasm_module_root }}
+             - name: SEQUENCER_ADDRESS
+               value: {{ .Values.sequencer_address }}
+             - name: OWNER_ADDRESS
+               value: {{ .Values.l2_owner }}
+             - name: PARENT_PASSPHRASE
+               value: {{ .Values.parent_passphrase }}
+             - name: SEQUENCER_PRIVKEY
+               valueFrom:
+                 secretKeyRef:
+                   name: {{ default .Values.sequencer_privkey_secret_name }}
+                   key: sequencer_priv_key
+             - name: DEPLOYER_PRIVKEY
+               valueFrom:
+                 secretKeyRef:
+                   name: {{ default .Values.deployer_privkey_secret_name }}
+                   key: deployer_priv_key
+             {{- range $key, $value := .Values.arbitrum_stack.environment }}
+             - name: {{ $key }}
+               value: {{ $value | quote }}
+             {{- end }}
+           volumeMounts:
+             - name: scripts
+               mountPath: /scripts
+             - name: data
+               mountPath: /root
+         - name: {{ .Chart.Name }}-sequencer
+           securityContext:
+             {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "arbitrum_stack.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - /usr/local/bin/nitro
+           args:
+           - --conf.file=/root/l2_config/sequencer_config.json
+           - --chain.info-files="/root/l2_config/l2_chain_info.json"
+           - --node.feed.output.enable
+           - --node.feed.output.port=9642
+           - --http.api=net,web3,eth,txpool,debug
+           - --node.seq-coordinator.my-url=ws://localhost:8548
+           - --ws.port=8548
+           - --http.port=8547
+           - --ws.addr=0.0.0.0
+           - --ws.origins=*
+           - --auth.port={{ .Values.service.port.validation_auth }}
+           volumeMounts:
+           - name: data
+             mountPath: /root/
+           - name: scripts
+             mountPath: /scripts
+           ports: 
+            - name: feed-port
+              containerPort: {{ .Values.service.port.feed_output }}
+              protocol: TCP
+            - name: ws
+              containerPort: {{ .Values.service.port.ws }}
+              protocol: TCP
+            - name: http
+              containerPort: {{ .Values.service.port.http }}
+              protocol: TCP
+            - name: val-port
+              containerPort: {{ .Values.service.port.validation_auth }}
+              protocol: TCP
+           resources:
+             {{- toYaml .Values.resources.sequencer | nindent 12 }}
+         - name: {{ .Chart.Name }}-poster
+           securityContext:
+             {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "arbitrum_stack.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - /usr/local/bin/nitro
+           args:
+             - --conf.file=/root/l2_config/poster_config.json
+             - --http.port={{ .Values.service.port.poster_http }}
+             - --ws.port={{ .Values.service.port.poster_ws }}
+           volumeMounts:
+             - name: data
+               mountPath: /root/
+             - name: scripts
+               mountPath: /scripts
+           ports:
+             - name: ws
+               containerPort: {{ .Values.service.port.poster_ws }}
+               protocol: TCP
+             - name: http
+               containerPort: {{ .Values.service.port.poster_http }}
+               protocol: TCP
+           resources:
+             {{- toYaml .Values.resources.poster | nindent 12 }}
+         - name: {{ .Chart.Name }}-validation-node
+           securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "arbitrum_stack.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - /usr/local/bin/nitro-val
+           args:
+             - --conf.file=/root/l2_config/validation_node_config.json
+             - --auth.port={{ .Values.service.port.val_port }}
+           volumeMounts:
+             - name: data
+               mountPath: /root/
+             - name: scripts
+               mountPath: /scripts
+           ports:
+             - name: auth
+               containerPort: {{ .Values.service.port.val_port }}
+               protocol: TCP
+           resources:
+            {{- toYaml .Values.resources.poster | nindent 12 }}
+         - name: {{ .Chart.Name }}-validator
+           securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+           image: "{{ include "arbitrum_stack.image" . }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           command:
+             - /usr/local/bin/nitro
+           args:
+             - --conf.file=/root/l2_config/validator_config.json
+             - --http.port={{ .Values.service.port.validator_http }}
+             - --ws.port={{ .Values.service.port.validator_ws }}
+             - --http.api=net,web3,arb,debug
+           volumeMounts:
+             - name: data
+               mountPath: /root/
+             - name: scripts
+               mountPath: /scripts
+           ports:
+             - name: ws
+               containerPort: {{ .Values.service.port.validator_ws }}
+               protocol: TCP
+             - name: http
+               containerPort: {{ .Values.service.port.validator_http }}
+               protocol: TCP
+           resources:
+            {{- toYaml .Values.resources.validator | nindent 12 }}
+      volumes: 
+        - name: data 
+          {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }} 
+          persistentVolumeClaim: 
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "arbitrum_stack.fullname" . }}{{- end }}
+          {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }} 
+          hostPath: 
+            path: {{ .Values.persistence.hostPath }} 
+            type: DirectoryOrCreate
+          {{- else }} 
+          emptyDir: { } 
+          {{- end }}
+        - name: scripts
+          configMap:
+            name: "{{ include "arbitrum_stack.fullname" . }}-scripts"
+            defaultMode: 0777
+        - name: configs
+          configMap:
+            name: "{{ include "arbitrum_stack.fullname" . }}-configs"
+            defaultMode: 0666
+      {{- with .Values.nodeSelector }} 
+      nodeSelector: 
+        {{- toYaml . | nindent 8 }} 
+      {{- end }} 
+      {{- with .Values.affinity }} 
+      affinity:
+        {{- toYaml . | nindent 8 }} 
+      {{- end }} 
+      {{- with .Values.tolerations }} 
+      tolerations: 
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
