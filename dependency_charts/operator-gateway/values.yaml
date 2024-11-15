@@ -90,12 +90,21 @@ securityContext: {}
 #   port: 80
 
 resources:
-  requests:
-    cpu: 100m
-    memory: 0.5Gi
-  limits:
-    cpu: 200m
-    memory: 1Gi
+  gateway:
+    requests:
+      cpu: 1m
+      memory: 0.5Gi
+    limits:
+      cpu: 1m
+      memory: 1Gi
+  nginx:
+    requests:
+      cpu: 1m
+      memory: 0.5Gi
+    limits:
+      cpu: 1m
+      memory: 1Gi
+
 
 nodeSelector: {}
 

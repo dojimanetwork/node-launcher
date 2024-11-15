@@ -106,7 +106,7 @@ spec:
               containerPort: {{ .Values.service.port.grpc }}
               protocol: TCP
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.resources.gateway | nindent 12 }}
         - name: {{ .Chart.Name }}-nginx
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -130,6 +130,8 @@ spec:
             - name: dot
               containerPort: {{ .Values.service.port.dot }}
               protocol: TCP
+          resources:
+              {{- toYaml .Values.resources.nginx | nindent 12 }}
       volumes:
       - name: data
       {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
