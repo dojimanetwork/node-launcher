@@ -16,7 +16,7 @@ config:
   port: 30303
   http_addr: 0.0.0.0
   http_port: 8545
-  http_api: eth,net,web3,txpool,dojimachain
+  http_api: eth,net,web3,txpool,dojimachain,admin
   unlock: 0x0aAc3A39eBebA0D08E5A600D079e71bED430712F
   password: /root/password.txt
   pprof.address: 0.0.0.0
