@@ -53,6 +53,9 @@ pods: ## Get Hermesnodes Kubernetes pods
 install: pull update-dependencies ## Deploy a Hermesnode
 	@./scripts/install.sh
 
+install-arbitrum: update-dependencies ## Deploy a Arbitrum stack
+	@./scripts/install-arbitrum.sh
+
 install-frontend: pull update-frontend-deps
 	@./scripts/frontend-install.sh
 
@@ -79,6 +82,9 @@ backup: ## Backup specific files from either hermesnode of narada service of a 
 
 data-backup:
 	@./scripts/data-backup.sh
+
+dojima-data-backup:
+	@./scripts/dojima-data-backup.sh
 
 full-backup: ## Create volume snapshots and backups for both hermesnode and narada services.
 	@./scripts/full-backup.sh
@@ -124,6 +130,9 @@ debug: ## Open a shell for Hermesnode service mounting volume to debug
 
 restore-external-snapshot: ## Restore Hermesnode from external snapshot.
 	@./scripts/restore-external-snapshot.sh
+
+restore-dojima-external-snapshot: ## Restore dojimachain from external snapshot.
+	@./scripts/restore-dojima-external-snapshot.sh
 
 recover-binance:
 	@./scripts/recover-binance.sh
