@@ -19,7 +19,7 @@ global:
     global_enable: true
   dojimachain:
     image: testnet1.azurecr.io/dojimachain
-    tag: 17d9785_1.0.0
+    tag: ffa1574d2_3.0.0
     chainId: 184
   gateway:
     enabled: false
