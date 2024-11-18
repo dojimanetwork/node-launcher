@@ -132,7 +132,7 @@ spec:
              - name: SEEDS
                value: {{ include "hermesnode.seeds" . }}
              - name: PEER
-              {{- if eq .Values.type "genesis" }}
+              {{- if eq .Values.global.hermes.type "genesis" }}
                valueFrom:
                  fieldRef:
                    fieldPath: metadata.name
