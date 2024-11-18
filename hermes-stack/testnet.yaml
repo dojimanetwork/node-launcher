@@ -4,7 +4,7 @@ global:
     image: testnet1.azurecr.io/hermes
     tag: 8514f6d2_1.0.0
     chainId: h4s-184-d11k
-    type: fullnode
+    type: validator
     global_enable:
       hermes: true
       narada: true

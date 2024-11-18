@@ -87,14 +87,6 @@ spec:
                {{- else }}
                value: "true"
                {{- end }}
-             - name: PEER
-               {{- if eq .Values.type "genesis" }}
-               valueFrom:
-                 fieldRef:
-                   fieldPath: metadata.name
-               {{- else }}
-               value: {{ .Values.peer }}
-               {{- end }}
              - name: PEER_API
                value: "{{ .Values.peerApi }}"
              - name: CONTRACT
@@ -137,7 +129,17 @@ spec:
              - name: {{ $key }}
                value: {{ $value | quote }}
              {{- end }}
-           ports: 
+             - name: SEEDS
+               value: {{ include "hermesnode.seeds" . }}
+             - name: PEER
+              {{- if eq .Values.type "genesis" }}
+               valueFrom:
+                 fieldRef:
+                   fieldPath: metadata.name
+              {{- else }}
+               value: {{ include "hermesnode.peer" . }}
+              {{- end }}
+           ports:
             - name: api 
               containerPort: {{ .Values.service.port.api }} 
               protocol: TCP 

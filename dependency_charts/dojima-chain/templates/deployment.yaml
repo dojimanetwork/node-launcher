@@ -85,8 +85,6 @@ spec:
           {{- end }}
           - name: CHAIN_ID
             value: "{{ include "dojima-chain.chainID" . }}"
-          - name: ETH_HOST
-            value: {{ .Values.h4s.eth }}
           - name: ETH_FAUCET_DEST
             value: {{ .Values.env.faucet_dest | quote }}
           - name: ETH_FAUCET_AMT
@@ -134,7 +132,7 @@ spec:
           - name: CHAIN_RPC
             value: {{ .Values.h4s.rpc }}
           - name: HERMES_RPC
-            value: {{ .Values.h4s.hermes_rpc }}
+            value: {{ .Values.hpeer }}
       {{- end }}
       {{- end }}
       - name: init-dojima-genesis

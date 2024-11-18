@@ -15,8 +15,6 @@ signer:
   mnemonicSecret: ""
   passwordSecret: ""
 
-
-peer:
 peerApi:
 ethRouterContract:
   testnet: "0xefA28233838f46a80AaaC8c309077a9ba70D123A"
@@ -71,6 +69,7 @@ environment:
   DOJ_CHAIN_ID: 184
   DOJIMA_RPC_URL: http://dojima-chain:8545
   SEEDS:
+  PEER:
   PORT_P2P: 26656
   PORT_RPC: 26657
 

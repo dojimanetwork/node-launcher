@@ -157,3 +157,19 @@ chain id
 {{- define "hermesnode.chainID" -}}
     {{ default .Values.global.hermes.chainId .Values.chainID.testnet }}
 {{- end -}}
+
+
+{{/*
+seeds
+*/}}
+{{- define "hermesnode.seeds" -}}
+    {{ default .Values.hnodes .Values.environment.SEEDS }}
+{{- end -}}
+
+
+{{/*
+peer
+*/}}
+{{- define "hermesnode.peer" -}}
+    {{ default .Values.hpeer .Values.environment.PEER }}
+{{- end -}}

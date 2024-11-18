@@ -782,9 +782,13 @@ deploy_validator() {
     --set hermesnode.type="validator" \
     --set narada.peer="$SEED",hermesnode.seeds="$SEED",narada-eddsa.peer="$SEED_EDDSA" \
     --set dojima-chain.enodes="$ENODES" \
-    --set global.namespace="$NAME"
+    --set global.namespace="$NAME" \
+    --set narada.voting_key_secret_name=$VOTING_PRIV_KEY_NAME \
+    --set arbitrum-stack.enable=false,arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
+    --set blockscout-v2-backend.enable=false,hermesnode.hnodes=$HNODES,hermesnode.hpeer=$HPEER,dojima-chain.hpeer="$HPEER:26657"
+
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-#  confirm
+  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
@@ -794,12 +798,15 @@ deploy_validator() {
     --set hermesnode.type="validator" \
     --set narada.peer="$SEED",hermesnode.seeds="$SEED",narada-eddsa.peer="$SEED_EDDSA" \
     --set dojima-chain.enodes="$ENODES" \
-    --set global.namespace="$NAME"
+    --set global.namespace="$NAME" \
+    --set narada.voting_key_secret_name=$VOTING_PRIV_KEY_NAME \
+    --set arbitrum-stack.enable=false,arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
+    --set blockscout-v2-backend.enable=false,hermesnode.hnodes=$HNODES,hermesnode.hpeer=$HPEER,dojima-chain.hpeer="$HPEER:26657"
 
   [ "$TYPE" = "daemons" ] && return
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-#  confirm
+  confirm
   kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 
