@@ -704,7 +704,7 @@ deploy_operator_nodes() {
       --set hermes-gateway.arbitrum_stack=false,hermes-gateway.hermes_stack=false \
       --set hermes-gateway.enabled=true \
       --set arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
-      --set hermes-gateway.blockscout.enable=false,hermes-gateway.operator_stack=true \
+      --set hermes-gateway.blockscout.enabled=false,hermes-gateway.operator_stack=true \
       --set hermes-gateway.ethereum_daemon.enable=true,hermes-gateway.polkadot_daemon.enable=true
 
     echo -e "=> Changes for a $boldgreen$TYPE$reset operator nodes on $boldgreen$NET$reset named $boldgreen$NAME$reset"
@@ -717,7 +717,7 @@ deploy_operator_nodes() {
       --set hermes-gateway.arbitrum_stack=false,hermes-gateway.hermes_stack=false \
       --set hermes-gateway.enabled=true \
       --set arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
-      --set hermes-gateway.blockscout.enable=false,hermes-gateway.operator_stack=true \
+      --set hermes-gateway.blockscout.enabled=false,hermes-gateway.operator_stack=true \
       --set hermes-gateway.ethereum_daemon.enable=true,hermes-gateway.polkadot_daemon.enable=true
 
     echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset operator nodes on $boldgreen$NET$reset named $boldgreen$NAME$reset"
