@@ -86,7 +86,7 @@ RPC Port
 Rpc port domain name
 */}}
 {{- define "gateway-hermes-rpc.domain" -}}
-    {{ .Values.domain.h4s.testnet.rpc }}
+    {{ .Values.domain_h4s.testnet.rpc }}
 {{- end -}}
 
 
@@ -114,11 +114,7 @@ Ar port domain name
 dot port domain name
 */}}
 {{- define "gateway-hermes-dot.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.h4s.testnet.dot }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.h4s.mainnet.dot }}
-{{- end -}}
 {{- end -}}
 
 
@@ -126,11 +122,7 @@ dot port domain name
 dot ws port domain name
 */}}
 {{- define "gateway-hermes-dot-ws.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.h4s.testnet.dot_ws }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.h4s.mainnet.dot_ws }}
-{{- end -}}
 {{- end -}}
 
 
@@ -149,11 +141,7 @@ sol ws port domain name
 ethereum wss port domain name
 */}}
 {{- define "gateway-hermes-eth-ws.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.h4s.testnet.eth_ws }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.h4s.mainnet.eth_ws }}
-{{- end -}}
 {{- end -}}
 
 
@@ -173,11 +161,7 @@ sol port domain name
 ethereum port domain name
 */}}
 {{- define "gateway-hermes-eth-api.domain" -}}
-{{- if eq (include "gateway.net" .) "testnet" -}}
     {{ .Values.domain.h4s.testnet.eth }}
-{{- else if eq (include "gateway.net" .) "mainnet" -}}
-    {{ .Values.domain.h4s.mainnet.eth }}
-{{- end -}}
 {{- end -}}
 
 {{/*
@@ -311,12 +295,26 @@ DC http Port
    {{ .Values.service.port.dc.testnet.http }}
 {{- end -}}
 
+{{/*
+DC http Port
+*/}}
+{{- define "gateway-arbitrum.http" -}}
+   {{ .Values.service.port.arbitrum.http }}
+{{- end -}}
+
 
 {{/*
 DC wss/rpc Port
 */}}
 {{- define "gateway-dojima-chain.rpc" -}}
     {{ .Values.service.port.dc.testnet.wss }}
+{{- end -}}
+
+{{/*
+DC wss/rpc Port
+*/}}
+{{- define "gateway-arbitrum.rpc" -}}
+    {{ .Values.service.port.arbitrum.ws }}
 {{- end -}}
 
 {{/*
@@ -368,4 +366,18 @@ Hermes GRPC Port
 */}}
 {{- define "gateway-hermes.grpc" -}}
     {{ .Values.service.port.grpc }}
+{{- end -}}
+
+{{/*
+blockscout v2 backend Port
+*/}}
+{{- define "gateway-dojima-v2-blockscout-backend.http" -}}
+    {{ .Values.service.port.v2_bs.backend }}
+{{- end -}}
+
+{{/*
+blockscout v2 frontend Port
+*/}}
+{{- define "gateway-dojima-v2-blockscout-frontend.http" -}}
+    {{ .Values.service.port.v2_bs.frontend }}
 {{- end -}}

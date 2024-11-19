@@ -119,6 +119,12 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
+            {{- range $key, $value := .Values.blockscout }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            - name: BLOCKSCOUT_HOST
+              value: {{ .Values.blockscout_host | quote }}
           {{- if .Values.readinessProbe.blockscout.enable }}
           readinessProbe:
             httpGet:

@@ -51,3 +51,8 @@ dependencies:
     version: 0.1.0
     repository: file://../dependency_charts/blockscout-v2-backend
     condition: blockscout-v2-backend.enabled
+
+  - name: blockscout-v2-frontend
+    version: 0.1.0
+    repository: file://../dependency_charts/blockscout-v2-frontend
+    condition: blockscout-v2-frontend.enabled

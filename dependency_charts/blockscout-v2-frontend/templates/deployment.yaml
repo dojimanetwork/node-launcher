@@ -69,6 +69,14 @@ spec:
               protocol: TCP
           env:
           {{- include "frontend_env" . | indent 10 }}
+          - name: NEXT_PUBLIC_NETWORK_ID
+            value: {{ .Values.chain_id | quote }}
+          - name: NEXT_PUBLIC_NETWORK_RPC_URL
+            value: {{ .Values.rpc_url | quote }}
+          - name: NEXT_PUBLIC_API_HOST
+            value: {{ .Values.host | quote }}
+          - name: NEXT_PUBLIC_APP_HOST
+            value: {{ .Values.host | quote }}
           {{- if .Values.readinessProbe.frontend.enable }}
           readinessProbe:
             httpGet:

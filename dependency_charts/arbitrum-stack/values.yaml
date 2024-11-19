@@ -33,8 +33,8 @@ arbitrum_stack:
 #    PARENT_PASSPHRASE: "{{ .Values.parent_passphrase }}"
 #    #REDIS_SIGNER_KEY: # still not clear what value to provide.
     # static
-    PARENT_CHAIN_RPC: https://rpc-d11k.dojima.network
-    PARENT_CHAIN_ID: 187
+    PARENT_CHAIN_RPC: https://rpc-test-d11k.dojima.network
+    PARENT_CHAIN_ID: 184
     CHILD_CHAIN_CONFIG_PATH: /root/l2_config/l2_chain_config.json
     AUTHORIZE_VALIDATORS: 1
     NITRO_CONTRACTS_BRANCH: 586acde4c151fa01dae0a44ba03685fe68d8ae2a
@@ -67,7 +67,7 @@ persistence:
 
 serviceAccount:
   create: true
-  name: "serv-node-hermes"
+  name: "arbitrum"
 
 priorityClassName: ""
 

@@ -742,10 +742,13 @@ deploy_arbitrum_rollup() {
     --set hermesnode.enabled=false,dojima-chain.enabled=false \
     --set hermes-gateway.arbitrum_stack=true,hermes-gateway.hermes_stack=false \
     --set arbitrum-stack.enable=true,blockscout-v2-backend.enabled=true \
-    --set hermes-gateway.blockscout.enable=true
+    --set hermes-gateway.blockscout.enabled=true,operator-gateway.enabled=false \
+    --set crawler.enabled=false,blockscout-v2-frontend.enabled=true,blockscout-v2-backend.blockscout_host=$BS_EXTERNAL_IP:4002 \
+    --set blockscout-v2-frontend.chain_id=$L2_CHAIN_ID,blockscout-v2-frontend.rpc_url=http://$BS_EXTERNAL_IP:8547 \
+    --set blockscout-v2-frontend.host=$BS_EXTERNAL_IP:4002
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-#  confirm
+  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $EXTRA_ARGS \
@@ -761,10 +764,13 @@ deploy_arbitrum_rollup() {
     --set hermesnode.enabled=false,dojima-chain.enabled=false \
     --set hermes-gateway.arbitrum_stack=true,hermes-gateway.hermes_stack=false \
     --set arbitrum-stack.enable=true,blockscout-v2-backend.enabled=true \
-    --set hermes-gateway.blockscout.enable=true
+    --set hermes-gateway.blockscout.enabled=true,operator-gateway.enabled=false \
+    --set crawler.enabled=false,blockscout-v2-frontend.enabled=true,blockscout-v2-backend.blockscout_host=$BS_EXTERNAL_IP:4002 \
+    --set blockscout-v2-frontend.chain_id=$L2_CHAIN_ID,blockscout-v2-frontend.rpc_url=http://$BS_EXTERNAL_IP:8547 \
+    --set blockscout-v2-frontend.host=$BS_EXTERNAL_IP:4002
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-#  confirm
+  confirm
   kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 

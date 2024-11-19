@@ -33,6 +33,7 @@ spec:
       targetPort: https
       protocol: TCP
       name: https
+    {{- if .Values.hermes_stack }}
     {{- if .Values.validator }}
     - port: {{ .Values.service.port.narada.api }}
       targetPort: narada-api
@@ -97,16 +98,6 @@ spec:
       protocol: TCP
       name: solana-tpu
     {{- end }}
-    {{- if .Values.polkadot }}
-    - port: {{ include "gateway-polkadot-daemon.http" .}}
-      targetPort: polkadot-http
-      protocol: TCP
-      name: polkadot-http
-    - port: {{ include "gateway-polkadot-daemon.wss" .}}
-      targetPort: polkadot-wss
-      protocol: TCP
-      name: polkadot-wss
-    {{- end }}
     {{- if .Values.dojima_chain }}
     - port: {{ include "gateway-dojima-chain.http" . }}
       targetPort: dc-http
@@ -131,16 +122,6 @@ spec:
       protocol: TCP
       name: faucet
     {{- end }}
-    {{- if .Values.eth }}
-    - port: {{ include "gateway-eth-chain.api" . }}
-      targetPort: eth-api
-      protocol: TCP
-      name: eth-api
-    - port: {{ include "gateway-eth-chain.wss" . }}
-      targetPort: eth-wss
-      protocol: TCP
-      name: eth-wss
-    {{- end }}
     {{- if .Values.binance }}
     - port: {{ include "gateway-bnb-chain.rpc" . }}
       targetPort: bnb-rpc
@@ -152,6 +133,49 @@ spec:
       targetPort: hermes-grpc
       protocol: TCP
       name: hermes-grpc
+    {{- end }}
+    {{- end }}
+    {{- if .Values.arbitrum_stack }}
+    - name: arb-http
+      port: {{ include "gateway-arbitrum.http" . }}
+      protocol: TCP
+      targetPort: arb-http
+    - name: arb-ws
+      port: {{ include "gateway-arbitrum.rpc" . }}
+      protocol: TCP
+      targetPort: arb-ws
+    {{- if .Values.blockscout.enabled }}
+    - port: {{ include "gateway-dojima-v2-blockscout-backend.http" . }}
+      targetPort: v2doj-backend
+      protocol: TCP
+      name: v2doj-backend
+    - port: {{ include "gateway-dojima-v2-blockscout-frontend.http" . }}
+      targetPort: v2doj-frontend
+      protocol: TCP
+      name: v2doj-frontend
+    {{- end }}
+    {{- end }}
+    {{- if .Values.operator_stack }}
+    {{- if .Values.ethereum_daemon.enable }}
+    - port: {{ include "gateway-eth-chain.api" . }}
+      targetPort: eth-api
+      protocol: TCP
+      name: eth-api
+    - port: {{ include "gateway-eth-chain.wss" . }}
+      targetPort: eth-wss
+      protocol: TCP
+      name: eth-wss
+    {{- end }}
+    {{- if .Values.polkadot_daemon.enable }}
+    - port: {{ include "gateway-polkadot-daemon.http" .}}
+      targetPort: polkadot-http
+      protocol: TCP
+      name: polkadot-http
+    - port: {{ include "gateway-polkadot-daemon.wss" .}}
+      targetPort: polkadot-wss
+      protocol: TCP
+      name: polkadot-wss
+    {{- end }}
     {{- end }}
   selector:
     {{- include "gateway.selectorLabels" . | nindent 4 }}

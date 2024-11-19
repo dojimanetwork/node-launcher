@@ -36,8 +36,6 @@ frontend:
       _default: Dojima Network
     NEXT_PUBLIC_NETWORK_SHORT_NAME:
       _default: DOJ
-    NEXT_PUBLIC_NETWORK_ID:
-      _default: 187
     NEXT_PUBLIC_NETWORK_CURRENCY_NAME:
       _default: Dojima Network
     NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL:
@@ -46,16 +44,8 @@ frontend:
       _default: 18
     NEXT_PUBLIC_FEATURED_NETWORKS:
       _default: https://raw.githubusercontent.com/blockscout/frontend-configs/main/configs/featured-networks/eth-goerli.json
-    NEXT_PUBLIC_API_HOST:
-      _default: explorer.dojima.network
-    NEXT_PUBLIC_APP_HOST:
-      _default: explorer.dojima.network
     NEXT_PUBLIC_API_BASE_PATH:
       _default: /
-    NEXT_PUBLIC_STATS_API_HOST:
-      _default: https://stats.dojima.network
-    NEXT_PUBLIC_NETWORK_RPC_URL:
-      _default: https://rpc-d11k.dojima.network
     NEXT_PUBLIC_HOMEPAGE_CHARTS:
       _default: "['daily_txs','coin_price']"
     NEXT_PUBLIC_IS_TESTNET:
@@ -72,6 +62,10 @@ frontend:
       _default: https://storage.googleapis.com/dojima_wallet/Dojima_Network_3D_Logo%202.png
     NEXT_PUBLIC_API_SPEC_URL:
       _default: https://raw.githubusercontent.com/blockscout/blockscout-api-v2-swagger/main/swagger.yaml
+    NEXT_PUBLIC_API_PROTOCOL:
+      _default: http
+    NEXT_PUBLIC_API_WEBSOCKET_PROTOCOL:
+      _default: ws
 
 stats:
   environment:
@@ -90,8 +84,8 @@ stats:
 
 
 imagePullSecrets: []
-nameOverride: "v2-blockscout-frontend"
-fullnameOverride: "v2-blockscout-frontend"
+nameOverride: "blockscout-v2-frontend"
+fullnameOverride: "blockscout-v2-frontend"
 
 serviceAccount:
   # Specifies whether a service account should be created

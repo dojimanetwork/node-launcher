@@ -4,6 +4,11 @@
 
 net: testnet
 
+
+arbitrum_stack: false
+hermes_stack: false
+operator_stack: false
+
 validator: true
 midgard: false
 grpc: false
@@ -116,6 +121,15 @@ service:
     binance:
       testnet:
         rpc: 26660
+    arbitrum:
+      http: 8547
+      ws: 8548
+      feed: 9642
+    v2_bs:
+      backend: 4002
+      frontend: 3004
+      stats: 8050
+      verifier: 8043
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -155,10 +169,10 @@ securityContext: {}
 resources:
   limits:
     cpu: 0.1
-    memory: 50Mi
+    memory: 100Mi
   requests:
     cpu: 0.01
-    memory: 20Mi
+    memory: 50Mi
 
 nodeSelector: {}
 

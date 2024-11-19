@@ -181,8 +181,7 @@ blockscout:
   API_V2_ENABLED: true
   DECODE_NOT_A_CONTRACT_CALLS: true
   APPLICATION_MODE: all
-  BLOCKSCOUT_HOST: explorer.dojima.network
-  BLOCKSCOUT_PROTOCOL: https
+  BLOCKSCOUT_PROTOCOL: http
 
 
 bs_rs_env:

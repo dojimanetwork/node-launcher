@@ -21,6 +21,10 @@ global:
     image: testnet1.azurecr.io/dojimachain
     tag: ffa1574d2_3.0.0
     chainId: 184
+  arbitrum:
+    image: offchainlabs/nitro-node
+    tag: v3.2.1-d81324d-dev
+    wasm_module_root: 0xb0de9cb89e4d944ae6023a3b62276e54804c242fd8c4c2d8e6cc4450f5fa8b1b
   gateway:
     enabled: false
     name: hermes-gateway
