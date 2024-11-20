@@ -672,7 +672,8 @@ deploy_genesis() {
     --set global.namespace="$NAME" \
     --set narada.voting_key_secret_name=$VOTING_PRIV_KEY_NAME \
     --set arbitrum-stack.enable=false,arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
-    --set blockscout-v2-backend.enable=false
+    --set blockscout-v2-backend.enable=false,blockscout-v2-frontend.enabled=false \
+    --set hermes-gateway.hermes_stack=true
 
   echo "args --- ${args}"
   echo "extra args ${EXTRA_ARGS}"
@@ -688,7 +689,8 @@ deploy_genesis() {
     --set global.namespace="$NAME" \
     --set narada.voting_key_secret_name=$VOTING_PRIV_KEY_NAME \
     --set arbitrum-stack.enable=false,arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
-    --set blockscout-v2-backend.enable=false
+    --set blockscout-v2-backend.enabled=false,blockscout-v2-frontend.enabled=false \
+    --set hermes-gateway.hermes_stack=true
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
@@ -748,7 +750,7 @@ deploy_arbitrum_rollup() {
     --set blockscout-v2-frontend.host=$BS_EXTERNAL_IP:4002
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $EXTRA_ARGS \
@@ -770,7 +772,7 @@ deploy_arbitrum_rollup() {
     --set blockscout-v2-frontend.host=$BS_EXTERNAL_IP:4002
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset arbitrum stack on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 
@@ -791,7 +793,8 @@ deploy_validator() {
     --set global.namespace="$NAME" \
     --set narada.voting_key_secret_name=$VOTING_PRIV_KEY_NAME \
     --set arbitrum-stack.enable=false,arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
-    --set blockscout-v2-backend.enable=false,hermesnode.hnodes=$HNODES,hermesnode.hpeer=$HPEER,dojima-chain.hpeer="$HPEER:26657"
+    --set blockscout-v2-backend.enable=false,hermesnode.hnodes=$HNODES,hermesnode.hpeer=$HPEER,dojima-chain.hpeer="$HPEER:26657" \
+    --set blockscout-v2-frontend.enabled=false,hermes-gateway.hermes_stack=true
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
   confirm
@@ -807,7 +810,8 @@ deploy_validator() {
     --set global.namespace="$NAME" \
     --set narada.voting_key_secret_name=$VOTING_PRIV_KEY_NAME \
     --set arbitrum-stack.enable=false,arbitrum-stack.enabled=false,blockscout-v2-backend.enabled=false \
-    --set blockscout-v2-backend.enable=false,hermesnode.hnodes=$HNODES,hermesnode.hpeer=$HPEER,dojima-chain.hpeer="$HPEER:26657"
+    --set blockscout-v2-backend.enable=false,hermesnode.hnodes=$HNODES,hermesnode.hpeer=$HPEER,dojima-chain.hpeer="$HPEER:26657",blockscout-v2-frontend.enabled=false \
+    --set hermes-gateway.hermes_stack=true
 
   [ "$TYPE" = "daemons" ] && return
 
