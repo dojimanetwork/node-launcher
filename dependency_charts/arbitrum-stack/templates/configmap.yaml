@@ -94,7 +94,7 @@ data:
       echo "redis"
       # Generate a JWT secret file
       openssl rand -hex 32 | tr -d "\n" > "$CONFIG_PATH/val_jwt.hex"
-
+      is_simple={{ .Values.arbitrum_stack.simple }}
       # Base configuration as JSON object
       baseConfig=$(jq -n \
       --arg url "{{ .Values.arbitrum_stack.environment.PARENT_CHAIN_RPC }}" \
@@ -133,16 +133,16 @@ data:
           "make-assertion-interval": "10s",
           "strategy": "MakeNodes"
         },
-        "sequencer": true,
+        "sequencer": false,
         "dangerous": {
           "no-sequencer-coordinator": false,
           "disable-blob-reader": true
         },
         "delayed-sequencer": {
-          "enable": true
+          "enable": false
         },
         "seq-coordinator": {
-          "enable": true,
+          "enable": false,
           "redis-url": "redis://127.0.0.1:6379",
           "lockout-duration": "30s",
           "lockout-spare": "1s",
@@ -177,7 +177,7 @@ data:
       },
       "execution": {
         "sequencer": {
-          "enable": true
+          "enable": false
         },
         "forwarding-target": "null"
       },
@@ -197,38 +197,54 @@ data:
       # Write to the config files
       echo "$baseConfig" | jq '.' > "$CONFIG_PATH/base_config.json"
 
-      # Derived configurations
-      validatorConfig=$(echo "$baseConfig" | jq '
-      .node.staker.enable = true |
-      .node.staker["use-smart-contract-wallet"] = true
-      ')
-      echo "$validatorConfig" > "$CONFIG_PATH/validator_config.json"
+      # simple config
+      if [ "$is_simple" == "true" ]; then
+        sequencerConfig=$(echo "$baseConfig" | jq '
+          .node.staker.enable = true |
+          .node.staker["use-smart-contract-wallet"] = true |
+          .node.staker.dangerous["without-block-validator"] = true |
+          .node.sequencer = true |
+          .node.dangerous["no-sequencer-coordinator"] = true |
+          .node["delayed-sequencer"].enable = true |
+          .node["batch-poster"].enable = true |
+          .node["batch-poster"]["redis-url"] = "" |
+          .execution["sequencer"].enable = true
+          ')
+        echo "$sequencerConfig" > "$CONFIG_PATH/sequencer_config.json"
+      else
+        # Derived configurations
+        validatorConfig=$(echo "$baseConfig" | jq '
+        .node.staker.enable = true |
+        .node.staker["use-smart-contract-wallet"] = true
+        ')
+        echo "$validatorConfig" > "$CONFIG_PATH/validator_config.json"
 
-    unsafeStakerConfig=$(echo "$validatorConfig" | jq '
-      .node.staker.dangerous["without-block-validator"] = true
-      ')
-    echo "$unsafeStakerConfig" > "$CONFIG_PATH/unsafe_staker_config.json"
+        unsafeStakerConfig=$(echo "$validatorConfig" | jq '
+          .node.staker.dangerous["without-block-validator"] = true
+          ')
+        echo "$unsafeStakerConfig" > "$CONFIG_PATH/unsafe_staker_config.json"
 
-    sequencerConfig=$(echo "$baseConfig" | jq '
-      .node.sequencer = true |
-      .node["seq-coordinator"].enable = true |
-      .execution.sequencer.enable = true |
-      .node["delayed-sequencer"].enable = true |
-      .node.staker.dangerous["without-block-validator"] = true |
-      .node.staker.enable = true |
-      .node.staker["use-smart-contract-wallet"] = true |
-      .node["batch-poster"].enable = true |
-      .node.dangerous["no-sequencer-coordinator"] = true |
-      .node["seq-coordinator"].enable = false |
-      .node["batch-poster"].enable = true
-      ')
-    echo "$sequencerConfig" > "$CONFIG_PATH/sequencer_config.json"
+        sequencerConfig=$(echo "$baseConfig" | jq '
+          .node.sequencer = true |
+          .node["seq-coordinator"].enable = true |
+          .execution.sequencer.enable = true |
+          .node["delayed-sequencer"].enable = true |
+          .node.staker.dangerous["without-block-validator"] = true |
+          .node.staker.enable = true |
+          .node.staker["use-smart-contract-wallet"] = true |
+          .node["batch-poster"].enable = true |
+          .node.dangerous["no-sequencer-coordinator"] = true |
+          .node["seq-coordinator"].enable = false |
+          .node["batch-poster"].enable = true
+          ')
+        echo "$sequencerConfig" > "$CONFIG_PATH/sequencer_config.json"
 
-    posterConfig=$(echo "$baseConfig" | jq '
-      .node["seq-coordinator"].enable = true |
-      .node["batch-poster"].enable = true
-      ')
-    echo "$posterConfig" > "$CONFIG_PATH/poster_config.json"
+        posterConfig=$(echo "$baseConfig" | jq '
+          .node["seq-coordinator"].enable = true |
+          .node["batch-poster"].enable = true
+          ')
+        echo "$posterConfig" > "$CONFIG_PATH/poster_config.json"
+      fi
 
     validationNodeConfig=$(jq -n \
     --arg jwtsecret "$CONFIG_PATH/val_jwt.hex" \

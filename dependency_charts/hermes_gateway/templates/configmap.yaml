@@ -98,13 +98,6 @@ data:
       }
       {{- end }}
 
-
-      {{- if .Values.blockscout.enable }}
-      upstream dojima-blockscout-websocket {
-        server blockscout-v2-backend:{{ .Values.service.port.blockscout }};
-      }
-      {{- end }}
-
       server {
         listen 80;
         server_name 10.0.0.1;

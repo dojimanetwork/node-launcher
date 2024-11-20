@@ -22,6 +22,10 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.service.port.token }}
+      targetPort: token
+      protocol: TCP
+      name: token
     - port: {{ .Values.service.port.grpc }}
       targetPort: grpc
       protocol: TCP

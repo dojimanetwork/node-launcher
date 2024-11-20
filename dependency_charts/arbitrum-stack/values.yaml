@@ -21,6 +21,7 @@ autoupdate:
 
 arbitrum_stack:
   enable_blockscout: false
+  simple: true
   environment:
     # needs to come dynamically from global values else take from here
 #    L2_CHAIN_ID: {{ .Values.l2_chain_id }}
@@ -36,10 +37,11 @@ arbitrum_stack:
     PARENT_CHAIN_RPC: https://rpc-test-d11k.dojima.network
     PARENT_CHAIN_ID: 184
     CHILD_CHAIN_CONFIG_PATH: /root/l2_config/l2_chain_config.json
-    AUTHORIZE_VALIDATORS: 1
-    NITRO_CONTRACTS_BRANCH: 586acde4c151fa01dae0a44ba03685fe68d8ae2a
+    AUTHORIZE_VALIDATORS: 10
+    NITRO_CONTRACTS_BRANCH: 188b8fcd71ccc022fc76a822036414d816a18522
     CHAIN_DEPLOYMENT_INFO: /root/l2_config/deployment.json
     CHILD_CHAIN_INFO: /root/l2_config/l2_chain_info.json
+    MAX_DATA_SIZE: 117964
 
 service:
   type: "ClusterIP"

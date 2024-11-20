@@ -121,6 +121,9 @@ spec:
             - name: http-nginx
               containerPort: 80
               protocol: TCP
+            - name: token
+              containerPort: {{ .Values.service.port.token }}
+              protocol: TCP
             - name: sol
               containerPort: {{ .Values.service.port.sol }}
               protocol: TCP
