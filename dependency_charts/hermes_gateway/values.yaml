@@ -11,7 +11,7 @@ operator_stack: false
 
 validator: true
 midgard: false
-grpc: false
+grpc: true
 rpc:
   enabled: true
   limited: true

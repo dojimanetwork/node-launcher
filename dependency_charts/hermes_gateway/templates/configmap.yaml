@@ -357,7 +357,7 @@ data:
 
       {{ if .Values.grpc }}
       server {
-        listen {{ include "gateway-hermes.grpc" . }};
+        listen {{ include "gateway-hermes.grpc" . }} http2;
         server_name 10.0.0.1;
 
         location / {
