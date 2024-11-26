@@ -111,10 +111,6 @@ spec:
       targetPort: dc-p2p
       protocol: TCP
       name: dc-p2p
-    - port: {{ include "gateway-dojima-chain.p2p" . }}
-      targetPort: dc-p2p-udp
-      protocol: UDP
-      name: dc-p2p-udp
     {{- end }}
     {{- if .Values.faucet }}
     - port: {{ include "gateway-dojima-chain.faucet" . }}

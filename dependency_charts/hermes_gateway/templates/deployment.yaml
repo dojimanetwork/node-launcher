@@ -106,9 +106,6 @@ spec:
             - name: hermes-grpc
               containerPort: {{ include "gateway-hermes.grpc" .}}
               protocol: TCP
-            - name: dc-p2p-udp
-              containerPort: {{ include "gateway-dojima-chain.p2p" .}}
-              protocol: UDP
             {{- end }}
             {{- if .Values.arbitrum_stack }}
             - name: arb-http
