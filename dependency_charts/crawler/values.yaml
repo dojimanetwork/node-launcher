@@ -19,9 +19,9 @@ signer:
   passwordSecret: ""
 
 environment:
-  INCLUDE_ETH_CHAIN: false
+  INCLUDE_ETH_CHAIN: true
   INCLUDE_BINANCE_CHAIN: false
-  INCLUDE_BTC_CHAIN: false
+  INCLUDE_BTC_CHAIN: true
   INCLUDE_AR_CHAIN: false
   INCLUDE_DOT_CHAIN: true
   INCLUDE_SOL_CHAIN: true
@@ -79,13 +79,13 @@ polkaDaemmon:
   enabled: true
   testnet: ws://polkadot-daemon.operator-gateway-1:9944
   stagenet: ws://polkadot-daemon.operator-gateway-1:9944
-  polkaStartBlockHeight: 0
+  polkaStartBlockHeight: 8459996
 
 solanaDaemon:
-  enabled: true
+  enabled: false
   testnet: http://solana-daemon:8899
   wsTestnet: wss://solws.h4s.dojima.network:8900
-  solanaStartBlockHeight: 0
+  solanaStartBlockHeight: 344113009
 
 
 binanceDaemon:

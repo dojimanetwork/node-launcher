@@ -23,7 +23,7 @@ SPEC=$(
         "command": [
           "sh",
           "-c",
-          "printf '\n\n' | hermesnode export --height 423810"
+          "printf '\n\n' | hermesnode export --height 258097"
         ],
         "env": [
           {
