@@ -117,7 +117,7 @@ hard-fork: ## Hard fork chain
 	@HARDFORK_BLOCK_HEIGHT=426971 NEW_GENESIS_TIME='2024-03-10T02:29:46.120665Z' CHAIN_ID='hermeschain-stagenet' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/stagenet/genesis.426971.3.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes:cd65acde_5.4.17' ./scripts/hard-fork.sh
 
 hard-fork-testnet: ## hard fork testnet
-	@HARDFORK_BLOCK_HEIGHT=258097 NEW_GENESIS_TIME='2024-11-15T10:53:12.260794508Z' CHAIN_ID='h4s-184-d11k' VIA_URL=true HARDFORK_URL=https://dojimachain1401.blob.core.windows.net/2024-12-02/genesis.258097.original.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:353d081a_1.0.0' ./scripts/hard-fork.sh
+	@HARDFORK_BLOCK_HEIGHT=258097 NEW_GENESIS_TIME='2024-11-15T10:53:12.260794508Z' CHAIN_ID='h4s-184-d11k' VIA_URL=true HARDFORK_URL=https://dojimachain1401.blob.core.windows.net/2024-12-02/genesis.258097.original.json IMAGE='testnet1.azurecr.io/hermes:78a6e821_1.0.0' ./scripts/hard-fork.sh
 
 hard-fork-testnet-hold: ## hard fork testnet
 	@HARDFORK_BLOCK_HEIGHT=126728 NEW_GENESIS_TIME='2024-02-27T16:11:56.916227472Z' CHAIN_ID='hermes-testnet-v2' VIA_URL=true HARDFORK_URL=https://storage.googleapis.com/hermes-node-hard-fork/testnet/genesis_126728.json IMAGE='asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes:ba90ad4a_5.4.5' ./scripts/hard-fork-hold.sh
