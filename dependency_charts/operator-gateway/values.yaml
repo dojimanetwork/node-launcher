@@ -64,6 +64,7 @@ service:
     sol: 9002
     eth: 9003
     dot: 9004
+    btc: 9005
     token: 9045
 
 serviceAccount:

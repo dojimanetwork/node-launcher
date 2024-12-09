@@ -133,6 +133,9 @@ spec:
             - name: dot
               containerPort: {{ .Values.service.port.dot }}
               protocol: TCP
+            - name: btc
+              containerPort: {{ .Values.service.port.btc }}
+              protocol: TCP
           resources:
               {{- toYaml .Values.resources.nginx | nindent 12 }}
       volumes:

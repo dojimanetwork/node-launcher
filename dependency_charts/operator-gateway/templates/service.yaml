@@ -42,5 +42,9 @@ spec:
       targetPort: eth
       protocol: TCP
       name: eth
+    - port: {{ .Values.service.port.btc }}
+      targetPort: btc
+      protocol: TCP
+      name: btc
   selector:
     {{- include "operator-gateway.selectorLabels" . | nindent 4 }}
