@@ -10,7 +10,7 @@ ethSuggestedFeeVersion:
   testnet: 2
   mocknet: 1
 
-crawler_log_level: "info"
+crawler_log_level: "debug"
 
 signer:
   name: ""
@@ -19,12 +19,12 @@ signer:
   passwordSecret: ""
 
 environment:
-  INCLUDE_ETH_CHAIN: true
+  INCLUDE_ETH_CHAIN: false
   INCLUDE_BINANCE_CHAIN: false
   INCLUDE_BTC_CHAIN: true
   INCLUDE_AR_CHAIN: false
-  INCLUDE_DOT_CHAIN: true
-  INCLUDE_SOL_CHAIN: true
+  INCLUDE_DOT_CHAIN: false
+  INCLUDE_SOL_CHAIN: false
   INCLUDE_GAIA_CHAIN: false
   INCLUDE_DOJ_CHAIN: false
   INCLUDE_AVAX_CHAIN: false
@@ -79,7 +79,7 @@ polkaDaemmon:
   enabled: true
   testnet: ws://polkadot-daemon.operator-gateway-1:9944
   stagenet: ws://polkadot-daemon.operator-gateway-1:9944
-  polkaStartBlockHeight: 8459996
+  polkaStartBlockHeight: 0
 
 solanaDaemon:
   enabled: false
