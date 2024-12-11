@@ -201,6 +201,8 @@ tolerations: []
 affinity: {}
 
 global:
+  dojimachain:
+    chainId: 1401
   crawler:
     global_enable: true
   hermes:
