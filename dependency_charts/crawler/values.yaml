@@ -135,8 +135,8 @@ strategyType: Recreate
 image:
   repository: testnet1.azurecr.io/crawler
   pullPolicy: IfNotPresent
-  tag: 76910312_3.0.2
-  hash: "af37838a6800e4e866c4e42e2aace980ccdd6861bd983eb94dfc015a15f8ed39" # Not used for mocknet/testnet
+  tag: ea1e2b5_..1
+  hash: "114dc393fd7a814797346276e3d6a0bcb16c656f788c05a681ec9c8df7fb2f28" # Not used for mocknet/testnet
 
 imagePullSecrets: []
 nameOverride: "crawler"
