@@ -202,7 +202,7 @@ affinity: {}
 
 global:
   hermes:
-    image: "your-image-repository/your-image"
+    image: "asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes"
     tag: ""
   gateway:
     enabled: false
