@@ -133,7 +133,7 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: asia-south1-docker.pkg.dev/prod-dojima/testnet/hermes
+  repository: testnet1.azurecr.io/crawler
   pullPolicy: IfNotPresent
   tag: 76910312_3.0.2
   hash: "af37838a6800e4e866c4e42e2aace980ccdd6861bd983eb94dfc015a15f8ed39" # Not used for mocknet/testnet
