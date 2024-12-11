@@ -201,6 +201,9 @@ tolerations: []
 affinity: {}
 
 global:
+  hermes:
+    image: "your-image-repository/your-image"
+    tag: ""
   gateway:
     enabled: false
   images:
