@@ -19,16 +19,16 @@ signer:
   passwordSecret: ""
 
 environment:
-  INCLUDE_ETH_CHAIN: false
+  INCLUDE_ETH_CHAIN: true
   INCLUDE_BINANCE_CHAIN: false
   INCLUDE_BTC_CHAIN: true
   INCLUDE_AR_CHAIN: false
-  INCLUDE_DOT_CHAIN: false
-  INCLUDE_SOL_CHAIN: false
+  INCLUDE_DOT_CHAIN: true
+  INCLUDE_SOL_CHAIN: true
   INCLUDE_GAIA_CHAIN: false
   INCLUDE_DOJ_CHAIN: false
   INCLUDE_AVAX_CHAIN: false
-  DOJIMA_SPAN_ENABLE: true
+  DOJIMA_SPAN_ENABLE: false
   AVAX_HOST: http://avalanche-daemon.hermes-stagenet:9650/ext/bc/C/rpc
   TSS_P2P_PORT: 5040
   P2P_ID_PORT: 6040
@@ -43,7 +43,7 @@ environment:
   CHAIN_HOME_FOLDER: /root/.hermesnode
   CONTR: false
   DOJ_CHAIN_HOME_FOLDER: /root/.dojimachain
-  SOL_START_BLOCK_HEIGHT: "0"
+  SOL_START_BLOCK_HEIGHT: "-1"
 
 # use in multi nodes envs
 narada_peer:
@@ -79,13 +79,13 @@ polkaDaemmon:
   enabled: true
   testnet: ws://polkadot-daemon.operator-gateway-1:9944
   stagenet: ws://polkadot-daemon.operator-gateway-1:9944
-  polkaStartBlockHeight: 0
+  polkaStartBlockHeight: -1
 
 solanaDaemon:
   enabled: false
   testnet: http://solana-daemon:8899
   wsTestnet: wss://solws.h4s.dojima.network:8900
-  solanaStartBlockHeight: 344113009
+  solanaStartBlockHeight: -1
 
 
 binanceDaemon:
@@ -102,7 +102,7 @@ bitcoinDaemon:
   testnet: bitcoin-daemon.hermes-devnet:18332
 #  mocknet: bitcoin-daemon:18443
   stagenet: bitcoin-daemon.hermes-stagenet:8332
-  bitcoinStartBlockHeight: 0
+  bitcoinStartBlockHeight: -1
 
 ethereumDaemon:
   enabled: true
@@ -110,7 +110,7 @@ ethereumDaemon:
   testnet: http://ethereum-daemon.hermes-devnet:9545
 #  mocknet: http://ethereum-daemon:8545
   stagenet: https://eth.h4s.dojima.network:80
-  ethereumStartBlockHeight: 0
+  ethereumStartBlockHeight: -1
 
 gaiaDaemon:
   enabled: true

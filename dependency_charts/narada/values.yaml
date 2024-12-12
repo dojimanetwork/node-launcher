@@ -44,6 +44,7 @@ environment:
   VALIDATOR: true
   DOJIMA_RPC_URL: http://dojima-chain:8545
   CONFIG_PATH: /etc/narada
+  NET: testnet
 
 # use in multi nodes envs
 narada_peer:

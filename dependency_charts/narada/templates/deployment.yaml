@@ -97,8 +97,8 @@ spec:
                 configMapKeyRef:
                   name: {{ include "narada.fullname" . }}-external-ip
                   key: externalIP
-            - name: NET
-              value: {{ include "narada.net" . }}
+#            - name: NET
+#              value: {{ include "narada.net" . }}
             - name: BINANCE_HOST
               value: {{ include "narada.binanceDaemon" . }}
             - name: BINANCE_START_BLOCK_HEIGHT
