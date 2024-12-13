@@ -14,7 +14,7 @@ midgard: false
 grpc: true
 rpc:
   enabled: true
-  limited: true
+  limited: false
 api: true
 arweave: false
 solana: false
