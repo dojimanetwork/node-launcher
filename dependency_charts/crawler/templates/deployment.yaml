@@ -129,7 +129,7 @@ spec:
             - name: DOT_HOST
               value: {{ include "crawler.polkaDaemon" . }}
             - name: DOT_START_BLOCK_HEIGHT
-              value: "{{ .Values.polkaDaemon.polkaStartBlockHeight }}"
+              value: "{{ .Values.polkaDaemon.polkaStartBlockHeight | default 0 }}"
             - name: SOL_HOST
               value: {{ include "crawler.solanaDaemon" . }}
             - name: SOL_HOST_WS
