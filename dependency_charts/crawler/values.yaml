@@ -154,9 +154,6 @@ persistence:
 #  storageClass: gp2
   # hostPath: /host-path
 
-polkaDaemon:
-  polkaStartBlockHeight: 0  # or the appropriate value
-
 service:
   type: ClusterIP
   port:
