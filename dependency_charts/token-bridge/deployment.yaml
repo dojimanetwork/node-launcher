@@ -1,4 +1,3 @@
-# ConfigMap to store shell scripts
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,20 +6,57 @@ metadata:
 data:
   deploy.sh: |
     #!/bin/sh
-    echo "Deploying contracts..."
-    # Add your contract deployment logic here
-    echo "Deployment complete!"
+    set -eu pipefail
+    
+    apt-get update && \
+    apt-get install -y git docker.io python3 build-essential
+  
+    
+    # Set up working directory
+    WORKSPACE_DIR="/workspace"
+    mkdir -p "$WORKSPACE_DIR"
+    cd "$WORKSPACE_DIR"
+    
+    git clone --no-checkout https://github.com/OffchainLabs/token-bridge-contracts.git ./
+    git checkout main
+    
+    yarn install
+    yarn build
+    
+    yarn deploy:local:token-bridge
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: token-bride-contracts-arbitrum
+  name: token-bridge-contracts-arbitrum
   namespace: arbitrum-rollup-1
 spec:
   initContainers:
     - name: init-deploy-contracts
       image: "node:18-bullseye-slim"
-      command: ['/scripts/deploy.sh']
+      command: ['sh', '/scripts/deploy.sh']
+      env:
+        - name: ROLLUP_OWNER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: "${SEQUENCER_PRIVKEY_NAME}"
+              key: sequencer_priv_key
+        - name: ROLLUP_ADDRESS
+          value: "${ROLLUP_ADDR}"
+        - name: PARENT_KEY
+          valueFrom:
+            secretKeyRef:
+              name: "${DEPLOYER_PRIVKEY_NAME}"
+              key: deployer_priv_key
+        - name: PARENT_RPC
+          value: https://rpc-test-d11k.dojima.network
+        - name: CHILD_KEY
+          valueFrom:
+            secretKeyRef:
+              name: "${DEPLOYER_PRIVKEY_NAME}"
+              key: deployer_priv_key
+        - name: CHILD_RPC
+          value: "http://${BS_EXTERNAL_IP}:8547"
       volumeMounts:
         - mountPath: /scripts
           name: script-config
