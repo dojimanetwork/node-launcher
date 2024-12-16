@@ -20,10 +20,10 @@ spec:
         prometheus.io/path: '/metrics'
         prometheus.io/port: '9000'
     spec:
-    {{- with .Values.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
       serviceAccountName: {{ include "crawler.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -61,14 +61,14 @@ spec:
           - name: SIGNER_NAME
             value: {{ .Values.signer.name }}
           - name: SIGNER_PASSWD
-             {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+            {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
             valueFrom:
               secretKeyRef:
                 name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
                 key: password
-             {{- else}}
+            {{- else }}
             value: {{ .Values.signer.password }}
-             {{- end }}
+            {{- end }}
           {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
           - name: SIGNER_SEED_PHRASE
             valueFrom:
@@ -129,7 +129,7 @@ spec:
             - name: DOT_HOST
               value: {{ include "crawler.polkaDaemon" . }}
             - name: DOT_START_BLOCK_HEIGHT
-              value: "{{ .Values.polkaDaemmon.polkaStartBlockHeight }}"
+              value: "{{ .Values.polkaDaemon.polkaStartBlockHeight }}"
             - name: SOL_HOST
               value: {{ include "crawler.solanaDaemon" . }}
             - name: SOL_HOST_WS
@@ -137,7 +137,7 @@ spec:
             {{- if not .Values.gaiaDaemon.enabled }}
             - name: GAIA_DISABLED
               value: "true"
-            {{- end}}
+            {{- end }}
             - name: ETH_HOST
               value: {{ include "crawler.ethereumDaemon" . }}
             - name: ETH_START_BLOCK_HEIGHT
@@ -151,14 +151,14 @@ spec:
             - name: SIGNER_NAME
               value: {{ .Values.signer.name }}
             - name: SIGNER_PASSWD
-               {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+              {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
               valueFrom:
                 secretKeyRef:
                   name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
                   key: password
-               {{- else}}
+              {{- else }}
               value: {{ .Values.signer.password }}
-               {{- end }}
+              {{- end }}
             {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
             - name: SIGNER_SEED_PHRASE
               valueFrom:
@@ -188,26 +188,26 @@ spec:
               containerPort: {{ .Values.service.port.http }}
               protocol: TCP
             - name: prometheus
-              containerPort: {{ .Values.service.port.prometheus}}
+              containerPort: {{ .Values.service.port.prometheus }}
               protocol: TCP
             - name: nqs
-              containerPort: {{ include "crawler-nqs.port" .}}
+              containerPort: {{ include "crawler-nqs.port" . }}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
       volumes:
       - name: data
-      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
         persistentVolumeClaim:
           claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "crawler.fullname" . }}{{- end }}
-      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
         hostPath:
           path: {{ .Values.persistence.hostPath }}
           type: DirectoryOrCreate
-      {{- else }}
+        {{- else }}
         emptyDir: {}
-      {{- end }}
+        {{- end }}
       - name: scripts
         configMap:
           name: {{ include "crawler.fullname" . }}-scripts
@@ -217,10 +217,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
+    affinity:
+      {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
+    tolerations:
+      {{- toYaml . | nindent 8 }}
     {{- end }}
