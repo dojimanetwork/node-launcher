@@ -130,11 +130,11 @@ Polkadot daemon
 */}}
 {{- define "crawler.polkaDaemon" -}}
 {{- if eq (include "crawler.net" .) "mainnet" -}}
-    {{ .Values.polkaDaemmon.mainnet }}
+    {{ .Values.polkaDaemon.mainnet }}
 {{- else if eq (include "crawler.net" .) "stagenet" -}}
-    {{ .Values.polkaDaemmon.stagenet }}
+    {{ .Values.polkaDaemon.stagenet }}
 {{- else -}}
-    {{ default .Values.polkaDaemmon.testnet .Values.global.polkaDaemmon }}
+    {{ default .Values.polkaDaemon.testnet .Values.global.polkaDaemon }}
 {{- end -}}
 {{- end -}}
 

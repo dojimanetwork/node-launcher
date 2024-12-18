@@ -49,6 +49,21 @@ data:
 
     printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-version --node tcp://127.0.0.1:26657 --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
+  operator-staking.sh: |
+    #!/bin/sh
+  
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx operatorstaking create-operator 10000 operator-gateway:8080 --from="$SIGNER_NAME" --keyring-backend=file --chain-id="$CHAIN_ID" --yes --gas="auto"
+
+  operator-register-chain.sh: |
+    #!/bin/sh
+  
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx chainlist register-chain solana SOL 1002 2 1 --from="$SIGNER_NAME" --keyring-backend=file --chain-id="$CHAIN_ID" --yes --gas="auto"
+
+  operator-register-endpoint.sh: |
+    #!/bin/sh
+  
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | hermesnode tx chainlist create-endpoint solana SOL 1002 http://localhost:8844/ ws://4.186.24.152:8899/ --from="$SIGNER_NAME" --keyring-backend=file --chain-id="$CHAIN_ID" --yes --gas="auto"
+
   pause.sh: |
     #!/bin/sh
 

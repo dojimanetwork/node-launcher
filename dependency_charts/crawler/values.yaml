@@ -75,7 +75,7 @@ arweaveDaemon:
   testnet: http://arweave-daemon:1984
   arweaveStartBlockHeight: 0
 
-polkaDaemmon:
+polkaDaemon:
   enabled: true
   testnet: ws://polkadot-daemon.operator-gateway-1:9944
   stagenet: ws://polkadot-daemon.operator-gateway-1:9944
