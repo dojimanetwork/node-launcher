@@ -344,7 +344,7 @@ data:
       yarn build:all
 
       # Run the create-rollup-testnode script
-      yarn run create-rollup-testnode > $DEV_OUTPUT > 2>&1
+      yarn run create-rollup-testnode > $DEV_OUTPUT 2>&1
 
       # List files for verification
       cat $DEV_OUTPUT
