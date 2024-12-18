@@ -283,7 +283,7 @@ data:
       # Define file paths
       CONFIG_PATH="/root/l2_config"
       DEVELOPMENT_JSON="$CONFIG_PATH/deployment.json"
-
+      DEV_OUTPUT="$CONFIG_PATH/deployment.txt"
       # Ensure the CONFIG_PATH directory exists
       mkdir -p "$CONFIG_PATH"
 
@@ -344,10 +344,10 @@ data:
       yarn build:all
 
       # Run the create-rollup-testnode script
-      yarn run create-rollup-testnode
+      yarn run create-rollup-testnode > $DEV_OUTPUT > 2>&1
 
       # List files for verification
-      ls -lsart
+      cat $DEV_OUTPUT
 
 
   external-ip.sh: |
