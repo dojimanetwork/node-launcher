@@ -15,18 +15,18 @@ envsubst '${ROLLUP_ADDR} ${DEPLOYER_PRIVKEY_NAME} ${PARENT_RPC} ${BS_EXTERNAL_IP
 kubectl apply -f dependency_charts/token-bridge/deployment_temp.yaml
 
 # reset node state
+# on avg pod is taking 8m
 echo "waiting for recover pod to be ready..."
-kubectl wait --for=condition=complete pods/token-bridge-contracts-arbitrum -n "${NAME}" --timeout=5m
+kubectl wait --for=condition=ready pods/token-bridge-contracts-arbitrum -n "${NAME}" --timeout=10m
 
 echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart hermesnode${reset}"
-confirm
 
-# Check if the wait command was successful
-if [ $? -eq 0 ]; then
-  echo "cleaning up recover pod"
-  kubectl -n "${NAME}" delete pod/token-bridge-contracts-arbitrum
-else
-  echo "Pod $POD_NAME did not complete within the timeout period."
-fi
+## Check if the wait command was successful
+#if [ $? -eq 0 ]; then
+#  echo "cleaning up recover pod"
+#  kubectl -n "${NAME}" delete pod/token-bridge-contracts-arbitrum
+#else
+#  echo "Pod $POD_NAME did not complete within the timeout period."
+#fi
 
 

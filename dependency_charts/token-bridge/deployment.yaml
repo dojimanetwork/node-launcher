@@ -62,6 +62,8 @@ spec:
       volumeMounts:
         - mountPath: /scripts
           name: script-config
+        - mountPath: /workspace
+          name: workspace
   containers:
     - name: arbitrum-token-bridge-finish
       image: alpine:latest
@@ -74,8 +76,15 @@ spec:
         requests:
           cpu: "10m"
           memory: "16Mi"
+      volumeMounts:
+        - mountPath: /scripts
+          name: script-config
+        - mountPath: /workspace
+          name: workspace
   restartPolicy: Never
   volumes:
     - name: script-config
       configMap:
         name: token-bridge-scripts
+    - name: workspace
+      emptyDir: { }

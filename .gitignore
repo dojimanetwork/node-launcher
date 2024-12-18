@@ -2,3 +2,5 @@
 **/*.tgz
 
 /.idea
+
+dependency_charts/token-bridge/deployment_temp.yaml
