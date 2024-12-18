@@ -17,8 +17,8 @@ data:
     mkdir -p "$WORKSPACE_DIR"
     cd "$WORKSPACE_DIR"
     
-    git clone --no-checkout https://github.com/OffchainLabs/token-bridge-contracts.git ./
-    git checkout main
+    git clone --no-checkout https://github.com/dojimanetwork/token-bridge-contracts.git ./
+    git checkout develop
     
     yarn install
     yarn build
@@ -39,8 +39,8 @@ spec:
         - name: ROLLUP_OWNER_KEY
           valueFrom:
             secretKeyRef:
-              name: "${SEQUENCER_PRIVKEY_NAME}"
-              key: sequencer_priv_key
+              name: "${DEPLOYER_PRIVKEY_NAME}"
+              key: deployer_priv_key
         - name: ROLLUP_ADDRESS
           value: "${ROLLUP_ADDR}"
         - name: PARENT_KEY
@@ -57,6 +57,8 @@ spec:
               key: deployer_priv_key
         - name: CHILD_RPC
           value: "http://${BS_EXTERNAL_IP}:8547"
+        - name: DEPLOYMENT_JSON
+          value: '${DEPLOYMENT_JSON}'
       volumeMounts:
         - mountPath: /scripts
           name: script-config
@@ -67,7 +69,7 @@ spec:
         - sh
         - -c
         - |
-          echo "InitContainer complete. This container is here to satisfy Kubernetes requirements."
+          sleep infinity
       resources:
         requests:
           cpu: "10m"
