@@ -66,12 +66,12 @@ spec:
               value: {{ .Values.signer.name }}
             - name: SIGNER_PASSWD
               {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-                key: password
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                  key: password
               {{- else }}
-            value: {{ .Values.signer.password }}
+              value: {{ .Values.signer.password }}
               {{- end }}
             {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
             - name: SIGNER_SEED_PHRASE
@@ -159,12 +159,12 @@ spec:
               value: {{ .Values.signer.name }}
             - name: SIGNER_PASSWD
               {{- if default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
-                key: password
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default .Values.signer.passwordSecret .Values.global.passwordSecret }}
+                  key: password
               {{- else }}
-            value: {{ .Values.signer.password }}
+              value: {{ .Values.signer.password }}
               {{- end }}
             {{- if default .Values.signer.mnemonicSecret .Values.global.mnemonicSecret }}
             - name: SIGNER_SEED_PHRASE
@@ -224,10 +224,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     {{- with .Values.affinity }}
-    affinity:
-      {{- toYaml . | nindent 8 }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.tolerations }}
-    tolerations:
+      {{- with .Values.tolerations }}
+      tolerations:
       {{- toYaml . | nindent 8 }}
     {{- end }}

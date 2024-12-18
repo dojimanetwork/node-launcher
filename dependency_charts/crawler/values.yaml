@@ -201,13 +201,6 @@ tolerations: []
 affinity: {}
 
 global:
-  dojimachain:
-    chainId: 1401
-  crawler:
-    global_enable: true
-  hermes:
-    image: "asia-south1-docker.pkg.dev/prod-dojima/stagenet/hermes"
-    tag: "76910312_3.0.2"
   gateway:
     enabled: false
   images:
