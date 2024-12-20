@@ -21,6 +21,9 @@ kubectl wait --for=condition=ready pods/token-bridge-contracts-arbitrum -n "${NA
 
 echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart hermesnode${reset}"
 
+networkJson=$(kubectl exec -it -c arbitrum-token-bridge-finish token-bridge-contracts-arbitrum -n arbitrum-rollup-1 -- cat /workspace/network.json)
+
+echo -e "network json content: === \n$networkJson"
 ## Check if the wait command was successful
 #if [ $? -eq 0 ]; then
 #  echo "cleaning up recover pod"

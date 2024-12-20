@@ -68,7 +68,7 @@ environment:
   CONF_PATH: /scripts
   DOJ_CHAIN_ID: 184
   DOJIMA_RPC_URL: http://dojima-chain:8545
-  SEEDS:
+  SEEDS: hermesnode.hermes-devnet-genesis,hermesnode.hermes-devnet-val-1
   PEER:
   PORT_P2P: 26656
   PORT_RPC: 26657
@@ -111,11 +111,11 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 150m
-    memory: 1Gi
+    cpu: 350m
+    memory: 16Gi
   limits:
-    cpu: 250m
-    memory: 2Gi
+    cpu: 400m
+    memory: 16Gi
 
 nodeSelector: {}
 
