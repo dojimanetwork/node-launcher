@@ -38,7 +38,7 @@ image:
 
 nginx:
   name: testnet1.azurecr.io/operator-gateway-nginx
-  tag: d0d9fdc_1.0.0
+  tag: 11056c4_1.0.0
 
 imagePullSecrets: []
 nameOverride: "operator-gateway"
@@ -65,6 +65,7 @@ service:
     eth: 9003
     dot: 9004
     btc: 9005
+    doj: 9006
     token: 9045
 
 serviceAccount:
