@@ -797,7 +797,7 @@ deploy_validator() {
     --set blockscout-v2-frontend.enabled=false,hermes-gateway.hermes_stack=true
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
@@ -816,7 +816,7 @@ deploy_validator() {
   [ "$TYPE" = "daemons" ] && return
 
   echo -e "=> Restarting gateway for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   kubectl -n "$NAME" rollout restart deployment "${HERMES_GATEWAY}"
 }
 
