@@ -5,8 +5,8 @@ set -e
 # create recover pod
 echo "creating arbitrum token bridge contracts pod"
 
-rollupAddr=$(kubectl exec -it -c arbitrum-stack-sequencer deploy/arbitrum -n arbitrum-rollup-1 -- cat /root/l2_config/deployment.json | jq -r '.rollup')
-deploymentJson=$(kubectl exec -it -c arbitrum-stack-sequencer deploy/arbitrum -n arbitrum-rollup-1 -- cat /root/l2_config/deployment.json)
+rollupAddr=$(kubectl exec -it -c arbitrum-stack-sequencer deploy/arbitrum -n ${NAME} -- cat /root/l2_config/deployment.json | jq -r '.rollup')
+deploymentJson=$(kubectl exec -it -c arbitrum-stack-sequencer deploy/arbitrum -n ${NAME} -- cat /root/l2_config/deployment.json)
 
 export ROLLUP_ADDR=$rollupAddr
 export DEPLOYMENT_JSON=$(echo $deploymentJson | jq -c .)
@@ -21,7 +21,7 @@ kubectl wait --for=condition=ready pods/token-bridge-contracts-arbitrum -n "${NA
 
 echo "=> ${boldgreen}Proceeding to clean up recovery pod and restart hermesnode${reset}"
 
-networkJson=$(kubectl exec -it -c arbitrum-token-bridge-finish token-bridge-contracts-arbitrum -n arbitrum-rollup-1 -- cat /workspace/network.json)
+networkJson=$(kubectl exec -it -c arbitrum-token-bridge-finish token-bridge-contracts-arbitrum -n ${NAME} -- cat /workspace/network.json)
 
 echo -e "network json content: === \n$networkJson"
 ## Check if the wait command was successful
