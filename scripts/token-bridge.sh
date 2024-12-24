@@ -10,7 +10,7 @@ deploymentJson=$(kubectl exec -it -c arbitrum-stack-sequencer deploy/arbitrum -n
 
 export ROLLUP_ADDR=$rollupAddr
 export DEPLOYMENT_JSON=$(echo $deploymentJson | jq -c .)
-envsubst '${ROLLUP_ADDR} ${DEPLOYER_PRIVKEY_NAME} ${PARENT_RPC} ${BS_EXTERNAL_IP} $SEQUENCER_PRIVKEY_NAME $DEPLOYMENT_JSON' < dependency_charts/token-bridge/deployment.yaml > dependency_charts/token-bridge/deployment_temp.yaml
+envsubst '${ROLLUP_ADDR} ${DEPLOYER_PRIVKEY_NAME} ${PARENT_RPC} ${BS_EXTERNAL_IP} $SEQUENCER_PRIVKEY_NAME $DEPLOYMENT_JSON $NAME' < dependency_charts/token-bridge/deployment.yaml > dependency_charts/token-bridge/deployment_temp.yaml
 
 kubectl apply -f dependency_charts/token-bridge/deployment_temp.yaml
 
