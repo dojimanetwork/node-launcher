@@ -85,7 +85,7 @@ hello-word:
   enabled: false
 
 operator-gateway:
-  enabled: true
+  enabled: false
 
 crawler:
   enabled: true

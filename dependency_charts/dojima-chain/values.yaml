@@ -130,7 +130,7 @@ resources:
     memory: 4Gi
   limits:
     cpu: 230m
-    memory: 4.2Gi
+    memory: 4Gi
 
 nodeSelector: {}
 
