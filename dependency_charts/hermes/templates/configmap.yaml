@@ -3,6 +3,32 @@ kind: ConfigMap
 metadata:
   name: {{ include "hermesnode.fullname" . }}-scripts
 data:
+  restore-external-snapshot.sh: |
+    #!/bin/sh
+    if [ "{{ .Values.hard_fork }}" == "true" ]; then
+      echo "hard fork is enabled. so skipping snapshot"
+      return
+    fi
+    apk update && apk add aria2 pv
+    # if hermesnode data folder exists and greater than 1Gb skip the tar
+    dir_size=$(du -sb /root/.hermesnode/data | awk '{print $1}')
+    # in bytes
+    if [ "$dir_size" -gt 1073741824 ]; then
+      echo "Directory size is greater than 0MB."
+      return
+    else
+      echo "Directory size is 0MB."
+    fi
+
+    provider=https://dojimachain1401.blob.core.windows.net/2024-12-27/hermesnode-1735290677.tar.gz
+    aria2c --split=16 --max-concurrent-downloads=16 --max-connection-per-server=16 \
+    --continue --min-split-size=100M --out="/root/hermesnode.tar.gz" "${provider}"
+
+    mkdir -p /root/.hermesnode/
+    echo "extracting tar....."
+    pv "/root/hermesnode.tar.gz" | tar xzfv - -C /root/.hermesnode/ -v
+    echo "removing tar...."
+    rm -rf "/root/hermesnode.tar.gz"
 
   genesis.sh: |
     #!/bin/sh

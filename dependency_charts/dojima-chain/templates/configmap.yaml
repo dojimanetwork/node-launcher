@@ -4,6 +4,30 @@ metadata:
   name: {{ include "dojima-chain.fullname" . }}-scripts
 data:
   UNLOCK-ADDRESS: "" # empty value initially
+  restore-external-snapshot.sh: |
+    #!/bin/sh
+    apk update && apk add aria2 pv
+
+    # if hermesnode data folder exists and greater than 1Gb skip the tar
+    dir_size=$(du -sb /root/.dojimachain/dojimachain | awk '{print $1}')
+    # in bytes
+    if [ "$dir_size" -gt 1073741824 ]; then
+      echo "Directory size is greater than 0MB."
+      return
+    else
+      echo "Directory size is 0MB."
+    fi
+
+    provider=https://dojimachain1401.blob.core.windows.net/2024-12-27/dojima-chain-1735290668.tar.gz
+    aria2c --split=16 --max-concurrent-downloads=16 --max-connection-per-server=16 \
+    --continue --min-split-size=100M --out="/root/dojima-chain.tar.gz" "${provider}"
+
+    mkdir -p /root/.dojimachain/
+
+    pv "/root/dojima-chain.tar.gz" | tar xzf - -C /root/.dojimachain/
+
+    rm -rf "/root/dojima-chain.tar.gz"
+
   generate-unlock-adress.sh: |
     #!/bin/sh
 

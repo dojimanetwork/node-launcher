@@ -2,7 +2,8 @@
 
 net: stagenet
 type: validator # replace with "fullnode" for http services
-
+restore_external_snapshot: true
+hard_fork: false
 autoupdate:
   enable: false
   nodes:

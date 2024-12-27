@@ -195,6 +195,12 @@ resources:
     cpu: 50m
     memory: 1Gi
 
+init_resources:
+  requests:
+    cpu: 2000m
+  limits:
+    cpu: 2000m
+
 nodeSelector: {}
 
 tolerations: []

@@ -85,6 +85,8 @@ spec:
           {{- end }}
           - name: CHAIN_ID
             value: "{{ include "dojima-chain.chainID" . }}"
+          - name: ETH_HOST
+            value: {{ .Values.h4s.eth }}
           - name: ETH_FAUCET_DEST
             value: {{ .Values.env.faucet_dest | quote }}
           - name: ETH_FAUCET_AMT
@@ -149,6 +151,17 @@ spec:
             mountPath: /scripts
           - name: data
             mountPath: /root
+      {{- if .Values.h4s.restore_external_snapshot }}
+      - name: restore-external-snapshot
+        image: alpine:latest@sha256:4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: [/scripts/restore-external-snapshot.sh]
+        volumeMounts:
+          - mountPath: /root
+            name: data
+          - name: scripts
+            mountPath: scripts/
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
