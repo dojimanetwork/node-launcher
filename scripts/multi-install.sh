@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Array of namespaces
-namespaces=("matrix24" "spartan-three" "spartan-four" "spartan-two" "spartan-one" "george-jye" "turtle1963" "pepperoni" "bleach1963" "validator-node-1" "validator-node-2")
+namespaces=("matrix24" "spartan-three" "spartan-four" "spartan-two" "spartan-one" "george-jye" "turtle1963" "pepperoni" "bleach1963" "validator-node-1" "validator-node-2" "devnet-priv-ssl")
 
 # Loop through each namespace and apply Helm chart
 for ns in "${namespaces[@]}"; do
