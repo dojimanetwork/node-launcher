@@ -22,14 +22,14 @@ chain_home_folder: /root/.hermesnode
 doj_chf: "/root/.dojimachain"
 
 environment:
-  INCLUDE_ETH_CHAIN: false
+  INCLUDE_ETH_CHAIN: true
   INCLUDE_BINANCE_CHAIN: false
   INCLUDE_BTC_CHAIN: false
   INCLUDE_AR_CHAIN: false
   INCLUDE_DOT_CHAIN: true
   INCLUDE_SOL_CHAIN: false
   INCLUDE_GAIA_CHAIN: false
-  INCLUDE_DOJ_CHAIN: false
+  INCLUDE_DOJ_CHAIN: true
   INCLUDE_AVAX_CHAIN: false
   DOJIMA_SPAN_ENABLE: true
   AVAX_HOST: http://avalanche-daemon.hermes-stagenet:9650/ext/bc/C/rpc
