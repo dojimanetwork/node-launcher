@@ -2,7 +2,7 @@ global:
   net: testnet
   hermes:
     image: testnet1.azurecr.io/hermes
-    tag: b5e520e4_1.0.0
+    tag: 5d40cad1_1.0.0
     chainId: h4s-184-d11k
     type: validator
     global_enable:
