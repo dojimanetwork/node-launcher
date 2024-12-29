@@ -21,15 +21,15 @@ dojimaSnapshot:
   enabled: true
 
   image:
-    name: stagenet.azurecr.io/narada-ci
-    tag: dojima-snapshot-0.1.0
-    hash: 86dd2c676fac77385e50535937b0fe464c4c7a6eae8a3e5f013a246da27d16ce
+    name: stagenet.azurecr.io/dojima-snapshot
+    tag: 0.1.1
+    hash: f1a912f9751ff08315ecf35d61ed80cb6e58e22dcee14ce1154975dcfffa9524
 
   # environment variable overrides for thornode-snapshot config
   env:
     # there must be at least 2 used for statesync rpc servers
-    HERMESNODE_RPC_SERVERS: http://40.81.248.51:26657,http://4.213.195.220:26657
-    SEEDS: http://40.81.248.51:26657,http://4.213.195.220:26657
+    HERMESNODE_RPC_SERVERS: 40.81.248.51,4.213.195.220
+    SEEDS: 40.81.248.51,4.213.195.220
     HERMESNODE_IMAGE: dojimanetwork1401/hermes:5d40cad1_1.0.0
     HERMESNODE_CHAIN_ID: h4s-184-d11k
     # the PVC size must be at least 2x the current snapshot size
