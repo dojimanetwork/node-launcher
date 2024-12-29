@@ -23,7 +23,7 @@ dojimaSnapshot:
   image:
     name: stagenet.azurecr.io/dojima-snapshot
     tag: 0.1.1
-    hash: f1a912f9751ff08315ecf35d61ed80cb6e58e22dcee14ce1154975dcfffa9524
+    hash: a20ab8a45827bd95d78235d247d5bd06094d30daa13e1e62d798dd08fc5e5806
 
   # environment variable overrides for thornode-snapshot config
   env:
@@ -34,6 +34,7 @@ dojimaSnapshot:
     HERMESNODE_CHAIN_ID: h4s-184-d11k
     # the PVC size must be at least 2x the current snapshot size
     PVC_SIZE: 300Gi
+    NET: testnet
 
     # state sync pod requires high memory - this increases over the course of the fork
     STATE_SYNC_CPU: "2"
@@ -51,7 +52,7 @@ dojimaSnapshot:
     # DISCORD_WEBHOOK_MAINNET_INFO: discord-webhook-mainnet-info
 
   # default to mon/thurs schedule
-  schedule: '*/10 * * * *'
+  schedule: 0 10 * * 1,4
 
   # default to 6 hour timeout
   activeDeadlineSeconds: 21600
