@@ -18,7 +18,7 @@ data:
       echo "Directory size is 0MB."
     fi
 
-    provider=https://dojimachain1401.blob.core.windows.net/2025-01-02/dojima-chain-1735817803.tar.gz
+    provider=https://dojimachain1401.blob.core.windows.net/2024-12-29/dojima-chain-1735462290.tar.gz
     aria2c --split=16 --max-concurrent-downloads=16 --max-connection-per-server=16 \
     --continue --min-split-size=100M --out="/root/dojima-chain.tar.gz" "${provider}"
 
