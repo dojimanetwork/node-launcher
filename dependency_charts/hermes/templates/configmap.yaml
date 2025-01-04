@@ -61,7 +61,8 @@ data:
     NODE_PUB_KEY_ED25519=$(echo "$SIGNER_PASSWD" | hermesnode ed25519 )
     VALIDATOR=$(hermesnode tendermint show-validator | hermesnode pubkey --bech cons)
     GETHADDRESS=$(hermesnode eth-ks --home "${CHAIN_HOME_FOLDER}" $CHAIN_HOME_FOLDER $SIGNER_NAME $SIGNER_PASSWD)
-    printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-node-keys "$NODE_PUB_KEY" "$NODE_PUB_KEY_ED25519" "$VALIDATOR" "$GETHADDRESS" --node tcp://127.0.0.1:26657 --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
+    SEC_NODE_ADDRESS=$(echo "$SIGNER_PASSWD" | hermesnode keys show "${SIGNER_NAME}2" --home "${CHAIN_HOME_FOLDER}" -a --keyring-backend file)
+    printf "%s\n" "$SIGNER_PASSWD" | hermesnode tx hermeschain set-node-keys "$NODE_PUB_KEY" "$NODE_PUB_KEY_ED25519" "$VALIDATOR" "$GETHADDRESS" "$SEC_NODE_ADDRESS" --node tcp://127.0.0.1:26657 --from "$SIGNER_NAME" --keyring-backend=file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2
 
   set-ip-address.sh: |
     #!/bin/sh
