@@ -112,10 +112,10 @@ securityContext: {}
 
 resources:
   requests:
-    cpu: 10m # 30m should be set but preparm generation requires min of 100m in < 5 mins
+    cpu: 100m # 30m should be set but preparm generation requires min of 100m in < 5 mins
     memory: 100Mi
   limits:
-    cpu: 20m
+    cpu: 200m
     memory: 200Mi
 
 # ~1 min to generate preparm with below resources
