@@ -19,14 +19,14 @@ signer:
   passwordSecret: ""
 
 environment:
-  INCLUDE_ETH_CHAIN: true
+  INCLUDE_ETH_CHAIN: false
   INCLUDE_BINANCE_CHAIN: false
-  INCLUDE_BTC_CHAIN: true
+  INCLUDE_BTC_CHAIN: false
   INCLUDE_AR_CHAIN: false
   INCLUDE_DOT_CHAIN: true
   INCLUDE_SOL_CHAIN: false
   INCLUDE_GAIA_CHAIN: false
-  INCLUDE_DOJ_CHAIN: true
+  INCLUDE_DOJ_CHAIN: false
   INCLUDE_AVAX_CHAIN: false
   DOJIMA_SPAN_ENABLE: false
   AVAX_HOST: http://avalanche-daemon.hermes-stagenet:9650/ext/bc/C/rpc
