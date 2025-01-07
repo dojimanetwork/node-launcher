@@ -2,7 +2,7 @@ global:
   net: testnet
   hermes:
     image: testnet1.azurecr.io/hermes
-    tag: aed957c4_1.0.0
+    tag: 51f2dc70_1.0.0
     chainId: h4s-184-d11k
     type: validator
     global_enable:
@@ -52,7 +52,7 @@ narada-eddsa:
   enabled: true
 
 dojima-chain:
-  enabled: false
+  enabled: true
 
 midgard:
   blockstore:
@@ -88,4 +88,4 @@ operator-gateway:
   enabled: true
 
 crawler:
-  enabled: false
+  enabled: true
