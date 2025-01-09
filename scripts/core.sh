@@ -797,7 +797,7 @@ deploy_validator() {
     --set blockscout-v2-frontend.enabled=false,hermes-gateway.hermes_stack=true,hermesnode.hard_fork=$HARD_FORK
 
   echo -e "=> Changes for a $boldgreen$TYPE$reset hermesnode on $boldgreen$NET$reset named $boldgreen$NAME$reset"
-  confirm
+#  confirm
   # shellcheck disable=SC2086
   helm upgrade --install "$NAME" ./hermes-stack -n "$NAME" \
     --create-namespace $args $EXTRA_ARGS \
