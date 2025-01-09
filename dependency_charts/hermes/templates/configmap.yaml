@@ -20,7 +20,7 @@ data:
       echo "Directory size is 0MB."
     fi
 
-    provider=https://dojimachain1401.blob.core.windows.net/2025-01-02/hermesnode-1735818859.tar.gz
+    provider=https://dojimachain1401.blob.core.windows.net/2025-01-09/hermesnode-1736396685.tar.gz
     aria2c --split=16 --max-concurrent-downloads=16 --max-connection-per-server=16 \
     --continue --min-split-size=100M --out="/root/hermesnode.tar.gz" "${provider}"
 
